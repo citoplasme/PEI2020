@@ -1,0 +1,65 @@
+value:
+  - nGETs: 1415
+    nPOSTs: 32
+    nPUTs: 2
+    nDELETEs: 2
+    _id: "5e5ed9084906e36ebc0f7cfa"
+    type: "User"
+    id: "5e2adcfdc38aef5caa90efc7"
+    lastAccess: "2020-03-24T17:44:56.511Z"
+    routes:
+      - nGETs: 0
+        nPOSTs: 2
+        nPUTs: 0
+        nDELETEs: 0
+        lastAccess: "2020-04-16T16:15:13.638Z"
+        route: "/logs"
+  - nGETs: 2072
+    nPOSTs: 19
+    nPUTs: 0
+    nDELETEs: 0
+    _id: "5e5ed9264906e36ebc0f7d10"
+    type: "Key"
+    id: "5e2adec179993a5dba6e254e"
+    lastAccess: "2020-03-24T11:29:09.917Z"
+    routes:
+      - nGETs: 1
+        nPOSTs: 0
+        nPUTs: 0
+        nDELETEs: 0
+        lastAccess: "2020-04-16T15:49:48.680Z"
+        route: "/users"
+      - nGETs: 5
+        nPOSTs: 0
+        nPUTs: 0
+        nDELETEs: 0
+        lastAccess: "2020-04-16T16:57:37.853Z"
+        route: "/logs"
+      - nGETs: 1
+        nPOSTs: 0
+        nPUTs: 0
+        nDELETEs: 0
+        lastAccess: "2020-04-16T16:57:00.750Z"
+        route: "/logsAgregados"
+  - nGETs: 110
+    nPOSTs: 0
+    nPUTs: 0
+    nDELETEs: 0
+    _id: "5e73ee0b3df16707a99f163e"
+    type: "User"
+    id: "5d9f6d279d712735a95e5dff"
+    lastAccess: "2020-03-19T23:10:06.269Z"
+    routes:
+      - nGETs: 0
+        nPOSTs: 2
+        nPUTs: 0
+        nDELETEs: 0
+        lastAccess: "2020-04-16T16:15:13.638Z"
+        route: "/logs"
+      - nGETs: 5
+        nPOSTs: 0
+        nPUTs: 0
+        nDELETEs: 0
+        lastAccess: "2020-04-16T16:56:27.071Z"
+        route: "/docs"
+summary: Aggregated logs of all users

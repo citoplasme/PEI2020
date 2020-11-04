@@ -1,0 +1,41 @@
+summary: Adicionar localização de um novo pedido SAML
+description: Adicionar localização de um novo pedido SAML
+tags:
+  - Auth
+security:
+  - apiKeyQuery: []
+  - apiKeyAuth: []
+  - userQuery: []
+  - userAuth: []
+requestBody:
+  required: true
+  description: Para adicionar é necessário o id e o url (localização)
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/AuthCall'
+      examples:
+        Exemplo Local:
+          $ref: '#/components/examples/auth_post_local'
+        Exemplo CLAV:
+          $ref: '#/components/examples/auth_post_clav'
+responses:
+  200:
+     description: Adicionada a seguinte localização de um novo pedido SAML
+     content:
+       application/json:
+         schema:
+           $ref: '#/components/schemas/AuthCall'
+         examples:
+           Exemplo Local:
+             $ref: '#/components/examples/auth_post_local'
+           Exemplo CLAV:
+             $ref: '#/components/examples/auth_post_clav'
+  401:
+    $ref: '#/components/responses/UnauthorizedKey'
+  403:
+    $ref: '#/components/responses/PermissionsKey'
+  422:
+    $ref: '#/components/responses/ValidationParameters'
+  500:
+    description: Erro

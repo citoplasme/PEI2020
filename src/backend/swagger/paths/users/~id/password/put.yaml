@@ -1,0 +1,41 @@
+summary: Change a user's account password
+description: Change a user's account password
+security:
+  - userQuery: []
+  - userAuth: []
+tags:
+  - Users
+parameters:
+  - name: id
+    in: path
+    description: 'User identifier'
+    schema:
+      type: string
+    required: true
+requestBody:
+  description: 'In order to change the password for a user account, a new password is required. If the user does not have sufficient permissions, he also needs to enter the current password.'
+  required: true
+  content:
+    application/json:
+      schema:
+        properties:
+          atualPassword:
+            type: string
+          novaPassword:
+            type: string
+        required:
+          - novaPassword
+      example:
+        atualPassword: 123password
+        novaPassword: newpassword
+responses:
+  200:
+    description: Changed a user's account password
+  401:
+    $ref: '#/components/responses/UnauthorizedUser'
+  403:
+    $ref: '#/components/responses/PermissionsUser'
+  422:
+    $ref: '#/components/responses/ValidationParameters'
+  500:
+    description: Error

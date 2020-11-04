@@ -1,0 +1,47 @@
+summary: Atualizar chave API
+description: Atualizar chave API
+security:
+  - userQuery: []
+  - userAuth: []
+tags:
+  - Chaves
+parameters:
+  - name: id
+    in: path
+    description: identificador da chave na BD
+    schema:
+      type: string
+    required: true
+requestBody:
+  description: Dados a atualizar 
+  required: true
+  content:
+    application/json:
+      schema:
+        properties:
+          name:
+            type: string
+          contactInfo:
+            type: string
+            format: email
+          entity:
+            type: string
+        required:
+          - name
+          - contactInfo
+          - entity
+      example:
+        name: exemplo
+        contactInfo: exemplo@exemplo.pt
+        entity: ent_DGLAB
+responses:
+  200:
+    description: Chave API atualizada
+  401:
+    $ref: '#/components/responses/UnauthorizedUser'
+  403:
+    $ref: '#/components/responses/PermissionsUser'
+  422:
+    $ref: '#/components/responses/ValidationParameters'
+  500:
+    description: Erro

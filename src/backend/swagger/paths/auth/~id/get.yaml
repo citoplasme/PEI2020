@@ -1,0 +1,30 @@
+summary: Devolve o URL de um pedido SAML
+description: Devolve o URL de um pedido SAML
+tags:
+  - Auth
+security:
+  - apiKeyQuery: []
+  - apiKeyAuth: []
+  - userQuery: []
+  - userAuth: []
+parameters:
+  - name: id
+    in: path
+    required: true
+    description: Para obter o URL é necessário fornecer o identificador na DB
+    schema:
+      type: string
+responses:
+  200:
+    description: URL
+    content:
+      application/json:
+        schema:
+          type: string
+        example: "http://localhost:8080"
+  401:
+    $ref: '#/components/responses/UnauthorizedKey'
+  403:
+    $ref: '#/components/responses/PermissionsKey'
+  500:
+    description: Error

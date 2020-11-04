@@ -1,0 +1,19 @@
+value:
+  - _id: "5e90851bc4ec15e6fa94cf8c"
+    email: "example@example.com"
+    internal: true
+    level: 3
+    nCalls: 0
+    name: "Example 1"
+  - _id: "5e90851bc4ec15e6fa94cf81"
+    email: "example2@example.com"
+    internal: true
+    level: 2
+    nCalls: 0
+    name: "Example 2"
+  - _id: "5e90851bc4ec15e6fa94cf8a"
+    email: "example3@example.com"
+    internal: true
+    level: 3.5
+    nCalls: 0
+    name: "Example 3"

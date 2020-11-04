@@ -1,0 +1,39 @@
+summary: Returns orders placed (log) in the last 30 days for a given route
+description: |
+  Returns the orders placed (log) in the last 30 days for a given route. Each entry in the log has its id (_id), the route path, the method, the type of access (User or Key), the user or API key id, the HTTP status of the request and the time when it was performed the request.
+
+  ** Access allowed to: ** Users with levels 6 and 7
+tags:
+  - Logs
+security:
+  - userQuery: []
+  - userAuth: []
+parameters:
+  - name: verbo
+    in: path
+    required: true
+    description: Route's verb
+    schema:
+      $ref: '#/components/schemas/VerboHTTP'
+  - name: rota
+    in: query
+    required: true
+    description: "Path of route (example: '/users')"
+    schema:
+      $ref: '#/components/schemas/Rota'
+responses:
+  200:
+    description: Log
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/Logs'
+        example: !!inc/file '/examples/logs/Logs.yaml'
+  401:
+    $ref: '#/components/responses/UnauthorizedUser'
+  403:
+    $ref: '#/components/responses/PermissionsUser'
+  422:
+    $ref: '#/components/responses/ValidationParameters'
+  500:
+    description: Error

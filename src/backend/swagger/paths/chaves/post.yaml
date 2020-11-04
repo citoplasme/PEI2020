@@ -1,0 +1,29 @@
+summary: Criar chave API
+description: Criar Chave API
+tags:
+  - Chaves
+requestBody:
+  description: Dados necessários para criar a chave API 
+  required: true
+  content:
+    application/json:
+      schema:
+        properties:
+          name:
+            type: string
+          email:
+            type: string
+            format: email
+          entidade:
+            $ref: '#/components/schemas/EntidadeId'
+      example:
+        name: exemplo
+        email: exemplo@exemplo.pt
+        entidade: ent_DGLAB
+responses:
+  200:
+    description: Chave API criada
+  422:
+    $ref: '#/components/responses/ValidationParameters'
+  500:
+    description: Erro

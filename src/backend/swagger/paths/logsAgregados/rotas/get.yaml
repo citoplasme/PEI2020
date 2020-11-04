@@ -1,0 +1,38 @@
+summary: Returns all orders placed aggregated by a specific route base or orders placed aggregated by all route bases
+description: |
+  Returns all orders placed aggregated by all route bases. If the route is sent, it returns requests made based on the specific route entered.
+
+  ** Access allowed to: ** Users with levels 6 and 7
+tags:
+  - Aggregated Logs
+security:
+  - userQuery: []
+  - userAuth: []
+parameters:
+  - name: rota
+    in: query
+    description: "Route base (example: /users)"
+    schema:
+      $ref: '#/components/schemas/Rota'
+responses:
+  200:
+    description: Orders placed aggregated on the basis of the route
+    content:
+      application/json:
+        schema:
+          oneOf:
+            - $ref: '#/components/schemas/LogAgregadoRotas'
+            - $ref: '#/components/schemas/LogAgregadoRota'
+        examples:
+          LogsAgregadosBasesRotas:
+            $ref: '#/components/examples/logAgregadoRotas'
+          LogsAgregadosBaseRota:
+            $ref: '#/components/examples/logAgregadoRota'
+  401:
+    $ref: '#/components/responses/UnauthorizedUser'
+  403:
+    $ref: '#/components/responses/PermissionsUser'
+  422:
+    $ref: '#/components/responses/ValidationParameters'
+  500:
+    description: Error

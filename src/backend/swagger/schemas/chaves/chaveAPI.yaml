@@ -1,0 +1,36 @@
+type: object
+properties:
+  active:
+    type: boolean
+  contactInfo:
+    type: string
+    format: email
+  created:
+    type: string
+    format: date-time
+  _id:
+    type: string
+  key:
+    type: string
+  lastUsed:
+    type: string
+    nullable: true
+    format: date-time
+  level:
+    type: integer
+    minimum: 0
+  nCalls:
+    type: integer
+    minimum: 0
+  name:
+    type: string
+required:
+  - active
+  - contactInfo
+  - created
+  - _id
+  - key
+  - lastUsed
+  - level
+  - nCalls
+  - name

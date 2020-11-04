@@ -1,0 +1,49 @@
+summary: Returns requests made (log) in the last 30 days in a paged form or to a user or API key
+description: |
+  Returns requests made (log) in the last 30 days by users or API keys in a paginated way. In this case the result is an items list (page requested) and the total API logs. If the type is sent and the id returns requests made (log) in the last 30 days to a user or API key. Each entry in the log has its id (_id), the route path, the method, the type of access (User or Key), the user or API key id, the HTTP status of the request and the time when it was performed the request.
+
+  ** Access allowed to: ** Users with levels 6 and 7
+tags:
+  - Logs
+security:
+  - userQuery: []
+  - userAuth: []
+parameters:
+  - name: tipo
+    in: query
+    description: Type of access. Only considered if 'id' is also entered
+    schema:
+      $ref: '#/components/schemas/TipoLog'
+  - name: id
+    in: query
+    description: User ID or API key. Only considered if 'tipo' is also entered
+    schema:
+      type: string
+  - name: pagina
+    in: query
+    description: Page to be displayed (pagination of logs, each page has 2500 logs). This parameter is only considered if 'tipo' or 'id' is not entered, or if one of these two is invalid
+    schema:
+      type: integer
+      minimum: 0
+responses:
+  200:
+    description: Log
+    content:
+      application/json:
+        schema:
+          oneOf:
+            - $ref: '#/components/schemas/LogsPaginados'
+            - $ref: '#/components/schemas/Logs'
+        examples:
+          ExemploPaginaLogs:
+            $ref: '#/components/examples/LogsPaginados'
+          ExemploLogParaIdTipo:
+            $ref: '#/components/examples/LogsId'
+  401:
+    $ref: '#/components/responses/UnauthorizedUser'
+  403:
+    $ref: '#/components/responses/PermissionsUser'
+  422:
+    $ref: '#/components/responses/ValidationParameters'
+  500:
+    description: Error

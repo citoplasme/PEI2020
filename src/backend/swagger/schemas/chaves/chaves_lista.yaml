@@ -1,0 +1,35 @@
+type: array
+items:
+  type: object
+  properties:
+    active:
+      type: string
+      enum: [Yes, No]
+    contactInfo:
+      type: string
+      format: email
+    created:
+      type: string
+    expiration:
+      type: string
+    id:
+      type: string
+    key:
+      type: string
+    lastUsed:
+      type: string
+    nCalls:
+      type: integer
+      minimum: 0
+    name:
+      type: string
+  required:
+    - active
+    - contactInfo
+    - created
+    - expiration
+    - id
+    - key
+    - lastUsed
+    - nCalls
+    - name

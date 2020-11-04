@@ -1,0 +1,36 @@
+summary: Log in a user
+description: Log in a user
+tags:
+  - Users
+requestBody:
+  description: 'In order to login a user, email and password are required'
+  required: true
+  content:
+    application/json:
+      schema:
+        properties:
+          username:
+            type: string
+            format: email
+          password:
+            type: string
+        required:
+          - username
+          - password
+      example:
+        username: example@example.com
+        password: 123password
+responses:
+  200:
+    description: Login successfully
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/UserLogin'
+        example: !!inc/file '/examples/users/UserLogin.yaml'
+  401:
+    description: Invalid Credentials
+  422:
+    $ref: '#/components/responses/ValidationParameters'
+  500:
+    description: Error

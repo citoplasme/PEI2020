@@ -1,0 +1,13 @@
+value:
+  - id: "5e90851bc4ec15e6fa94cf8c"
+    email: "example@example.com"
+    level: "Technological Administrator"
+    name: "Example 1"
+  - id: "5e90851bc4ec15e6fa94cf8a"
+    email: "example2@examplo.com"
+    level: "Advanced user"
+    name: "Example 2"
+  - id: "5e90851bc4ec15e6fa94cf81"
+    email: "example3@example.com"
+    level: "Basic user - Level 1"
+    name: "Example 3"

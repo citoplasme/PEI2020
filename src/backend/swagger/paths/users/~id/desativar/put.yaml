@@ -1,0 +1,25 @@
+summary: Disables a user's account
+description: Disables a user's account
+security:
+  - userQuery: []
+  - userAuth: []
+tags:
+  - Users
+parameters:
+  - name: id
+    in: path
+    description: 'User identifier'
+    schema:
+      type: string
+    required: true
+responses:
+  200:
+    description: Disabled a user's account
+  401:
+    $ref: '#/components/responses/UnauthorizedUser'
+  403:
+    $ref: '#/components/responses/PermissionsUser'
+  422:
+    $ref: '#/components/responses/ValidationParameters'
+  500:
+    description: Error

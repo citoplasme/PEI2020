@@ -1,0 +1,29 @@
+summary: Send an email to the user in order to recover the account
+description: Send an email to the user in order to recover the account
+tags:
+  - Users
+requestBody:
+  description: Information required for account recovery
+  required: true
+  content:
+    application/json:
+      schema:
+        properties:
+          email:
+            type: string
+            format: email
+          url:
+            type: string
+        required:
+          - email
+          - url
+      example:
+        email: example@example.com
+        url: http://localhost:8080.com/
+responses:
+  200:
+    description: Email sent to user
+  422:
+    $ref: '#/components/responses/ValidationParameters'
+  500:
+    description: Error

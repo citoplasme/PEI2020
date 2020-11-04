@@ -1,0 +1,25 @@
+summary: Returns the total number of accesses to the API
+description: |
+  Returns the total number of accesses to the API
+
+  ** Access allowed to: ** Users with levels 6 and 7
+tags:
+  - Aggregated Logs
+security:
+  - userQuery: []
+  - userAuth: []
+responses:
+  200:
+    description: Total number of API accesses
+    content:
+      application/json:
+        schema:
+          type: integer
+          minimum: 0
+        example: 20221
+  401:
+    $ref: '#/components/responses/UnauthorizedUser'
+  403:
+    $ref: '#/components/responses/PermissionsUser'
+  500:
+    description: Error

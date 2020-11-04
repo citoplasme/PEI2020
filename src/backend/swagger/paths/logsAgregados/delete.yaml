@@ -1,0 +1,19 @@
+summary: Eliminates all aggregated logs
+description: |
+  Eliminates all aggregated logs
+
+  ** Access allowed to: ** Users with level 7
+security:
+  - userQuery: []
+  - userAuth: []
+tags:
+  - Aggregated Logs
+responses:
+  200:
+    description: Eliminated all aggregated logs
+  401:
+    $ref: '#/components/responses/UnauthorizedUser'
+  403:
+    $ref: '#/components/responses/PermissionsUser'
+  500:
+    description: Error

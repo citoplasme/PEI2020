@@ -1,0 +1,30 @@
+summary: Consult a user
+description: Consult a user
+security:
+  - userQuery: []
+  - userAuth: []
+tags:
+  - Users
+parameters:
+  - name: id
+    in: path
+    description: 'User identifier'
+    schema:
+      type: string
+    required: true
+responses:
+  200:
+    description: Consult a user
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/User'
+        example: !!inc/file '/examples/users/User.yaml'
+  401:
+    $ref: '#/components/responses/UnauthorizedUser'
+  403:
+    $ref: '#/components/responses/PermissionsUser'
+  422:
+    $ref: '#/components/responses/ValidationParameters'
+  500:
+    description: Error

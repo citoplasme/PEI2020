@@ -1,0 +1,26 @@
+type: object
+properties:
+  nGETs:
+    type: integer
+    minimum: 0
+  nPOSTs:
+    type: integer
+    minimum: 0
+  nPUTs:
+    type: integer
+    minimum: 0
+  nDELETEs:
+    type: integer
+    minimum: 0
+  lastAccess:
+    type: string
+    format: date-time
+  route:
+    $ref: '#/components/schemas/Rota'
+required:
+  - lastAccess
+  - nGETs
+  - nPOSTs
+  - nPUTs
+  - nDELETEs
+  - route

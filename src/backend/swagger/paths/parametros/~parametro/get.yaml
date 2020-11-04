@@ -1,0 +1,33 @@
+summary: Returns the value of a data API parameter
+description: |
+  Returns the value of a data API parameter
+
+  **Access allowed to:** Level 7 users
+security:
+  - userQuery: []
+  - userAuth: []
+tags:
+  - Parameters
+parameters:
+  - name: parametro
+    in: path
+    required: true
+    description: Parâmetro
+    schema:
+      $ref: '#/components/schemas/ParametroTypes'
+responses:
+  200:
+    description: Data API parameter value
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/Parametro'
+        example: !!inc/file '/examples/parametros/Parametro.yaml' 
+  401:
+    $ref: '#/components/responses/UnauthorizedKey'
+  403:
+    $ref: '#/components/responses/PermissionsKey'
+  422:
+    $ref: '#/components/responses/ValidationParameters'
+  500:
+    description: Error

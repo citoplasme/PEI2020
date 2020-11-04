@@ -1,0 +1,1953 @@
+openapi: 3.0.0
+info:
+  description: >
+    This is the REST API of the Auth Template project. More information can be
+    found at
+    [https://github.com/citoplasme/AuthTemplate](https://github.com/citoplasme/AuthTemplate).
+
+
+    In order to use this API you will need to use some authentication method:
+    API Key or user Token.
+
+
+    API keys can be generated with [POST /chaves](#/Chaves/post_chaves), being
+    used in most of the GET requests. In this documentation, in order to  use
+    the API Key, you have to choose from the authentication methods available:
+    apiKeyQuery (API Key is part of the query string as 'apikey') or apikeyAuth
+    (API Key is part of the 'Authorization' header, being that the user must use
+    the format 'apikey <API Key>').
+
+
+    The API Key has a duration of 30 days, being renewed on the route [PUT
+    /chaves/renovar](#/Chaves/put_chaves_renovar), indicating the email
+    associated with the Key.
+
+
+    An User Token has to be obtained by logging in with an user ([POST
+    /users/login](#/Utilizadores/post_users_login). This returns a Token, making
+    every route available, depending on the level of access. In order to use
+    this authentication method, there are two options: userQuery (the token is
+    part of the query string 'token') or userAuth (the token is stored in the
+    'Authorization' header, following the format 'token <TOKEN>').
+
+
+    If you have an user token, you do not need to use an API Key in order to
+    access the GET requests accessible with the key. The token has a duration of
+    8 hours. After that, you will need to authenticate in the system once more
+    with the route [POST /users/login](#/Utilizadores/post_users_login) and use
+    the new token.
+
+
+    The authentication methods available can be accessed when the lock is
+    pressed. When you tap the button 'Authorize', every authentication method
+    will be displayed. If you press the lock on a route, only the authentication
+    method supported by that route will be displayed (permite/autoriza). 
+
+
+    Besides this, the access levels and it's descriptions can be seen bellow:
+
+
+    - Level -1 = Anyone (Everyone)  
+
+    - Level 0 = API Keys
+
+    - Level 1 = Basic user - Level 1
+
+    - Level 2 = Basic user - Level 2
+
+    - Level 3 = Advanced user
+
+    - Level 3.5 = Validator - level 1
+
+    - Level 4 = Validator - level 2
+
+    - Level 5 = Decision maker
+
+    - Level 6 = Functional Administrator
+
+    - Level 7 = Technological Administrator
+
+
+    Please note that every user (levels 1 to 7) can access every route
+    accessible by the API Keys (level 0).
+
+
+    **Last update: 06/10/2020**
+  version: 2.0.0
+  title: REST API
+  contact:
+    name: Auth Template
+    email: a80874@alunos.uminho.pt
+servers:
+  - url: '{domain}/{version}'
+    variables:
+      domain:
+        default: 'http://localhost:7779'
+        description: Domain
+        enum:
+          - 'http://localhost:7779'
+      version:
+        description: API Version
+        default: v1
+        enum:
+          - v1
+tags:
+  - name: Auth
+    description: Stores where authentication requests were made.
+  - name: Logs
+    description: >-
+      Access record of the various users and API keys of the platform in the
+      last 30 days.
+  - name: Keys
+    description: API Keys of the platform.
+  - name: Users
+    description: Users of the platform.
+  - name: Aggregated Logs
+    description: Aggregation of logs present in the 'Logs' route set.
+  - name: Parameters
+    description: REST API parameters.
+paths:
+  /logs:
+    get:
+      summary: >-
+        Returns requests made (log) in the last 30 days in a paged form or to a
+        user or API key
+      description: >
+        Returns requests made (log) in the last 30 days by users or API keys in
+        a paginated way. In this case the result is an items list (page
+        requested) and the total API logs. If the type is sent and the id
+        returns requests made (log) in the last 30 days to a user or API key.
+        Each entry in the log has its id (_id), the route path, the method, the
+        type of access (User or Key), the user or API key id, the HTTP status of
+        the request and the time when it was performed the request.
+
+
+        ** Access allowed to: ** Users with levels 6 and 7
+      tags:
+        - Logs
+      security:
+        - userQuery: []
+        - userAuth: []
+      parameters:
+        - name: tipo
+          in: query
+          description: Type of access. Only considered if 'id' is also entered
+          schema:
+            $ref: '#/components/schemas/TipoLog'
+        - name: id
+          in: query
+          description: User ID or API key. Only considered if 'tipo' is also entered
+          schema:
+            type: string
+        - name: pagina
+          in: query
+          description: >-
+            Page to be displayed (pagination of logs, each page has 2500 logs).
+            This parameter is only considered if 'tipo' or 'id' is not entered,
+            or if one of these two is invalid
+          schema:
+            type: integer
+            minimum: 0
+      responses:
+        '200':
+          description: Log
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/LogsPaginados'
+                  - $ref: '#/components/schemas/Logs'
+              examples:
+                ExemploPaginaLogs:
+                  $ref: '#/components/examples/LogsPaginados'
+                ExemploLogParaIdTipo:
+                  $ref: '#/components/examples/LogsId'
+        '401':
+          $ref: '#/components/responses/UnauthorizedUser'
+        '403':
+          $ref: '#/components/responses/PermissionsUser'
+        '422':
+          $ref: '#/components/responses/ValidationParameters'
+        '500':
+          description: Error
+    delete:
+      summary: Delete all logs
+      description: |
+        Delete all logs
+
+        ** Access allowed to: ** Users with level 7
+      security:
+        - userQuery: []
+        - userAuth: []
+      tags:
+        - Logs
+      responses:
+        '200':
+          description: Delete all logs
+        '401':
+          $ref: '#/components/responses/UnauthorizedUser'
+        '403':
+          $ref: '#/components/responses/PermissionsUser'
+        '500':
+          description: Error
+  /users:
+    get:
+      summary: Returns the user list
+      description: Returns the user list
+      security:
+        - userQuery: []
+        - userAuth: []
+      tags:
+        - Users
+      parameters:
+        - in: query
+          name: formato
+          schema:
+            type: string
+            enum:
+              - normalizado
+          description: >-
+            If the format is 'normalized' the information is normalized, for
+            example returning the level in text instead of in number
+          required: false
+      responses:
+        '200':
+          description: Returns the user list
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/Users'
+                  - $ref: '#/components/schemas/UsersNormalizado'
+              examples:
+                Example of a list of users:
+                  $ref: '#/components/examples/Users'
+                Example of a normalized list of users:
+                  $ref: '#/components/examples/UsersNormalizado'
+        '401':
+          $ref: '#/components/responses/UnauthorizedUser'
+        '403':
+          $ref: '#/components/responses/PermissionsUser'
+        '422':
+          $ref: '#/components/responses/ValidationParameters'
+        '500':
+          description: Error
+  /chaves:
+    get:
+      summary: Devolve todas as chaves API
+      description: Devolve todas as chaves API
+      security:
+        - userQuery: []
+        - userAuth: []
+      tags:
+        - Chaves
+      responses:
+        '200':
+          description: Devolve todas as chaves API
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chaves_lista'
+              example:
+                - active: 'Yes'
+                  contactInfo: interface@example.com
+                  created: Wed Mar 25 2020
+                  expiration: '24/04/2020, 23:59:03'
+                  id: 5e2adec179993a5dba6e254e
+                  key: >-
+                    eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1ODUxNzcxNDMsImV4cCI6MTU4Nzc2OTE0M30.4y50-kAf21fWaLPZdE4pecg4J8o968SmlmYD5OzEEEs
+                  lastUsed: Wed Mar 25 2020
+                  nCalls: 4
+                  name: interface
+                - active: 'Yes'
+                  contactInfo: example@example.com
+                  created: Thu Mar 26 2020
+                  expiration: '25/04/2020, 18:23:01'
+                  id: 5e7ce17a46ad1d7bf0112996
+                  key: >-
+                    eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1ODUyNDMzODEsImV4cCI6MTU4NzgzNTM4MX0.HO2w82-XVzTHcaOh7urXMRHThHtQ9hp53uAmDsAAAYY
+                  lastUsed: Never
+                  nCalls: 0
+                  name: example
+        '401':
+          $ref: '#/components/responses/UnauthorizedUser'
+        '403':
+          $ref: '#/components/responses/PermissionsUser'
+        '500':
+          description: Erro
+    post:
+      summary: Criar chave API
+      description: Criar Chave API
+      tags:
+        - Chaves
+      requestBody:
+        description: Dados necessários para criar a chave API
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                  format: email
+                entidade:
+                  $ref: '#/components/schemas/EntidadeId'
+            example:
+              name: exemplo
+              email: exemplo@exemplo.pt
+              entidade: ent_DGLAB
+      responses:
+        '200':
+          description: Chave API criada
+        '422':
+          $ref: '#/components/responses/ValidationParameters'
+        '500':
+          description: Erro
+  /auth:
+    delete:
+      summary: Elimina todas as entradas desta coleção
+      description: Elimina todas as entradas desta coleção
+      security:
+        - userQuery: []
+        - userAuth: []
+      tags:
+        - Auth
+      responses:
+        '200':
+          description: Eliminadas todas as entradas desta coleção
+        '401':
+          $ref: '#/components/responses/UnauthorizedUser'
+        '403':
+          $ref: '#/components/responses/PermissionsUser'
+        '500':
+          description: Erro
+  '/auth/{id}':
+    get:
+      summary: Devolve o URL de um pedido SAML
+      description: Devolve o URL de um pedido SAML
+      tags:
+        - Auth
+      security:
+        - apiKeyQuery: []
+        - apiKeyAuth: []
+        - userQuery: []
+        - userAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Para obter o URL é necessário fornecer o identificador na DB
+          schema:
+            type: string
+      responses:
+        '200':
+          description: URL
+          content:
+            application/json:
+              schema:
+                type: string
+              example: 'http://localhost:8080'
+        '401':
+          $ref: '#/components/responses/UnauthorizedKey'
+        '403':
+          $ref: '#/components/responses/PermissionsKey'
+        '500':
+          description: Error
+  '/users/{id}':
+    put:
+      summary: Changes a user's account data
+      description: Changes a user's account data
+      security:
+        - userQuery: []
+        - userAuth: []
+      tags:
+        - Users
+      parameters:
+        - name: id
+          in: path
+          description: User identifier
+          schema:
+            type: string
+          required: true
+      requestBody:
+        description: Data to change
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserPUT'
+            example:
+              email: example@example.com
+              level: 2
+              nome: Example
+      responses:
+        '200':
+          description: Changed a user's account data
+        '401':
+          $ref: '#/components/responses/UnauthorizedUser'
+        '403':
+          $ref: '#/components/responses/PermissionsUser'
+        '422':
+          $ref: '#/components/responses/ValidationParameters'
+        '500':
+          description: Error
+    get:
+      summary: Consult a user
+      description: Consult a user
+      security:
+        - userQuery: []
+        - userAuth: []
+      tags:
+        - Users
+      parameters:
+        - name: id
+          in: path
+          description: User identifier
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Consult a user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+              example:
+                _id: 5e90851bc4ec15e6fa94cf8c
+                email: example@example.com
+                internal: true
+                level: 3
+                temPass: true
+                nCalls: 0
+                name: Example
+        '401':
+          $ref: '#/components/responses/UnauthorizedUser'
+        '403':
+          $ref: '#/components/responses/PermissionsUser'
+        '422':
+          $ref: '#/components/responses/ValidationParameters'
+        '500':
+          description: Error
+    delete:
+      summary: Deletes a user's account
+      description: Deletes a user's account
+      security:
+        - userQuery: []
+        - userAuth: []
+      tags:
+        - Users
+      parameters:
+        - name: id
+          in: path
+          description: User identifier
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Deleted a user's account
+        '401':
+          $ref: '#/components/responses/UnauthorizedUser'
+        '403':
+          $ref: '#/components/responses/PermissionsUser'
+        '422':
+          $ref: '#/components/responses/ValidationParameters'
+        '500':
+          description: Error
+  '/chaves/{id}':
+    get:
+      summary: Devolve a informação de uma chave API
+      description: Devolve a informação de uma chave API
+      security:
+        - userQuery: []
+        - userAuth: []
+      tags:
+        - Chaves
+      parameters:
+        - name: id
+          in: path
+          description: valor da chave
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Devolve a informação de uma chave API
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chaveAPI'
+              example:
+                _id: 5e7ce17a46ad1d7bf0112996
+                active: true
+                contactInfo: example@example.com
+                created: '2020-03-26T22:33:09.317Z'
+                key: >-
+                  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1ODUxNzcxNDMsImV4cCI6MTU4Nzc2OTE0M30.4y50-kHf21fFaLPZdD4pecg4J8o968SclcYD5ObAA2s
+                lastUsed: null
+                level: 0
+                nCalls: 0
+                name: example
+        '401':
+          $ref: '#/components/responses/UnauthorizedUser'
+        '403':
+          $ref: '#/components/responses/PermissionsUser'
+        '422':
+          $ref: '#/components/responses/ValidationParameters'
+        '500':
+          description: Erro
+    delete:
+      summary: Eliminar chave API
+      description: Eliminar chave API
+      security:
+        - userQuery: []
+        - userAuth: []
+      tags:
+        - Chaves
+      parameters:
+        - name: id
+          in: path
+          description: identificador da chave na BD
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Chave API eliminada
+        '401':
+          $ref: '#/components/responses/UnauthorizedUser'
+        '403':
+          $ref: '#/components/responses/PermissionsUser'
+        '422':
+          $ref: '#/components/responses/ValidationParameters'
+        '500':
+          description: Erro
+  /parametros:
+    get:
+      summary: Returns all data API parameters
+      description: |
+        Returns all data API parameters
+
+        **Access allowed to:** Level 7 users
+      security:
+        - userQuery: []
+        - userAuth: []
+      tags:
+        - Parameters
+      responses:
+        '200':
+          description: Data API parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Parametros'
+              example:
+                keyExpires:
+                  desc: API Keys expiration time
+                  valor: 30d
+                userExpires:
+                  desc: User Token Expiration Time
+                  valor: 8h
+        '401':
+          $ref: '#/components/responses/UnauthorizedKey'
+        '403':
+          $ref: '#/components/responses/PermissionsKey'
+        '500':
+          description: Error
+  '/logs/{verbo}':
+    get:
+      summary: Returns orders placed (log) in the last 30 days for a given route
+      description: >
+        Returns the orders placed (log) in the last 30 days for a given route.
+        Each entry in the log has its id (_id), the route path, the method, the
+        type of access (User or Key), the user or API key id, the HTTP status of
+        the request and the time when it was performed the request.
+
+
+        ** Access allowed to: ** Users with levels 6 and 7
+      tags:
+        - Logs
+      security:
+        - userQuery: []
+        - userAuth: []
+      parameters:
+        - name: verbo
+          in: path
+          required: true
+          description: Route's verb
+          schema:
+            $ref: '#/components/schemas/VerboHTTP'
+        - name: rota
+          in: query
+          required: true
+          description: 'Path of route (example: ''/users'')'
+          schema:
+            $ref: '#/components/schemas/Rota'
+      responses:
+        '200':
+          description: Log
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Logs'
+              example:
+                - _id: 5e8e3dbf8dcf947f1e9e090d
+                  accessDate: '2020-04-08T21:10:23.656Z'
+                  httpStatus: 200
+                  id: 5e2adcfdc38aef5caa90efc7
+                  method: GET
+                  route: /logs
+                  type: User
+                - _id: 5e8e3dc68dcf947f1e9e090e
+                  accessDate: '2020-04-08T21:10:30.340Z'
+                  httpStatus: 200
+                  id: 5e2adcfdc38aef5caa90efc7
+                  method: GET
+                  route: /logs
+                  type: User
+                - _id: 5e8e3de28dcf947f1e9e090f
+                  accessDate: '2020-04-08T21:10:58.042Z'
+                  httpStatus: 200
+                  id: 5e2adcfdc38aef5caa90efc7
+                  method: GET
+                  route: /logs
+                  type: User
+        '401':
+          $ref: '#/components/responses/UnauthorizedUser'
+        '403':
+          $ref: '#/components/responses/PermissionsUser'
+        '422':
+          $ref: '#/components/responses/ValidationParameters'
+        '500':
+          description: Error
+  /users/login:
+    post:
+      summary: Log in a user
+      description: Log in a user
+      tags:
+        - Users
+      requestBody:
+        description: 'In order to login a user, email and password are required'
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                username:
+                  type: string
+                  format: email
+                password:
+                  type: string
+              required:
+                - username
+                - password
+            example:
+              username: example@example.com
+              password: 123password
+      responses:
+        '200':
+          description: Login successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserLogin'
+              example:
+                name: Example
+                token: >-
+                  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMmFkY2ZkYzM4YWVmNWNhYTkwZWZjNyIsImxldmVsIjo3LCJlbnRpZGFkZSI6ImVudF9BM0VTIiwiaWF0IjoxNTg2NTYzNzU0LCJleHAiOjE1ODY1OTI1NTR9.YXNXcaQ22faRdxJ0Rht0qoDWMyvrEi33DaJwU78oCIs
+        '401':
+          description: Invalid Credentials
+        '422':
+          $ref: '#/components/responses/ValidationParameters'
+        '500':
+          description: Error
+  /logsAgregados:
+    get:
+      summary: >-
+        Returns all requests made aggregated by user and API key or requests
+        made aggregated for a user or API key
+      description: >
+        Devolve todos os pedidos realizados agregados por utilizador e chave
+        API. Caso seja enviado o tipo e o id devolve os pedidos realizados
+        agregados para um utilizador ou chave API. Cada entrada tem o seu id
+        (_id), o tipo de acesso (User ou Chave), o id do utilizador ou da chave
+        API, a data do último acesso e o número de pedidos já realizados por
+        verbo HTTP.
+
+
+        ** Access allowed to: ** Users with levels 6 and 7
+      tags:
+        - Aggregated Logs
+      security:
+        - userQuery: []
+        - userAuth: []
+      parameters:
+        - name: tipo
+          in: query
+          description: Access type
+          schema:
+            $ref: '#/components/schemas/TipoLog'
+        - name: id
+          in: query
+          description: User ID or API Key
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Orders made aggregated by user and API key
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/LogsAgregados'
+                  - $ref: '#/components/schemas/LogAgregado'
+              examples:
+                LogsAgregadosTodosUtilizadores:
+                  $ref: '#/components/examples/logsAgregados_get_all'
+                LogsAgregadosUtilizador:
+                  $ref: '#/components/examples/logsAgregados_get_one'
+        '401':
+          $ref: '#/components/responses/UnauthorizedUser'
+        '403':
+          $ref: '#/components/responses/PermissionsUser'
+        '422':
+          $ref: '#/components/responses/ValidationParameters'
+        '500':
+          description: Error
+    delete:
+      summary: Eliminates all aggregated logs
+      description: |
+        Eliminates all aggregated logs
+
+        ** Access allowed to: ** Users with level 7
+      security:
+        - userQuery: []
+        - userAuth: []
+      tags:
+        - Aggregated Logs
+      responses:
+        '200':
+          description: Eliminated all aggregated logs
+        '401':
+          $ref: '#/components/responses/UnauthorizedUser'
+        '403':
+          $ref: '#/components/responses/PermissionsUser'
+        '500':
+          description: Error
+  /chaves/renovar:
+    put:
+      summary: Renova a chave API
+      description: Renova a chave API
+      tags:
+        - Chaves
+      parameters:
+        - name: email
+          in: query
+          required: true
+          description: Email associado à chave API
+          schema:
+            type: string
+            format: email
+            example: exemplo@exemplo.pt
+      responses:
+        '200':
+          description: Chave API renovada
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  apikey:
+                    type: string
+              example:
+                apikey: >-
+                  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1ODUxNzcxNDMsImV4cCI6MTU4Nzc2OTE0M30.4y50-kHf21fFaLPZdD4pecg4J8o968SclcYD5ObAA2s
+        '422':
+          $ref: '#/components/responses/ValidationParameters'
+        '500':
+          description: Erro
+  /users/registar:
+    post:
+      summary: Add/register a user
+      description: Add/register a user
+      security:
+        - userQuery: []
+        - userAuth: []
+      tags:
+        - Users
+      requestBody:
+        description: User data to register
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserPOST'
+            example:
+              email: example@example.com
+              type: 2
+              name: Example
+              password: 123password
+      responses:
+        '200':
+          description: User added/registered
+        '401':
+          $ref: '#/components/responses/UnauthorizedUser'
+        '403':
+          $ref: '#/components/responses/PermissionsUser'
+        '422':
+          $ref: '#/components/responses/ValidationParameters'
+        '500':
+          description: Erro5
+  /auth/adicionar:
+    post:
+      summary: Adicionar localização de um novo pedido SAML
+      description: Adicionar localização de um novo pedido SAML
+      tags:
+        - Auth
+      security:
+        - apiKeyQuery: []
+        - apiKeyAuth: []
+        - userQuery: []
+        - userAuth: []
+      requestBody:
+        required: true
+        description: Para adicionar é necessário o id e o url (localização)
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthCall'
+            examples:
+              Exemplo Local:
+                $ref: '#/components/examples/auth_post_local'
+              Exemplo CLAV:
+                $ref: '#/components/examples/auth_post_clav'
+      responses:
+        '200':
+          description: Adicionada a seguinte localização de um novo pedido SAML
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthCall'
+              examples:
+                Exemplo Local:
+                  $ref: '#/components/examples/auth_post_local'
+                Exemplo CLAV:
+                  $ref: '#/components/examples/auth_post_clav'
+        '401':
+          $ref: '#/components/responses/UnauthorizedKey'
+        '403':
+          $ref: '#/components/responses/PermissionsKey'
+        '422':
+          $ref: '#/components/responses/ValidationParameters'
+        '500':
+          description: Erro
+  /users/recuperar:
+    post:
+      summary: Send an email to the user in order to recover the account
+      description: Send an email to the user in order to recover the account
+      tags:
+        - Users
+      requestBody:
+        description: Information required for account recovery
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                email:
+                  type: string
+                  format: email
+                url:
+                  type: string
+              required:
+                - email
+                - url
+            example:
+              email: example@example.com
+              url: 'http://localhost:8080.com/'
+      responses:
+        '200':
+          description: Email sent to user
+        '422':
+          $ref: '#/components/responses/ValidationParameters'
+        '500':
+          description: Error
+  '/chaves/{id}/ativar':
+    put:
+      summary: Ativar chave API
+      description: Ativar chave API
+      security:
+        - userQuery: []
+        - userAuth: []
+      tags:
+        - Chaves
+      parameters:
+        - name: id
+          in: path
+          description: identificador da chave na BD
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Chave API ativada
+        '401':
+          $ref: '#/components/responses/UnauthorizedUser'
+        '403':
+          $ref: '#/components/responses/PermissionsUser'
+        '422':
+          $ref: '#/components/responses/ValidationParameters'
+        '500':
+          description: Erro
+  '/users/{id}/password':
+    put:
+      summary: Change a user's account password
+      description: Change a user's account password
+      security:
+        - userQuery: []
+        - userAuth: []
+      tags:
+        - Users
+      parameters:
+        - name: id
+          in: path
+          description: User identifier
+          schema:
+            type: string
+          required: true
+      requestBody:
+        description: >-
+          In order to change the password for a user account, a new password is
+          required. If the user does not have sufficient permissions, he also
+          needs to enter the current password.
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                atualPassword:
+                  type: string
+                novaPassword:
+                  type: string
+              required:
+                - novaPassword
+            example:
+              atualPassword: 123password
+              novaPassword: newpassword
+      responses:
+        '200':
+          description: Changed a user's account password
+        '401':
+          $ref: '#/components/responses/UnauthorizedUser'
+        '403':
+          $ref: '#/components/responses/PermissionsUser'
+        '422':
+          $ref: '#/components/responses/ValidationParameters'
+        '500':
+          description: Error
+  /logsAgregados/total:
+    get:
+      summary: Returns the total number of accesses to the API
+      description: |
+        Returns the total number of accesses to the API
+
+        ** Access allowed to: ** Users with levels 6 and 7
+      tags:
+        - Aggregated Logs
+      security:
+        - userQuery: []
+        - userAuth: []
+      responses:
+        '200':
+          description: Total number of API accesses
+          content:
+            application/json:
+              schema:
+                type: integer
+                minimum: 0
+              example: 20221
+        '401':
+          $ref: '#/components/responses/UnauthorizedUser'
+        '403':
+          $ref: '#/components/responses/PermissionsUser'
+        '500':
+          description: Error
+  /logsAgregados/rotas:
+    get:
+      summary: >-
+        Returns all orders placed aggregated by a specific route base or orders
+        placed aggregated by all route bases
+      description: >
+        Returns all orders placed aggregated by all route bases. If the route is
+        sent, it returns requests made based on the specific route entered.
+
+
+        ** Access allowed to: ** Users with levels 6 and 7
+      tags:
+        - Aggregated Logs
+      security:
+        - userQuery: []
+        - userAuth: []
+      parameters:
+        - name: rota
+          in: query
+          description: 'Route base (example: /users)'
+          schema:
+            $ref: '#/components/schemas/Rota'
+      responses:
+        '200':
+          description: Orders placed aggregated on the basis of the route
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/LogAgregadoRotas'
+                  - $ref: '#/components/schemas/LogAgregadoRota'
+              examples:
+                LogsAgregadosBasesRotas:
+                  $ref: '#/components/examples/logAgregadoRotas'
+                LogsAgregadosBaseRota:
+                  $ref: '#/components/examples/logAgregadoRota'
+        '401':
+          $ref: '#/components/responses/UnauthorizedUser'
+        '403':
+          $ref: '#/components/responses/PermissionsUser'
+        '422':
+          $ref: '#/components/responses/ValidationParameters'
+        '500':
+          description: Error
+  '/users/{id}/desativar':
+    put:
+      summary: Disables a user's account
+      description: Disables a user's account
+      security:
+        - userQuery: []
+        - userAuth: []
+      tags:
+        - Users
+      parameters:
+        - name: id
+          in: path
+          description: User identifier
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Disabled a user's account
+        '401':
+          $ref: '#/components/responses/UnauthorizedUser'
+        '403':
+          $ref: '#/components/responses/PermissionsUser'
+        '422':
+          $ref: '#/components/responses/ValidationParameters'
+        '500':
+          description: Error
+  '/chaves/{id}/desativar':
+    put:
+      summary: Desativar chave API
+      description: Desativar chave API
+      security:
+        - userQuery: []
+        - userAuth: []
+      tags:
+        - Chaves
+      parameters:
+        - name: id
+          in: path
+          description: identificador da chave na BD
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Chave API desativada
+        '401':
+          $ref: '#/components/responses/UnauthorizedUser'
+        '403':
+          $ref: '#/components/responses/PermissionsUser'
+        '422':
+          $ref: '#/components/responses/ValidationParameters'
+        '500':
+          description: Erro
+  '/chaves/{id}/atualizar':
+    put:
+      summary: Atualizar chave API
+      description: Atualizar chave API
+      security:
+        - userQuery: []
+        - userAuth: []
+      tags:
+        - Chaves
+      parameters:
+        - name: id
+          in: path
+          description: identificador da chave na BD
+          schema:
+            type: string
+          required: true
+      requestBody:
+        description: Dados a atualizar
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                name:
+                  type: string
+                contactInfo:
+                  type: string
+                  format: email
+                entity:
+                  type: string
+              required:
+                - name
+                - contactInfo
+                - entity
+            example:
+              name: exemplo
+              contactInfo: exemplo@exemplo.pt
+              entity: ent_DGLAB
+      responses:
+        '200':
+          description: Chave API atualizada
+        '401':
+          $ref: '#/components/responses/UnauthorizedUser'
+        '403':
+          $ref: '#/components/responses/PermissionsUser'
+        '422':
+          $ref: '#/components/responses/ValidationParameters'
+        '500':
+          description: Erro
+  '/parametros/{parametro}':
+    put:
+      summary: Changes the value of a data API parameter
+      description: |
+        Changes the value of a data API parameter
+
+        **Access allowed to:** Level 7 users
+      security:
+        - userQuery: []
+        - userAuth: []
+      tags:
+        - Parameters
+      parameters:
+        - name: parametro
+          in: path
+          required: true
+          description: Parâmetro
+          schema:
+            $ref: '#/components/schemas/ParametroTypes'
+      requestBody:
+        description: Value to update the parameter
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                valor:
+                  $ref: '#/components/schemas/ParametroValor'
+            example:
+              valor: 30d
+      responses:
+        '200':
+          description: Data API parameter changed
+        '401':
+          $ref: '#/components/responses/UnauthorizedKey'
+        '403':
+          $ref: '#/components/responses/PermissionsKey'
+        '422':
+          $ref: '#/components/responses/ValidationParameters'
+        '500':
+          description: Error
+    get:
+      summary: Returns the value of a data API parameter
+      description: |
+        Returns the value of a data API parameter
+
+        **Access allowed to:** Level 7 users
+      security:
+        - userQuery: []
+        - userAuth: []
+      tags:
+        - Parameters
+      parameters:
+        - name: parametro
+          in: path
+          required: true
+          description: Parâmetro
+          schema:
+            $ref: '#/components/schemas/ParametroTypes'
+      responses:
+        '200':
+          description: Data API parameter value
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Parametro'
+              example:
+                keyExpires:
+                  desc: API Keys expiration time
+                  valor: 30d
+        '401':
+          $ref: '#/components/responses/UnauthorizedKey'
+        '403':
+          $ref: '#/components/responses/PermissionsKey'
+        '422':
+          $ref: '#/components/responses/ValidationParameters'
+        '500':
+          description: Error
+  /chaves/interfaceToken:
+    get:
+      summary: Devolve a chave API criada para as interfaces da plataforma
+      description: >-
+        Devolve a chave API criada para as interfaces da plataforma. Caso não
+        exista cria-a. Caso tenha expirado renova-a. Por fim devolve a chave
+        API. Os únicos domínios que podem realizar este pedido são as interfaces
+        da plataforma, ou seja, apenas é permitido este pedido aos domínios
+        definidos na API como possuidores de uma interface da plataforma.
+      tags:
+        - Chaves
+      responses:
+        '200':
+          description: Devolve a chave API criada para as interfaces da plataforma
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  apikey:
+                    type: string
+              example:
+                apikey: >-
+                  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1ODUxNzcxNDMsImV4cCI6MTU4Nzc2OTE0M30.4y50-kHf21fFaLPZdD4pecg4J8o968SclcYD5ObAA2s
+        '422':
+          $ref: '#/components/responses/ValidationParameters'
+        '500':
+          description: Erro
+components:
+  schemas:
+    Log:
+      type: object
+      properties:
+        _id:
+          type: string
+        accessDate:
+          type: string
+          format: date-time
+        httpStatus:
+          $ref: '#/components/schemas/StatusHTTP'
+        id:
+          type: string
+        method:
+          $ref: '#/components/schemas/VerboHTTP'
+        route:
+          $ref: '#/components/schemas/Rota'
+        type:
+          $ref: '#/components/schemas/TipoLog'
+      required:
+        - _id
+        - accessDate
+        - httpStatus
+        - id
+        - method
+        - route
+        - type
+    Logs:
+      type: array
+      items:
+        $ref: '#/components/schemas/Log'
+    User:
+      type: object
+      properties:
+        _id:
+          type: string
+        email:
+          type: string
+          format: email
+        internal:
+          type: boolean
+        level:
+          $ref: '#/components/schemas/UserLevel'
+        temPass:
+          type: boolean
+        nCalls:
+          type: integer
+          minimum: 0
+        name:
+          type: string
+        local:
+          type: object
+          properties:
+            password:
+              type: string
+      required:
+        - _id
+        - email
+        - internal
+        - level
+        - temPass
+        - nCalls
+        - name
+    Users:
+      type: array
+      items:
+        type: object
+        properties:
+          _id:
+            type: string
+          email:
+            type: string
+            format: email
+          internal:
+            type: boolean
+          level:
+            $ref: '#/components/schemas/UserLevel'
+          nCalls:
+            type: integer
+            minimum: 0
+          name:
+            type: string
+          local:
+            type: object
+            properties:
+              password:
+                type: string
+        required:
+          - _id
+          - email
+          - internal
+          - level
+          - nCalls
+          - name
+    AuthCall:
+      type: object
+      properties:
+        id:
+          type: string
+        url:
+          type: string
+      required:
+        - id
+        - url
+    UserPUT:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        level:
+          $ref: '#/components/schemas/UserLevel'
+        nome:
+          type: string
+      required:
+        - email
+        - level
+        - nome
+    UserPOST:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        type:
+          $ref: '#/components/schemas/UserLevel'
+        name:
+          type: string
+        password:
+          type: string
+      required:
+        - email
+        - type
+        - name
+        - password
+    UserLogin:
+      type: object
+      properties:
+        name:
+          type: string
+        token:
+          type: string
+      required:
+        - name
+        - token
+    Rota:
+      type: string
+      pattern: '^(?!www\.|(?:http|ftp)s?://|[A-Za-z]:\\|//)[^/]*/[^/].*$'
+    SIOE:
+      type: string
+      pattern: ^\d*$
+    chaveAPI:
+      type: object
+      properties:
+        active:
+          type: boolean
+        contactInfo:
+          type: string
+          format: email
+        created:
+          type: string
+          format: date-time
+        _id:
+          type: string
+        key:
+          type: string
+        lastUsed:
+          type: string
+          nullable: true
+          format: date-time
+        level:
+          type: integer
+          minimum: 0
+        nCalls:
+          type: integer
+          minimum: 0
+        name:
+          type: string
+      required:
+        - active
+        - contactInfo
+        - created
+        - _id
+        - key
+        - lastUsed
+        - level
+        - nCalls
+        - name
+    Data:
+      type: string
+      pattern: '^\d{4}-\d{2}-\d{2}$'
+      description: 'AAAA-MM-DD (Ano, mês, dia)'
+    Nivel:
+      type: string
+      enum:
+        - 1
+        - 2
+        - 3
+        - 4
+    Estado:
+      type: string
+      enum:
+        - Ativa
+        - Harmonização
+        - Inativa
+    Status:
+      type: string
+      enum:
+        - A
+        - H
+        - I
+    Codigo:
+      type: string
+      pattern: '^\d{3}(\.\d{2}(\.\d{3}(\.\d{2})?)?)?$'
+      example: 200.10.100
+    LogsPaginados:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Log'
+        total:
+          type: integer
+          minimum: 0
+      required:
+        - total
+        - items
+    chaves_lista:
+      type: array
+      items:
+        type: object
+        properties:
+          active:
+            type: string
+            enum:
+              - 'Yes'
+              - 'No'
+          contactInfo:
+            type: string
+            format: email
+          created:
+            type: string
+          expiration:
+            type: string
+          id:
+            type: string
+          key:
+            type: string
+          lastUsed:
+            type: string
+          nCalls:
+            type: integer
+            minimum: 0
+          name:
+            type: string
+        required:
+          - active
+          - contactInfo
+          - created
+          - expiration
+          - id
+          - key
+          - lastUsed
+          - nCalls
+          - name
+    UserLevel:
+      type: string
+      enum:
+        - 1
+        - 2
+        - 3
+        - 3.5
+        - 4
+        - 5
+        - 6
+        - 7
+    VerboHTTP:
+      type: string
+      enum:
+        - GET
+        - POST
+        - PUT
+        - DELETE
+    Parametro:
+      type: object
+      properties:
+        valor:
+          $ref: '#/components/schemas/ParametroValor'
+        desc:
+          type: string
+      required:
+        - valor
+        - desc
+    StatusHTTP:
+      type: string
+      pattern: '[1-5]\d\d'
+      example: 200
+    Parametros:
+      additionalProperties:
+        $ref: '#/components/schemas/Parametro'
+    UsersNormalizado:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+          email:
+            type: string
+            format: email
+          level:
+            type: string
+          name:
+            type: string
+        required:
+          - id
+          - email
+          - level
+          - name
+    Internacional:
+      type: string
+      enum:
+        - Sim
+        - Não
+    ParametroValor:
+      oneOf:
+        - $ref: '#/components/schemas/ParametroExpires'
+    ParametroTypes:
+      type: string
+      enum:
+        - userExpires
+        - keyExpires
+    LogAgregado:
+      type: object
+      nullable: true
+      properties:
+        _id:
+          type: string
+        type:
+          $ref: '#/components/schemas/TipoLog'
+        id:
+          type: string
+        lastAccess:
+          type: string
+          format: date-time
+        nGETs:
+          type: integer
+          minimum: 0
+        nPOSTs:
+          type: integer
+          minimum: 0
+        nPUTs:
+          type: integer
+          minimum: 0
+        nDELETEs:
+          type: integer
+          minimum: 0
+        routes:
+          $ref: '#/components/schemas/LogAgregadoRotas'
+      required:
+        - _id
+        - type
+        - id
+        - lastAccess
+        - nGETs
+        - nPOSTs
+        - nPUTs
+        - nDELETEs
+        - routes
+    errosParametros:
+      type: array
+      items:
+        type: object
+        properties:
+          location:
+            type: string
+            enum:
+              - body
+              - query
+              - params
+              - cookies
+              - headers
+          msg:
+            type: string
+          param:
+            type: string
+          value:
+            type: string
+          nestedErrors:
+            type: array
+            items:
+              type: object
+              properties:
+                location:
+                  type: string
+                  enum:
+                    - body
+                    - query
+                    - params
+                    - cookies
+                    - headers
+                msg:
+                  type: string
+                param:
+                  type: string
+                value:
+                  type: string
+              required:
+                - location
+                - msg
+                - param
+        required:
+          - msg
+          - param
+    LogsAgregados:
+      type: array
+      items:
+        $ref: '#/components/schemas/LogAgregado'
+    ParametroExpires:
+      type: string
+      pattern: ^\d+(ms|s|m|h|d|y)$
+      example: 30d
+    LogAgregadoRota:
+      type: object
+      properties:
+        nGETs:
+          type: integer
+          minimum: 0
+        nPOSTs:
+          type: integer
+          minimum: 0
+        nPUTs:
+          type: integer
+          minimum: 0
+        nDELETEs:
+          type: integer
+          minimum: 0
+        lastAccess:
+          type: string
+          format: date-time
+        route:
+          $ref: '#/components/schemas/Rota'
+      required:
+        - lastAccess
+        - nGETs
+        - nPOSTs
+        - nPUTs
+        - nDELETEs
+        - route
+    LogAgregadoRotas:
+      type: array
+      items:
+        $ref: '#/components/schemas/LogAgregadoRota'
+  securitySchemes:
+    apiKeyQuery:
+      type: apiKey
+      in: query
+      name: apikey
+      description: Enter your API Key
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'Enter your API Key in the format: **apikey &lt;chaveAPI>**'
+    userQuery:
+      type: apiKey
+      in: query
+      name: token
+      description: Enter your token
+    userAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'Enter your token in the format: **token &lt;token>**'
+  responses:
+    UnauthorizedKey:
+      description: >-
+        You need to be authenticated or use an API key. Has your token or API
+        key expired?
+    UnauthorizedUser:
+      description: You need to be authenticated. Has your token expired?
+    PermissionsKey:
+      description: >-
+        You do not have sufficient permissions to request or your API key has
+        been disabled.
+    PermissionsUser:
+      description: You do not have sufficient permissions to request.
+    ValidationParameters:
+      description: Some of the parameters are invalid or missing.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/errosParametros'
+  parameters:
+    OutputFormatWithCSV:
+      in: query
+      name: fs
+      required: false
+      schema:
+        type: string
+        enum:
+          - application/json
+          - application/xml
+          - text/csv
+          - excel/csv
+      description: Formato de saída do resultado
+  examples:
+    Users:
+      value:
+        - _id: 5e90851bc4ec15e6fa94cf8c
+          email: example@example.com
+          internal: true
+          level: 3
+          nCalls: 0
+          name: Example 1
+        - _id: 5e90851bc4ec15e6fa94cf81
+          email: example2@example.com
+          internal: true
+          level: 2
+          nCalls: 0
+          name: Example 2
+        - _id: 5e90851bc4ec15e6fa94cf8a
+          email: example3@example.com
+          internal: true
+          level: 3.5
+          nCalls: 0
+          name: Example 3
+    LogsId:
+      value:
+        - _id: 5e8e3dbf8dcf947f1e9e090d
+          accessDate: '2020-04-08T21:10:23.656Z'
+          httpStatus: 200
+          id: 5e2adcfdc38aef5caa90efc7
+          method: GET
+          route: /logs
+          type: User
+        - _id: 5e8e3dc68dcf947f1e9e090e
+          accessDate: '2020-04-08T21:10:30.340Z'
+          httpStatus: 200
+          id: 5e2adcfdc38aef5caa90efc7
+          method: GET
+          route: /logs
+          type: User
+        - _id: 5e8e3de28dcf947f1e9e090f
+          accessDate: '2020-04-08T21:10:58.042Z'
+          httpStatus: 200
+          id: 5e2adcfdc38aef5caa90efc7
+          method: GET
+          route: /logs
+          type: User
+      summary: Log example for a given id and type
+    LogsPaginados:
+      value:
+        items:
+          - _id: 5e5fb0b5c014d614097666e1
+            accessDate: '2020-03-04T13:44:21.261Z'
+            httpStatus: 200
+            id: 5e2adcfdc38aef5caa90efc7
+            method: GET
+            route: /logsAgregados
+            type: User
+          - _id: 5e5fb0b5c014d614097666e0
+            accessDate: '2020-03-04T13:44:21.108Z'
+            httpStatus: 200
+            id: 5e2adcfdc38aef5caa90efc7
+            method: GET
+            route: /logs
+            type: User
+          - _id: 5e5fb0b5c014d614097666df
+            accessDate: '2020-03-04T13:44:21.014Z'
+            httpStatus: 304
+            id: 5e2adcfdc38aef5caa90efc7
+            method: GET
+            route: /chaves
+            type: User
+        total: 105910
+      summary: Example of a log page
+    auth_post_local:
+      value:
+        _id: _e88bc3f7-95ae-4a48-a15e-79736d8f94aj
+        url: 'http://localhost:8080'
+    UsersNormalizado:
+      value:
+        - id: 5e90851bc4ec15e6fa94cf8c
+          email: example@example.com
+          level: Technological Administrator
+          name: Example 1
+        - id: 5e90851bc4ec15e6fa94cf8a
+          email: example2@examplo.com
+          level: Advanced user
+          name: Example 2
+        - id: 5e90851bc4ec15e6fa94cf81
+          email: example3@example.com
+          level: Basic user - Level 1
+          name: Example 3
+    logAgregadoRota:
+      value:
+        nGETs: 1
+        nPOSTs: 0
+        nPUTs: 0
+        nDELETEs: 0
+        lastAccess: '2020-04-16T15:49:48.680Z'
+        route: /users
+      summary: Aggregated logs for a base of a route
+    logAgregadoRotas:
+      value:
+        - nGETs: 1
+          nPOSTs: 0
+          nPUTs: 0
+          nDELETEs: 0
+          lastAccess: '2020-04-16T15:49:48.680Z'
+          route: /users
+        - nGETs: 5
+          nPOSTs: 0
+          nPUTs: 0
+          nDELETEs: 0
+          lastAccess: '2020-04-16T16:57:37.853Z'
+          route: /logs
+        - nGETs: 1
+          nPOSTs: 0
+          nPUTs: 0
+          nDELETEs: 0
+          lastAccess: '2020-04-16T16:57:00.750Z'
+          route: /logsAgregados
+      summary: Aggregated Logs of Route Bases
+    logsAgregados_get_one:
+      value:
+        _id: 5e5ed9084906e36ebc0f7cfa
+        id: 5e2adcfdc38aef5caa90efc7
+        lastAccess: '2020-03-25T14:24:39.885Z'
+        nDELETEs: 2
+        nGETs: 1548
+        nPOSTs: 39
+        nPUTs: 2
+        type: User
+        routes:
+          - nGETs: 1
+            nPOSTs: 0
+            nPUTs: 0
+            nDELETEs: 0
+            lastAccess: '2020-04-16T15:49:48.680Z'
+            route: /users
+          - nGETs: 5
+            nPOSTs: 0
+            nPUTs: 0
+            nDELETEs: 0
+            lastAccess: '2020-04-16T16:57:37.853Z'
+            route: /logs
+          - nGETs: 1
+            nPOSTs: 0
+            nPUTs: 0
+            nDELETEs: 0
+            lastAccess: '2020-04-16T16:57:00.750Z'
+            route: /logsAgregados
+      summary: Aggregated logs of a user
+    logsAgregados_get_all:
+      value:
+        - nGETs: 1415
+          nPOSTs: 32
+          nPUTs: 2
+          nDELETEs: 2
+          _id: 5e5ed9084906e36ebc0f7cfa
+          type: User
+          id: 5e2adcfdc38aef5caa90efc7
+          lastAccess: '2020-03-24T17:44:56.511Z'
+          routes:
+            - nGETs: 0
+              nPOSTs: 2
+              nPUTs: 0
+              nDELETEs: 0
+              lastAccess: '2020-04-16T16:15:13.638Z'
+              route: /logs
+        - nGETs: 2072
+          nPOSTs: 19
+          nPUTs: 0
+          nDELETEs: 0
+          _id: 5e5ed9264906e36ebc0f7d10
+          type: Key
+          id: 5e2adec179993a5dba6e254e
+          lastAccess: '2020-03-24T11:29:09.917Z'
+          routes:
+            - nGETs: 1
+              nPOSTs: 0
+              nPUTs: 0
+              nDELETEs: 0
+              lastAccess: '2020-04-16T15:49:48.680Z'
+              route: /users
+            - nGETs: 5
+              nPOSTs: 0
+              nPUTs: 0
+              nDELETEs: 0
+              lastAccess: '2020-04-16T16:57:37.853Z'
+              route: /logs
+            - nGETs: 1
+              nPOSTs: 0
+              nPUTs: 0
+              nDELETEs: 0
+              lastAccess: '2020-04-16T16:57:00.750Z'
+              route: /logsAgregados
+        - nGETs: 110
+          nPOSTs: 0
+          nPUTs: 0
+          nDELETEs: 0
+          _id: 5e73ee0b3df16707a99f163e
+          type: User
+          id: 5d9f6d279d712735a95e5dff
+          lastAccess: '2020-03-19T23:10:06.269Z'
+          routes:
+            - nGETs: 0
+              nPOSTs: 2
+              nPUTs: 0
+              nDELETEs: 0
+              lastAccess: '2020-04-16T16:15:13.638Z'
+              route: /logs
+            - nGETs: 5
+              nPOSTs: 0
+              nPUTs: 0
+              nDELETEs: 0
+              lastAccess: '2020-04-16T16:56:27.071Z'
+              route: /docs
+      summary: Aggregated logs of all users

@@ -1,0 +1,3 @@
+keyExpires:
+  desc: "API Keys expiration time"
+  valor: "30d"

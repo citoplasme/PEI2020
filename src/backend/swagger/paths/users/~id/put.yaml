@@ -1,0 +1,36 @@
+summary: Changes a user's account data
+description: Changes a user's account data
+security:
+  - userQuery: []
+  - userAuth: []
+tags:
+  - Users
+parameters:
+  - name: id
+    in: path
+    description: 'User identifier'
+    schema:
+      type: string
+    required: true
+requestBody:
+  description: 'Data to change'
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/UserPUT'
+      example:
+        email: example@example.com
+        level: 2
+        nome: Example
+responses:
+  200:
+    description: Changed a user's account data
+  401:
+    $ref: '#/components/responses/UnauthorizedUser'
+  403:
+    $ref: '#/components/responses/PermissionsUser'
+  422:
+    $ref: '#/components/responses/ValidationParameters'
+  500:
+    description: Error
