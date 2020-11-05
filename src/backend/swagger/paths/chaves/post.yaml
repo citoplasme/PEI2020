@@ -1,9 +1,9 @@
-summary: Criar chave API
-description: Criar Chave API
+summary: Create API key.
+description: Create API key.
 tags:
   - Chaves
 requestBody:
-  description: Dados necessários para criar a chave API 
+  description: Necessary data to create API key. 
   required: true
   content:
     application/json:
@@ -22,8 +22,8 @@ requestBody:
         entidade: ent_DGLAB
 responses:
   200:
-    description: Chave API criada
+    description: API key created.
   422:
     $ref: '#/components/responses/ValidationParameters'
   500:
-    description: Erro
+    description: Error.

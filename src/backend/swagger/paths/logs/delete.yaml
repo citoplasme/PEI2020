@@ -1,6 +1,6 @@
-summary: Delete all logs
+summary: Delete all logs.
 description: |
-  Delete all logs
+  Delete all logs.
 
   ** Access allowed to: ** Users with level 7
 security:
@@ -10,10 +10,10 @@ tags:
   - Logs
 responses:
   200:
-    description: Delete all logs
+    description: Delete all logs.
   401:
     $ref: '#/components/responses/UnauthorizedUser'
   403:
     $ref: '#/components/responses/PermissionsUser'
   500:
-    description: Error
+    description: Error.

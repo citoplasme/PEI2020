@@ -1,5 +1,5 @@
-summary: Changes a user's account data
-description: Changes a user's account data
+summary: Changes a user's account data.
+description: Changes a user's account data.
 security:
   - userQuery: []
   - userAuth: []
@@ -25,7 +25,7 @@ requestBody:
         nome: Example
 responses:
   200:
-    description: Changed a user's account data
+    description: Changed a user's account data.
   401:
     $ref: '#/components/responses/UnauthorizedUser'
   403:
@@ -33,4 +33,4 @@ responses:
   422:
     $ref: '#/components/responses/ValidationParameters'
   500:
-    description: Error
+    description: Error.

@@ -1,4 +1,4 @@
-summary: Returns all orders placed aggregated by a specific route base or orders placed aggregated by all route bases
+summary: Returns all orders placed aggregated by a specific route base or orders placed aggregated by all route bases.
 description: |
   Returns all orders placed aggregated by all route bases. If the route is sent, it returns requests made based on the specific route entered.
 
@@ -16,7 +16,7 @@ parameters:
       $ref: '#/components/schemas/Rota'
 responses:
   200:
-    description: Orders placed aggregated on the basis of the route
+    description: Orders placed aggregated on the basis of the route.
     content:
       application/json:
         schema:
@@ -35,4 +35,4 @@ responses:
   422:
     $ref: '#/components/responses/ValidationParameters'
   500:
-    description: Error
+    description: Error.

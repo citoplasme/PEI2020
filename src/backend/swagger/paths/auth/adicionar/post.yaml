@@ -1,5 +1,5 @@
-summary: Adicionar localização de um novo pedido SAML
-description: Adicionar localização de um novo pedido SAML
+summary: Add location of a new SAML request.
+description: Add location of a new SAML request.
 tags:
   - Auth
 security:
@@ -9,7 +9,7 @@ security:
   - userAuth: []
 requestBody:
   required: true
-  description: Para adicionar é necessário o id e o url (localização)
+  description: To add, the id and url(location) are necessary.
   content:
     application/json:
       schema:
@@ -21,7 +21,7 @@ requestBody:
           $ref: '#/components/examples/auth_post_clav'
 responses:
   200:
-     description: Adicionada a seguinte localização de um novo pedido SAML
+     description: Added the following location of a new SAML request.
      content:
        application/json:
          schema:
@@ -38,4 +38,4 @@ responses:
   422:
     $ref: '#/components/responses/ValidationParameters'
   500:
-    description: Erro
+    description: Error.

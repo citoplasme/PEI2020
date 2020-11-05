@@ -1,5 +1,5 @@
-summary: Desativar chave API
-description: Desativar chave API
+summary: Disable API key.
+description: Disable API key.
 security:
   - userQuery: []
   - userAuth: []
@@ -8,13 +8,13 @@ tags:
 parameters:
   - name: id
     in: path
-    description: identificador da chave na BD
+    description: Key's identifier in DB.
     schema:
       type: string
     required: true
 responses:
   200:
-    description: Chave API desativada
+    description: API key disabled.
   401:
     $ref: '#/components/responses/UnauthorizedUser'
   403:
@@ -22,4 +22,4 @@ responses:
   422:
     $ref: '#/components/responses/ValidationParameters'
   500:
-    description: Erro
+    description: Error.

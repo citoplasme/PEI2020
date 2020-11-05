@@ -1,6 +1,6 @@
-summary: Returns the value of a data API parameter
+summary: Returns the value of a data API parameter.
 description: |
-  Returns the value of a data API parameter
+  Returns the value of a data API parameter.
 
   **Access allowed to:** Level 7 users
 security:
@@ -12,12 +12,12 @@ parameters:
   - name: parametro
     in: path
     required: true
-    description: Parâmetro
+    description: Parameter.
     schema:
       $ref: '#/components/schemas/ParametroTypes'
 responses:
   200:
-    description: Data API parameter value
+    description: Data API parameter value.
     content:
       application/json:
         schema:
@@ -30,4 +30,4 @@ responses:
   422:
     $ref: '#/components/responses/ValidationParameters'
   500:
-    description: Error
+    description: Error.

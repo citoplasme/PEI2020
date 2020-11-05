@@ -1,5 +1,5 @@
-summary: Atualizar chave API
-description: Atualizar chave API
+summary: Update API key.
+description: Update API key.
 security:
   - userQuery: []
   - userAuth: []
@@ -8,12 +8,12 @@ tags:
 parameters:
   - name: id
     in: path
-    description: identificador da chave na BD
+    description: Key's identifier in DB.
     schema:
       type: string
     required: true
 requestBody:
-  description: Dados a atualizar 
+  description: Data to update. 
   required: true
   content:
     application/json:
@@ -36,7 +36,7 @@ requestBody:
         entity: ent_DGLAB
 responses:
   200:
-    description: Chave API atualizada
+    description: API key updated.
   401:
     $ref: '#/components/responses/UnauthorizedUser'
   403:
@@ -44,4 +44,4 @@ responses:
   422:
     $ref: '#/components/responses/ValidationParameters'
   500:
-    description: Erro
+    description: Error.

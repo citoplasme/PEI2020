@@ -1,6 +1,6 @@
-summary: Changes the value of a data API parameter
+summary: Changes the value of a data API parameter.
 description: |
-  Changes the value of a data API parameter
+  Changes the value of a data API parameter.
 
   **Access allowed to:** Level 7 users
 security:
@@ -12,11 +12,11 @@ parameters:
   - name: parametro
     in: path
     required: true
-    description: Parâmetro
+    description: Parameter.
     schema:
       $ref: '#/components/schemas/ParametroTypes'
 requestBody:
-  description: Value to update the parameter
+  description: Value to update the parameter.
   content:
     application/json:
       schema:
@@ -28,7 +28,7 @@ requestBody:
         valor: 30d
 responses:
   200:
-    description: Data API parameter changed
+    description: Data API parameter changed.
   401:
     $ref: '#/components/responses/UnauthorizedKey'
   403:
@@ -36,4 +36,4 @@ responses:
   422:
     $ref: '#/components/responses/ValidationParameters'
   500:
-    description: Error
+    description: Error.

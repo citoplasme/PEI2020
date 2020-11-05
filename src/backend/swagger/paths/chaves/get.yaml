@@ -1,5 +1,5 @@
-summary: Devolve todas as chaves API
-description: Devolve todas as chaves API
+summary: Returns all API keys.
+description: Returns all API keys.
 security:
   - userQuery: []
   - userAuth: []
@@ -7,7 +7,7 @@ tags:
   - Chaves
 responses:
   200:
-    description: Devolve todas as chaves API
+    description: Returns all API keys.
     content:
       application/json:
         schema:
@@ -18,4 +18,4 @@ responses:
   403:
     $ref: '#/components/responses/PermissionsUser'
   500:
-    description: Erro
+    description: Error.

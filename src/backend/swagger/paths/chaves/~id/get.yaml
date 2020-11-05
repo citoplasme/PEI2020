@@ -1,5 +1,5 @@
-summary: Devolve a informação de uma chave API
-description: Devolve a informação de uma chave API
+summary: Returns the information of an API key.
+description: Returns the information of an API key.
 security:
   - userQuery: []
   - userAuth: []
@@ -8,13 +8,13 @@ tags:
 parameters:
   - name: id
     in: path
-    description: valor da chave
+    description: Key's value.
     schema:
       type: string
     required: true
 responses:
   200:
-    description: Devolve a informação de uma chave API
+    description: Returns the information of an API key.
     content:
       application/json:
         schema:
@@ -27,4 +27,4 @@ responses:
   422:
     $ref: '#/components/responses/ValidationParameters'
   500:
-    description: Erro
+    description: Error.

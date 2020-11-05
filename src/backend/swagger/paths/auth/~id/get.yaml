@@ -1,5 +1,5 @@
-summary: Devolve o URL de um pedido SAML
-description: Devolve o URL de um pedido SAML
+summary: Returns the URL of a SAML request.
+description: Returns the URL of a SAML request.
 tags:
   - Auth
 security:
@@ -11,12 +11,12 @@ parameters:
   - name: id
     in: path
     required: true
-    description: Para obter o URL é necessário fornecer o identificador na DB
+    description: To obtain the URL it is necessary to provide the identifier in DB.
     schema:
       type: string
 responses:
   200:
-    description: URL
+    description: URL.
     content:
       application/json:
         schema:
@@ -27,4 +27,4 @@ responses:
   403:
     $ref: '#/components/responses/PermissionsKey'
   500:
-    description: Error
+    description: Error.

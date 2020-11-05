@@ -1,6 +1,6 @@
-summary: Returns all requests made aggregated by user and API key or requests made aggregated for a user or API key
+summary: Returns all requests made aggregated by user and API key or requests made aggregated for a user or API key.
 description: |
-  Devolve todos os pedidos realizados agregados por utilizador e chave API. Caso seja enviado o tipo e o id devolve os pedidos realizados agregados para um utilizador ou chave API. Cada entrada tem o seu id (_id), o tipo de acesso (User ou Chave), o id do utilizador ou da chave API, a data do último acesso e o número de pedidos já realizados por verbo HTTP.
+  Returns all requests made aggregated by user and API key. If the type and id are sent, it returns the requests made aggregated to a user or API key. Each entry has its id(_id), the access type(User or Key), the user id or API key, the date of last access and the number of requests already mande per HTTP verb.
 
   ** Access allowed to: ** Users with levels 6 and 7
 tags:
@@ -11,17 +11,17 @@ security:
 parameters:
   - name: tipo
     in: query
-    description: Access type
+    description: Access type.
     schema:
       $ref: '#/components/schemas/TipoLog'
   - name: id
     in: query
-    description: User ID or API Key
+    description: User ID or API Key.
     schema:
       type: string
 responses:
   200:
-    description: Orders made aggregated by user and API key
+    description: Orders made aggregated by user and API key.
     content:
       application/json:
         schema:
@@ -40,4 +40,4 @@ responses:
   422:
     $ref: '#/components/responses/ValidationParameters'
   500:
-    description: Error
+    description: Error.

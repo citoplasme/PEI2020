@@ -1,10 +1,10 @@
-summary: Devolve a chave API criada para as interfaces da plataforma
-description: Devolve a chave API criada para as interfaces da plataforma. Caso não exista cria-a. Caso tenha expirado renova-a. Por fim devolve a chave API. Os únicos domínios que podem realizar este pedido são as interfaces da plataforma, ou seja, apenas é permitido este pedido aos domínios definidos na API como possuidores de uma interface da plataforma.
+summary: Returns the API key created for platform interfaces.
+description: Returns the API key created for platform interfaces. If it doesn't exist, create it. If it has expired, renew it. Finally, return the API key. The only domains that can make this request are the platform interfaces, that is, this request is only allowed to domains defined in the API as having platform interfaces.
 tags:
   - Chaves
 responses:
   200:
-    description: Devolve a chave API criada para as interfaces da plataforma
+    description: Returns the API key created for platform interfaces.
     content:
       application/json:
         schema:
@@ -17,4 +17,4 @@ responses:
   422:
     $ref: '#/components/responses/ValidationParameters'
   500:
-    description: Erro
+    description: Error.

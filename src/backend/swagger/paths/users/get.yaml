@@ -1,5 +1,5 @@
-summary: Returns the user list
-description: Returns the user list
+summary: Returns the user list.
+description: Returns the user list.
 security:
   - userQuery: []
   - userAuth: []
@@ -15,7 +15,7 @@ parameters:
     required: false
 responses:
   200:
-    description: Returns the user list
+    description: Returns the user list.
     content:
       application/json:
         schema:
@@ -34,4 +34,4 @@ responses:
   422:
     $ref: '#/components/responses/ValidationParameters'
   500:
-    description: Error
+    description: Error.

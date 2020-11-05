@@ -1,5 +1,5 @@
-summary: Consult a user
-description: Consult a user
+summary: Consult a user.
+description: Consult a user.
 security:
   - userQuery: []
   - userAuth: []
@@ -14,7 +14,7 @@ parameters:
     required: true
 responses:
   200:
-    description: Consult a user
+    description: Consult a user.
     content:
       application/json:
         schema:
@@ -27,4 +27,4 @@ responses:
   422:
     $ref: '#/components/responses/ValidationParameters'
   500:
-    description: Error
+    description: Error.

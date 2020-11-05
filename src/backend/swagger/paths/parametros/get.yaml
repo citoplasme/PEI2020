@@ -1,6 +1,6 @@
-summary: Returns all data API parameters
+summary: Returns all data API parameters.
 description: |
-  Returns all data API parameters
+  Returns all data API parameters.
 
   **Access allowed to:** Level 7 users
 security:
@@ -10,7 +10,7 @@ tags:
   - Parameters
 responses:
   200:
-    description: Data API parameters
+    description: Data API parameters.
     content:
       application/json:
         schema:
@@ -21,4 +21,4 @@ responses:
   403:
     $ref: '#/components/responses/PermissionsKey'
   500:
-    description: Error
+    description: Error.

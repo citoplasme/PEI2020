@@ -1,9 +1,9 @@
-summary: Send an email to the user in order to recover the account
-description: Send an email to the user in order to recover the account
+summary: Send an email to the user in order to recover the account.
+description: Send an email to the user in order to recover the account.
 tags:
   - Users
 requestBody:
-  description: Information required for account recovery
+  description: Information required for account recovery.
   required: true
   content:
     application/json:
@@ -22,8 +22,8 @@ requestBody:
         url: http://localhost:8080.com/
 responses:
   200:
-    description: Email sent to user
+    description: Email sent to user.
   422:
     $ref: '#/components/responses/ValidationParameters'
   500:
-    description: Error
+    description: Error.

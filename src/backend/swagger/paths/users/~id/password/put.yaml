@@ -1,5 +1,5 @@
-summary: Change a user's account password
-description: Change a user's account password
+summary: Change a user's account password.
+description: Change a user's account password.
 security:
   - userQuery: []
   - userAuth: []
@@ -30,7 +30,7 @@ requestBody:
         novaPassword: newpassword
 responses:
   200:
-    description: Changed a user's account password
+    description: Changed a user's account password.
   401:
     $ref: '#/components/responses/UnauthorizedUser'
   403:
@@ -38,4 +38,4 @@ responses:
   422:
     $ref: '#/components/responses/ValidationParameters'
   500:
-    description: Error
+    description: Error.

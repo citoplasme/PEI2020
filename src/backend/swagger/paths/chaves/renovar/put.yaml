@@ -1,19 +1,19 @@
-summary: Renova a chave API
-description: Renova a chave API
+summary: Renews the API key.
+description: Renews the API key.
 tags:
   - Chaves
 parameters:
   - name: email
     in: query
     required: true
-    description: Email associado à chave API
+    description: Associated email to API key.
     schema:
       type: string
       format: email
       example: exemplo@exemplo.pt
 responses:
   200:
-    description: Chave API renovada
+    description: API key renewed.
     content:
       application/json:
         schema:
@@ -26,4 +26,4 @@ responses:
   422:
     $ref: '#/components/responses/ValidationParameters'
   500:
-    description: Erro
+    description: Error.

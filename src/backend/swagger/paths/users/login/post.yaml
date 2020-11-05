@@ -1,5 +1,5 @@
-summary: Log in a user
-description: Log in a user
+summary: Log in a user.
+description: Log in a user.
 tags:
   - Users
 requestBody:
@@ -22,15 +22,15 @@ requestBody:
         password: 123password
 responses:
   200:
-    description: Login successfully
+    description: Login successfully.
     content:
       application/json:
         schema:
           $ref: '#/components/schemas/UserLogin'
         example: !!inc/file '/examples/users/UserLogin.yaml'
   401:
-    description: Invalid Credentials
+    description: Invalid Credentials.
   422:
     $ref: '#/components/responses/ValidationParameters'
   500:
-    description: Error
+    description: Error.
