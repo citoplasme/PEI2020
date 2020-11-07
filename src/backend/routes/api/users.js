@@ -37,7 +37,7 @@ router.get('/:id/token', Auth.isLoggedInUser, async function(req,res){
                 });
             }else{
                 //Não tem permissões para aceder à informação de outro utilizador
-                res.status(403).send("Acces level is not high enough to acces that information.")
+                res.status(403).send("Access level is not high enough to access that information.")
             }
         }else{
             //res.status(403).send(err);
@@ -67,14 +67,14 @@ router.post('/registar', function (req, res) {
     Users.getUserByEmail(req.body.email, async function (err, user) {
         if (err) {
             //return res.status(500).send(`Erro: ${err}`);
-            return res.status(500).send('It was not possible to register the user. Please check it the values are correct or if something is missing.');
+            return res.status(500).send('It was not possible to register the user. Please check if the values are correct or if something is missing.');
         }
 
         if (!user) {
             await Users.createUser(newUser, function (err, user) {
                 if (err) {
                     //return res.status(500).send(`Erro: ${err}`);
-                    return res.status(500).send('It was not possible to register the user. Please check it the values are correct or if something is missing.');
+                    return res.status(500).send('It was not possible to register the user. Please check if the values are correct or if something is missing.');
                 }
             });
             res.send('User registered with success.');
