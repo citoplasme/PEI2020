@@ -1,4 +1,4 @@
-# Authentication Template
+# PEI 2020
 ## Project setup
 ```
 npm install
