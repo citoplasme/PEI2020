@@ -127,6 +127,8 @@ mainRouter.use('/logsAgregados', require('./routes/api/aggregateLogs'));
 mainRouter.use('/logs', require('./routes/api/logs'));
 mainRouter.use('/parametros', require('./routes/api/parametros'));
 
+mainRouter.use('/locations', require('./routes/api/locations'));
+
 mainRouter.use('/teste', require('./routes/api/teste'));
 
 app.use('/' + dataBases.apiVersion, mainRouter);

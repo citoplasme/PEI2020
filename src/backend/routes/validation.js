@@ -64,6 +64,15 @@ module.exports.existeDep = function (location, fieldDep) {
     };
   };
 
+module.exports.eMongoId = function (location, field, ifF) {
+    ifF = ifF || undefined;
+    return module.exports
+      .existe(location, field, ifF)
+      .bail()
+      .isMongoId()
+      .withMessage("Formato do id inválido");
+};
+
 //Users
 module.exports.vcUserLevels = [-1, 1, 2, 3, 3.5, 4, 5, 6, 7]
 module.exports.vcUsersFormato = ["normalizado"]
