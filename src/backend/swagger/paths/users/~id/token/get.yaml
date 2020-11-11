@@ -1,0 +1,29 @@
+summary: Returns information of a user with a specific token.
+description: Returns the information of a user with a specific token. User must be authenticated in the system.
+security:
+  - userQuery: []
+  - userAuth: []
+tags:
+  - Users
+parameters:
+  - name: id
+    in: path
+    description: 'User token'
+    schema:
+      type: string
+    required: true
+responses:
+  200:
+    description: Returns all user's information, but his password.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            token:
+              type: string
+        example: !!inc/file '/examples/users/UserInfo.yaml'
+  403:
+    $ref: '#/components/responses/PermissionsUser'
+  500:
+    description: Error .

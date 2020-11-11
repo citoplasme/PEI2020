@@ -1,0 +1,22 @@
+summary: Returns the user's token.
+description: Returns the user's token.
+security:
+  - userQuery: []
+  - userAuth: []
+tags:
+  - Users
+responses:
+  200:
+    description: Returns the user's token.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            token:
+              type: string
+        example: !!inc/file '/examples/users/UserToken.yaml'
+  403:
+    $ref: '#/components/responses/PermissionsUser'
+  500:
+    description: Error.
