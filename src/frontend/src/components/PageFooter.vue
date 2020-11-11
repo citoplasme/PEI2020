@@ -7,7 +7,7 @@
     style="max-height:80px"
   >
     <v-toolbar-title>
-      Authentication Template
+      Servicify
     </v-toolbar-title>
     <v-spacer></v-spacer>
 
@@ -15,7 +15,7 @@
 
     <v-spacer></v-spacer>
 
-    <div><v-icon>lock</v-icon></div>
+    <div><v-icon>build</v-icon></div>
 
     <v-spacer></v-spacer>
 

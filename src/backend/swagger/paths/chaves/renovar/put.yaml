@@ -1,7 +1,7 @@
 summary: Renews the API key.
 description: Renews the API key.
 tags:
-  - Chaves
+  - Keys
 parameters:
   - name: email
     in: query

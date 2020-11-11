@@ -1,20 +1,27 @@
-summary: Activate API key.
-description: Activate API key.
+summary: Consult a country.
+description: Consult a county.
 security:
+  - apiKeyQuery: []
+  - apiKeyAuth: []
   - userQuery: []
   - userAuth: []
 tags:
-  - Keys
+  - Locations
 parameters:
   - name: id
     in: path
-    description: Key's identifier in DB.
+    description: 'Country identifier'
     schema:
       type: string
     required: true
 responses:
   200:
-    description: API key activated.
+    description: Consult a country.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/Location'
+        example: !!inc/file '/examples/locations/Location.yaml'
   401:
     $ref: '#/components/responses/UnauthorizedUser'
   403:
