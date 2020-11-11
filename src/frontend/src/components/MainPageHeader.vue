@@ -4,8 +4,8 @@
       <v-icon large>home</v-icon>
     </v-btn>
     <v-toolbar-title class="headline" @click="goHome">
-      <span class="text-uppercase">Auth</span>
-      <span class="font-weight-light"> - Authentication Template</span>
+      <span class="text-uppercase">Servicify</span>
+      <span class="font-weight-light"> - Any Service, Anytime</span>
     </v-toolbar-title>
 
     <v-spacer></v-spacer>

@@ -339,35 +339,36 @@ paths:
           $ref: '#/components/responses/PermissionsKey'
         '500':
           description: Error.
-  /locations:
-    get:
-      summary: Returns the full locations list if no country is passed.
-      description: Returns the full locations list if no country is passed.
+  '/users/{id}':
+    put:
+      summary: Changes a user's account data.
+      description: Changes a user's account data.
       security:
-        - apiKeyQuery: []
-        - apiKeyAuth: []
         - userQuery: []
         - userAuth: []
       tags:
-        - Locations
+        - Users
       parameters:
-        - in: query
-          name: country
+        - name: id
+          in: path
+          description: User identifier
           schema:
             type: string
-          description: Returns the country with that name
-          required: false
+          required: true
+      requestBody:
+        description: Data to change
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserPUT'
+            example:
+              email: example@example.com
+              level: 2
+              nome: Example
       responses:
         '200':
-          description: Returns the country list.
-          content:
-            application/json:
-              schema:
-                oneOf:
-                  - $ref: '#/components/schemas/Locations'
-              examples:
-                Example of a list of users:
-                  $ref: '#/components/examples/Locations'
+          description: Changed a user's account data.
         '401':
           $ref: '#/components/responses/UnauthorizedUser'
         '403':
@@ -376,7 +377,6 @@ paths:
           $ref: '#/components/responses/ValidationParameters'
         '500':
           description: Error.
-  '/users/{id}':
     get:
       summary: Consult a user.
       description: Consult a user.
@@ -415,43 +415,6 @@ paths:
           $ref: '#/components/responses/ValidationParameters'
         '500':
           description: Error.
-    put:
-      summary: Changes a user's account data.
-      description: Changes a user's account data.
-      security:
-        - userQuery: []
-        - userAuth: []
-      tags:
-        - Users
-      parameters:
-        - name: id
-          in: path
-          description: User identifier
-          schema:
-            type: string
-          required: true
-      requestBody:
-        description: Data to change
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UserPUT'
-            example:
-              email: example@example.com
-              level: 2
-              nome: Example
-      responses:
-        '200':
-          description: Changed a user's account data.
-        '401':
-          $ref: '#/components/responses/UnauthorizedUser'
-        '403':
-          $ref: '#/components/responses/PermissionsUser'
-        '422':
-          $ref: '#/components/responses/ValidationParameters'
-        '500':
-          description: Error.
     delete:
       summary: Deletes a user's account.
       description: Deletes a user's account.
@@ -476,6 +439,75 @@ paths:
           $ref: '#/components/responses/PermissionsUser'
         '422':
           $ref: '#/components/responses/ValidationParameters'
+        '500':
+          description: Error.
+  /locations:
+    get:
+      summary: Returns the full locations list if no country is passed.
+      description: Returns the full locations list if no country is passed.
+      security:
+        - apiKeyQuery: []
+        - apiKeyAuth: []
+        - userQuery: []
+        - userAuth: []
+      tags:
+        - Locations
+      parameters:
+        - in: query
+          name: country
+          schema:
+            type: string
+          description: Returns the country with that name
+          required: false
+      responses:
+        '200':
+          description: Returns the country list.
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/Locations'
+              examples:
+                Example of a list of users:
+                  $ref: '#/components/examples/Locations'
+        '401':
+          $ref: '#/components/responses/UnauthorizedUser'
+        '403':
+          $ref: '#/components/responses/PermissionsUser'
+        '422':
+          $ref: '#/components/responses/ValidationParameters'
+        '500':
+          description: Error.
+  /parametros:
+    get:
+      summary: Returns all data API parameters.
+      description: |
+        Returns all data API parameters.
+
+        **Access allowed to:** Level 7 users
+      security:
+        - userQuery: []
+        - userAuth: []
+      tags:
+        - Parameters
+      responses:
+        '200':
+          description: Data API parameters.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Parametros'
+              example:
+                keyExpires:
+                  desc: API Keys expiration time
+                  valor: 30d
+                userExpires:
+                  desc: User Token Expiration Time
+                  valor: 8h
+        '401':
+          $ref: '#/components/responses/UnauthorizedKey'
+        '403':
+          $ref: '#/components/responses/PermissionsKey'
         '500':
           description: Error.
   '/chaves/{id}':
@@ -544,38 +576,6 @@ paths:
           $ref: '#/components/responses/PermissionsUser'
         '422':
           $ref: '#/components/responses/ValidationParameters'
-        '500':
-          description: Error.
-  /parametros:
-    get:
-      summary: Returns all data API parameters.
-      description: |
-        Returns all data API parameters.
-
-        **Access allowed to:** Level 7 users
-      security:
-        - userQuery: []
-        - userAuth: []
-      tags:
-        - Parameters
-      responses:
-        '200':
-          description: Data API parameters.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Parametros'
-              example:
-                keyExpires:
-                  desc: API Keys expiration time
-                  valor: 30d
-                userExpires:
-                  desc: User Token Expiration Time
-                  valor: 8h
-        '401':
-          $ref: '#/components/responses/UnauthorizedKey'
-        '403':
-          $ref: '#/components/responses/PermissionsKey'
         '500':
           description: Error.
   '/logs/{verbo}':
@@ -1042,6 +1042,33 @@ paths:
           $ref: '#/components/responses/ValidationParameters'
         '500':
           description: Error.
+  /logsAgregados/total:
+    get:
+      summary: Returns the total number of accesses to the API.
+      description: |
+        Returns the total number of accesses to the API.
+
+        ** Access allowed to: ** Users with levels 6 and 7
+      tags:
+        - Aggregated Logs
+      security:
+        - userQuery: []
+        - userAuth: []
+      responses:
+        '200':
+          description: Total number of API accesses.
+          content:
+            application/json:
+              schema:
+                type: integer
+                minimum: 0
+              example: 20221
+        '401':
+          $ref: '#/components/responses/UnauthorizedUser'
+        '403':
+          $ref: '#/components/responses/PermissionsUser'
+        '500':
+          description: Error.
   /logsAgregados/rotas:
     get:
       summary: >-
@@ -1084,33 +1111,6 @@ paths:
           $ref: '#/components/responses/PermissionsUser'
         '422':
           $ref: '#/components/responses/ValidationParameters'
-        '500':
-          description: Error.
-  /logsAgregados/total:
-    get:
-      summary: Returns the total number of accesses to the API.
-      description: |
-        Returns the total number of accesses to the API.
-
-        ** Access allowed to: ** Users with levels 6 and 7
-      tags:
-        - Aggregated Logs
-      security:
-        - userQuery: []
-        - userAuth: []
-      responses:
-        '200':
-          description: Total number of API accesses.
-          content:
-            application/json:
-              schema:
-                type: integer
-                minimum: 0
-              example: 20221
-        '401':
-          $ref: '#/components/responses/UnauthorizedUser'
-        '403':
-          $ref: '#/components/responses/PermissionsUser'
         '500':
           description: Error.
   '/users/{id}/desativar':
@@ -1245,43 +1245,6 @@ paths:
         '500':
           description: Error.
   '/parametros/{parametro}':
-    get:
-      summary: Returns the value of a data API parameter.
-      description: |
-        Returns the value of a data API parameter.
-
-        **Access allowed to:** Level 7 users
-      security:
-        - userQuery: []
-        - userAuth: []
-      tags:
-        - Parameters
-      parameters:
-        - name: parametro
-          in: path
-          required: true
-          description: Parameter.
-          schema:
-            $ref: '#/components/schemas/ParametroTypes'
-      responses:
-        '200':
-          description: Data API parameter value.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Parametro'
-              example:
-                keyExpires:
-                  desc: API Keys expiration time
-                  valor: 30d
-        '401':
-          $ref: '#/components/responses/UnauthorizedKey'
-        '403':
-          $ref: '#/components/responses/PermissionsKey'
-        '422':
-          $ref: '#/components/responses/ValidationParameters'
-        '500':
-          description: Error.
     put:
       summary: Changes the value of a data API parameter.
       description: |
@@ -1314,6 +1277,43 @@ paths:
       responses:
         '200':
           description: Data API parameter changed.
+        '401':
+          $ref: '#/components/responses/UnauthorizedKey'
+        '403':
+          $ref: '#/components/responses/PermissionsKey'
+        '422':
+          $ref: '#/components/responses/ValidationParameters'
+        '500':
+          description: Error.
+    get:
+      summary: Returns the value of a data API parameter.
+      description: |
+        Returns the value of a data API parameter.
+
+        **Access allowed to:** Level 7 users
+      security:
+        - userQuery: []
+        - userAuth: []
+      tags:
+        - Parameters
+      parameters:
+        - name: parametro
+          in: path
+          required: true
+          description: Parameter.
+          schema:
+            $ref: '#/components/schemas/ParametroTypes'
+      responses:
+        '200':
+          description: Data API parameter value.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Parametro'
+              example:
+                keyExpires:
+                  desc: API Keys expiration time
+                  valor: 30d
         '401':
           $ref: '#/components/responses/UnauthorizedKey'
         '403':
@@ -1417,16 +1417,6 @@ components:
           - level
           - nCalls
           - name
-    AuthCall:
-      type: object
-      properties:
-        id:
-          type: string
-        url:
-          type: string
-      required:
-        - id
-        - url
     UserPUT:
       type: object
       properties:
@@ -1441,6 +1431,16 @@ components:
         - email
         - level
         - nome
+    AuthCall:
+      type: object
+      properties:
+        id:
+          type: string
+        url:
+          type: string
+      required:
+        - id
+        - url
     UserPOST:
       type: object
       properties:
@@ -1458,6 +1458,12 @@ components:
         - type
         - name
         - password
+    Rota:
+      type: string
+      pattern: '^(?!www\.|(?:http|ftp)s?://|[A-Za-z]:\\|//)[^/]*/[^/].*$'
+    SIOE:
+      type: string
+      pattern: ^\d*$
     chaveAPI:
       type: object
       properties:
@@ -1499,12 +1505,6 @@ components:
       type: string
       pattern: '^\d{4}-\d{2}-\d{2}$'
       description: 'AAAA-MM-DD (Ano, mês, dia)'
-    Rota:
-      type: string
-      pattern: '^(?!www\.|(?:http|ftp)s?://|[A-Za-z]:\\|//)[^/]*/[^/].*$'
-    SIOE:
-      type: string
-      pattern: ^\d*$
     UserLogin:
       type: object
       properties:
@@ -1522,16 +1522,16 @@ components:
         - 2
         - 3
         - 4
-    Codigo:
-      type: string
-      pattern: '^\d{3}(\.\d{2}(\.\d{3}(\.\d{2})?)?)?$'
-      example: 200.10.100
     Estado:
       type: string
       enum:
         - Ativa
         - Harmonização
         - Inativa
+    Codigo:
+      type: string
+      pattern: '^\d{3}(\.\d{2}(\.\d{3}(\.\d{2})?)?)?$'
+      example: 200.10.100
     Status:
       type: string
       enum:
@@ -1566,6 +1566,23 @@ components:
       required:
         - total
         - items
+    Locations:
+      type: array
+      items:
+        type: object
+        properties:
+          _id:
+            type: string
+          country:
+            type: string
+          city:
+            type: array
+            items:
+              type: string
+        required:
+          - _id
+          - country
+          - city
     chaves_lista:
       type: array
       items:
@@ -1604,23 +1621,13 @@ components:
           - lastUsed
           - nCalls
           - name
-    Locations:
-      type: array
-      items:
-        type: object
-        properties:
-          _id:
-            type: string
-          country:
-            type: string
-          city:
-            type: array
-            items:
-              type: string
-        required:
-          - _id
-          - country
-          - city
+    VerboHTTP:
+      type: string
+      enum:
+        - GET
+        - POST
+        - PUT
+        - DELETE
     UserLevel:
       type: string
       enum:
@@ -1632,13 +1639,6 @@ components:
         - 5
         - 6
         - 7
-    VerboHTTP:
-      type: string
-      enum:
-        - GET
-        - POST
-        - PUT
-        - DELETE
     Parametro:
       type: object
       properties:
@@ -1680,14 +1680,6 @@ components:
       enum:
         - Sim
         - Não
-    ParametroTypes:
-      type: string
-      enum:
-        - userExpires
-        - keyExpires
-    ParametroValor:
-      oneOf:
-        - $ref: '#/components/schemas/ParametroExpires'
     LogAgregado:
       type: object
       nullable: true
@@ -1725,6 +1717,14 @@ components:
         - nPUTs
         - nDELETEs
         - routes
+    ParametroValor:
+      oneOf:
+        - $ref: '#/components/schemas/ParametroExpires'
+    ParametroTypes:
+      type: string
+      enum:
+        - userExpires
+        - keyExpires
     errosParametros:
       type: array
       items:
@@ -1770,14 +1770,14 @@ components:
         required:
           - msg
           - param
-    ParametroExpires:
-      type: string
-      pattern: ^\d+(ms|s|m|h|d|y)$
-      example: 30d
     LogsAgregados:
       type: array
       items:
         $ref: '#/components/schemas/LogAgregado'
+    ParametroExpires:
+      type: string
+      pattern: ^\d+(ms|s|m|h|d|y)$
+      example: 30d
     LocationsCountries:
       type: array
       items:
@@ -2033,6 +2033,36 @@ components:
           lastAccess: '2020-04-16T16:57:00.750Z'
           route: /logsAgregados
       summary: Aggregated Logs of Route Bases
+    logsAgregados_get_one:
+      value:
+        _id: 5e5ed9084906e36ebc0f7cfa
+        id: 5e2adcfdc38aef5caa90efc7
+        lastAccess: '2020-03-25T14:24:39.885Z'
+        nDELETEs: 2
+        nGETs: 1548
+        nPOSTs: 39
+        nPUTs: 2
+        type: User
+        routes:
+          - nGETs: 1
+            nPOSTs: 0
+            nPUTs: 0
+            nDELETEs: 0
+            lastAccess: '2020-04-16T15:49:48.680Z'
+            route: /users
+          - nGETs: 5
+            nPOSTs: 0
+            nPUTs: 0
+            nDELETEs: 0
+            lastAccess: '2020-04-16T16:57:37.853Z'
+            route: /logs
+          - nGETs: 1
+            nPOSTs: 0
+            nPUTs: 0
+            nDELETEs: 0
+            lastAccess: '2020-04-16T16:57:00.750Z'
+            route: /logsAgregados
+      summary: Aggregated logs of a user
     logsAgregados_get_all:
       value:
         - nGETs: 1415
@@ -2099,33 +2129,3 @@ components:
               lastAccess: '2020-04-16T16:56:27.071Z'
               route: /docs
       summary: Aggregated logs of all users
-    logsAgregados_get_one:
-      value:
-        _id: 5e5ed9084906e36ebc0f7cfa
-        id: 5e2adcfdc38aef5caa90efc7
-        lastAccess: '2020-03-25T14:24:39.885Z'
-        nDELETEs: 2
-        nGETs: 1548
-        nPOSTs: 39
-        nPUTs: 2
-        type: User
-        routes:
-          - nGETs: 1
-            nPOSTs: 0
-            nPUTs: 0
-            nDELETEs: 0
-            lastAccess: '2020-04-16T15:49:48.680Z'
-            route: /users
-          - nGETs: 5
-            nPOSTs: 0
-            nPUTs: 0
-            nDELETEs: 0
-            lastAccess: '2020-04-16T16:57:37.853Z'
-            route: /logs
-          - nGETs: 1
-            nPOSTs: 0
-            nPUTs: 0
-            nDELETEs: 0
-            lastAccess: '2020-04-16T16:57:00.750Z'
-            route: /logsAgregados
-      summary: Aggregated logs of a user

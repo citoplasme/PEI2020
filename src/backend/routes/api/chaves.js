@@ -21,7 +21,7 @@ router.get("/", Auth.isLoggedInUser, Auth.checkLevel(6), (req, res) => {
 });
 
 router.get("/interfaceToken", [
-    header('origin', "Não pode fazer o pedido desse domínio!")
+    header('origin', "You cannot request from that domain.")
         .custom(value => interfaceHosts.includes(value))
 ], (req, res) => {
   const errors = validationResult(req)
