@@ -1,7 +1,7 @@
 summary: Create API key.
 description: Create API key.
 tags:
-  - Chaves
+  - Keys
 requestBody:
   description: Necessary data to create API key. 
   required: true

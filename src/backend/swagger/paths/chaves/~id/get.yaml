@@ -4,9 +4,9 @@ security:
   - userQuery: []
   - userAuth: []
 tags:
-  - Chaves
+  - Keys
 parameters:
-  - name: id
+  - name: Key
     in: path
     description: Key's value.
     schema:

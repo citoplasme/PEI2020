@@ -242,7 +242,7 @@ paths:
         - userQuery: []
         - userAuth: []
       tags:
-        - Chaves
+        - Keys
       responses:
         '200':
           description: Returns all API keys.
@@ -281,7 +281,7 @@ paths:
       summary: Create API key.
       description: Create API key.
       tags:
-        - Chaves
+        - Keys
       requestBody:
         description: Necessary data to create API key.
         required: true
@@ -305,24 +305,6 @@ paths:
           description: API key created.
         '422':
           $ref: '#/components/responses/ValidationParameters'
-        '500':
-          description: Error.
-  /auth:
-    delete:
-      summary: Deletes all entries of this collection.
-      description: Deletes all entries of this collection.
-      security:
-        - userQuery: []
-        - userAuth: []
-      tags:
-        - Auth
-      responses:
-        '200':
-          description: Deleted all entries of this collection.
-        '401':
-          $ref: '#/components/responses/UnauthorizedUser'
-        '403':
-          $ref: '#/components/responses/PermissionsUser'
         '500':
           description: Error.
   '/auth/{id}':
@@ -504,9 +486,9 @@ paths:
         - userQuery: []
         - userAuth: []
       tags:
-        - Chaves
+        - Keys
       parameters:
-        - name: id
+        - name: Key
           in: path
           description: Key's value.
           schema:
@@ -545,7 +527,7 @@ paths:
         - userQuery: []
         - userAuth: []
       tags:
-        - Chaves
+        - Keys
       parameters:
         - name: id
           in: path
@@ -825,7 +807,7 @@ paths:
       summary: Renews the API key.
       description: Renews the API key.
       tags:
-        - Chaves
+        - Keys
       parameters:
         - name: email
           in: query
@@ -966,7 +948,7 @@ paths:
         - userQuery: []
         - userAuth: []
       tags:
-        - Chaves
+        - Keys
       parameters:
         - name: id
           in: path
@@ -1166,7 +1148,7 @@ paths:
         - userQuery: []
         - userAuth: []
       tags:
-        - Chaves
+        - Keys
       parameters:
         - name: id
           in: path
@@ -1215,7 +1197,7 @@ paths:
         - userQuery: []
         - userAuth: []
       tags:
-        - Chaves
+        - Keys
       parameters:
         - name: id
           in: path
@@ -1244,7 +1226,7 @@ paths:
         interfaces, that is, this request is only allowed to domains defined in
         the API as having platform interfaces.
       tags:
-        - Chaves
+        - Keys
       responses:
         '200':
           description: Returns the API key created for platform interfaces.

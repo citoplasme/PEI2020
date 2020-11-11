@@ -1,7 +1,7 @@
 summary: Returns the API key created for platform interfaces.
 description: Returns the API key created for platform interfaces. If it doesn't exist, create it. If it has expired, renew it. Finally, return the API key. The only domains that can make this request are the platform interfaces, that is, this request is only allowed to domains defined in the API as having platform interfaces.
 tags:
-  - Chaves
+  - Keys
 responses:
   200:
     description: Returns the API key created for platform interfaces.
