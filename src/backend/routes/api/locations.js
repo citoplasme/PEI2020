@@ -10,7 +10,6 @@ const { existe, eMongoId } = require('../validation')
 // GET /locations 
 // ?country=XXX
 router.get('/', Auth.isLoggedInKey, [
-//router.get('/', [
     existe("query", "country").optional()
 ], (req, res) => {
     
@@ -33,7 +32,6 @@ router.get('/', Auth.isLoggedInKey, [
 
 // GET /locations/countries
 router.get('/countries', Auth.isLoggedInKey, (req, res) => {  
-//router.get('/countries', (req, res) => {  
     Locations.listarCountries()
         .then(dados => res.jsonp(dados))
         .catch(erro => res.status(500).send(`Error while listing countries: ${erro}`))
@@ -41,7 +39,6 @@ router.get('/countries', Auth.isLoggedInKey, (req, res) => {
 
 // GET /locations/:id
 router.get('/:id', Auth.isLoggedInKey, [
-//router.get('/:id', [
     eMongoId('param', 'id')
 ], (req, res) => {
     const errors = validationResult(req)
