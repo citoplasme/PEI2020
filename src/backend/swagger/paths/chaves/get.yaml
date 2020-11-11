@@ -4,7 +4,7 @@ security:
   - userQuery: []
   - userAuth: []
 tags:
-  - Chaves
+  - Keys
 responses:
   200:
     description: Returns all API keys.

@@ -242,7 +242,7 @@ paths:
         - userQuery: []
         - userAuth: []
       tags:
-        - Chaves
+        - Keys
       responses:
         '200':
           description: Returns all API keys.
@@ -281,7 +281,7 @@ paths:
       summary: Create API key.
       description: Create API key.
       tags:
-        - Chaves
+        - Keys
       requestBody:
         description: Necessary data to create API key.
         required: true
@@ -305,24 +305,6 @@ paths:
           description: API key created.
         '422':
           $ref: '#/components/responses/ValidationParameters'
-        '500':
-          description: Error.
-  /auth:
-    delete:
-      summary: Deletes all entries of this collection.
-      description: Deletes all entries of this collection.
-      security:
-        - userQuery: []
-        - userAuth: []
-      tags:
-        - Auth
-      responses:
-        '200':
-          description: Deleted all entries of this collection.
-        '401':
-          $ref: '#/components/responses/UnauthorizedUser'
-        '403':
-          $ref: '#/components/responses/PermissionsUser'
         '500':
           description: Error.
   '/auth/{id}':
@@ -536,9 +518,9 @@ paths:
         - userQuery: []
         - userAuth: []
       tags:
-        - Chaves
+        - Keys
       parameters:
-        - name: id
+        - name: Key
           in: path
           description: Key's value.
           schema:
@@ -577,7 +559,7 @@ paths:
         - userQuery: []
         - userAuth: []
       tags:
-        - Chaves
+        - Keys
       parameters:
         - name: id
           in: path
@@ -825,7 +807,7 @@ paths:
       summary: Renews the API key.
       description: Renews the API key.
       tags:
-        - Chaves
+        - Keys
       parameters:
         - name: email
           in: query
@@ -966,7 +948,7 @@ paths:
         - userQuery: []
         - userAuth: []
       tags:
-        - Chaves
+        - Keys
       parameters:
         - name: id
           in: path
@@ -1166,7 +1148,7 @@ paths:
         - userQuery: []
         - userAuth: []
       tags:
-        - Chaves
+        - Keys
       parameters:
         - name: id
           in: path
@@ -1215,7 +1197,7 @@ paths:
         - userQuery: []
         - userAuth: []
       tags:
-        - Chaves
+        - Keys
       parameters:
         - name: id
           in: path
@@ -1244,7 +1226,7 @@ paths:
         interfaces, that is, this request is only allowed to domains defined in
         the API as having platform interfaces.
       tags:
-        - Chaves
+        - Keys
       responses:
         '200':
           description: Returns the API key created for platform interfaces.
@@ -1893,6 +1875,36 @@ components:
           - excel/csv
       description: Formato de saída do resultado
   examples:
+    Logs:
+      - _id: 5e8e3dbf8dcf947f1e9e090d
+        accessDate: '2020-04-08T21:10:23.656Z'
+        httpStatus: 200
+        id: 5e2adcfdc38aef5caa90efc7
+        method: GET
+        route: /logs
+        type: User
+      - _id: 5e8e3dc68dcf947f1e9e090e
+        accessDate: '2020-04-08T21:10:30.340Z'
+        httpStatus: 200
+        id: 5e2adcfdc38aef5caa90efc7
+        method: GET
+        route: /logs
+        type: User
+      - _id: 5e8e3de28dcf947f1e9e090f
+        accessDate: '2020-04-08T21:10:58.042Z'
+        httpStatus: 200
+        id: 5e2adcfdc38aef5caa90efc7
+        method: GET
+        route: /logs
+        type: User
+    User:
+      _id: 5e90851bc4ec15e6fa94cf8c
+      email: example@example.com
+      internal: true
+      level: 3
+      temPass: true
+      nCalls: 0
+      name: Example
     LogsId:
       value:
         - _id: 5e8e3dbf8dcf947f1e9e090d
@@ -1937,6 +1949,10 @@ components:
           level: 3.5
           nCalls: 0
           name: Example 3
+    UserLogin:
+      name: Example
+      token: >-
+        eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMmFkY2ZkYzM4YWVmNWNhYTkwZWZjNyIsImxldmVsIjo3LCJlbnRpZGFkZSI6ImVudF9BM0VTIiwiaWF0IjoxNTg2NTYzNzU0LCJleHAiOjE1ODY1OTI1NTR9.YXNXcaQ22faRdxJ0Rht0qoDWMyvrEi33DaJwU78oCIs
     Location:
       _id: 5fabb0d299427bd00a1fd3fa
       cities:
@@ -2001,6 +2017,49 @@ components:
       value:
         _id: _e88bc3f7-95ae-4a48-a15e-79736d8f94aj
         url: 'http://localhost:8080'
+    Parametro:
+      keyExpires:
+        desc: API Keys expiration time
+        valor: 30d
+    chaves_get_all:
+      - active: 'Yes'
+        contactInfo: interface@example.com
+        created: Wed Mar 25 2020
+        expiration: '24/04/2020, 23:59:03'
+        id: 5e2adec179993a5dba6e254e
+        key: >-
+          eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1ODUxNzcxNDMsImV4cCI6MTU4Nzc2OTE0M30.4y50-kAf21fWaLPZdE4pecg4J8o968SmlmYD5OzEEEs
+        lastUsed: Wed Mar 25 2020
+        nCalls: 4
+        name: interface
+      - active: 'Yes'
+        contactInfo: example@example.com
+        created: Thu Mar 26 2020
+        expiration: '25/04/2020, 18:23:01'
+        id: 5e7ce17a46ad1d7bf0112996
+        key: >-
+          eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1ODUyNDMzODEsImV4cCI6MTU4NzgzNTM4MX0.HO2w82-XVzTHcaOh7urXMRHThHtQ9hp53uAmDsAAAYY
+        lastUsed: Never
+        nCalls: 0
+        name: example
+    chaves_get_one:
+      _id: 5e7ce17a46ad1d7bf0112996
+      active: true
+      contactInfo: example@example.com
+      created: '2020-03-26T22:33:09.317Z'
+      key: >-
+        eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1ODUxNzcxNDMsImV4cCI6MTU4Nzc2OTE0M30.4y50-kHf21fFaLPZdD4pecg4J8o968SclcYD5ObAA2s
+      lastUsed: null
+      level: 0
+      nCalls: 0
+      name: example
+    Parametros:
+      keyExpires:
+        desc: API Keys expiration time
+        valor: 30d
+      userExpires:
+        desc: User Token Expiration Time
+        valor: 8h
     UsersNormalizado:
       value:
         - id: 5e90851bc4ec15e6fa94cf8c
