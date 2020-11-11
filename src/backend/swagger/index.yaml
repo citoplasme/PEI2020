@@ -50,6 +50,8 @@ servers:
         enum:
           - "v1"
 tags:
+  - name: Locations
+    description: "List of countries"
   - name: Auth
     description: "Stores where authentication requests were made."
   - name: Logs

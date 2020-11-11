@@ -1,0 +1,16 @@
+type: array
+items:
+  type: object
+  properties:
+    _id:
+      type: string
+    country:
+      type: string
+    city:
+      type: array
+      items:
+        type: string
+  required:
+    - _id
+    - country
+    - city

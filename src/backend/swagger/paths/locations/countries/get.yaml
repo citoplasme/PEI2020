@@ -1,0 +1,27 @@
+summary: Returns the country list.
+description: Returns the country list.
+security:
+  - apiKeyQuery: []
+  - apiKeyAuth: []
+  - userQuery: []
+  - userAuth: []
+tags:
+  - Locations
+responses:
+  200:
+    description: Returns the country list.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/LocationsCountries'
+        examples:
+          Example of a list of users:
+            $ref: '#/components/examples/LocationsCountries'
+  401:
+    $ref: '#/components/responses/UnauthorizedUser'
+  403:
+    $ref: '#/components/responses/PermissionsUser'
+  422:
+    $ref: '#/components/responses/ValidationParameters'
+  500:
+    description: Error.

@@ -1,0 +1,35 @@
+summary: Returns the full locations list if no country is passed.
+description: Returns the full locations list if no country is passed.
+security:
+  - apiKeyQuery: []
+  - apiKeyAuth: []
+  - userQuery: []
+  - userAuth: []
+tags:
+  - Locations
+parameters:
+  - in: query
+    name: country
+    schema:
+      type: string
+    description: "Returns the country with that name"
+    required: false
+responses:
+  200:
+    description: Returns the country list.
+    content:
+      application/json:
+        schema:
+          oneOf:
+            - $ref: '#/components/schemas/Locations'
+        examples:
+          Example of a list of users:
+            $ref: '#/components/examples/Locations'
+  401:
+    $ref: '#/components/responses/UnauthorizedUser'
+  403:
+    $ref: '#/components/responses/PermissionsUser'
+  422:
+    $ref: '#/components/responses/ValidationParameters'
+  500:
+    description: Error.

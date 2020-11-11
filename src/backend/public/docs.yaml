@@ -92,6 +92,8 @@ servers:
         enum:
           - v1
 tags:
+  - name: Locations
+    description: List of countries
   - name: Auth
     description: Stores where authentication requests were made.
   - name: Logs
@@ -353,6 +355,43 @@ paths:
           $ref: '#/components/responses/UnauthorizedKey'
         '403':
           $ref: '#/components/responses/PermissionsKey'
+        '500':
+          description: Error.
+  /locations:
+    get:
+      summary: Returns the full locations list if no country is passed.
+      description: Returns the full locations list if no country is passed.
+      security:
+        - apiKeyQuery: []
+        - apiKeyAuth: []
+        - userQuery: []
+        - userAuth: []
+      tags:
+        - Locations
+      parameters:
+        - in: query
+          name: country
+          schema:
+            type: string
+          description: Returns the country with that name
+          required: false
+      responses:
+        '200':
+          description: Returns the country list.
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/Locations'
+              examples:
+                Example of a list of users:
+                  $ref: '#/components/examples/Locations'
+        '401':
+          $ref: '#/components/responses/UnauthorizedUser'
+        '403':
+          $ref: '#/components/responses/PermissionsUser'
+        '422':
+          $ref: '#/components/responses/ValidationParameters'
         '500':
           description: Error.
   '/users/{id}':
@@ -664,6 +703,51 @@ paths:
           $ref: '#/components/responses/ValidationParameters'
         '500':
           description: Error.
+  '/locations/{id}':
+    get:
+      summary: Consult a country.
+      description: Consult a county.
+      security:
+        - apiKeyQuery: []
+        - apiKeyAuth: []
+        - userQuery: []
+        - userAuth: []
+      tags:
+        - Locations
+      parameters:
+        - name: id
+          in: path
+          description: Country identifier
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Consult a country.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Location'
+              example:
+                _id: 5fabb0d299427bd00a1fd3fa
+                cities:
+                  - Herat
+                  - Kabul
+                  - Kandahar
+                  - Molah
+                  - Rana
+                  - Shar
+                  - Sharif
+                  - Wazir Akbar Khan
+                country: Afghanistan
+        '401':
+          $ref: '#/components/responses/UnauthorizedUser'
+        '403':
+          $ref: '#/components/responses/PermissionsUser'
+        '422':
+          $ref: '#/components/responses/ValidationParameters'
+        '500':
+          description: Error.
   /logsAgregados:
     get:
       summary: >-
@@ -939,6 +1023,35 @@ paths:
       responses:
         '200':
           description: Changed a user's account password.
+        '401':
+          $ref: '#/components/responses/UnauthorizedUser'
+        '403':
+          $ref: '#/components/responses/PermissionsUser'
+        '422':
+          $ref: '#/components/responses/ValidationParameters'
+        '500':
+          description: Error.
+  /locations/countries:
+    get:
+      summary: Returns the country list.
+      description: Returns the country list.
+      security:
+        - apiKeyQuery: []
+        - apiKeyAuth: []
+        - userQuery: []
+        - userAuth: []
+      tags:
+        - Locations
+      responses:
+        '200':
+          description: Returns the country list.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LocationsCountries'
+              examples:
+                Example of a list of users:
+                  $ref: '#/components/examples/LocationsCountries'
         '401':
           $ref: '#/components/responses/UnauthorizedUser'
         '403':
@@ -1443,6 +1556,21 @@ components:
         - A
         - H
         - I
+    Location:
+      type: object
+      properties:
+        _id:
+          type: string
+        country:
+          type: string
+        city:
+          type: array
+          items:
+            type: string
+      required:
+        - _id
+        - country
+        - city
     LogsPaginados:
       type: object
       properties:
@@ -1494,6 +1622,23 @@ components:
           - lastUsed
           - nCalls
           - name
+    Locations:
+      type: array
+      items:
+        type: object
+        properties:
+          _id:
+            type: string
+          country:
+            type: string
+          city:
+            type: array
+            items:
+              type: string
+        required:
+          - _id
+          - country
+          - city
     UserLevel:
       type: string
       enum:
@@ -1651,6 +1796,18 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/LogAgregado'
+    LocationsCountries:
+      type: array
+      items:
+        type: object
+        properties:
+          _id:
+            type: string
+          country:
+            type: string
+        required:
+          - _id
+          - country
     LogAgregadoRota:
       type: object
       properties:
@@ -1736,36 +1893,6 @@ components:
           - excel/csv
       description: Formato de saída do resultado
   examples:
-    Logs:
-      - _id: 5e8e3dbf8dcf947f1e9e090d
-        accessDate: '2020-04-08T21:10:23.656Z'
-        httpStatus: 200
-        id: 5e2adcfdc38aef5caa90efc7
-        method: GET
-        route: /logs
-        type: User
-      - _id: 5e8e3dc68dcf947f1e9e090e
-        accessDate: '2020-04-08T21:10:30.340Z'
-        httpStatus: 200
-        id: 5e2adcfdc38aef5caa90efc7
-        method: GET
-        route: /logs
-        type: User
-      - _id: 5e8e3de28dcf947f1e9e090f
-        accessDate: '2020-04-08T21:10:58.042Z'
-        httpStatus: 200
-        id: 5e2adcfdc38aef5caa90efc7
-        method: GET
-        route: /logs
-        type: User
-    User:
-      _id: 5e90851bc4ec15e6fa94cf8c
-      email: example@example.com
-      internal: true
-      level: 3
-      temPass: true
-      nCalls: 0
-      name: Example
     LogsId:
       value:
         - _id: 5e8e3dbf8dcf947f1e9e090d
@@ -1810,10 +1937,18 @@ components:
           level: 3.5
           nCalls: 0
           name: Example 3
-    UserLogin:
-      name: Example
-      token: >-
-        eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMmFkY2ZkYzM4YWVmNWNhYTkwZWZjNyIsImxldmVsIjo3LCJlbnRpZGFkZSI6ImVudF9BM0VTIiwiaWF0IjoxNTg2NTYzNzU0LCJleHAiOjE1ODY1OTI1NTR9.YXNXcaQ22faRdxJ0Rht0qoDWMyvrEi33DaJwU78oCIs
+    Location:
+      _id: 5fabb0d299427bd00a1fd3fa
+      cities:
+        - Herat
+        - Kabul
+        - Kandahar
+        - Molah
+        - Rana
+        - Shar
+        - Sharif
+        - Wazir Akbar Khan
+      country: Afghanistan
     LogsPaginados:
       value:
         items:
@@ -1840,53 +1975,32 @@ components:
             type: User
         total: 105910
       summary: Example of a log page
+    Locations:
+      value:
+        - _id: 5fabb0d299427bd00a1fd3fa
+          cities:
+            - Herat
+            - Kabul
+            - Kandahar
+            - Molah
+            - Rana
+            - Shar
+            - Sharif
+            - Wazir Akbar Khan
+          country: Afghanistan
+        - _id: 5fabb0d299427bd00a1fd3f9
+          cities:
+            - Elbasan
+            - Petran
+            - Pogradec
+            - Shkoder
+            - Tirana
+            - Ura Vajgurore
+          country: Albania
     auth_post_local:
       value:
         _id: _e88bc3f7-95ae-4a48-a15e-79736d8f94aj
         url: 'http://localhost:8080'
-    Parametro:
-      keyExpires:
-        desc: API Keys expiration time
-        valor: 30d
-    chaves_get_all:
-      - active: 'Yes'
-        contactInfo: interface@example.com
-        created: Wed Mar 25 2020
-        expiration: '24/04/2020, 23:59:03'
-        id: 5e2adec179993a5dba6e254e
-        key: >-
-          eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1ODUxNzcxNDMsImV4cCI6MTU4Nzc2OTE0M30.4y50-kAf21fWaLPZdE4pecg4J8o968SmlmYD5OzEEEs
-        lastUsed: Wed Mar 25 2020
-        nCalls: 4
-        name: interface
-      - active: 'Yes'
-        contactInfo: example@example.com
-        created: Thu Mar 26 2020
-        expiration: '25/04/2020, 18:23:01'
-        id: 5e7ce17a46ad1d7bf0112996
-        key: >-
-          eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1ODUyNDMzODEsImV4cCI6MTU4NzgzNTM4MX0.HO2w82-XVzTHcaOh7urXMRHThHtQ9hp53uAmDsAAAYY
-        lastUsed: Never
-        nCalls: 0
-        name: example
-    chaves_get_one:
-      _id: 5e7ce17a46ad1d7bf0112996
-      active: true
-      contactInfo: example@example.com
-      created: '2020-03-26T22:33:09.317Z'
-      key: >-
-        eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1ODUxNzcxNDMsImV4cCI6MTU4Nzc2OTE0M30.4y50-kHf21fFaLPZdD4pecg4J8o968SclcYD5ObAA2s
-      lastUsed: null
-      level: 0
-      nCalls: 0
-      name: example
-    Parametros:
-      keyExpires:
-        desc: API Keys expiration time
-        valor: 30d
-      userExpires:
-        desc: User Token Expiration Time
-        valor: 8h
     UsersNormalizado:
       value:
         - id: 5e90851bc4ec15e6fa94cf8c
@@ -1901,6 +2015,12 @@ components:
           email: example3@example.com
           level: Basic user - Level 1
           name: Example 3
+    LocationsCountries:
+      value:
+        - _id: 5fabb0d299427bd00a1fd3fa
+          country: Afghanistan
+        - _id: 5fabb0d299427bd00a1fd3f9
+          country: Albania
     logAgregadoRota:
       value:
         nGETs: 1

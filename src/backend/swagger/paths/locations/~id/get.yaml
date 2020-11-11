@@ -1,0 +1,32 @@
+summary: Consult a country.
+description: Consult a county.
+security:
+  - apiKeyQuery: []
+  - apiKeyAuth: []
+  - userQuery: []
+  - userAuth: []
+tags:
+  - Locations
+parameters:
+  - name: id
+    in: path
+    description: 'Country identifier'
+    schema:
+      type: string
+    required: true
+responses:
+  200:
+    description: Consult a country.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/Location'
+        example: !!inc/file '/examples/locations/Location.yaml'
+  401:
+    $ref: '#/components/responses/UnauthorizedUser'
+  403:
+    $ref: '#/components/responses/PermissionsUser'
+  422:
+    $ref: '#/components/responses/ValidationParameters'
+  500:
+    description: Error.

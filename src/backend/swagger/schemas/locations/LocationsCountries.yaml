@@ -1,0 +1,11 @@
+type: array
+items:
+  type: object
+  properties:
+    _id:
+      type: string
+    country:
+      type: string
+  required:
+    - _id
+    - country
