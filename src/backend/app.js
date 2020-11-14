@@ -129,6 +129,8 @@ mainRouter.use('/parametros', require('./routes/api/parametros'));
 
 mainRouter.use('/locations', require('./routes/api/locations'));
 
+mainRouter.use('/categorias',require('./routes/api/categorias'));
+
 mainRouter.use('/teste', require('./routes/api/teste'));
 
 app.use('/' + dataBases.apiVersion, mainRouter);
