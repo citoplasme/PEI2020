@@ -50,13 +50,169 @@ Categorias.getAllCategoriasActive = function (req,callback){
     Categoria.find({"active":"true"},callback);
 }
 
-Categorias.deleteByName = function(name,callback){
+Categorias.deleteCategoriaByName = function(name,callback){
     Categoria.findOneAndRemove({"name": name}, function(err, cat){
         if(err){
             callback(err, null);
         }else{
             //Devolve o elemento que fez delete
             callback(null, cat);
+        }
+    })
+}
+
+
+//to do
+//edit sub categoria
+//edit categoria
+
+//add sub categoria to categoria
+//vai receber sempre uma categoria com apenas um elemento no array das sub categorias
+Categorias.createSubCategoria = async function(cat,callback){
+    //vai verificar se a categoria existe
+    Categorias.getCategoriaByName(cat.name,function(err,getcat){
+        if(err){
+            callback(err,null);
+        } else{
+            //se a categoria existir vai verificar se a sub categoria existe
+            if (getcat!=null){
+                Categorias.getCategoriaByName(cat.name,function(err,foundCat){
+                    if (err){
+                        callback(err,null);
+                    }
+                    else{
+                        encontrou=false;
+                        //vai verificar cada elemento do array a ver se ja tem la dentro a sub categoria
+                        Categorias.getSubCategoriaByName(cat.name,cat.subCategorias[0].name,function(err,foundSubCat){
+                            if(err){
+                                callback(err,null);
+                            }
+                            else{
+                                if (foundSubCat!=null){
+                                    callback("SubCategory already exists.",null)
+                                }
+                                else{
+                                    foundCat.subCategorias.push(cat.subCategorias[0]);
+                                    foundCat.save();
+                                    callback(null,foundCat);
+                                }
+                            }
+                        })
+                    }
+                    
+                })
+            }
+            //se a categoria não existir vai criar
+            else{
+                Categorias.createCategoria(cat,function(err,newcat){
+                    callback(null,newcat)
+                })
+            }
+        }
+    })
+}
+
+//get sub categoria by name
+Categorias.getSubCategoriaByName = function (nameCat,nameSubCat, callback) {
+    var query = { name: nameCat};
+    
+	Categoria.findOne(query, function(err,cat){
+        if(err){
+            callback(err,null);
+        }
+        else{
+            //Se a categoria nao existir a sub tambem nao vai existir
+            if(cat==null){
+                callback(null,null);
+            }
+            else{
+                found=null;
+                cat.subCategorias.forEach(function(element){
+                    if(element.name==nameSubCat){
+                        found=element;
+                    }
+                })
+                callback(null,found);
+            }
+        }
+    });
+}
+
+//validate sub categoria
+Categorias.validateSubCategoria = function (nameCat,nameSubCat, callback) {
+    Categorias.getCategoriaByName(nameCat,async function(err,foundCat){
+        if(err){
+            callback(err,null);
+        } else{
+            encontrou=null;
+            foundCat.subCategorias.forEach(function(element){
+                if(element.name==nameSubCat){
+                    encontrou=element;
+                }
+            })
+            if (encontrou!=null){
+                try {
+                    encontrou.active=true;
+                    await foundCat.save();
+                    callback(null,encontrou);
+                } catch (error) {
+                    callback(err,null);
+                }
+            }
+        }
+    })
+}
+
+//list all subcategorias from categoria
+Categorias.getAllSubCategorias = function (cat,callback){
+    Categorias.getCategoriaByName(cat,function(err,foundCat){
+        if(err){
+            callback(err,null);
+        }
+        else{
+            callback(null,foundCat.subCategorias);
+        }
+    })
+}
+
+//list all active subcategorias from categoria
+Categorias.getAllSubCategoriasActive = function (cat,callback){
+    Categorias.getCategoriaByName(cat,function(err,foundCat){
+        if(err){
+            callback(err,null);
+        }
+        else{
+            arr=[]
+            foundCat.subCategorias.forEach(function(element){
+                if(element.active==true){
+                    arr.push(element);
+                }
+            })
+            callback(null,arr);
+        }
+    })
+}
+
+//delete sub categoria
+Categorias.deleteSubCategoriaByName = function(name,nameSubCat,callback){
+    Categorias.getCategoriaByName(name,function(err,foundCat){
+        if(err){
+            callback(err,null);
+        }
+        else{
+            try {
+                newArr=[];
+                foundCat.subCategorias.forEach(function(element){
+                    if(nameSubCat!=element.name){
+                        newArr.push(element);
+                    }
+                })
+                foundCat.subCategorias=newArr;
+                foundCat.save();
+                callback(null,foundCat)
+            } catch (error) {
+                callback(error,null)
+            }
         }
     })
 }

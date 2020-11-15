@@ -9,7 +9,7 @@ var SubCategoriaSchema = mongoose.Schema({
 		type: String,
 	},
 	desc:{
-		String ,
+		type: String ,
 	},
 	active:{
 		type: Boolean,
