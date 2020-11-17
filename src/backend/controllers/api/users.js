@@ -255,3 +255,30 @@ Users.adicionarChamadaApi = function(id, callback){
 }
 
 
+Users.adicionarCategoria = function(id, categoria, callback) {
+    // TODO :
+}
+
+Users.adicionarCategorias = function(id, categorias, callback) {
+    // TODO :
+}
+
+Users.adicionarSubCategoria = function(id, subcategoria, callback) {
+    // TODO :
+}
+
+Users.adicionarSubCategorias = function(id, subcategorias, callback) {
+    // TODO :
+}
+
+Users.incrementarServicosRealizados = function(id, callback) {
+    // TODO :   
+}
+
+Users.atualizarKarma = function(id, callback) {
+    // TODO :
+}
+
+Users.atualizarTermsOfService = function(id, accepted, callback) {
+    // TODO :
+}

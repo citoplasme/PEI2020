@@ -37,6 +37,19 @@ var UserSchema = mongoose.Schema({
 		password: {
 			type: String
 		}
+	},
+	categorias: [String],
+	subcategorias: [String],
+	servicos_realizados: {
+		type: Number,
+		default: 0
+	},
+	karma: {
+		type: Number,
+		default: 0
+	},
+	termsofservice: {
+		type: Boolean,
 	}
 });
 
