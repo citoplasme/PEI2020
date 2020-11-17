@@ -38,8 +38,12 @@ var UserSchema = mongoose.Schema({
 			type: String
 		}
 	},
-	categorias: [String],
-	subcategorias: [String],
+	categorias: {
+		type: [String] // [_id] 
+	},
+	subcategorias: {
+		type: [String] // [_id]
+	},
 	servicos_realizados: {
 		type: Number,
 		default: 0
@@ -50,6 +54,11 @@ var UserSchema = mongoose.Schema({
 	},
 	termsofservice: {
 		type: Boolean,
+		default: false,
+		// required: true
+	},
+	photo: {
+		type: String // Base64 encoding image
 	}
 });
 

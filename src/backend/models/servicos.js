@@ -1,17 +1,30 @@
 var mongoose = require('mongoose');
 
+var ServiceSchema = mongoose.Schema({
+    datetime: {
+        type: Date,
+        default: Date.now
+    },
+    user: {
+        type: String
+    },
+    value: { 
+        type: String
+    }
+});
+
 // Services Schema
 var ServiceSchema = mongoose.Schema({
 	_id: {
 		
     },
-    cliente: {
+    client: {
         type: String
     },
     service_provider: {
         type: String
     },
-    urgente: {
+    urgent: {
         type: Boolean,
     },
     status: {
@@ -23,6 +36,18 @@ var ServiceSchema = mongoose.Schema({
     },
     review: {
         client: {
+            payment: {
+                type: Number
+            },
+            ponctuality: {
+                type: Number
+            },
+            security : {
+                type: Number
+            },
+            general: {
+                type: Number
+            },
             comentario: {
                 type: String
             },
@@ -31,6 +56,21 @@ var ServiceSchema = mongoose.Schema({
             }
         },
         service_provider: {
+            ponctuality: {
+                type: Number
+            },
+            quality: {
+                type: Number
+            },
+            security: {
+                type: Number
+            },
+            attendance: {
+                type: Number
+            },
+            general: {
+                type: Number
+            },
             comentario: {
                 type: String
             },
@@ -39,20 +79,9 @@ var ServiceSchema = mongoose.Schema({
             }
         }
     },
-    orcamento: [
-        {
-            datetime: {
-                type: Date,
-                default: Date.now
-            },
-            user: {
-                type: String
-            },
-            value: { 
-                type: Number
-            }
-        }
-    ]
+    orcamento: {
+        type: [orcamentoSquema]
+    }
 });
 
-module.exports = mongoose.model('Service', UserSchema, 'services');
+module.exports = mongoose.model('Service', ServiceSchema, 'services');
