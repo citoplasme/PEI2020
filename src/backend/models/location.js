@@ -1,12 +1,12 @@
 var mongoose = require('mongoose');
 
 var LocationSchema = new mongoose.Schema({
-    coountry: {
+    country: {
         type: String,
         required: true
     },
-    cities: {
-        type: [String],
+    name: {
+        type: String,
         required: true
     }
 });
