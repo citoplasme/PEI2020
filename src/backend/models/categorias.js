@@ -11,8 +11,8 @@ var SubCategoriaSchema = mongoose.Schema({
 	desc:{
 		type: String ,
 	},
-	active:{
-		type: Boolean,
+	status:{
+		type: Number,
 	}
 });
 
@@ -27,8 +27,8 @@ var CategoriaSchema = mongoose.Schema({
 	desc:{
 		type: String ,
 	},
-	active:{
-		type: Boolean,
+	status:{
+		type: Number,
 	},
 	subCategorias:[SubCategoriaSchema]
 

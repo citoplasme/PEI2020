@@ -11,7 +11,7 @@ var Categorias = module.exports
 
 Categorias.createCategoria = async function(newCategoria,callback){
     try{
-        newCategoria.active=false;
+        newCategoria.status=0;
         newCategoria = await newCategoria.save();
         callback(null,newCategoria);
     }catch(err){
@@ -24,14 +24,15 @@ Categorias.getCategoriaByName = function (name, callback) {
 	Categoria.findOne(query, callback);
 }
 
-Categorias.validateCategoria = function (name, callback) {
-	Categorias.getCategoriaByName(name, async function(err,cat){
+Categorias.editCategoria = function (categoria, callback) {
+	Categorias.getCategoriaByName(categoria.name, async function(err,cat){
         
         if(err){
             callback(err,null);
         } else{
             try{
-                cat.active=true;
+                cat.status=categoria.status;
+                cat.desc=categoria.desc;
                 cat = await cat.save();
                 callback(null,cat);
             }catch(err){
@@ -40,14 +41,10 @@ Categorias.validateCategoria = function (name, callback) {
         }
     })
 }
-//Lista todas as categorias ativas e nao ativas
-Categorias.getAllCategorias = function (req,callback){
-    Categoria.find({},callback);
-}
 
 //Lista todas as categorias ativas (usado por utilizadores normais da plataforma)
-Categorias.getAllCategoriasActive = function (req,callback){
-    Categoria.find({"active":"true"},callback);
+Categorias.getAllCategorias = function (filtro,callback){
+    Categoria.find(filtro,callback);
 }
 
 Categorias.deleteCategoriaByName = function(name,callback){
@@ -69,6 +66,7 @@ Categorias.deleteCategoriaByName = function(name,callback){
 //add sub categoria to categoria
 //vai receber sempre uma categoria com apenas um elemento no array das sub categorias
 Categorias.createSubCategoria = async function(cat,callback){
+    
     //vai verificar se a categoria existe
     Categorias.getCategoriaByName(cat.name,function(err,getcat){
         if(err){
@@ -139,20 +137,24 @@ Categorias.getSubCategoriaByName = function (nameCat,nameSubCat, callback) {
 }
 
 //validate sub categoria
-Categorias.validateSubCategoria = function (nameCat,nameSubCat, callback) {
-    Categorias.getCategoriaByName(nameCat,async function(err,foundCat){
+Categorias.editSubCategoria = function (newCategoria, callback) {
+    
+    Categorias.getCategoriaByName(newCategoria.name,async function(err,foundCat){
         if(err){
             callback(err,null);
         } else{
             encontrou=null;
             foundCat.subCategorias.forEach(function(element){
-                if(element.name==nameSubCat){
+                if(element.name==newCategoria.subCategorias[0].name){
                     encontrou=element;
                 }
             })
             if (encontrou!=null){
                 try {
-                    encontrou.active=true;
+                    if (newCategoria.subCategorias[0].desc!=null)
+                        encontrou.desc=newCategoria.subCategorias[0].desc;
+                    if(newCategoria.subCategorias[0].status!=null)
+                        encontrou.status=newCategoria.subCategorias[0].status;
                     await foundCat.save();
                     callback(null,encontrou);
                 } catch (error) {
@@ -163,29 +165,26 @@ Categorias.validateSubCategoria = function (nameCat,nameSubCat, callback) {
     })
 }
 
-//list all subcategorias from categoria
-Categorias.getAllSubCategorias = function (cat,callback){
-    Categorias.getCategoriaByName(cat,function(err,foundCat){
-        if(err){
-            callback(err,null);
-        }
-        else{
-            callback(null,foundCat.subCategorias);
-        }
-    })
-}
 
-//list all active subcategorias from categoria
-Categorias.getAllSubCategoriasActive = function (cat,callback){
+//list all subcategorias from categoria
+Categorias.getAllSubCategorias = function (cat,filtro,callback){
     Categorias.getCategoriaByName(cat,function(err,foundCat){
         if(err){
             callback(err,null);
         }
         else{
+            if(foundCat==null){
+                callback("Categoria not found!",null);
+                return;
+            }
             arr=[]
             foundCat.subCategorias.forEach(function(element){
-                if(element.active==true){
-                    arr.push(element);
+                if (filtro.status!=null){
+                    if(element.status==filtro.status)
+                        arr.push(element)
+                }
+                else{
+                    arr.push(element)
                 }
             })
             callback(null,arr);

@@ -10,13 +10,16 @@ var jwt = require('jsonwebtoken');
 var secretKey = require('./../../config/app');
 var Mailer = require('../../controllers/api/mailer');
 var mongoose = require('mongoose');
+const { existe, eMongoId } = require('../validation');
+const { validationResult } = require('express-validator');
+var url = require('url')
 
-router.post('/create', Auth.isLoggedInUser, Auth.checkLevel(2), async (req, res) => {
+router.post('/', Auth.isLoggedInUser, Auth.checkLevel(3), async (req, res) => {
     var newCategoria = new Categoria({
         _id: mongoose.Types.ObjectId(),
         name: req.body.name,
         desc: req.body.desc,
-        active: false,
+        status: 0,
         subCategorias: []
     });
 
@@ -40,21 +43,44 @@ router.post('/create', Auth.isLoggedInUser, Auth.checkLevel(2), async (req, res)
     })
 });
 
-router.put('/validate/:name', Auth.isLoggedInUser, Auth.checkLevel(6), async function(req, res) {
+router.put('/:name', Auth.isLoggedInUser, Auth.checkLevel(6), async function(req, res) {
+
+    var newCategoria = new Categoria({
+        _id: mongoose.Types.ObjectId(),
+        name: req.params.name,
+        desc: req.body.desc,
+        status: req.body.status,
+        subCategorias: [
+        ]
+    });
     
-    Categorias.validateCategoria(req.params.name,function(err,cat){
+    Categorias.editCategoria(newCategoria,function(err,cat){
         if(err){
         
-            res.status(500).send("It was not possible to validate the category.");
+            res.status(500).send("It was not possible to edit the category.");
         }else{
-            res.send('Category validated with success.');
+            res.send('Category edited with success.');
         }
     })
 });
 
-router.get('/listAll', Auth.isLoggedInUser, Auth.checkLevel(6), function(req, res) {
+
+var validKeys = ["status"];
+router.get('/', Auth.isLoggedInKey,existe("query", "status").optional(), (req, res) => {
+
+    const errors = validationResult(req)
+    if(!errors.isEmpty()){
+        return res.status(422).jsonp(errors.array())
+    }
+
+    var queryData = url.parse(req.url, true).query;
+
+    var filtro = Object.entries(queryData)
+        .filter(([k, v]) => validKeys.includes(k))
+
+    filtro = Object.assign({}, ...Array.from(filtro, ([k, v]) => ({[k]: v}) ));
     
-    Categorias.getAllCategorias(req,function(err,result){
+    Categorias.getAllCategorias(filtro,function(err,result){
         if(err){
             res.status(500).send("It was not possible to list all categories.");
         }else{
@@ -63,18 +89,7 @@ router.get('/listAll', Auth.isLoggedInUser, Auth.checkLevel(6), function(req, re
     })
 });
 
-router.get('/listAllActive', Auth.isLoggedInUser, Auth.checkLevel(-1), function(req, res) {
-    
-    Categorias.getAllCategoriasActive(req,function(err,result){
-        if(err){
-            res.status(500).send("It was not possible to list all categories.");
-        }else{
-            res.send(result);
-        }
-    })
-});
-
-router.delete('/delete/:name', Auth.isLoggedInUser, Auth.checkLevel(6), function(req, res) {
+router.delete('/:name', Auth.isLoggedInUser, Auth.checkLevel(6), function(req, res) {
     
     Categorias.deleteCategoriaByName(req.params.name,function(err,result){
         if(err){
@@ -86,7 +101,7 @@ router.delete('/delete/:name', Auth.isLoggedInUser, Auth.checkLevel(6), function
 });
 //-------------- novos
 
-router.get('/categoriaByName/:name', Auth.isLoggedInUser, Auth.checkLevel(-1), function(req, res) {
+router.get('/:name', Auth.isLoggedInUser, Auth.checkLevel(-1), function(req, res) {
     
     Categorias.getCategoriaByName(req.params.name,function(err,result){
         if(err){
@@ -97,19 +112,90 @@ router.get('/categoriaByName/:name', Auth.isLoggedInUser, Auth.checkLevel(-1), f
     })
 });
 
+router.get('/categoria/:nameCat/subCategoria/:nameSubCat', Auth.isLoggedInUser, Auth.checkLevel(-1), function(req, res) {
+    
+    Categorias.getSubCategoriaByName(req.params.nameCat,req.params.nameSubCat,function(err,result){
+        if(err){
+            res.status(500).send("It was not possible to get the subcategory.");
+        }else{
+            res.send(result);
+        }
+    })
+});
 
-router.post('/createSubCategoria', Auth.isLoggedInUser, Auth.checkLevel(2), async (req, res) => {
+router.put('/categoria/:nameCat/subCategoria/:nameSubCat', Auth.isLoggedInUser, Auth.checkLevel(6), async function(req, res) {
+    
     var newCategoria = new Categoria({
         _id: mongoose.Types.ObjectId(),
-        name: req.body.nameCategoria,
+        name: req.params.nameCat,
+        subCategorias: [
+            {
+                _id: mongoose.Types.ObjectId(),
+                name: req.params.nameSubCat,
+                desc: req.body.descSubCategoria,
+                status: req.body.statusSubCategoria
+            }
+        ]
+    });
+
+    Categorias.editSubCategoria(newCategoria,function(err,cat){
+        if(err){
+        
+            res.status(500).send("It was not possible to validate the category.");
+        }else{
+            res.send('Category validated with success.');
+        }
+    })
+});
+
+
+router.get('/:name/subCategorias', Auth.isLoggedInKey,existe("query", "status").optional(), (req, res) => {
+
+    const errors = validationResult(req)
+    if(!errors.isEmpty()){
+        return res.status(422).jsonp(errors.array())
+    }
+
+    var queryData = url.parse(req.url, true).query;
+
+    var filtro = Object.entries(queryData)
+        .filter(([k, v]) => validKeys.includes(k))
+
+    filtro = Object.assign({}, ...Array.from(filtro, ([k, v]) => ({[k]: v}) ));
+    
+    
+    Categorias.getAllSubCategorias(req.params.name,filtro,function(err,result){
+        if(err){
+            res.status(500).send("It was not possible to list all Subcategories.");
+        }else{
+            res.send(result);
+        }
+    })
+});
+
+router.delete('/categoria/:nameCat/subCategoria/:nameSubCat', Auth.isLoggedInUser, Auth.checkLevel(6), function(req, res) {
+    
+    Categorias.deleteSubCategoriaByName(req.params.nameCat,req.params.nameSubCat,function(err,result){
+        if(err){
+            res.status(500).send("It was not possible to delete the Subcategory.");
+        }else{
+            res.send(result);
+        }
+    })
+});
+
+router.post('/:categoria', Auth.isLoggedInUser, Auth.checkLevel(6), async (req, res) => {
+    var newCategoria = new Categoria({
+        _id: mongoose.Types.ObjectId(),
+        name: req.params.categoria,
         desc: req.body.descCategoria,
-        active: false,
+        status: 0,
         subCategorias: [
             {
                 _id: mongoose.Types.ObjectId(),
                 name: req.body.nameSubCategoria,
                 desc: req.body.descSubCategoria,
-                active: false
+                status: 0,
             }
         ]
     });
@@ -123,62 +209,6 @@ router.post('/createSubCategoria', Auth.isLoggedInUser, Auth.checkLevel(2), asyn
         }
         else{
             res.send('SubCategory registered with success.');
-        }
-    })
-});
-
-router.get('/subCategoriaByName/:nameCat/:nameSubCat', Auth.isLoggedInUser, Auth.checkLevel(-1), function(req, res) {
-    
-    Categorias.getSubCategoriaByName(req.params.nameCat,req.params.nameSubCat,function(err,result){
-        if(err){
-            res.status(500).send("It was not possible to get the subcategory.");
-        }else{
-            res.send(result);
-        }
-    })
-});
-
-router.put('/validateSubCategoria/:nameCat/:nameSubCat', Auth.isLoggedInUser, Auth.checkLevel(6), async function(req, res) {
-    
-    Categorias.validateSubCategoria(req.params.nameCat,req.params.nameSubCat,function(err,cat){
-        if(err){
-        
-            res.status(500).send("It was not possible to validate the category.");
-        }else{
-            res.send('Category validated with success.');
-        }
-    })
-});
-
-router.get('/listAllSubCategorias/:name', Auth.isLoggedInUser, Auth.checkLevel(6), function(req, res) {
-    
-    Categorias.getAllSubCategorias(req.params.name,function(err,result){
-        if(err){
-            res.status(500).send("It was not possible to list all Subcategories.");
-        }else{
-            res.send(result);
-        }
-    })
-});
-
-router.get('/listAllSubCategoriasActive/:name', Auth.isLoggedInUser, Auth.checkLevel(-1), function(req, res) {
-    
-    Categorias.getAllSubCategoriasActive(req.params.name,function(err,result){
-        if(err){
-            res.status(500).send("It was not possible to list all Subcategories.");
-        }else{
-            res.send(result);
-        }
-    })
-});
-
-router.delete('/deleteSubCategoria/:nameCat/:nameSubCat', Auth.isLoggedInUser, Auth.checkLevel(6), function(req, res) {
-    
-    Categorias.deleteSubCategoriaByName(req.params.nameCat,req.params.nameSubCat,function(err,result){
-        if(err){
-            res.status(500).send("It was not possible to delete the Subcategory.");
-        }else{
-            res.send(result);
         }
     })
 });
