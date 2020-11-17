@@ -19,7 +19,7 @@ var ServiceSchema = mongoose.Schema({
         required: true
     },
     fatura: {
-        type: Buffer
+        type: String
     },
     review: {
         client: {
