@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar app color="indigo darken-4" dark height="64px">
+  <v-app-bar app color="primary" dark height="64px">
     <v-btn to="/" icon>
       <v-icon large>home</v-icon>
     </v-btn>
@@ -23,7 +23,7 @@
     <v-toolbar-title class="subheading">
       <v-btn
         class="mr-2"
-        color="indigo accent-4"
+        color="blue darken-4"
         to="/users/login"
         v-if="this.$store.state.name === ''"
       >
@@ -31,7 +31,7 @@
       </v-btn>
 
       <v-btn
-        color="indigo accent-4"
+        color="blue darken-4"
         to="/users/registo"
         v-if="this.$store.state.name === ''"
       >
@@ -43,14 +43,14 @@
       >
       <v-btn
         class="mr-2"
-        color="indigo accent-4"
+        color="blue darken-4"
         v-if="this.$store.state.name != ''"
         @click="$router.push('/users/alteracaoPassword')"
       >
         Change Password
       </v-btn>
       <v-btn
-        color="indigo accent-4"
+        color="blue darken-4"
         v-if="this.$store.state.name != ''"
         @click="logoutUtilizador"
       >

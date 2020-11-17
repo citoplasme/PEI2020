@@ -1,11 +1,5 @@
 <template>
-  <v-app-bar
-    color="indigo darken-4"
-    dark
-    dense
-    height="80px"
-    style="max-height:80px"
-  >
+  <v-app-bar color="primary" dark dense height="80px" style="max-height:80px">
     <v-toolbar-title>
       Servicify
     </v-toolbar-title>
@@ -15,7 +9,13 @@
 
     <v-spacer></v-spacer>
 
-    <div><v-icon>build</v-icon></div>
+    <div>
+      <v-img
+        :src="require('../assets/hands.png')"
+        width="110px"
+        height="70px"
+      />
+    </div>
 
     <v-spacer></v-spacer>
 

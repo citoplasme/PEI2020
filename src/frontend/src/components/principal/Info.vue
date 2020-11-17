@@ -12,7 +12,7 @@
               <v-card-text>
                 <p>
                   <b>Servicify</b> is a platform developed to help people find
-                  service providers.
+                  the best service providers.
                 </p>
               </v-card-text>
             </v-card>
@@ -27,7 +27,7 @@
 export default {
   data() {
     return {
-      panelHeaderColor: "indigo darken-4"
+      panelHeaderColor: "primary"
     };
   }
 };
