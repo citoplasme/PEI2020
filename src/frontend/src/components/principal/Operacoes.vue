@@ -1,7 +1,7 @@
 <template>
   <v-card class="ma-4 pa-2">
     <v-toolbar :color="panelHeaderColor" dark>
-      <v-toolbar-title>Data Categories</v-toolbar-title>
+      <v-toolbar-title>Operations</v-toolbar-title>
     </v-toolbar>
     <v-card-text>
       <v-expansion-panels>
@@ -15,7 +15,7 @@
               <div>
                 <v-btn
                   v-for="op in item.ops"
-                  color="blue darken-4"
+                  color="primary"
                   dark
                   class="ma-2"
                   @click="go(op.url)"
@@ -47,12 +47,12 @@ export default {
       panelHeaderColor: "primary",
       operacoes: [
         {
-          entidade: "Data Type",
-          texto: "Description",
+          entidade: "Categories",
+          texto: "View avaiable categories",
           ops: [
             {
               label: "View",
-              url: "/"
+              url: "/categories/list"
             }
           ]
         }

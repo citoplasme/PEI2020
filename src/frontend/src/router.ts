@@ -87,6 +87,13 @@ export default new Router({
       name: "renovarApi",
       component: () => import("./views/gestao/api/RenovarChaveApi.vue"),
       meta: { levels: [0, 1, 2, 3, 3.5, 4, 5, 6, 7] }
+    },
+    //Routes to monitor categories
+    {
+      path: "/categories/list",
+      name: "categoriesList",
+      component: () => import("./views/categories/CategoriesList.vue"),
+      meta: { levels: [0, 1, 2, 3, 3.5, 4, 5, 6, 7] }
     }
   ]
 });
