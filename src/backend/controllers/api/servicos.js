@@ -27,3 +27,26 @@ Services.criar = n => {
     var newService = new Service(n);
     return newService.save(); 
 }
+
+Services.eliminar = function(id, callback){
+    Service.findOneAndRemove({_id: id}, function(err, noticia){
+        if (err) {	
+            callback(err, null);
+        } else if(!noticia){
+            try{
+                id = mongoose.Types.ObjectId(id)
+                Service.findOneAndRemove({_id: id}, function(err2, noticia2){
+                    if(err2){
+                        callback(err2, null);
+                    }else{
+                        callback(null, noticia2);
+                    }
+                })
+            }catch(e){
+                callback("The service does not exist.", null)
+            }
+        } else {
+		    callback(null, noticia);
+        }
+    });
+}

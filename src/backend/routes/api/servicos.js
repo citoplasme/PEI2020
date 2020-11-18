@@ -173,5 +173,47 @@ router.post('/', Auth.isLoggedInUser, Auth.checkLevel([1, 2, 3, 3.5, 4, 5, 6, 7]
 // PUT/:id
 
 // DELETE/:id
+router.delete('/:id', Auth.isLoggedInUser, Auth.checkLevel([1, 2, 3, 3.5, 4, 5, 6, 7]), [
+    eMongoId('param', 'id')
+], function(req, res) {
+    const errors = validationResult(req)
+    if(!errors.isEmpty()){
+        return res.status(422).jsonp(errors.array())
+    }
+
+    // In case its an admin, delete is available
+    if(req.user.level >= 6){
+        Services.eliminar(req.params.id, function(err, user){
+            if(err){
+                res.status(500).send("An error ocurred while deleting the service.");
+            }else{
+                res.send('Service successfully deleted.')
+            }
+        })
+    }
+    // Otherwise only services requests only associated to the user can be deleted
+    else {
+        Services.consultar(req.params.id)
+            .then(dados => {
+                if(dados){
+                    // service with no service provider and the client is the user
+                    if(req.user.id === dados.client && dados.service_provider === undefined){
+                        Services.eliminar(req.params.id, function(err, user){
+                            if(err){
+                                res.status(500).send("An error ocurred while deleting the service.");
+                            }else{
+                                res.send('Service successfully deleted.')
+                            }
+                        })
+                    } else {
+                        res.status(500).send('An error occurred while deleting the service: the service is associated to multiple users.')
+                    }
+                } else {
+                    res.status(404).send(`Error: The data item with identified by '${req.params.id}' does not exist on the services.`)
+                }
+            })
+	        .catch(erro => res.status(500).send(`Error while listing the service with identifier '${req.params.id}': ${erro}`))
+    }
+});
 
 module.exports = router;
