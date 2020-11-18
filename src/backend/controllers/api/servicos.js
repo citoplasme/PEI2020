@@ -51,6 +51,27 @@ Services.update_fatura = function(id, fatura){
         .exec()
 }
 
+Services.update_review_from_client = function(id, review){
+    id = mongoose.Types.ObjectId(id);
+    return Service
+        .update({_id : id}, {$set : { "review.service_provider" : review}})
+        .exec()
+}
+
+Services.update_review_from_service_provider = function(id, review){
+    id = mongoose.Types.ObjectId(id);
+    return Service
+        .update({_id : id}, {$set : { "review.client" : review}})
+        .exec()
+}
+
+Services.update_status = function(id, status){
+    id = mongoose.Types.ObjectId(id);
+    return Service
+        .update({_id : id}, {$set : { status : status}})
+        .exec()
+}
+
 // DELETE
 Services.eliminar = function(id, callback){
     Service.findOneAndRemove({_id: id}, function(err, noticia){
@@ -73,4 +94,15 @@ Services.eliminar = function(id, callback){
 		    callback(null, noticia);
         }
     });
+}
+
+// KARMA
+Services.calculate_karma_client = function(obj){
+    var val = obj.ponctuality * 0.1 + obj.quality * 0.2 + obj.security * 0.2 + obj.attendance * 0.1 + obj.general * 0.4;
+    return val;
+}
+
+Services.calculate_karma_service_provider = function(obj){
+    var val = obj.ponctuality * 0.1 + obj.payment * 0.3 + obj.security * 0.2 + obj.general * 0.4;
+    return val;
 }
