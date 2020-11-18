@@ -89,6 +89,7 @@
           <tr>
             <td class="subheading">{{ props.item.name }}</td>
             <td class="subheading">{{ props.item.desc }}</td>
+            <td class="subheading">{{ props.item.status }}</td>
             <td class="subheading">
               <v-tooltip bottom>
                 <template v-slot:activator="{ on }">
@@ -133,6 +134,12 @@ export default {
         class: "title"
       },
       {
+        text: "Status",
+        sortable: true,
+        value: "status",
+        class: "title"
+      },
+      {
         text: "Operations",
         value: "ops"
       }
@@ -154,6 +161,9 @@ export default {
     async getCategories() {
       try {
         var response = await this.$request("get", "/categorias?status=1");
+
+        //console.log("Categorias:", response.data)
+
         this.categories = response.data;
       } catch (e) {
         return e;
