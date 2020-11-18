@@ -5,7 +5,7 @@ var Services = require('../../controllers/api/servicos.js');
 var Users = require('../../controllers/api/users.js');
 var url = require('url')
 var validKeys = ["client", "service_provider", "urgent", "status", "date", "hour", "duration", "desc"];
-const { validationResult } = require('express-validator');
+const { validationResult, body } = require('express-validator');
 const { existe, eMongoId, dataValida, horaValida, vcServiceStatus, estaEm } = require('../validation')
 
 // Para os ficheiros
@@ -279,7 +279,16 @@ router.put('/:id/bid', Auth.isLoggedInUser, Auth.checkLevel([1, 2, 3, 3.5, 4, 5,
 // Check if user is service provider of the service
     // Check if status is >= 3 
         // Adds fatura
-router.put('/:id/bill', Auth.isLoggedInUser, Auth.checkLevel([1, 2, 3, 3.5, 4, 5, 6, 7]), function (req, res) {
+router.put('/:id/bill', Auth.isLoggedInUser, Auth.checkLevel([3, 3.5, 4, 5, 6, 7]), [
+    eMongoId('param', 'id')
+], function (req, res) {
+    
+    const errors = validationResult(req)
+
+    if(!errors.isEmpty()){
+        return res.status(422).jsonp(errors.array())
+    }
+
     var form = new formidable.IncomingForm()
     form.parse(req, async (error, fields, formData) => {
         if(!error){
@@ -338,6 +347,142 @@ router.put('/:id/bill', Auth.isLoggedInUser, Auth.checkLevel([1, 2, 3, 3.5, 4, 5
             // Check if both reviews are present 
                 // Updates status
                     // Updates karma
+router.put('/:id/review', Auth.isLoggedInUser, Auth.checkLevel([1, 2, 3, 3.5, 4, 5, 6, 7]), [
+    eMongoId('param', 'id')
+], (req, res) => {
+    const errors = validationResult(req)
+
+    if(!errors.isEmpty()){
+        return res.status(422).jsonp(errors.array())
+    }
+    
+    Services.consultar(req.params.id)
+        .then(dados => {
+            if(dados) {
+                // review phase
+                if(dados.status === 3){
+                    // Check if user is part of the service
+                    if(dados.client === req.user.id || dados.service_provider === req.user.id ){
+                        // Check if user is the client 
+                        if(dados.client === req.user.id){
+                            // Check if every field is present
+                            if(req.body.ponctuality && req.body.quality && req.body.security && req.body.attendance && req.body.general){
+                                // Check if values are numbers
+                                if(typeof req.body.ponctuality === "number" && typeof req.body.quality === "number" && typeof req.body.security === "number" && typeof req.body.attendance === "number" && typeof req.body.general === "number"){
+                                    let review = {
+                                        ponctuality: req.body.ponctuality,
+                                        quality: req.body.quality,
+                                        security: req.body.security, 
+                                        attendance: req.body.attendance,
+                                        general: req.body.general,
+                                    };
+
+                                    // Check if desc is present
+                                    if (req.body.comentario){
+                                        review.comentario = req.body.comentario;
+                                    }
+
+                                    // Calculate karma for this service
+                                    review.karma = Services.calculate_karma_client(review);
+
+                                    // Update the DB
+                                    Services.update_review_from_client(req.params.id, review)
+                                            .then(dados => {
+                                                if(dados) {
+                                                    // Check if both reviews are present
+                                                    if(dados.review && dados.review.client && dados.review.service_provider){
+                                                        // Update status
+                                                        Services.update_status(req.params.id, 4)
+                                                            .then(dados => {
+                                                                if(dados) res.jsonp("Review added and service status successfully updated to the service.") // UPDATE USER KARMA !!!!!!!!
+                                                                else res.status(500).jsonp("Error while adding the review and updating the status for the service with identifier '" + req.params.id + "'.")
+                                                            })
+                                                            .catch(erro => res.status(500).jsonp("Error while adding the review and updating the status for the service with identifier '" + req.params.id + "': " + erro))
+                                                    }
+                                                    else {   
+                                                        res.jsonp("Review successfully added to service.")
+                                                    }
+                                                }
+                                                else res.status(500).jsonp("Error while adding the review for the service with identifier '" + req.params.id + "'.")
+                                            })
+                                            .catch(erro => res.status(500).jsonp("Error while adding the review for the service with identifier '" + req.params.id + "': " + erro))
+
+                                } 
+                                else {
+                                    res.status(500).jsonp("Error updating the service: the review fields are numeric, expect for the comment.")
+                                }
+                            }
+                              
+                        }
+                        // Check if user is the service_provider
+                        else if(dados.service_provider === req.user.id ){
+                            // Check if every field is present
+                            if(req.body.payment && req.body.ponctuality && req.body.security && req.body.general){
+                                // Check if values are numeric
+                                if(typeof req.body.payment === "number" && typeof req.body.ponctuality === "number" && typeof req.body.security === "number" && typeof req.body.general === "number"){
+                                
+                                    let review = {
+                                        ponctuality: req.body.ponctuality,
+                                        payment: req.body.payment,
+                                        security: req.body.security, 
+                                        general: req.body.general,
+                                    };
+
+                                    // Check if desc is present
+                                    if (req.body.comentario){
+                                        review.comentario = req.body.comentario;
+                                    }
+
+                                    // Calculate karma for this service
+                                    review.karma = Services.calculate_karma_service_provider(review);
+
+                                    // Update the DB
+                                    Services.update_review_from_service_provider(req.params.id, review)
+                                    .then(dados => {
+                                        if(dados) {
+                                            // Check if both reviews are present
+                                            if(dados.review && dados.review.client && dados.review.service_provider){
+                                                // Update status
+                                                Services.update_status(req.params.id, 4)
+                                                    .then(dados => { 
+                                                        if(dados) res.jsonp("Review added and service status successfully updated to the service.") // UPDATE USER KARMA !!!!!!!!
+                                                        else res.status(500).jsonp("Error while adding the review and updating the status for the service with identifier '" + req.params.id + "'.")
+                                                    })
+                                                    .catch(erro => res.status(500).jsonp("Error while adding the review and updating the status for the service with identifier '" + req.params.id + "': " + erro))
+                                            }
+                                            else {   
+                                                res.jsonp("Review successfully added to service.")
+                                            }
+                                        }
+                                        else res.status(500).jsonp("Error while adding the review for the service with identifier '" + req.params.id + "'.")
+                                    })
+                                    .catch(erro => res.status(500).jsonp("Error while adding the review for the service with identifier '" + req.params.id + "': " + erro))
+                                } 
+                                else {
+                                    res.status(500).jsonp("Error updating the service: the review fields are numeric, expect for the comment.")
+                                }
+                            }
+                        }
+                        else {
+                            res.status(500).jsonp("Error updating the service: you are not part of the service.")
+                        }
+                    }
+                    else {
+                        res.status(500).jsonp("Error updating the service: you are not part of the service.")
+                    }
+                }
+                else {
+                    res.status(500).jsonp("Error updating the service: the service is not on review status.")
+                }
+            }
+            else {
+                res.status(500).jsonp("Error updating the service with identifier '" + req.params.id + "':.")
+            }
+        })
+        .catch(error => res.status(500).jsonp("Error updating the service with identifier '" + req.params.id + "': " + error))
+})
+
+
 
 // PUT/:id/status
 // Check if user is part of the service
@@ -347,6 +492,9 @@ router.put('/:id/bill', Auth.isLoggedInUser, Auth.checkLevel([1, 2, 3, 3.5, 4, 5
     // If new status == -2 Recused || new status == 2 accepted
         // Check if last bid was from the other part of the service
             // Update status 
+    // If new status === 4 
+        // Update Karmas
+            // Update status
     // Else
         // Updates status
 
