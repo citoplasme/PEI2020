@@ -87,7 +87,7 @@ router.put('/:id', Auth.isLoggedInUser, Auth.checkLevel([6, 7]), [
     existe("body", "name"),
     existe("body", "country"),
     eMongoId('body', 'country'),
-    eMongoId('params', 'id')
+    eMongoId('param', 'id')
 ], (req, res) => {
     const errors = validationResult(req)
     if(!errors.isEmpty()){
