@@ -433,6 +433,18 @@ Users.atualizarTermsOfService = function(id, callback) {
             }
         }
     });
+}   
+
+/* Passa termsOfService de todos a falso */
+Users.uncheckTermsOfService = function(callback) {
+    try {
+        var x = User.updateMany({"level": {$lt:4}},{$set: {"termsofservice" : false}})
+        callback(null,x)
+    }
+    catch (err) {
+        callback(err,null)
+    }
+    
 }
 
 Users.savePhoto = function(id, photo, callback) {
