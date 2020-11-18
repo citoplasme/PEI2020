@@ -1,0 +1,9 @@
+- _id: "5fb3e8d619c78d1bc2ad3836"
+  name: "Classes"
+  desc: "Find suitable professional help to improve your skills"
+  status: 1
+  subCategorias:
+    - _id: "5fb3e8d619c78d1bc2ad3836"
+      name: "Painting class"
+      desc: "Experienced professionals teaching paiting classes in Portugal"
+      status: 0

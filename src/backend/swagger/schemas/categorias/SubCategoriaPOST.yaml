@@ -1,0 +1,11 @@
+type: object
+properties:
+  descCategoria:
+    type: string
+  nameSubCategoria:
+    type: string
+  descSubCategoria:
+    type: string
+  required:
+  - nameSubCategoria
+  - descSubCategoria

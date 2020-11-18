@@ -1,0 +1,40 @@
+summary: Returns the Sub Category of a Category.
+description: Returns the Sub Category of a Category.
+security:
+  - apiKeyQuery: []
+  - apiKeyAuth: []
+  - userQuery: []
+  - userAuth: []
+tags:
+  - Categories
+parameters:
+  - name: nameCat
+    in: path
+    description: 'Name of the category'
+    schema:
+      type: string
+    required: true
+  - name: nameSubCat
+    in: path
+    description: 'Name of the subcategory'
+    schema:
+      type: string
+    required: true
+responses:
+  200:
+    description: Returns the subCategory.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/SubCategoria'
+        examples:
+          Example of a SubCategories:
+            $ref: '#/components/examples/SubCategoria'
+  401:
+    $ref: '#/components/responses/UnauthorizedUser'
+  403:
+    $ref: '#/components/responses/PermissionsUser'
+  422:
+    $ref: '#/components/responses/ValidationParameters'
+  500:
+    description: Error.
