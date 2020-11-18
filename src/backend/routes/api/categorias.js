@@ -84,7 +84,10 @@ router.get('/', Auth.isLoggedInKey,existe("query", "status").optional(), (req, r
         if(err){
             res.status(500).send("It was not possible to list all categories.");
         }else{
-            res.send(result);
+            if(result.length == 0){
+                res.status(422).send("Some of the parameters are invalid or missing.")
+            }
+            else res.send(result);
         }
     })
 });
@@ -107,7 +110,10 @@ router.get('/:name', Auth.isLoggedInUser, Auth.checkLevel(-1), function(req, res
         if(err){
             res.status(500).send("It was not possible to get the category.");
         }else{
-            res.send(result);
+            if(result == null){
+                res.status(422).send("Some of the parameters are invalid or missing.");
+            }
+            else res.send(result);
         }
     })
 });
@@ -168,7 +174,10 @@ router.get('/:name/subCategorias', Auth.isLoggedInKey,existe("query", "status").
         if(err){
             res.status(500).send("It was not possible to list all Subcategories.");
         }else{
-            res.send(result);
+            if(result.length == 0){
+                res.status(422).send("Some of the parameters are invalid or missing.");
+            }
+            else res.send(result);
         }
     })
 });

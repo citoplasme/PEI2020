@@ -146,11 +146,16 @@ Categorias.editSubCategoria = function (newCategoria, callback) {
             callback(err,null);
         } else{
             encontrou=null;
-            foundCat.subCategorias.forEach(function(element){
-                if(element.name==newCategoria.subCategorias[0].name){
-                    encontrou=element;
-                }
-            })
+
+            var isNull = (foundCat == null) ? true : false
+
+            if(isNull != true){
+                foundCat.subCategorias.forEach(function(element){
+                    if(element.name==newCategoria.subCategorias[0].name){
+                        encontrou=element;
+                    }
+                })
+            }
             if (encontrou!=null){
                 try {
                     if (newCategoria.subCategorias[0].desc!=null)
