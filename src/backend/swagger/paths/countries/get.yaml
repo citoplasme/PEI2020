@@ -1,12 +1,12 @@
-summary: Returns the full locations list if no country is passed.
-description: Returns the full locations list if no country is passed.
+summary: Returns the full countries list if no name is passed.
+description: Returns the full countries list if no name is passed.
 security:
   - apiKeyQuery: []
   - apiKeyAuth: []
   - userQuery: []
   - userAuth: []
 tags:
-  - Locations
+  - Countries
 parameters:
   - in: query
     name: country
@@ -14,23 +14,16 @@ parameters:
       type: string
     description: "Returns the country with that name"
     required: false
-  - in: query
-    name: name
-    schema:
-      type: string
-    description: "Returns the location with that name"
-    required: false
 responses:
   200:
     description: Returns the country list.
     content:
       application/json:
         schema:
-          oneOf:
-            - $ref: '#/components/schemas/Locations'
+          $ref: '#/components/schemas/Countries'
         examples:
-          Example of a list of locations:
-            $ref: '#/components/examples/Locations'
+          Example of a list of countries:
+            $ref: '#/components/examples/Countries'
   401:
     $ref: '#/components/responses/UnauthorizedUser'
   403:
