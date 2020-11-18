@@ -29,7 +29,8 @@ var ServiceSchema = mongoose.Schema({
     },
     status: {
         type: Number,
-        required: true
+        required: true,
+        default: 0
     },
     desc : {
         type: String
@@ -56,7 +57,7 @@ var ServiceSchema = mongoose.Schema({
             },
             karma: {
                 type: Number
-            }
+            },
         },
         service_provider: {
             ponctuality: {
@@ -94,6 +95,6 @@ var ServiceSchema = mongoose.Schema({
     duration: {
         type: String
     }
-});
+}, { minimize: false });
 
 module.exports = mongoose.model('Service', ServiceSchema, 'services');

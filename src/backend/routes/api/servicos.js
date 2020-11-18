@@ -350,6 +350,7 @@ router.put('/:id/bill', Auth.isLoggedInUser, Auth.checkLevel([3, 3.5, 4, 5, 6, 7
 router.put('/:id/review', Auth.isLoggedInUser, Auth.checkLevel([1, 2, 3, 3.5, 4, 5, 6, 7]), [
     eMongoId('param', 'id')
 ], (req, res) => {
+
     const errors = validationResult(req)
 
     if(!errors.isEmpty()){
@@ -381,7 +382,6 @@ router.put('/:id/review', Auth.isLoggedInUser, Auth.checkLevel([1, 2, 3, 3.5, 4,
                                     if (req.body.comentario){
                                         review.comentario = req.body.comentario;
                                     }
-
                                     // Calculate karma for this service
                                     review.karma = Services.calculate_karma_client(review);
 
@@ -412,7 +412,9 @@ router.put('/:id/review', Auth.isLoggedInUser, Auth.checkLevel([1, 2, 3, 3.5, 4,
                                     res.status(500).jsonp("Error updating the service: the review fields are numeric, expect for the comment.")
                                 }
                             }
-                              
+                            else {
+                                res.status(500).jsonp("Error updating the service: some review fields are missing.")
+                            }  
                         }
                         // Check if user is the service_provider
                         else if(dados.service_provider === req.user.id ){
@@ -432,7 +434,6 @@ router.put('/:id/review', Auth.isLoggedInUser, Auth.checkLevel([1, 2, 3, 3.5, 4,
                                     if (req.body.comentario){
                                         review.comentario = req.body.comentario;
                                     }
-
                                     // Calculate karma for this service
                                     review.karma = Services.calculate_karma_service_provider(review);
 
@@ -461,6 +462,9 @@ router.put('/:id/review', Auth.isLoggedInUser, Auth.checkLevel([1, 2, 3, 3.5, 4,
                                 else {
                                     res.status(500).jsonp("Error updating the service: the review fields are numeric, expect for the comment.")
                                 }
+                            } 
+                            else {
+                                res.status(500).jsonp("Error updating the service: some review fields are missing.")
                             }
                         }
                         else {

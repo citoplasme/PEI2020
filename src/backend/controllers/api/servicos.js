@@ -28,6 +28,10 @@ Services.consultar_from_user = (id, user) => {
 // POST
 Services.criar = n => {
     n._id = mongoose.Types.ObjectId();
+    n.review = {
+        client: {},
+        service_provider: {}
+    };
     var newService = new Service(n);
     return newService.save(); 
 }
