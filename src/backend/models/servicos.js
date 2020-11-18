@@ -97,11 +97,32 @@ var ServiceSchema = mongoose.Schema({
     }
 }, { minimize: false });
 
+var Services = require('../controllers/api/servicos.js');
+
 // After an update, this trigger is released
 ServiceSchema.post("update", function(doc) { // utilizar para mudar o status para 4 após as reviews estarem presentes
-    console.log('Updated'); // e quando o estado fica a 4 -> atualizar karma dos dois intervenientes
-    console.log(this)
-    console.log(doc)
+    // e quando o estado fica a 4 -> atualizar karma dos dois intervenientes
+    
+    // Get the updated _id
+    if(this._conditions._id){
+        Services.consultar(this._conditions._id)
+            .then(data => {
+                // Check if both reviews are present
+                if(data && data.status && data.status === 3 && data.review && data.review.client && data.review.service_provider && data.review.client.karma && data.review.service_provider.karma){
+                    Services.update_status(this._conditions._id, 4)
+                        .then(data => {
+                            console.log("Status succesfully updated for service: " + this._conditions._id)
+                        })
+                        .catch(error => {
+                            console.log("An error occurred while checking the status for service " + this._conditions._id + ": " + error);
+                        })
+                }
+            })
+            .catch(error => {
+                console.log("An error occurred while checking the status for service " + this._conditions._id + ": " + error);
+            })
+    }
+    
 });
 
 module.exports = mongoose.model('Service', ServiceSchema, 'services');
