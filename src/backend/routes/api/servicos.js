@@ -4,7 +4,7 @@ var router = express.Router();
 var Services = require('../../controllers/api/servicos.js');
 var Users = require('../../controllers/api/users.js');
 var url = require('url')
-var validKeys = ["client", "service_provider", "urgent", "status", "date", "hour", "duration"];
+var validKeys = ["client", "service_provider", "urgent", "status", "date", "hour", "duration", "desc"];
 const { validationResult } = require('express-validator');
 const { existe, eMongoId, dataValida, horaValida, vcServiceStatus, estaEm } = require('../validation')
 
@@ -18,7 +18,8 @@ router.get('/', Auth.isLoggedInUser, [
     existe("query", "urgent").optional(),
     existe("query", "date").optional(),
     existe("query", "hour").optional(),
-    existe("query", "duration").optional()
+    existe("query", "duration").optional(),
+    existe("query", "desc").optional()
 ], async function (req, res) {
     
     const errors = validationResult(req)
@@ -87,10 +88,11 @@ router.post('/', Auth.isLoggedInUser, Auth.checkLevel([1, 2, 3, 3.5, 4, 5, 6, 7]
     existe("body", "client"),
     existe("body", "service_provider").optional(),
     existe("body", "urgent"),
-    estaEm('body', 'status', vcServiceStatus), //existe("body", "status"), // VALIDAR STATUS
+    estaEm('body', 'status', vcServiceStatus),
     dataValida("body", "date").optional(), 
     horaValida("body", "hour").optional(), 
     existe("body", "duration").optional(),
+    existe("body", "desc").optional(),
 ], async function (req, res) {
     const errors = validationResult(req)
     if(!errors.isEmpty()){
@@ -171,6 +173,75 @@ router.post('/', Auth.isLoggedInUser, Auth.checkLevel([1, 2, 3, 3.5, 4, 5, 6, 7]
 })
 
 // PUT/:id
+
+// PUT/:id/bid
+// Check if user is part of the service
+    // Check if status is negotiation 
+        // Adds bid to array
+router.put('/:id/bid', Auth.isLoggedInUser, Auth.checkLevel([1, 2, 3, 3.5, 4, 5, 6, 7]), [
+    eMongoId('param', 'id'),
+    existe("body", "value")
+], (req, res) => {
+    const errors = validationResult(req)
+
+    if(!errors.isEmpty()){
+        return res.status(422).jsonp(errors.array())
+    }
+    
+    Services.consultar(req.params.id)
+        .then(dados => {
+            if(dados) {
+                // Check if user is part of the service
+                if(dados.client === req.user.id || dados.service_provider === req.user.id ){
+                    // Check status
+                    if(dados.status === 1){
+                        // Update the bidding array
+                        Services.update_bid(req.params.id, req.body.value, req.user.id)
+                            .then(dados => {
+                                if(dados) res.jsonp("Bid successfully added to service.")
+                                else res.status(500).jsonp("Error while negotiating the service with identifier '" + req.params.id + "'.")
+                            })
+                            .catch(erro => res.status(500).jsonp("Error while negotiating the service with identifier '" + req.params.id + "': " + erro))
+                    }
+                    else {
+                        res.status(500).jsonp("Error updating the service: the service is not on negotiation status.")
+                    }
+                }
+                else {
+                    res.status(500).jsonp("Error updating the service: you are not part of the service.")
+                }
+            }
+            else {
+                res.status(500).jsonp("Error updating the service with identifier '" + req.params.id + "':.")
+            }
+        })
+        .catch(error => res.status(500).jsonp("Error updating the service with identifier '" + req.params.id + "': " + error))
+})
+
+// PUT/:id/fatura
+// Check if user is service provider of the service
+    // Check if status is >= 3 
+        // Adds fatura
+
+
+// PUT/:id/review
+// Check if user is part of the service
+    // Check if status is == 3 
+        // Adds review
+            // Check if both reviews are present 
+                // Updates status
+                    // Updates karma
+
+// PUT/:id/status
+// Check if user is part of the service
+    // If new status == -1 Canceled
+        // Checks if date - now >= 24h
+            // Updates status
+    // If new status == -2 Recused || new status == 2 accepted
+        // Check if last bid was from the other part of the service
+            // Update status 
+    // Else
+        // Updates status
 
 // DELETE/:id
 router.delete('/:id', Auth.isLoggedInUser, Auth.checkLevel([1, 2, 3, 3.5, 4, 5, 6, 7]), [

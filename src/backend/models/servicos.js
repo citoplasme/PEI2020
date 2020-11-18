@@ -31,6 +31,9 @@ var ServiceSchema = mongoose.Schema({
         type: Number,
         required: true
     },
+    desc : {
+        type: String
+    },
     fatura: {
         type: String // Base 64 encoding
     },

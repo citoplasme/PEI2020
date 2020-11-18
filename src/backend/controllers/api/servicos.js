@@ -2,6 +2,8 @@ var Service = require('../../models/servicos');
 var mongoose = require('mongoose');
 var Services = module.exports;
 
+
+// GET
 Services.listar = (filtro) => {
     return Service.find(filtro);
 };
@@ -22,12 +24,27 @@ Services.consultar_from_user = (id, user) => {
     return Service.findOne({ _id: id, $or:[{ client : user }, { service_provider : user}]});
 };
 
+
+// POST
 Services.criar = n => {
     n._id = mongoose.Types.ObjectId();
     var newService = new Service(n);
     return newService.save(); 
 }
 
+// PUT
+Services.update_bid = function(id, value, user){
+    var bid = {
+        user : user,
+        value : value
+    };
+    id = mongoose.Types.ObjectId(id);
+    return Service
+        .update({_id : id}, {$push : { orcamento : bid}})
+        .exec()
+}
+
+// DELETE
 Services.eliminar = function(id, callback){
     Service.findOneAndRemove({_id: id}, function(err, noticia){
         if (err) {	
