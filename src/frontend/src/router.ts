@@ -94,6 +94,12 @@ export default new Router({
       name: "categoriesList",
       component: () => import("./views/categories/CategoriesList.vue"),
       meta: { levels: [0, 1, 2, 3, 3.5, 4, 5, 6, 7] }
+    },
+    {
+      path: "/categories/:name",
+      name: "categoryByName",
+      component: () => import("./views/categories/CategoryByName.vue"),
+      meta: { levels: [0, 1, 2, 3, 3.5, 4, 5, 6, 7] }
     }
   ]
 });

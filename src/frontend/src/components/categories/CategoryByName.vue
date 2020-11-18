@@ -2,7 +2,7 @@
   <v-content>
     <v-card class="ma-4">
       <v-card-title>
-        <h1>Categories</h1>
+        <h1>{{ categoryName }}</h1>
         <v-spacer></v-spacer>
         <v-text-field
           v-model="search"
@@ -11,9 +11,10 @@
           single-line
         ></v-text-field>
       </v-card-title>
+      <v-subheader>{{ categoryDesc }}</v-subheader>
       <v-data-table
         :headers="headers"
-        :items="categories"
+        :items="subCategories"
         :search="search"
         class="elevation-1"
         footer-props.items-per-page-options="[10, 20, 50]"
@@ -29,16 +30,7 @@
           <tr>
             <td class="subheading">{{ props.item.name }}</td>
             <td class="subheading">{{ props.item.desc }}</td>
-            <td class="subheading">
-              <v-tooltip bottom>
-                <template v-slot:activator="{ on }">
-                  <v-btn icon v-on="on" @click="go(props.item.name)">
-                    <v-icon medium color="primary">search</v-icon>
-                  </v-btn>
-                </template>
-                <span>See subcategories</span>
-              </v-tooltip>
-            </td>
+            <td class="subheading">{{ props.item.status }}</td>
           </tr>
         </template>
       </v-data-table>
@@ -48,6 +40,7 @@
 
 <script>
 export default {
+  props: ["categoryName"],
   data: () => ({
     search: "",
     headers: [
@@ -64,32 +57,34 @@ export default {
         class: "title"
       },
       {
-        text: "Operations",
-        value: "ops"
+        text: "Status",
+        sortable: true,
+        value: "status",
+        class: "title"
       }
     ],
     categories: [],
+    categoryDesc: "",
+    subCategories: [],
     color: "",
     text: ""
   }),
   async created() {
-    await this.getCategories();
+    await this.getSubCategories(this.categoryName);
   },
   methods: {
-    async getCategories() {
+    async getSubCategories(categoryName) {
       try {
-        var response = await this.$request("get", "/categorias?status=1");
-        this.categories = response.data;
+        var response = await this.$request(
+          "get",
+          "/categorias/" + categoryName
+        );
+
+        this.categoryDesc = response.data.desc;
+
+        this.subCategories = Array.from(response.data.subcategories);
       } catch (e) {
         return e;
-      }
-    },
-    go(categoryName) {
-      var url = "/categories/" + categoryName;
-      if (url.startsWith("http")) {
-        window.location.href = url;
-      } else {
-        this.$router.push(url);
       }
     }
   }
