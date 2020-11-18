@@ -1,0 +1,4 @@
+subcategorias:
+  type: array
+  items:
+    type: string
