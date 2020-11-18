@@ -434,3 +434,46 @@ Users.atualizarTermsOfService = function(id, callback) {
         }
     });
 }
+
+Users.savePhoto = function(id, photo, callback) {
+    Users.getUserById(id, async function(err, user) {
+        if (err) {
+            callback(err, null)
+        }
+        else {
+            user.photo = photo;
+            try {
+                user.save();
+                callback(null,user);
+            }
+            catch(err) {
+                callback(err, null);
+            }
+        }
+    });
+}
+
+Users.removePhoto = function(id, callback) {
+    Users.getUserById(id, async function(err, user) {
+        if (err) {
+            callback(err, null)
+        }
+        else {
+            if (user.photo) {
+                user.photo = undefined;
+                try {
+                    user.save();
+                    callback(null,user);
+                }
+                catch(err) {
+                    callback(err, null);
+                }
+            }
+            else {
+                callback('There is no uploaded photo.', null)
+            }
+        }
+    });
+}
+
+
