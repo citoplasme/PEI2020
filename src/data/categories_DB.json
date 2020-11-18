@@ -3,7 +3,7 @@
         "name": "Classes",
         "desc": "Find suitable professional help to improve your skills",
         "status": 1,
-        "subcategories": [
+        "subCategorias": [
             {
                 "name": "Painting class",
                 "desc": "Experienced professionals teaching painting classes in Portugal",
@@ -30,7 +30,7 @@
         "name": "Events",
         "desc": "Find suitable professional help to organize any type of event.",
         "status": 1,
-        "subcategories": [
+        "subCategorias": [
             {
                 "name": "Catering companies",
                 "desc": "The best catering companies in Portugal",
@@ -57,7 +57,7 @@
         "name": "Well-being",
         "desc": "Find suitable professional help to carry out any project.",
         "status": 0,
-        "subcategories": [
+        "subCategorias": [
             {
                 "name": "Babysitter",
                 "desc": "The most careful babysitters in Portugal",
