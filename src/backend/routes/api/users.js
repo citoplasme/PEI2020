@@ -282,4 +282,94 @@ router.get('/:id', Auth.isLoggedInUser, (req, res) => {
     }
 });
 
+router.put('/:id/addCategoria', Auth.isLoggedInUser, Auth.checkLevel(3), async function(req, res) {
+    Users.adicionarCategoria(req.params.id, req.body.categoria,function(err, user){
+        if(err){
+            res.status(500).send(err);
+        }else{
+            res.send('Category successfully assigned.');
+        }
+    })
+});
+
+router.delete('/:id/removerCategoria', Auth.isLoggedInUser, Auth.checkLevel(3), async function(req, res) {
+    Users.removerCategoria(req.params.id, req.body.categoria,function(err, user){
+        if(err){
+            res.status(500).send(err);
+        }else{
+            res.send('Category successfully removed.');
+        }
+    })
+});
+
+router.put('/:id/addCategorias', Auth.isLoggedInUser, Auth.checkLevel(3), async function(req, res) {
+    Users.adicionarCategorias(req.params.id, req.body.categorias,function(err, user){
+        if(err){
+            res.status(500).send(err);
+        }else{
+            res.send('Categories successfully assigned.');
+        }
+    })
+});
+
+router.delete('/:id/limparCategorias', Auth.isLoggedInUser, Auth.checkLevel(3), async function(req, res) {
+    Users.removerCategorias(req.params.id, function(err, user){
+        if(err){
+            res.status(500).send(err);
+        }else{
+            res.send('Categories successfully removed.');
+        }
+    })
+});
+
+router.put('/:id/addSubCategoria', Auth.isLoggedInUser, Auth.checkLevel(3), async function(req, res) {
+    Users.adicionarSubCategoria(req.params.id, req.body.subcategoria,function(err, user){
+        if(err){
+            res.status(500).send(err);
+        }else{
+            res.send('Subcategory successfully assigned.');
+        }
+    })
+});
+
+router.delete('/:id/removerSubCategoria', Auth.isLoggedInUser, Auth.checkLevel(3), async function(req, res) {
+    Users.removerSubCategoria(req.params.id, req.body.subcategoria,function(err, user){
+        if(err){
+            res.status(500).send(err);
+        }else{
+            res.send('Subcategory successfully removed.');
+        }
+    })
+});
+
+router.put('/:id/addSubCategorias', Auth.isLoggedInUser, Auth.checkLevel(3), async function(req, res) {
+    Users.adicionarCategorias(req.params.id, req.body.subcategorias,function(err, user){
+        if(err){
+            res.status(500).send(err);
+        }else{
+            res.send('Subcategories successfully assigned.');
+        }
+    })
+});
+
+router.delete('/:id/limparSubCategorias', Auth.isLoggedInUser, Auth.checkLevel(3), async function(req, res) {
+    Users.removerCategorias(req.params.id, function(err, user){
+        if(err){
+            res.status(500).send(err);
+        }else{
+            res.send('Subcategories successfully removed.');
+        }
+    })
+});
+
+router.put('/:id/updateToS', Auth.isLoggedInUser, async function(req, res) {
+    Users.atualizarTermsOfService(req.params.id,function(err, user){
+        if(err){
+            res.status(500).send(err);
+        }else{
+            res.send('Terms of Service updated successfully.');
+        }
+    })
+});
+
 module.exports = router;
