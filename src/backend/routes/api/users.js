@@ -283,63 +283,31 @@ router.get('/:id', Auth.isLoggedInUser, (req, res) => {
 });
 
 //-------------------------------------------------------------------------------------
-/* Fazem sentido estas duas? */
+
 /* Ver categorias */
-router.get('/:id/Categorias', Auth.isLoggedInUser, (req, res) => {
-    if((req.params.id == req.user.id && req.user.level === 3) || req.user.level >= 5){
+router.get('/:id/categorias', (req, res) => {
         Users.listarPorId(req.params.id,function(err, result){
             if(err){
                 res.status(500).send("It was not possible to obtain categories.");
             }else{
-                result._doc.local = result._doc.local.password ? true : false
                 res.json(result.categorias);
             }
         });
-    }else{
-        //Não tem permissões para aceder às categorias de outro utilizador
-        res.status(403).send("Your level is not high enough.")
-    }
 });
 
 /* Ver subcategorias */
-router.get('/:id/Subcategorias', Auth.isLoggedInUser, (req, res) => {
-    if((req.params.id == req.user.id && req.user.level === 3) || req.user.level >= 5){
+router.get('/:id/subCategorias', (req, res) => {
         Users.listarPorId(req.params.id,function(err, result){
             if(err){
                 res.status(500).send("It was not possible to obtain subcategories.");
             }else{
-                result._doc.local = result._doc.local.password ? true : false
                 res.json(result.subcategorias);
             }
         });
-    }else{
-        //Não tem permissões para aceder às subcategorias de outro utilizador
-        res.status(403).send("Your level is not high enough.")
-    }
 });
 //-------------------------------------------------------------------------------------
 
-router.put('/:id/addCategoria', Auth.isLoggedInUser, Auth.checkLevel(3), async function(req, res) {
-    Users.adicionarCategoria(req.params.id, req.body.categoria,function(err, user){
-        if(err){
-            res.status(500).send(err);
-        }else{
-            res.send('Category successfully assigned.');
-        }
-    })
-});
-
-router.delete('/:id/removerCategoria', Auth.isLoggedInUser, Auth.checkLevel(3), async function(req, res) {
-    Users.removerCategoria(req.params.id, req.body.categoria,function(err, user){
-        if(err){
-            res.status(500).send(err);
-        }else{
-            res.send('Category successfully removed.');
-        }
-    })
-});
-
-router.put('/:id/addCategorias', Auth.isLoggedInUser, Auth.checkLevel(3), async function(req, res) {
+router.put('/:id/categorias', Auth.isLoggedInUser, Auth.checkLevel(3), async function(req, res) {
     Users.adicionarCategorias(req.params.id, req.body.categorias,function(err, user){
         if(err){
             res.status(500).send(err);
@@ -349,53 +317,13 @@ router.put('/:id/addCategorias', Auth.isLoggedInUser, Auth.checkLevel(3), async 
     })
 });
 
-router.delete('/:id/limparCategorias', Auth.isLoggedInUser, Auth.checkLevel(3), async function(req, res) {
-    Users.removerCategorias(req.params.id, function(err, user){
-        if(err){
-            res.status(500).send(err);
-        }else{
-            res.send('Categories successfully removed.');
-        }
-    })
-});
-
 /* Pode adicionar subcategoria mesmo que nao tenha a categoria geral nas suas categorias? */
-router.put('/:id/addSubCategoria', Auth.isLoggedInUser, Auth.checkLevel(3), async function(req, res) {
-    Users.adicionarSubCategoria(req.params.id, req.body.subcategoria,function(err, user){
-        if(err){
-            res.status(500).send(err);
-        }else{
-            res.send('Subcategory successfully assigned.');
-        }
-    })
-});
-
-router.delete('/:id/removerSubCategoria', Auth.isLoggedInUser, Auth.checkLevel(3), async function(req, res) {
-    Users.removerSubCategoria(req.params.id, req.body.subcategoria,function(err, user){
-        if(err){
-            res.status(500).send(err);
-        }else{
-            res.send('Subcategory successfully removed.');
-        }
-    })
-});
-
-router.put('/:id/addSubCategorias', Auth.isLoggedInUser, Auth.checkLevel(3), async function(req, res) {
-    Users.adicionarCategorias(req.params.id, req.body.subcategorias,function(err, user){
+router.put('/:id/subCategorias', Auth.isLoggedInUser, Auth.checkLevel(3), async function(req, res) {
+    Users.adicionarSubCategorias(req.params.id, req.body.subcategorias,function(err, user){
         if(err){
             res.status(500).send(err);
         }else{
             res.send('Subcategories successfully assigned.');
-        }
-    })
-});
-
-router.delete('/:id/limparSubCategorias', Auth.isLoggedInUser, Auth.checkLevel(3), async function(req, res) {
-    Users.removerCategorias(req.params.id, function(err, user){
-        if(err){
-            res.status(500).send(err);
-        }else{
-            res.send('Subcategories successfully removed.');
         }
     })
 });
@@ -405,7 +333,7 @@ router.put('/:id/updateToS', Auth.isLoggedInUser, async function(req, res) {
         if(err){
             res.status(500).send(err);
         }else{
-            res.send('Terms of Service updated successfully.');
+            res.send('Terms of Service agreement updated successfully.');
         }
     })
 });

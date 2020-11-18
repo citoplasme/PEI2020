@@ -21,6 +21,25 @@ properties:
     properties:
       password:
         type: string
+  categorias:
+    type: array
+    items:
+      type: string
+  subcategorias:
+    type: array
+    items:
+      type: string
+  servicos_realizados:
+    type: integer
+    minimum: 0
+  karma:
+    type: integer
+    minimum: 0
+  termsofservice:
+    type: boolean
+    default: false
+  photo:
+    type: string
 required:
   - _id
   - email

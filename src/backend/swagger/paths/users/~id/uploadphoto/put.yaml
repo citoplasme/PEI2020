@@ -1,0 +1,34 @@
+summary: Upload user's photo.
+description: Upload user's photo.
+security:
+  - userQuery: []
+  - userAuth: []
+tags:
+  - Users
+parameters:
+  - name: id
+    in: path
+    description: 'User identifier'
+    schema:
+      type: string
+    required: true
+requestBody:
+  description: 'Photo'
+  required: true
+  content:
+    application/json:
+      schema:
+        photo: string
+      example:
+        photo: Base64 encoding image
+responses:
+  200:
+    description: Changed a user's account data.
+  401:
+    $ref: '#/components/responses/UnauthorizedUser'
+  403:
+    $ref: '#/components/responses/PermissionsUser'
+  422:
+    $ref: '#/components/responses/ValidationParameters'
+  500:
+    description: Error.

@@ -1,0 +1,26 @@
+summary: Consult the subcategories of a service provider.
+description: Consult the subcategories of a service provider.
+tags:
+  - Users
+parameters:
+  - name: id
+    in: path
+    description: 'User identifier'
+    schema:
+      type: string
+    required: true
+responses:
+  200:
+    description: Subcategories of a service provider.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/UserSubCategorias'
+  401:
+    $ref: '#/components/responses/UnauthorizedUser'
+  403:
+    $ref: '#/components/responses/PermissionsUser'
+  422:
+    $ref: '#/components/responses/ValidationParameters'
+  500:
+    description: Error.

@@ -413,7 +413,7 @@ Users.incrementarServicosRealizados = function(id, callback) {
     });   
 }
 
-Users.atualizarKarma = function(id, callback) {
+Users.atualizarKarma = function(id, valor,callback) {
     // TODO : Conta manhosa ?
 }
 

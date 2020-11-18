@@ -1,0 +1,36 @@
+summary: Update service provider subcategories.
+description: Update service provider subcategories.
+security:
+  - userQuery: []
+  - userAuth: []
+tags:
+  - Users
+parameters:
+  - name: id
+    in: path
+    description: 'User identifier'
+    schema:
+      type: string
+    required: true
+requestBody:
+  description: 'SubCategories to update.'
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        properties: 
+          categorias:
+      example:
+          subcategorias: [subcategoria]
+responses:
+  200:
+    description: Updated categories of the service provider.
+  401:
+    $ref: '#/components/responses/UnauthorizedUser'
+  403:
+    $ref: '#/components/responses/PermissionsUser'
+  422:
+    $ref: '#/components/responses/ValidationParameters'
+  500:
+    description: Error.
