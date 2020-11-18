@@ -21,3 +21,9 @@ Services.consultar_from_user = (id, user) => {
     id = mongoose.Types.ObjectId(id);
     return Service.findOne({ _id: id, $or:[{ client : user }, { service_provider : user}]});
 };
+
+Services.criar = n => {
+    n._id = mongoose.Types.ObjectId();
+    var newService = new Service(n);
+    return newService.save(); 
+}

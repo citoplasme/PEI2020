@@ -70,8 +70,34 @@ module.exports.eMongoId = function (location, field, ifF) {
       .existe(location, field, ifF)
       .bail()
       .isMongoId()
-      .withMessage("Formato do id inválido");
+      .withMessage("Invalid id format");
 };
+
+module.exports.dataValida = function (location, field, ifF) {
+    ifF = ifF || undefined;
+    return module.exports
+      .existe(location, field, ifF)
+      .bail()
+      .matches(/^\d{4}-\d{2}-\d{2}$/) //garante formato da data
+      .withMessage("The date must follow the format: AAAA-MM-DD")
+      .bail()
+      .isISO8601({ strict: true }) //garante formato(mais flexivel) e se a data é válida
+      .withMessage("The date is invalid");
+  };
+
+  module.exports.horaValida = function (location, field, ifF) {
+    ifF = ifF || undefined;
+    return module.exports
+      .existe(location, field, ifF)
+      .bail()
+      .matches(/^\d{2}:\d{2}$/) //garante formato da data
+      .withMessage("The hour must be in the format: HH:MM")
+      .bail()
+      .withMessage("The hour is invalid");
+  };  
+
+// Services
+module.exports.vcServiceStatus = [-2, -1, 0, 1, 2, 3, 4]
 
 //Users
 module.exports.vcUserLevels = [-1, 1, 2, 3, 3.5, 4, 5, 6, 7]
