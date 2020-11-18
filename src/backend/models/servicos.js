@@ -97,4 +97,11 @@ var ServiceSchema = mongoose.Schema({
     }
 }, { minimize: false });
 
+// After an update, this trigger is released
+ServiceSchema.post("update", function(doc) { // utilizar para mudar o status para 4 após as reviews estarem presentes
+    console.log('Updated'); // e quando o estado fica a 4 -> atualizar karma dos dois intervenientes
+    console.log(this)
+    console.log(doc)
+});
+
 module.exports = mongoose.model('Service', ServiceSchema, 'services');

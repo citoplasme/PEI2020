@@ -108,7 +108,7 @@ import { NIVEL_MINIMO_ALTERAR } from "@/utils/consts";
 
 export default {
   data: () => ({
-    nivelMin:NIVEL_MINIMO_ALTERAR,
+    nivelMin: NIVEL_MINIMO_ALTERAR,
     levelU: "",
     search: "",
     headers: [],
@@ -196,7 +196,6 @@ export default {
         let level = await this.$userLevel(this.$store.state.token);
         this.preparaCabecalhos(level);
         this.categories = await this.preparaLista(response.data);
-
       } catch (e) {
         return e;
       }
@@ -216,13 +215,11 @@ export default {
           desc: this.$data.form.description,
           status: 0 // deve ser sempre zero só depois é que admin valida
         }).then(result => {
-          console.log(result);
           this.getCategories();
         });
         this.dialog = false;
         //this.$router.push("/categories/list");
       } catch (err) {
-        console.log(err);
         this.text =
           "An error occurred during the register: " + err.response.data;
         this.color = "error";

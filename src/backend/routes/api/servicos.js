@@ -387,7 +387,7 @@ router.put('/:id/review', Auth.isLoggedInUser, Auth.checkLevel([1, 2, 3, 3.5, 4,
 
                                     // Update the DB
                                     Services.update_review_from_client(req.params.id, review)
-                                            .then(dados => {
+                                            .then(dados => { // ESTE DADOS NÃO E O OBJETO !!!!!!!
                                                 if(dados) {
                                                     // Check if both reviews are present
                                                     if(dados.review && dados.review.client && dados.review.service_provider){
@@ -440,7 +440,7 @@ router.put('/:id/review', Auth.isLoggedInUser, Auth.checkLevel([1, 2, 3, 3.5, 4,
                                     // Update the DB
                                     Services.update_review_from_service_provider(req.params.id, review)
                                     .then(dados => {
-                                        if(dados) {
+                                        if(dados) { // ESTE DADOS NÃO E O OBJETO !!!!!!!
                                             // Check if both reviews are present
                                             if(dados.review && dados.review.client && dados.review.service_provider){
                                                 // Update status
