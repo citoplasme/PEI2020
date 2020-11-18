@@ -1,22 +1,27 @@
-summary: Returns the country list.
-description: Returns the country list.
+summary: Consult a country.
+description: Consult a county.
 security:
   - apiKeyQuery: []
   - apiKeyAuth: []
   - userQuery: []
   - userAuth: []
 tags:
-  - Locations
+  - Countries
+parameters:
+  - name: id
+    in: path
+    description: 'Country identifier'
+    schema:
+      type: string
+    required: true
 responses:
   200:
-    description: Returns the country list.
+    description: Consult a country.
     content:
       application/json:
         schema:
-          $ref: '#/components/schemas/LocationsCountries'
-        examples:
-          Example of a list of users:
-            $ref: '#/components/examples/LocationsCountries'
+          $ref: '#/components/schemas/Country'
+        example: !!inc/file '/examples/countries/Country.yaml'
   401:
     $ref: '#/components/responses/UnauthorizedUser'
   403:

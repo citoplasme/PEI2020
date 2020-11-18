@@ -1,0 +1,34 @@
+summary: Updates a certain Country.
+description: Updates a certain Country.
+security:
+  - userQuery: []
+  - userAuth: []
+tags:
+  - Countries
+parameters:
+  - name: id
+    in: path
+    description: 'Country identifier'
+    schema:
+      type: string
+    required: true
+requestBody:
+  description: 'Country to change'
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/CountryPut'
+      example:
+        country: Portugal
+responses:
+  200:
+    description: Country updated.
+  401:
+    $ref: '#/components/responses/UnauthorizedUser'
+  403:
+    $ref: '#/components/responses/PermissionsUser'
+  422:
+    $ref: '#/components/responses/ValidationParameters'
+  500:
+    description: Error.

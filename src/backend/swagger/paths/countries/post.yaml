@@ -1,0 +1,29 @@
+summary: Adds a new country.
+description: Adds a new country.
+security:
+  - userQuery: []
+  - userAuth: []
+tags:
+  - Countries
+requestBody:
+  description: Information required for adding a new country.
+  required: true
+  content:
+    application/json:
+      schema:
+        properties:
+          country:
+            type: string
+        required:
+          - country
+      example:
+        country: Portugal
+responses:
+  200:
+    description: Country added.
+  401:
+    $ref: '#/components/responses/UnauthorizedUser'
+  403:
+    $ref: '#/components/responses/PermissionsUser'
+  500:
+    description: Error.
