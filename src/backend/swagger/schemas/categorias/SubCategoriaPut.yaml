@@ -1,0 +1,6 @@
+type: object
+properties:
+  descSubCategoria:
+    type: String
+  statusSubCategoria:
+    type: Integer

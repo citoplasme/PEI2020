@@ -1,0 +1,40 @@
+summary: Returns the SubCategory list.
+description: Returns the SubCategory list.
+security:
+  - apiKeyQuery: []
+  - apiKeyAuth: []
+  - userQuery: []
+  - userAuth: []
+tags:
+  - Categories
+parameters:
+  - name: name
+    in: path
+    description: 'Name of the category'
+    schema:
+      type: string
+    required: true
+  - name: status
+    in: query
+    description: 'Status of the subcategories to list (0-> not active 1-> active -1->refused)'
+    schema:
+      type: integer
+    required: false
+responses:
+  200:
+    description: Returns the SubCategory list.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/SubCategorias'
+        examples:
+          Example of a list of SubCategories:
+            $ref: '#/components/examples/SubCategorias'
+  401:
+    $ref: '#/components/responses/UnauthorizedUser'
+  403:
+    $ref: '#/components/responses/PermissionsUser'
+  422:
+    $ref: '#/components/responses/ValidationParameters'
+  500:
+    description: Error.

@@ -1,9 +1,9 @@
 var mongoose = require('mongoose');
 
-var ServiceSchema = mongoose.Schema({
+var orcamentoSquema = mongoose.Schema({
     datetime: {
         type: Date,
-        default: Date.now
+        default: Date.now,
     },
     user: {
         type: String
@@ -32,7 +32,7 @@ var ServiceSchema = mongoose.Schema({
         required: true
     },
     fatura: {
-        type: String
+        type: String // Base 64 encoding
     },
     review: {
         client: {
@@ -81,6 +81,15 @@ var ServiceSchema = mongoose.Schema({
     },
     orcamento: {
         type: [orcamentoSquema]
+    },
+    date: {
+        type: String
+    },
+    hour: {
+        type: String
+    },
+    duration: {
+        type: String
     }
 });
 

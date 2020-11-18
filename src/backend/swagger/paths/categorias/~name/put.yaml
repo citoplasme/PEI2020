@@ -1,0 +1,35 @@
+summary: Changes a Category data.
+description: Changes a Category data.
+security:
+  - userQuery: []
+  - userAuth: []
+tags:
+  - Categories
+parameters:
+  - name: name
+    in: path
+    description: 'Name of the Category'
+    schema:
+      type: string
+    required: true
+requestBody:
+  description: 'Data to change'
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/CategoriaPUT'
+      example:
+        status: 1
+        desc: "Texto editado"
+responses:
+  200:
+    description: Category edited with success.
+  401:
+    $ref: '#/components/responses/UnauthorizedUser'
+  403:
+    $ref: '#/components/responses/PermissionsUser'
+  422:
+    $ref: '#/components/responses/ValidationParameters'
+  500:
+    description: Error.

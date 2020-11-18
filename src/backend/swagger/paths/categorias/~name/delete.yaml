@@ -1,0 +1,25 @@
+summary: Deletes a Category.
+description: Deletes a Category.
+security:
+  - userQuery: []
+  - userAuth: []
+tags:
+  - Categories
+parameters:
+  - name: name
+    in: path
+    description: 'Name of the Category'
+    schema:
+      type: string
+    required: true
+responses:
+  200:
+    description: Deleted Category data.
+  401:
+    $ref: '#/components/responses/UnauthorizedUser'
+  403:
+    $ref: '#/components/responses/PermissionsUser'
+  422:
+    $ref: '#/components/responses/ValidationParameters'
+  500:
+    description: Error.

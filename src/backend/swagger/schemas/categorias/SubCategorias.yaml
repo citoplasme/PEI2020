@@ -1,0 +1,17 @@
+type: array
+items:
+  type: object
+  properties:
+    _id:
+      type: string
+    name:
+      type: string
+    desc:
+      type: string
+    status:
+      type: integer
+    required:
+    - _id
+    - name
+    - desc
+    - status

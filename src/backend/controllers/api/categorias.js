@@ -31,8 +31,10 @@ Categorias.editCategoria = function (categoria, callback) {
             callback(err,null);
         } else{
             try{
-                cat.status=categoria.status;
-                cat.desc=categoria.desc;
+                if (categoria.status!=null)
+                    cat.status=categoria.status;
+                if (categoria.desc!=null)
+                    cat.desc=categoria.desc;
                 cat = await cat.save();
                 callback(null,cat);
             }catch(err){
@@ -161,6 +163,9 @@ Categorias.editSubCategoria = function (newCategoria, callback) {
                     callback(err,null);
                 }
             }
+            else{
+                callback("SubCategory does not exist.")
+            }
         }
     })
 }
@@ -201,14 +206,17 @@ Categorias.deleteSubCategoriaByName = function(name,nameSubCat,callback){
         else{
             try {
                 newArr=[];
+                deleted=null;
                 foundCat.subCategorias.forEach(function(element){
                     if(nameSubCat!=element.name){
                         newArr.push(element);
                     }
+                    else
+                        deleted = element;
                 })
                 foundCat.subCategorias=newArr;
                 foundCat.save();
-                callback(null,foundCat)
+                callback(null,deleted)
             } catch (error) {
                 callback(error,null)
             }

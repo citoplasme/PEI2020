@@ -1,0 +1,80 @@
+[
+    {
+        "name": "Classes",
+        "desc": "Find suitable professional help to improve your skills",
+        "subcategories": [
+            {
+                "name": "Painting class",
+                "desc": "Experienced professionals teaching painting classes in Portugal",
+                "status": 0
+            },
+            {
+                "name": "Dance classes",
+                "desc": "The best ballroom dancing classes in Portugal",
+                "status": 1
+            },
+            {
+                "name": "First cycle explanations",
+                "desc": "The most qualified primary school teachers in Portugal",
+                "status": 1
+            },
+            {
+                "name": "English teacher",
+                "desc": "Find the most reliable English teacher in Portugal",
+                "status": 1
+            }
+        ]
+    },
+    {
+        "name": "Events",
+        "desc": "Find suitable professional help to organize any type of event.",
+        "subcategories": [
+            {
+                "name": "Catering companies",
+                "desc": "The best catering companies in Portugal",
+                "status": 1
+            },
+            {
+                "name": "Party entertainment",
+                "desc": "The most fun party animation professionals in Portugal",
+                "status": 0
+            },
+            {
+                "name": "Photographers",
+                "desc": "The best photographers in Portugal",
+                "status": 1
+            },
+            {
+                "name": "Children's birthday parties",
+                "desc": "Professionals of children's birthday parties in Portugal",
+                "status": 0
+            }
+        ]
+    },
+    {
+        "name": "Well-being",
+        "desc": "Find suitable professional help to carry out any project.",
+        "subcategories": [
+            {
+                "name": "Babysitter",
+                "desc": "The most careful babysitters in Portugal",
+                "status": 0
+            },
+            {
+                "name": "Home hairdresser",
+                "desc": "Find a professional hairdresser at home in Portugal",
+                "status": 0
+            },
+            {
+                "name": "Massage",
+                "desc": "The most efficient massage professionals in Portugal",
+                "status": 0
+            },
+            {
+                "name": "Psychology",
+                "desc": "The most experienced psychologists in Portugal",
+                "status": 1
+            }
+        ]
+    }
+]
