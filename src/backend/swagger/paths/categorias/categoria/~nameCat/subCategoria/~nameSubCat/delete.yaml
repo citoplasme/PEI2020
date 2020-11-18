@@ -1,0 +1,31 @@
+summary: Deletes a SubCategory.
+description: Deletes a SubCategory.
+security:
+  - userQuery: []
+  - userAuth: []
+tags:
+  - Categories
+parameters:
+  - name: nameCat
+    in: path
+    description: 'Name of the Category'
+    schema:
+      type: string
+    required: true
+  - name: nameSubCat
+    in: path
+    description: 'Name of the SubCategory'
+    schema:
+      type: string
+    required: true
+responses:
+  200:
+    description: Deleted Category data.
+  401:
+    $ref: '#/components/responses/UnauthorizedUser'
+  403:
+    $ref: '#/components/responses/PermissionsUser'
+  422:
+    $ref: '#/components/responses/ValidationParameters'
+  500:
+    description: Error.
