@@ -1,0 +1,25 @@
+summary: Deletes a location.
+description: Deletes a location.
+security:
+  - userQuery: []
+  - userAuth: []
+tags:
+  - Locations
+parameters:
+  - name: id
+    in: path
+    description: 'Location identifier'
+    schema:
+      type: string
+    required: true
+responses:
+  200:
+    description: Deleted a location.
+  401:
+    $ref: '#/components/responses/UnauthorizedUser'
+  403:
+    $ref: '#/components/responses/PermissionsUser'
+  422:
+    $ref: '#/components/responses/ValidationParameters'
+  500:
+    description: Error.

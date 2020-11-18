@@ -1,0 +1,33 @@
+summary: Adds a new location to a country.
+description: Adds a new location to a country.
+security:
+  - userQuery: []
+  - userAuth: []
+tags:
+  - Locations
+requestBody:
+  description: Information required for adding a new location.
+  required: true
+  content:
+    application/json:
+      schema:
+        properties:
+          country:
+            type: string
+          name:
+            type: string
+        required:
+          - country
+          - name
+      example:
+        country: Portugal
+        name: Várzea
+responses:
+  200:
+    description: Location added.
+  401:
+    $ref: '#/components/responses/UnauthorizedUser'
+  403:
+    $ref: '#/components/responses/PermissionsUser'
+  500:
+    description: Error.

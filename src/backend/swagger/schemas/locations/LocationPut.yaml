@@ -1,0 +1,9 @@
+type: object
+properties:
+  country:
+    type: string
+  name:
+    type: string
+required:
+  - country
+  - name

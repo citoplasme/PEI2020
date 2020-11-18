@@ -1,0 +1,35 @@
+summary: Updates a certain Location.
+description: Updates a certain location.
+security:
+  - userQuery: []
+  - userAuth: []
+tags:
+  - Locations
+parameters:
+  - name: id
+    in: path
+    description: 'Location identifier'
+    schema:
+      type: string
+    required: true
+requestBody:
+  description: 'Location to change'
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/LocationPut'
+      example:
+        country: Portugal
+        name: Felgueiras
+responses:
+  200:
+    description: Location updated.
+  401:
+    $ref: '#/components/responses/UnauthorizedUser'
+  403:
+    $ref: '#/components/responses/PermissionsUser'
+  422:
+    $ref: '#/components/responses/ValidationParameters'
+  500:
+    description: Error.
