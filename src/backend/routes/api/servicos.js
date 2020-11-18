@@ -8,6 +8,11 @@ var validKeys = ["client", "service_provider", "urgent", "status", "date", "hour
 const { validationResult } = require('express-validator');
 const { existe, eMongoId, dataValida, horaValida, vcServiceStatus, estaEm } = require('../validation')
 
+// Para os ficheiros
+var formidable = require("formidable")
+var ncp = require('ncp').ncp;
+ncp.limit = 16;
+var fs = require('fs')
 
 // VER NIVEIS DE ACESSO -> Verificar que user e um dos intervenientes ou é admin
 
@@ -47,6 +52,58 @@ router.get('/', Auth.isLoggedInUser, [
 	        .catch(erro => res.status(500).send(`Error while listing the services: ${erro}`))
     }
 })
+
+router.get('/:id/bill', Auth.isLoggedInUser, [
+    eMongoId('param', 'id')
+], (req, res) => {
+    
+    const errors = validationResult(req)
+    if(!errors.isEmpty()){
+        return res.status(422).jsonp(errors.array())
+    }
+    
+    // In case its an admin, every data item should be available
+    if(req.user.level >= 6){
+        Services.consultar(req.params.id)
+            .then(function (dados) {
+                if (dados && dados.fatura) {
+                    // Send file
+                    var img = Buffer.from(dados.fatura, 'base64');
+
+                    res.writeHead(200, {
+                        'Content-Type': 'application/pdf',
+                        'Content-Length': img.length
+                    });
+                    res.end(img);
+                } 
+                else {
+                    res.status(404).send(`Error: The data item with identified by '${req.params.id}' does not exist on the services.`)
+                }
+            })
+            .catch(erro => res.status(500).send(`Error while listing the service with identifier '${req.params.id}': ${erro}`))
+    } 
+    // Otherwise, the user should only be capable of seeing services that he is part on
+    else {
+        Services.consultar_from_user(req.params.id, req.user.id)
+            .then(function (dados) {
+                if (dados && dados.fatura) {
+                    // Send file
+                    var img = Buffer.from(dados.fatura, 'base64');
+
+                    res.writeHead(200, {
+                        'Content-Type': 'application/pdf',
+                        'Content-Length': img.length
+                    });
+                    res.end(img);
+                } 
+                else {
+                    res.status(404).send(`Error: The data item with identified by '${req.params.id}' does not exist on the services.`)
+                }
+            })
+            .catch(erro => res.status(500).send(`Error while listing the service with identifier '${req.params.id}': ${erro}`))
+    }
+})
+
 
 // GET /:id
 router.get('/:id', Auth.isLoggedInUser, [
@@ -222,7 +279,57 @@ router.put('/:id/bid', Auth.isLoggedInUser, Auth.checkLevel([1, 2, 3, 3.5, 4, 5,
 // Check if user is service provider of the service
     // Check if status is >= 3 
         // Adds fatura
-
+router.put('/:id/bill', Auth.isLoggedInUser, Auth.checkLevel([1, 2, 3, 3.5, 4, 5, 6, 7]), function (req, res) {
+    var form = new formidable.IncomingForm()
+    form.parse(req, async (error, fields, formData) => {
+        if(!error){
+            // Verify the existance of the file
+            if(formData.file && formData.file.type && formData.file.path){
+                // Verify if the file is a PDF
+                if(formData.file.type === "application/pdf"){
+                    // Verify if the user is the service provider
+                    Services.consultar(req.params.id)
+                        .then(dados => {
+                            if(dados) {
+                                // Check if user is part of the service
+                                if(dados.service_provider === req.user.id ){
+                                    // Check status
+                                    if(dados.status >= 3){
+                                        // Generate encoded string
+                                        const contents = fs.readFileSync(formData.file.path, {encoding: 'base64'});
+                                        // Saving the encoded file
+                                        Services.update_fatura(req.params.id, contents)
+                                            .then(dados => {
+                                                if(dados) res.jsonp("Bill successfully added to service.")
+                                                else res.status(500).jsonp("Error while adding the bill for the service with identifier '" + req.params.id + "'.")
+                                            })
+                                            .catch(erro => res.status(500).jsonp("Error while adding the bill for the service with identifier '" + req.params.id + "': " + erro))
+                                    }
+                                    else {
+                                        res.status(500).jsonp("Error updating the service: the service is not completed.")
+                                    }
+                                }
+                                else {
+                                    res.status(500).jsonp("Error updating the service: you are not the service provider of the service.")
+                                }
+                            }
+                            else {
+                                res.status(500).jsonp("Error updating the service with identifier '" + req.params.id + "':.")
+                            }
+                        })
+                        .catch(error => res.status(500).jsonp("Error updating the service with identifier '" + req.params.id + "': " + error))
+                } else {
+                    res.status(500).json(`Error while updating the service: the file has to be PDF.`)
+                }
+            } else {
+                res.status(500).json(`Error while updating the service: the file was not sent.`)
+            }
+        }
+        else {
+            res.status(500).json(`Error while updating the service: ${error}`)
+        }
+    })
+})
 
 // PUT/:id/review
 // Check if user is part of the service
