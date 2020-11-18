@@ -2,6 +2,7 @@
     {
         "name": "Classes",
         "desc": "Find suitable professional help to improve your skills",
+        "status": 1,
         "subcategories": [
             {
                 "name": "Painting class",
@@ -28,6 +29,7 @@
     {
         "name": "Events",
         "desc": "Find suitable professional help to organize any type of event.",
+        "status": 1,
         "subcategories": [
             {
                 "name": "Catering companies",
@@ -54,6 +56,7 @@
     {
         "name": "Well-being",
         "desc": "Find suitable professional help to carry out any project.",
+        "status": 0,
         "subcategories": [
             {
                 "name": "Babysitter",
