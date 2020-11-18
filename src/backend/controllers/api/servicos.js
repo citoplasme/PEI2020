@@ -44,6 +44,13 @@ Services.update_bid = function(id, value, user){
         .exec()
 }
 
+Services.update_fatura = function(id, fatura){
+    id = mongoose.Types.ObjectId(id);
+    return Service
+        .update({_id : id}, {$set : { fatura : fatura}})
+        .exec()
+}
+
 // DELETE
 Services.eliminar = function(id, callback){
     Service.findOneAndRemove({_id: id}, function(err, noticia){
