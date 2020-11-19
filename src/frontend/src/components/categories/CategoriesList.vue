@@ -374,8 +374,6 @@ export default {
 
       data.active = this.levelU >= this.levelMin ? true : "false";
 
-      console.log(this.levelU);
-      console.log(data);
       try {
         var response = await this.$request("post", "/categories/", data).then(
           result => {
@@ -389,7 +387,6 @@ export default {
           "An error occurred during the register: " + err.response.data;
         this.color = "error";
         this.dialog = false;
-        console.log(this.text);
       }
     },
     edit(item) {
@@ -462,7 +459,7 @@ export default {
     },
     validar(item) {
       let data = item;
-      item.active=true
+      item.active = true;
       this.$request("put", "/categories/" + item.id, data)
         .then(res => {
           this.text = "Category succesfully validated!";
