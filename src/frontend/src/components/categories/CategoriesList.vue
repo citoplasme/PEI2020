@@ -92,7 +92,7 @@
               <v-tooltip bottom>
                 <template v-slot:activator="{ on }">
                   <v-btn icon v-on="on" @click="go(props.item.name)">
-                    <v-icon medium color="grey">search</v-icon>
+                    <v-icon medium color="gray">search</v-icon>
                   </v-btn>
                 </template>
                 <span>See subcategories</span>
@@ -107,7 +107,6 @@
               </v-tooltip>
               <v-tooltip bottom v-if="levelU >= levelMin">
                 <template v-slot:activator="{ on }">
-                  <!-- <v-btn v-on="on" icon @click="eliminarName = this.categories"> -->
                   <v-btn v-on="on" icon @click="eliminarName = props.item.name">
                     <v-icon color="red">delete</v-icon>
                   </v-btn>
@@ -117,7 +116,7 @@
               <v-tooltip bottom v-if="levelU >= levelMin">
                 <template v-slot:activator="{ on }">
                   <v-btn v-on="on" icon @click="validateName = props.item.name">
-                    <v-icon color="primary">done_outline</v-icon>
+                    <v-icon color="green">done_outline</v-icon>
                   </v-btn>
                 </template>
                 <span>Validate category</span>
