@@ -102,7 +102,6 @@
               <v-tooltip bottom v-if="levelU >= nivelMin">
                 <template v-slot:activator="{ on }">
                   <!-- <v-btn v-on="on" icon @click="eliminarName = this.categories"> -->
-                  <v-btn icon v-on="on">
                   <v-btn v-on="on" icon @click="eliminarName = props.item.name">
                     <v-icon color="red">delete</v-icon>
                   </v-btn>
@@ -165,6 +164,9 @@
             >Cancel</v-btn
           >
           <v-btn color="primary" text @click="save">Save</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
     <v-dialog :value="eliminarName != ''" persistent max-width="290px">
       <v-card>
         <v-card-title class="headline">Action Confirmation</v-card-title>
@@ -214,13 +216,8 @@ export default {
       }
     ],
     regraNome: [v => !!v || "Name is required."],
-    regraDesc: [v => !!v || "Description is required"],
-    regraEmail: [
-      v => !!v || "Email is required.",
-      v => /^.+@.+\..+$/.test(v) || "Email has to be valid."
-    ],
+    regraDesc: [v => !!v],
     regraStatus: [v => !!v || "Status is required"],
-    regraTipo: [v => !!v || "User type is required."],
     editedItem: {
       name: "",
       desc: "",
@@ -231,11 +228,6 @@ export default {
     search: "",
     headers: [],
     categories: [],
-    color: "",
-    text: "",
-    snackbar: false,
-    done: false,
-    timeout: 4000,
     dialog: false,
     dialog_edit_category: false,
     form: {
@@ -404,6 +396,7 @@ export default {
         this.snackbar = true;
         this.done = false;
       }
+    },
     eliminar(name) {
       this.$request("delete", "/categorias/" + name)
         .then(res => {
