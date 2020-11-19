@@ -370,43 +370,36 @@ router.put('/:id/review', Auth.isLoggedInUser, Auth.checkLevel([1, 2, 3, 3.5, 4,
                             if(req.body.ponctuality && req.body.quality && req.body.security && req.body.attendance && req.body.general){
                                 // Check if values are numbers
                                 if(typeof req.body.ponctuality === "number" && typeof req.body.quality === "number" && typeof req.body.security === "number" && typeof req.body.attendance === "number" && typeof req.body.general === "number"){
-                                    let review = {
-                                        ponctuality: req.body.ponctuality,
-                                        quality: req.body.quality,
-                                        security: req.body.security, 
-                                        attendance: req.body.attendance,
-                                        general: req.body.general,
-                                    };
+                                    // Verify if values are between 0 and 5
+                                    if(req.body.ponctuality <= 5 && req.body.ponctuality >= 0 && req.body.quality <= 5 && req.body.quality >= 0 && req.body.security <= 5 && req.body.security >= 0 && req.body.attendance <= 5 && req.body.attendance >= 0 && req.body.general <= 5 && req.body.general >= 0){
+                                        let review = {
+                                            ponctuality: req.body.ponctuality,
+                                            quality: req.body.quality,
+                                            security: req.body.security, 
+                                            attendance: req.body.attendance,
+                                            general: req.body.general,
+                                        };
 
-                                    // Check if desc is present
-                                    if (req.body.comentario){
-                                        review.comentario = req.body.comentario;
-                                    }
-                                    // Calculate karma for this service
-                                    review.karma = Services.calculate_karma_client(review);
+                                        // Check if desc is present
+                                        if (req.body.comentario){
+                                            review.comentario = req.body.comentario;
+                                        }
+                                        // Calculate karma for this service
+                                        review.karma = Services.calculate_karma_client(review);
 
-                                    // Update the DB
-                                    Services.update_review_from_client(req.params.id, review)
-                                            .then(dados => { // ESTE DADOS NÃO E O OBJETO !!!!!!!
+                                        // Update the DB
+                                        Services.update_review_from_client(req.params.id, review)
+                                            .then(dados => { 
                                                 if(dados) {
-                                                    // Check if both reviews are present
-                                                    if(dados.review && dados.review.client && dados.review.service_provider){
-                                                        // Update status
-                                                        Services.update_status(req.params.id, 4)
-                                                            .then(dados => {
-                                                                if(dados) res.jsonp("Review added and service status successfully updated to the service.") // UPDATE USER KARMA !!!!!!!!
-                                                                else res.status(500).jsonp("Error while adding the review and updating the status for the service with identifier '" + req.params.id + "'.")
-                                                            })
-                                                            .catch(erro => res.status(500).jsonp("Error while adding the review and updating the status for the service with identifier '" + req.params.id + "': " + erro))
-                                                    }
-                                                    else {   
-                                                        res.jsonp("Review successfully added to service.")
-                                                    }
+                                                    res.jsonp("Review successfully added to service.")
                                                 }
                                                 else res.status(500).jsonp("Error while adding the review for the service with identifier '" + req.params.id + "'.")
                                             })
                                             .catch(erro => res.status(500).jsonp("Error while adding the review for the service with identifier '" + req.params.id + "': " + erro))
-
+                                        } 
+                                        else {
+                                            res.status(500).jsonp("Error updating the service: the numeric review fields should be a value between 0 and 5.")
+                                        }
                                 } 
                                 else {
                                     res.status(500).jsonp("Error updating the service: the review fields are numeric, expect for the comment.")
@@ -422,42 +415,35 @@ router.put('/:id/review', Auth.isLoggedInUser, Auth.checkLevel([1, 2, 3, 3.5, 4,
                             if(req.body.payment && req.body.ponctuality && req.body.security && req.body.general){
                                 // Check if values are numeric
                                 if(typeof req.body.payment === "number" && typeof req.body.ponctuality === "number" && typeof req.body.security === "number" && typeof req.body.general === "number"){
-                                
-                                    let review = {
-                                        ponctuality: req.body.ponctuality,
-                                        payment: req.body.payment,
-                                        security: req.body.security, 
-                                        general: req.body.general,
-                                    };
+                                    // Verify if values are between 0 and 5
+                                    if(req.body.ponctuality <= 5 && req.body.ponctuality >= 0 && req.body.payment <= 5 && req.body.payment >= 0 && req.body.security <= 5 && req.body.security >= 0 && req.body.general <= 5 && req.body.general >= 0){
+                                        let review = {
+                                            ponctuality: req.body.ponctuality,
+                                            payment: req.body.payment,
+                                            security: req.body.security, 
+                                            general: req.body.general,
+                                        };
 
-                                    // Check if desc is present
-                                    if (req.body.comentario){
-                                        review.comentario = req.body.comentario;
-                                    }
-                                    // Calculate karma for this service
-                                    review.karma = Services.calculate_karma_service_provider(review);
-
-                                    // Update the DB
-                                    Services.update_review_from_service_provider(req.params.id, review)
-                                    .then(dados => {
-                                        if(dados) { // ESTE DADOS NÃO E O OBJETO !!!!!!!
-                                            // Check if both reviews are present
-                                            if(dados.review && dados.review.client && dados.review.service_provider){
-                                                // Update status
-                                                Services.update_status(req.params.id, 4)
-                                                    .then(dados => { 
-                                                        if(dados) res.jsonp("Review added and service status successfully updated to the service.") // UPDATE USER KARMA !!!!!!!!
-                                                        else res.status(500).jsonp("Error while adding the review and updating the status for the service with identifier '" + req.params.id + "'.")
-                                                    })
-                                                    .catch(erro => res.status(500).jsonp("Error while adding the review and updating the status for the service with identifier '" + req.params.id + "': " + erro))
-                                            }
-                                            else {   
-                                                res.jsonp("Review successfully added to service.")
-                                            }
+                                        // Check if desc is present
+                                        if (req.body.comentario){
+                                            review.comentario = req.body.comentario;
                                         }
-                                        else res.status(500).jsonp("Error while adding the review for the service with identifier '" + req.params.id + "'.")
-                                    })
-                                    .catch(erro => res.status(500).jsonp("Error while adding the review for the service with identifier '" + req.params.id + "': " + erro))
+                                        // Calculate karma for this service
+                                        review.karma = Services.calculate_karma_service_provider(review);
+
+                                        // Update the DB
+                                        Services.update_review_from_service_provider(req.params.id, review)
+                                            .then(dados => {
+                                                if(dados) { 
+                                                    res.jsonp("Review successfully added to service.")
+                                                }
+                                                else res.status(500).jsonp("Error while adding the review for the service with identifier '" + req.params.id + "'.")
+                                            })
+                                            .catch(erro => res.status(500).jsonp("Error while adding the review for the service with identifier '" + req.params.id + "': " + erro))
+                                    }
+                                    else {
+                                        res.status(500).jsonp("Error updating the service: the numeric review fields should be a value between 0 and 5.")
+                                    }
                                 } 
                                 else {
                                     res.status(500).jsonp("Error updating the service: the review fields are numeric, expect for the comment.")
