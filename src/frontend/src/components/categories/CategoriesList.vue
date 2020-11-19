@@ -6,7 +6,7 @@
         <v-spacer></v-spacer>
         <v-dialog v-model="dialog" persistent max-width="600px">
           <template v-slot:activator="{ on, attrs }">
-            <v-btn color="blue darken-4" dark v-bind="attrs" v-on="on">
+            <v-btn v-if="levelU > 3" color="blue darken-4" dark v-bind="attrs" v-on="on">
               New category
             </v-btn>
           </template>
@@ -79,7 +79,7 @@
           <tr>
             <td class="subheading">{{ props.item.name }}</td>
             <td class="subheading">{{ props.item.desc }}</td>
-            <td v-if="levelU >= nivelMin" class="subheading">
+            <td v-if="levelU >= levelMin" class="subheading">
               {{ props.item.status }}
             </td>
             <td class="subheading">
@@ -91,7 +91,7 @@
                 </template>
                 <span>See subcategories</span>
               </v-tooltip>
-              <v-tooltip bottom v-if="levelU >= nivelMin">
+              <v-tooltip bottom v-if="levelU >= levelMin">
                 <template v-slot:activator="{ on }">
                   <v-btn icon v-on="on" @click="edit(props.item)">
                     <v-icon medium color="primary">edit</v-icon>
@@ -99,7 +99,7 @@
                 </template>
                 <span>Edit category</span>
               </v-tooltip>
-              <v-tooltip bottom v-if="levelU >= nivelMin">
+              <v-tooltip bottom v-if="levelU >= levelMin">
                 <template v-slot:activator="{ on }">
                   <!-- <v-btn v-on="on" icon @click="eliminarName = this.categories"> -->
                   <v-btn v-on="on" icon @click="eliminarName = props.item.name">
@@ -107,6 +107,14 @@
                   </v-btn>
                 </template>
                 <span>Delete category</span>
+              </v-tooltip>
+              <v-tooltip bottom v-if="levelU >= levelMin">
+                <template v-slot:activator="{ on }">
+                  <v-btn v-on="on" icon @click="validateName = props.item.name">
+                    <v-icon color="primary">done_outline</v-icon>
+                  </v-btn>
+                </template>
+                <span>Validate category</span>
               </v-tooltip>
             </td>
           </tr>
@@ -184,6 +192,23 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <v-dialog :value="validateName != ''" persistent max-width="290px">
+      <v-card>
+        <v-card-title class="headline">Action Confirmation</v-card-title>
+        <v-card-text>
+          Are you sure that you want to validate the category?
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="red" text @click="validateName = ''">
+            Cancel
+          </v-btn>
+          <v-btn color="primary" text @click="validar(validateName)">
+            Confirm
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
     <v-snackbar
       v-model="snackbar"
       :color="color"
@@ -223,7 +248,7 @@ export default {
       desc: "",
       status: ""
     },
-    nivelMin: NIVEL_MINIMO_ALTERAR,
+    levelMin: NIVEL_MINIMO_ALTERAR,
     levelU: "",
     search: "",
     headers: [],
@@ -235,6 +260,7 @@ export default {
       description: ""
     },
     eliminarName: "",
+    validateName:"",
     snackbar: false,
     color: "",
     done: false,
@@ -293,7 +319,7 @@ export default {
     preparaLista(listCategories) {
       let myTree = [];
       for (let i = 0; i < listCategories.length; i++) {
-        if (this.levelU >= NIVEL_MINIMO_ALTERAR) {
+        if (this.levelU >= this.levelMin) {
           myTree.push({
             name: listCategories[i].name,
             desc: listCategories[i].desc,
@@ -328,17 +354,24 @@ export default {
       }
     },
     async registCategories() {
+      let data = {
+        name: this.$data.form.name,
+        desc: this.$data.form.description}
+
+      if(this.levelU >= this.levelMin){ // Teste de admin, se admin submete categoria é imediatamente aprovada
+        data.status=1
+      }
+      else{
+        data.status=0
+      }
+
       try {
-        var response = await this.$request("post", "/categorias", {
-          name: this.$data.form.name,
-          desc: this.$data.form.description,
-          status: 0 // deve ser sempre zero só depois é que admin valida ou elimina
-        }).then(result => {
+        var response = await this.$request("post", "/categorias", data)
+        .then(result => {
           this.$refs.form.reset();
           this.getCategories();
         });
         this.dialog = false;
-        //this.$router.push("/categories/list");
       } catch (err) {
         this.text =
           "An error occurred during the register: " + err.response.data;
@@ -403,6 +436,25 @@ export default {
           this.text = "Category succesfully deleted!";
           this.color = "success";
           this.eliminarName = "";
+          this.snackbar = true;
+          this.done = true;
+          this.getCategories();
+        })
+        .catch(err => {
+          this.text = err.response.data;
+          this.color = "error";
+          this.snackbar = true;
+          this.done = false;
+        });
+    },
+    validar(name){
+      this.$request("put", "/categorias/"+ name, {
+        status:1
+      })
+        .then(res => {
+          this.text = "Category succesfully validated!";
+          this.color = "success";
+          this.validateName = "";
           this.snackbar = true;
           this.done = true;
           this.getCategories();

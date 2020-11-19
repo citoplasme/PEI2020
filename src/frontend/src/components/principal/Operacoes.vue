@@ -15,7 +15,7 @@
               <div>
                 <v-btn
                   v-for="op in item.ops"
-                  color="primary"
+                  color="blue darken-4"
                   dark
                   class="ma-2"
                   @click="go(op.url)"
