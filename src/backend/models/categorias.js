@@ -1,37 +1,17 @@
 var mongoose = require('mongoose');
 
-//SubCategoriaSchema
-var SubCategoriaSchema = mongoose.Schema({
-	_id: {
-		
-	},
+var CategoriaSchema = mongoose.Schema({
 	name:{
 		type: String,
+		required: true
 	},
 	desc:{
 		type: String ,
 	},
-	status:{
-		type: Number,
+	active:{
+		type: Boolean,
+		required: true
 	}
 });
 
-// Categoria Schema
-var CategoriaSchema = mongoose.Schema({
-	_id: {
-		
-	},
-	name:{
-		type: String,
-	},
-	desc:{
-		type: String ,
-	},
-	status:{
-		type: Number,
-	},
-	subCategorias:[SubCategoriaSchema]
-
-});
-
-module.exports = mongoose.model('Categoria', CategoriaSchema, 'categorias');
+module.exports = mongoose.model('Categorie', CategoriaSchema, 'categories');

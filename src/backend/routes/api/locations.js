@@ -63,7 +63,7 @@ router.post('/', Auth.isLoggedInUser, Auth.checkLevel([6, 7]), [
                 // Check if location is not associated to the country
                 Locations.consultar_by_country(req.body.country)
                     .then(dad => {
-                        if(dad.find(element => element.name === req.body.name)){
+                        if(dad.find(element => element.name == req.body.name && element._id != req.params.id)){
                             res.status(500).jsonp("The location already exists '" + req.body.name) 
                         }
                         else {

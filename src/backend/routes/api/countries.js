@@ -78,12 +78,20 @@ router.put('/:id', Auth.isLoggedInUser, Auth.checkLevel([6, 7]), [
     if(!errors.isEmpty()){
         return res.status(422).jsonp(errors.array())
     }
-    Countries.update(req.params.id, req.body.name)
+
+    Countries.consultar_by_name(req.body.name)
         .then(dados => {
-            if(dados) res.jsonp("Country successfully modified.")
-            else res.status(500).jsonp("Error while modifying the country with identifier '" + req.params.id + "'.")
+            if(dados && dados.find(element => element._id != req.params.id)) res.status(500).jsonp("The country '" + req.body.name + "' is already on the database.")
+            else {
+                Countries.update(req.params.id, req.body.name)
+                    .then(dados => {
+                        if(dados) res.jsonp("Country successfully modified.")
+                        else res.status(500).jsonp("Error while modifying the country with identifier '" + req.params.id + "'.")
+                    })
+                    .catch(erro => res.status(500).jsonp("Error while modifying the country with identifier '" + req.params.id + "': " + erro))
+            }
         })
-        .catch(erro => res.status(500).jsonp("Error while modifying the country with identifier '" + req.params.id + "': " + erro))
+        .catch(error => res.status(500).jsonp("Error creating the country '" + req.body.name + "': " + error))
 })
 
 // DELETE /countries/:id

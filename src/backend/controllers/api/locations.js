@@ -22,7 +22,6 @@ Locations.criar = n => {
 }
 
 Locations.update = function(id, novo){
-    console.log(novo)
     return Location
         .update({_id : id}, novo, {overwrite: true })
         .exec()

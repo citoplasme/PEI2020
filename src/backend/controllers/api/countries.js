@@ -11,7 +11,7 @@ Countries.consultar = (id) => {
 };
 
 Countries.consultar_by_name = (nome) => {
-    return Country.findOne({ name: nome });
+    return Country.find({ name: nome });
 };
 
 Countries.criar = n => {

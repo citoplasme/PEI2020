@@ -1,0 +1,109 @@
+[{
+	"_id": {
+		"$oid": "5fb6b85853629eed36abd818"
+	},
+	"category": "5fb6b75a53629eed36abd7ef",
+	"name": "Painting class",
+	"desc": "Experienced professionals teaching painting classes in Portugal",
+	"active": false
+},
+{
+	"_id": {
+		"$oid": "5fb6b85853629eed36abd819"
+	},
+	"category": "5fb6b75a53629eed36abd7ef",
+	"name": "First cycle explanations",
+	"desc": "The most qualified primary school teachers in Portugal",
+	"active": true
+},
+{
+	"_id": {
+		"$oid": "5fb6b85853629eed36abd81a"
+	},
+	"category": "5fb6b75a53629eed36abd7ef",
+	"name": "English teacher",
+	"desc": "Find the most reliable English teacher in Portugal",
+	"active": true
+},
+{
+	"_id": {
+		"$oid": "5fb6b85853629eed36abd81b"
+	},
+	"category": "5fb6b75a53629eed36abd7f1",
+	"name": "Babysitter",
+	"desc": "The most careful babysitters in Portugal",
+	"active": false
+},
+{
+	"_id": {
+		"$oid": "5fb6b85853629eed36abd81c"
+	},
+	"category": "5fb6b75a53629eed36abd7f1",
+	"name": "Home hairdresser",
+	"desc": "Find a professional hairdresser at home in Portugal",
+	"active": false
+},
+{
+	"_id": {
+		"$oid": "5fb6b85853629eed36abd81d"
+	},
+	"category": "5fb6b75a53629eed36abd7f1",
+	"name": "Massage",
+	"desc": "The most efficient massage professionals in Portugal",
+	"active": false
+},
+{
+	"_id": {
+		"$oid": "5fb6b85853629eed36abd81e"
+	},
+	"category": "5fb6b75a53629eed36abd7f1",
+	"name": "Psychology",
+	"desc": "The most experienced psychologists in Portugal",
+	"active": true
+},
+{
+	"_id": {
+		"$oid": "5fb6b85853629eed36abd81f"
+	},
+	"category": "5fb6b75a53629eed36abd7f0",
+	"name": "Photographers",
+	"desc": "The best photographers in Portugal",
+	"active": true
+},
+{
+	"_id": {
+		"$oid": "5fb6b85853629eed36abd820"
+	},
+	"category": "5fb6b75a53629eed36abd7f0",
+	"name": "Catering companies",
+	"desc": "The best catering companies in Portugal",
+	"active": true
+},
+{
+	"_id": {
+		"$oid": "5fb6b85853629eed36abd821"
+	},
+	"category": "5fb6b75a53629eed36abd7f0",
+	"name": "Party entertainment",
+	"desc": "The most fun party animation professionals in Portugal",
+	"active": false
+},
+{
+	"_id": {
+		"$oid": "5fb6b85853629eed36abd822"
+	},
+	"category": "5fb6b75a53629eed36abd7ef",
+	"name": "Dance classes",
+	"desc": "The best ballroom dancing classes in Portugal",
+	"active": true
+},
+{
+	"_id": {
+		"$oid": "5fb6b85853629eed36abd823"
+	},
+	"category": "5fb6b75a53629eed36abd7f0",
+	"name": "Children's birthday parties",
+	"desc": "Professionals of children's birthday parties in Portugal",
+	"active": false
+}]
+

@@ -1,223 +1,141 @@
+var Auth = require('../../controllers/auth.js');
 var express = require('express');
-var Logging = require('../../controllers/logging');
 var router = express.Router();
-var passport = require('passport');
-var Categoria = require('../../models/categorias');
-var Categorias = require('../../controllers/api/categorias');
-var AuthCalls = require('../../controllers/api/auth');
-var Auth = require('../../controllers/auth');
-var jwt = require('jsonwebtoken');
-var secretKey = require('./../../config/app');
-var Mailer = require('../../controllers/api/mailer');
-var mongoose = require('mongoose');
-const { existe, eMongoId } = require('../validation');
-const { validationResult } = require('express-validator');
+var Categories = require('../../controllers/api/categorias.js');
+var Specializations = require('../../controllers/api/specializations.js');
 var url = require('url')
+var validKeys = ["name", "active", "desc"];
+const { validationResult } = require('express-validator');
+const { existe, eMongoId } = require('../validation')
 
-router.post('/', Auth.isLoggedInUser, Auth.checkLevel(3), async (req, res) => {
-    var newCategoria = new Categoria({
-        _id: mongoose.Types.ObjectId(),
-        name: req.body.name,
-        desc: req.body.desc,
-        status: 0,
-        subCategorias: []
-    });
-
-    Categorias.getCategoriaByName(req.body.name, async function(err, cat){
-        if (err) {
-            //return res.status(500).send(`Erro: ${err}`);
-            return res.status(500).send('It was not possible to register the category. Please check if the values are correct or if something is missing.');
-        }
-
-        if (!cat) {
-            await Categorias.createCategoria(newCategoria, function (err, user) {
-                if (err) {
-                    //return res.status(500).send(`Erro: ${err}`);
-                    return res.status(500).send('It was not possible to register the category. Please check if the values are correct or if something is missing.');
-                }
-            });
-            res.send('Category registered with success.');
-        } else {
-            res.status(500).send('It was not possible to register the Category: the category already created.');
-        }
-    })
-});
-
-router.put('/:name', Auth.isLoggedInUser, Auth.checkLevel(6), async function(req, res) {
-
-    var newCategoria = new Categoria({
-        _id: mongoose.Types.ObjectId(),
-        name: req.params.name,
-        desc: req.body.desc,
-        status: req.body.status,
-        subCategorias: [
-        ]
-    });
+// GET /categories 
+// ?name=XXX
+// ?active=XXX
+// ?desc=XXX 
+router.get('/', Auth.isLoggedInKey, [
+    existe("query", "name").optional(),
+    existe("query", "desc").optional(),
+    existe("query", "active")
+        .bail()
+        .isBoolean()
+        .withMessage("The value is not boolean: 'true', 'false'")
+        .optional(),
+], (req, res) => {
     
-    Categorias.editCategoria(newCategoria,function(err,cat){
-        if(err){
-        
-            res.status(500).send("It was not possible to edit the category.");
-        }else{
-            res.send('Category edited with success.');
-        }
-    })
-});
-
-
-var validKeys = ["status"];
-router.get('/', Auth.isLoggedInKey,existe("query", "status").optional(), (req, res) => {
-
     const errors = validationResult(req)
     if(!errors.isEmpty()){
         return res.status(422).jsonp(errors.array())
     }
 
     var queryData = url.parse(req.url, true).query;
-
+    
     var filtro = Object.entries(queryData)
         .filter(([k, v]) => validKeys.includes(k))
 
     filtro = Object.assign({}, ...Array.from(filtro, ([k, v]) => ({[k]: v}) ));
     
-    Categorias.getAllCategorias(filtro,function(err,result){
-        if(err){
-            res.status(500).send("It was not possible to list all categories.");
-        }else{
-            if(result.length == 0){
-                res.status(422).send("Some of the parameters are invalid or missing.")
-            }
-            else res.send(result);
-        }
-    })
-});
+    Categories.listar(filtro)
+        .then(dados => res.jsonp(dados))
+        .catch(erro => res.status(500).send(`Error while listing the categories: ${erro}`))
+})
 
-router.delete('/:name', Auth.isLoggedInUser, Auth.checkLevel(6), function(req, res) {
-    
-    Categorias.deleteCategoriaByName(req.params.name,function(err,result){
-        if(err){
-            res.status(500).send("It was not possible to delete the category.");
-        }else{
-            res.send(result);
-        }
-    })
-});
-//-------------- novos
-
-router.get('/:name', Auth.isLoggedInUser, Auth.checkLevel(-1), function(req, res) {
-    
-    Categorias.getCategoriaByName(req.params.name,function(err,result){
-        if(err){
-            res.status(500).send("It was not possible to get the category.");
-        }else{
-            if(result == null){
-                res.status(422).send("Some of the parameters are invalid or missing.");
-            }
-            else res.send(result);
-        }
-    })
-});
-
-router.get('/categoria/:nameCat/subCategoria/:nameSubCat', Auth.isLoggedInUser, Auth.checkLevel(-1), function(req, res) {
-    
-    Categorias.getSubCategoriaByName(req.params.nameCat,req.params.nameSubCat,function(err,result){
-        if(err){
-            res.status(500).send("It was not possible to get the subcategory.");
-        }else{
-            res.send(result);
-        }
-    })
-});
-
-router.put('/categoria/:nameCat/subCategoria/:nameSubCat', Auth.isLoggedInUser, Auth.checkLevel(6), async function(req, res) {
-    
-    var newCategoria = new Categoria({
-        _id: mongoose.Types.ObjectId(),
-        name: req.params.nameCat,
-        subCategorias: [
-            {
-                _id: mongoose.Types.ObjectId(),
-                name: req.params.nameSubCat,
-                desc: req.body.descSubCategoria,
-                status: req.body.statusSubCategoria
-            }
-        ]
-    });
-
-    Categorias.editSubCategoria(newCategoria,function(err,cat){
-        if(err){
-        
-            res.status(500).send("It was not possible to validate the category.");
-        }else{
-            res.send('Category validated with success.');
-        }
-    })
-});
-
-
-router.get('/:name/subCategorias', Auth.isLoggedInKey,existe("query", "status").optional(), (req, res) => {
-
+// GET /categories/:id
+router.get('/:id', Auth.isLoggedInKey, [
+    eMongoId('param', 'id')
+], (req, res) => {
     const errors = validationResult(req)
     if(!errors.isEmpty()){
         return res.status(422).jsonp(errors.array())
     }
 
-    var queryData = url.parse(req.url, true).query;
+    Categories.consultar(req.params.id)
+        .then(dados => dados ? res.jsonp(dados) : res.status(404).send(`Error: The data item with identified by '${req.params.id}' does not exist on the categories.`))
+	    .catch(erro => res.status(500).send(`Error while listing the category with identifier '${req.params.id}': ${erro}`))
+})
 
-    var filtro = Object.entries(queryData)
-        .filter(([k, v]) => validKeys.includes(k))
+// POST /categories
+router.post('/', Auth.isLoggedInUser, Auth.checkLevel([6, 7]), [
+    existe("body", "name"),
+    existe("body", "desc").optional(),
+    existe("body", "active")
+        .bail()
+        .isBoolean()
+        .withMessage("The value is not boolean: 'true', 'false'")
+], (req, res) => {
+    const errors = validationResult(req)
+    if(!errors.isEmpty()){
+        return res.status(422).jsonp(errors.array())
+    }
+    Categories.consultar_by_name(req.body.name)
+        .then(dados => {
+            if(dados) res.status(500).jsonp("The category '" + req.body.name + "' is already on the database.")
+            else {
+                Categories.criar(req.body)
+                    .then(dados => {
+                        if(dados) res.jsonp("Category successfully added to the database.")
+                        else res.status(500).jsonp("Error creating the category '" + req.body.name + "'")
+                    })
+                    .catch(erro => res.status(500).jsonp("Error creating the category '" + req.body.name + "': " + erro))
+            }
+        })
+        .catch(error => res.status(500).jsonp("Error creating the category '" + req.body.name + "': " + error))
+})
 
-    filtro = Object.assign({}, ...Array.from(filtro, ([k, v]) => ({[k]: v}) ));
+// PUT /categories/:id 
+router.put('/:id', Auth.isLoggedInUser, Auth.checkLevel([6, 7]), [
+    eMongoId('param', 'id'),
+    existe("body", "name"),
+    existe("body", "desc").optional(),
+    existe("body", "active")
+        .bail()
+        .isBoolean()
+        .withMessage("The value is not boolean: 'true', 'false'")
+], (req, res) => {
+    const errors = validationResult(req)
+
+    if(!errors.isEmpty()){
+        return res.status(422).jsonp(errors.array())
+    }
+
+    Categories.consultar_by_name(req.body.name)
+        .then(dados => {
+            if(dados && dados.find(element => element._id != req.params.id)) {
+                res.status(500).jsonp("The category '" + req.body.name + "' is already on the database.")
+            }
+            else {
+                Categories.update(req.params.id, req.body)
+                    .then(dados => {
+                        if(dados) res.jsonp("Category successfully modified.")
+                        else res.status(500).jsonp("Error while modifying the category with identifier '" + req.params.id + "'.")
+                    })
+                    .catch(erro => res.status(500).jsonp("Error while modifying the category with identifier '" + req.params.id + "': " + erro))
+            }
+        })
+        .catch(error => res.status(500).jsonp("Error creating the category '" + req.body.name + "': " + error))
+
     
-    
-    Categorias.getAllSubCategorias(req.params.name,filtro,function(err,result){
+})
+
+// DELETE /categories/:id
+// Drop specializations
+router.delete('/:id', Auth.isLoggedInUser, Auth.checkLevel([6, 7]), [
+    eMongoId('param', 'id')
+], function(req, res) {
+    const errors = validationResult(req)
+    if(!errors.isEmpty()){
+        return res.status(422).jsonp(errors.array())
+    }
+
+    Categories.eliminar(req.params.id, function(err, user){
         if(err){
-            res.status(500).send("It was not possible to list all Subcategories.");
+            res.status(500).send("An error ocurred while deleting the category.");
         }else{
-            if(result.length == 0){
-                res.status(422).send("Some of the parameters are invalid or missing.");
-            }
-            else res.send(result);
-        }
-    })
-});
-
-router.delete('/categoria/:nameCat/subCategoria/:nameSubCat', Auth.isLoggedInUser, Auth.checkLevel(6), function(req, res) {
-    
-    Categorias.deleteSubCategoriaByName(req.params.nameCat,req.params.nameSubCat,function(err,result){
-        if(err){
-            res.status(500).send("It was not possible to delete the Subcategory.");
-        }else{
-            res.send(result);
-        }
-    })
-});
-
-router.post('/:categoria', Auth.isLoggedInUser, Auth.checkLevel(6), async (req, res) => {
-    var newCategoria = new Categoria({
-        _id: mongoose.Types.ObjectId(),
-        name: req.params.categoria,
-        desc: req.body.descCategoria,
-        status: 0,
-        subCategorias: [
-            {
-                _id: mongoose.Types.ObjectId(),
-                name: req.body.nameSubCategoria,
-                desc: req.body.descSubCategoria,
-                status: 0,
-            }
-        ]
-    });
-
-    Categorias.createSubCategoria(newCategoria,function(err,cat){
-        if (err){
-            if (err ="SubCategory already exists."){
-                return res.status(500).send('SubCategory already exists.');    
-            }
-            return res.status(500).send('It was not possible to register the Subcategory. Please check if the values are correct or if something is missing.');
-        }
-        else{
-            res.send('SubCategory registered with success.');
+            // Delete specializations assciated to category
+            Specializations.delete_all_from_category(req.params.id)
+                .then(dados => {
+                    res.send('Category successfully deleted.');
+                })
+                .catch(erro => res.status(500).send("An error ocurred while deleting the specializations associated with the category."))
         }
     })
 });

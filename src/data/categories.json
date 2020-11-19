@@ -1,0 +1,25 @@
+[{
+	"_id": {
+		"$oid": "5fb6b75a53629eed36abd7ef"
+	},
+	"name": "Events",
+	"desc": "Find suitable professional help to organize any type of event.",
+	"active": true
+},
+{
+	"_id": {
+		"$oid": "5fb6b75a53629eed36abd7f0"
+	},
+	"name": "Well-being",
+	"desc": "Find suitable professional help to carry out any project.",
+	"active": true
+},
+{
+	"_id": {
+		"$oid": "5fb6b75a53629eed36abd7f1"
+	},
+	"name": "Teaching",
+	"desc": "Find suitable professional help to improve your skills",
+	"active": true
+}]
+
