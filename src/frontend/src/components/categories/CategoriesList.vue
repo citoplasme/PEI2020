@@ -86,7 +86,7 @@
             <td class="subheading">{{ props.item.name }}</td>
             <td class="subheading">{{ props.item.desc }}</td>
             <td v-if="levelU >= levelMin" class="subheading">
-              {{ props.item.status }}
+              {{ props.item.active }}
             </td>
             <td class="subheading">
               <v-tooltip bottom>
@@ -107,7 +107,7 @@
               </v-tooltip>
               <v-tooltip bottom v-if="levelU >= levelMin">
                 <template v-slot:activator="{ on }">
-                  <v-btn v-on="on" icon @click="eliminarName = props.item.name">
+                  <v-btn v-on="on" icon @click="eliminarName = props.item.id">
                     <v-icon color="red">delete</v-icon>
                   </v-btn>
                 </template>
@@ -115,7 +115,7 @@
               </v-tooltip>
               <v-tooltip bottom v-if="levelU >= levelMin">
                 <template v-slot:activator="{ on }">
-                  <v-btn v-on="on" icon @click="validateName = props.item.name">
+                  <v-btn v-on="on" icon @click="validateName = props.item.id">
                     <v-icon color="green">done_outline</v-icon>
                   </v-btn>
                 </template>
@@ -291,7 +291,7 @@ export default {
           {
             text: "Status",
             sortable: true,
-            value: "status",
+            value: "active",
             class: "title"
           },
           {
@@ -322,15 +322,17 @@ export default {
     },
 
     preparaLista(listCategories) {
+
       let myTree = [];
       for (let i = 0; i < listCategories.length; i++) {
         if (this.levelU >= this.levelMin) {
           myTree.push({
+            id: listCategories[i]._id,
             name: listCategories[i].name,
             desc: listCategories[i].desc,
-            status: listCategories[i].status
+            active: listCategories[i].active
           });
-        } else if (listCategories[i].status == 1) {
+        } else if (listCategories[i].active == 1) {
           myTree.push({
             name: listCategories[i].name,
             desc: listCategories[i].desc
@@ -342,7 +344,7 @@ export default {
 
     async getCategories() {
       try {
-        let response = await this.$request("get", "/categorias/");
+        let response = await this.$request("get", "/categories/");
         let level = await this.$userLevel(this.$store.state.token);
         this.preparaCabecalhos(level);
         this.categories = await this.preparaLista(response.data);
@@ -361,18 +363,22 @@ export default {
     async registCategories() {
       let data = {
         name: this.$data.form.name,
-        desc: this.$data.form.description
       };
+
+      if(this.$data.form.description != undefined){
+        data.desc = this.$data.form.description
+      }
 
       if (this.levelU >= this.levelMin) {
         // Teste de admin, se admin submete categoria é imediatamente aprovada
-        data.status = 1;
+        data.active = true;
       } else {
-        data.status = 0;
+        data.active = false;
       }
-
+      console.log(this.levelU)
+      console.log(data)
       try {
-        var response = await this.$request("post", "/categorias", data).then(
+        var response = await this.$request("post", "/categories", data).then(
           result => {
             this.$refs.form.reset();
             this.getCategories();
@@ -384,6 +390,7 @@ export default {
           "An error occurred during the register: " + err.response.data;
         this.color = "error";
         this.dialog = false;
+        console.log(this.text)
       }
     },
     edit(item) {
@@ -437,8 +444,8 @@ export default {
         this.done = false;
       }
     },
-    eliminar(name) {
-      this.$request("delete", "/categorias/" + name)
+    eliminar(id) {
+      this.$request("delete", "/categories/" + id)
         .then(res => {
           this.text = "Category succesfully deleted!";
           this.color = "success";
@@ -454,9 +461,9 @@ export default {
           this.done = false;
         });
     },
-    validar(name) {
-      this.$request("put", "/categorias/" + name, {
-        status: 1
+    validar(id) {
+      this.$request("put", "/categories/" + id, {
+        active: true
       })
         .then(res => {
           this.text = "Category succesfully validated!";
