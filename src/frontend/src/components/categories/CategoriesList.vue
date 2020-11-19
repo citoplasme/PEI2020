@@ -23,12 +23,15 @@
                     label="Name"
                     required
                   ></v-text-field>
-                  <v-text-field
+                  <v-textarea
                     name="description"
                     v-model="form.description"
                     label="Description"
-                    required
-                  ></v-text-field>
+                    auto-grow
+                    solo
+                    clearable
+                    color="indigo"
+                  ></v-textarea>
                 </v-form>
               </v-container>
               <small>*all fields are required</small>
@@ -81,10 +84,18 @@
               <v-tooltip bottom>
                 <template v-slot:activator="{ on }">
                   <v-btn icon v-on="on" @click="go(props.item.name)">
-                    <v-icon medium color="primary">search</v-icon>
+                    <v-icon medium color="grey">search</v-icon>
                   </v-btn>
                 </template>
                 <span>See subcategories</span>
+              </v-tooltip>
+              <v-tooltip bottom v-if="levelU >= nivelMin">
+                <template v-slot:activator="{ on }">
+                  <v-btn icon v-on="on" @click="edit(props.item)">
+                    <v-icon medium color="primary">edit</v-icon>
+                  </v-btn>
+                </template>
+                <span>Edit category</span>
               </v-tooltip>
               <v-tooltip bottom v-if="levelU >= nivelMin">
                 <template v-slot:activator="{ on }">
@@ -100,6 +111,69 @@
         </template>
       </v-data-table>
     </v-card>
+    <v-dialog v-model="dialog_edit_category" persistent max-width="500px">
+      <v-card>
+        <v-card-title class="headline">
+          <span class="headline">Edit category</span>
+        </v-card-title>
+        <v-card-text>
+          <v-form ref="form" lazy-validation>
+            <v-container grid-list-md>
+              <v-layout wrap>
+                <v-flex xs12 sm6 md12>
+                  <v-text-field
+                    prepend-icon="label"
+                    v-model="editedItem.name"
+                    label="Name"
+                    :rules="regraNome"
+                    required
+                  ></v-text-field>
+                </v-flex>
+                <v-flex xs12 sm6 md12>
+                  <v-textarea
+                    prepend-icon="description"
+                    v-model="editedItem.desc"
+                    label="Description"
+                    :rules="regraDesc"
+                    auto-grow
+                    solo
+                    clearable
+                    color="indigo"
+                  ></v-textarea>
+                </v-flex>
+                <v-flex xs12 sm6 md12>
+                  <v-select
+                    :items="['Refused', 'Not active', 'Active']"
+                    :rules="regraStatus"
+                    prepend-icon="number"
+                    v-model="editedItem.status"
+                    label="Status"
+                    required
+                  >
+                  </v-select>
+                </v-flex>
+              </v-layout>
+            </v-container>
+          </v-form>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="red" text @click="dialog_edit_category = false"
+            >Cancel</v-btn
+          >
+          <v-btn color="primary" text @click="save">Save</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <v-snackbar
+      v-model="snackbar"
+      :color="color"
+      :timeout="timeout"
+      :top="true"
+    >
+      {{ text }}
+      <v-btn text @click="fecharSnackbar">Close</v-btn>
+    </v-snackbar>
   </v-content>
 </template>
 
@@ -108,6 +182,33 @@ import { NIVEL_MINIMO_ALTERAR } from "@/utils/consts";
 
 export default {
   data: () => ({
+    statusInfo: [
+      {
+        value: -1,
+        desc: "Refused"
+      },
+      {
+        value: 0,
+        desc: "Not active"
+      },
+      {
+        value: 1,
+        desc: "Active"
+      }
+    ],
+    regraNome: [v => !!v || "Name is required."],
+    regraDesc: [v => !!v || "Description is required"],
+    regraEmail: [
+      v => !!v || "Email is required.",
+      v => /^.+@.+\..+$/.test(v) || "Email has to be valid."
+    ],
+    regraStatus: [v => !!v || "Status is required"],
+    regraTipo: [v => !!v || "User type is required."],
+    editedItem: {
+      name: "",
+      desc: "",
+      status: ""
+    },
     nivelMin: NIVEL_MINIMO_ALTERAR,
     levelU: "",
     search: "",
@@ -115,7 +216,11 @@ export default {
     categories: [],
     color: "",
     text: "",
+    snackbar: false,
+    done: false,
+    timeout: 4000,
     dialog: false,
+    dialog_edit_category: false,
     form: {
       name: "",
       description: ""
@@ -225,6 +330,61 @@ export default {
         this.color = "error";
         this.dialog = false;
       }
+    },
+    edit(item) {
+      this.editedIndex = this.categories.indexOf(item);
+
+      this.editedItem = Object.assign({}, item);
+
+      this.editedItem.status = this.statusInfo.find(
+        s => s.value === this.editedItem.status
+      ).desc;
+
+      this.dialog_edit_category = true;
+    },
+    save() {
+      if (this.$refs.form.validate()) {
+        var parsedStatus;
+
+        switch (this.editedItem.status) {
+          case "Refused":
+            parsedStatus = -1;
+            break;
+          case "Not active":
+            parsedStatus = 0;
+            break;
+          case "Active":
+            parsedStatus = 1;
+            break;
+        }
+        this.$request("put", "/categorias/" + this.editedItem.name, {
+          desc: this.editedItem.desc,
+          status: parsedStatus
+        })
+          .then(res => {
+            this.text = res.data;
+            this.color = "success";
+            this.snackbar = true;
+            this.done = true;
+            this.dialog_edit_category = false;
+            this.getCategories();
+          })
+          .catch(err => {
+            this.text = err.response.data;
+            this.color = "error";
+            this.snackbar = true;
+            this.done = false;
+          });
+      } else {
+        this.text = "Please check if you have filled every field.";
+        this.color = "error";
+        this.snackbar = true;
+        this.done = false;
+      }
+    },
+    fecharSnackbar() {
+      this.snackbar = false;
+      if (this.done == true) this.getCategories();
     }
   },
   created: async function() {
