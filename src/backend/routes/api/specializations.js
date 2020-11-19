@@ -56,7 +56,7 @@ router.get('/:id', Auth.isLoggedInKey, [
 })
 
 // POST /specializations
-router.post('/', Auth.isLoggedInUser, Auth.checkLevel([6, 7]), [
+router.post('/', Auth.isLoggedInUser, Auth.checkLevel([3, 3.5, 4, 5, 6, 7]), [
     existe("body", "name"),
     existe("body", "desc").optional(),
     existe("body", "active")
@@ -77,16 +77,33 @@ router.post('/', Auth.isLoggedInUser, Auth.checkLevel([6, 7]), [
                 // Check if specialization is not associated to the category
                 Specializations.consultar_by_category(req.body.category)
                     .then(dad => {
-                        if(dad.find(element => element.name === req.body.name)){
+                        if(dad && dad.length > 0 && dad.find(element => element.name === req.body.name)){
                             res.status(500).jsonp("The specialization already exists '" + req.body.name) 
                         }
                         else {
-                            Specializations.criar(req.body)
-                                .then(dados => {
-                                    if(dados) res.jsonp("Specialization successfully created.")
-                                    else res.status(500).jsonp("Error creating the specialization '" + req.body.name + "'.")
-                                })
-                                .catch(erro => res.status(500).jsonp("Error creating the specialization '" + req.body.name + "': " + erro))
+                            // Verify if admin
+                            if(req.user.level >= 6){
+                                Specializations.criar(req.body)
+                                    .then(dados => {
+                                        if(dados) res.jsonp("Specialization successfully created.")
+                                        else res.status(500).jsonp("Error creating the specialization '" + req.body.name + "'.")
+                                    })
+                                    .catch(erro => res.status(500).jsonp("Error creating the specialization '" + req.body.name + "': " + erro))
+                            }
+                            else {
+                                // Verify if active is false
+                                if(req.body.active === 'false'){
+                                    Specializations.criar(req.body)
+                                        .then(dados => {
+                                            if(dados) res.jsonp("Specialization successfully created.")
+                                            else res.status(500).jsonp("Error creating the specialization '" + req.body.name + "'.")
+                                        })
+                                        .catch(erro => res.status(500).jsonp("Error creating the specialization '" + req.body.name + "': " + erro))
+                                } 
+                                else {
+                                    res.status(500).jsonp("Error creating the specialization: you can not create an active specialization.")
+                                }
+                            }
                         }
                     })
                     .catch(error => res.status(500).jsonp("Error creating the specialization '" + req.body.name + "': " + error))

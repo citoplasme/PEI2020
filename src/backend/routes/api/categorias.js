@@ -54,7 +54,7 @@ router.get('/:id', Auth.isLoggedInKey, [
 })
 
 // POST /categories
-router.post('/', Auth.isLoggedInUser, Auth.checkLevel([6, 7]), [
+router.post('/', Auth.isLoggedInUser, Auth.checkLevel([3, 3.5, 4, 5, 6, 7]), [
     existe("body", "name"),
     existe("body", "desc").optional(),
     existe("body", "active")
@@ -68,14 +68,31 @@ router.post('/', Auth.isLoggedInUser, Auth.checkLevel([6, 7]), [
     }
     Categories.consultar_by_name(req.body.name)
         .then(dados => {
-            if(dados) res.status(500).jsonp("The category '" + req.body.name + "' is already on the database.")
+            if(dados && dados.length > 0) res.status(500).jsonp("The category '" + req.body.name + "' is already on the database.")
             else {
-                Categories.criar(req.body)
-                    .then(dados => {
-                        if(dados) res.jsonp("Category successfully added to the database.")
-                        else res.status(500).jsonp("Error creating the category '" + req.body.name + "'")
-                    })
-                    .catch(erro => res.status(500).jsonp("Error creating the category '" + req.body.name + "': " + erro))
+                // Verify if admin
+                if(req.user.level >= 6){                            
+                    Categories.criar(req.body)
+                        .then(dados => {
+                            if(dados) res.jsonp("Category successfully added to the database.")
+                            else res.status(500).jsonp("Error creating the category '" + req.body.name + "'")
+                        })
+                        .catch(erro => res.status(500).jsonp("Error creating the category '" + req.body.name + "': " + erro))
+                }
+                else {
+                    // Verify if active is false
+                    if(req.body.active === 'false'){
+                        Categories.criar(req.body)
+                            .then(dados => {
+                                if(dados) res.jsonp("Category successfully added to the database.")
+                                else res.status(500).jsonp("Error creating the category '" + req.body.name + "'")
+                            })
+                            .catch(erro => res.status(500).jsonp("Error creating the category '" + req.body.name + "': " + erro))
+                    }
+                    else {
+                        res.status(500).jsonp("Error creating the category: you can not create an active category.")
+                    }
+                }
             }
         })
         .catch(error => res.status(500).jsonp("Error creating the category '" + req.body.name + "': " + error))
