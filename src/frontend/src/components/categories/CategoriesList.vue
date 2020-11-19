@@ -6,7 +6,13 @@
         <v-spacer></v-spacer>
         <v-dialog v-model="dialog" persistent max-width="600px">
           <template v-slot:activator="{ on, attrs }">
-            <v-btn v-if="levelU > 3" color="blue darken-4" dark v-bind="attrs" v-on="on">
+            <v-btn
+              v-if="levelU > 3"
+              color="blue darken-4"
+              dark
+              v-bind="attrs"
+              v-on="on"
+            >
               New category
             </v-btn>
           </template>
@@ -260,7 +266,7 @@ export default {
       description: ""
     },
     eliminarName: "",
-    validateName:"",
+    validateName: "",
     snackbar: false,
     color: "",
     done: false,
@@ -356,21 +362,23 @@ export default {
     async registCategories() {
       let data = {
         name: this.$data.form.name,
-        desc: this.$data.form.description}
+        desc: this.$data.form.description
+      };
 
-      if(this.levelU >= this.levelMin){ // Teste de admin, se admin submete categoria é imediatamente aprovada
-        data.status=1
-      }
-      else{
-        data.status=0
+      if (this.levelU >= this.levelMin) {
+        // Teste de admin, se admin submete categoria é imediatamente aprovada
+        data.status = 1;
+      } else {
+        data.status = 0;
       }
 
       try {
-        var response = await this.$request("post", "/categorias", data)
-        .then(result => {
-          this.$refs.form.reset();
-          this.getCategories();
-        });
+        var response = await this.$request("post", "/categorias", data).then(
+          result => {
+            this.$refs.form.reset();
+            this.getCategories();
+          }
+        );
         this.dialog = false;
       } catch (err) {
         this.text =
@@ -447,9 +455,9 @@ export default {
           this.done = false;
         });
     },
-    validar(name){
-      this.$request("put", "/categorias/"+ name, {
-        status:1
+    validar(name) {
+      this.$request("put", "/categorias/" + name, {
+        status: 1
       })
         .then(res => {
           this.text = "Category succesfully validated!";
