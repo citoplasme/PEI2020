@@ -79,7 +79,9 @@
           <tr>
             <td class="subheading">{{ props.item.name }}</td>
             <td class="subheading">{{ props.item.desc }}</td>
-            <td class="subheading">{{ props.item.status }}</td>
+            <td v-if="levelU >= nivelMin" class="subheading">
+              {{ props.item.status }}
+            </td>
             <td class="subheading">
               <v-tooltip bottom>
                 <template v-slot:activator="{ on }">
@@ -101,6 +103,7 @@
                 <template v-slot:activator="{ on }">
                   <!-- <v-btn v-on="on" icon @click="eliminarName = this.categories"> -->
                   <v-btn icon v-on="on">
+                  <v-btn v-on="on" icon @click="eliminarName = props.item.name">
                     <v-icon color="red">delete</v-icon>
                   </v-btn>
                 </template>
@@ -162,6 +165,20 @@
             >Cancel</v-btn
           >
           <v-btn color="primary" text @click="save">Save</v-btn>
+    <v-dialog :value="eliminarName != ''" persistent max-width="290px">
+      <v-card>
+        <v-card-title class="headline">Action Confirmation</v-card-title>
+        <v-card-text>
+          Are you sure that you want to delete the category?
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="red" text @click="eliminarName = ''">
+            Cancel
+          </v-btn>
+          <v-btn color="primary" text @click="eliminar(eliminarName)">
+            Confirm
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -225,7 +242,12 @@ export default {
       name: "",
       description: ""
     },
-    eliminarName: ""
+    eliminarName: "",
+    snackbar: false,
+    color: "",
+    done: false,
+    text: "",
+    timeout: 4000
   }),
   methods: {
     preparaCabecalhos(level) {
@@ -318,8 +340,9 @@ export default {
         var response = await this.$request("post", "/categorias", {
           name: this.$data.form.name,
           desc: this.$data.form.description,
-          status: 0 // deve ser sempre zero só depois é que admin valida
+          status: 0 // deve ser sempre zero só depois é que admin valida ou elimina
         }).then(result => {
+          this.$refs.form.reset();
           this.getCategories();
         });
         this.dialog = false;
@@ -381,6 +404,22 @@ export default {
         this.snackbar = true;
         this.done = false;
       }
+    eliminar(name) {
+      this.$request("delete", "/categorias/" + name)
+        .then(res => {
+          this.text = "Category succesfully deleted!";
+          this.color = "success";
+          this.eliminarName = "";
+          this.snackbar = true;
+          this.done = true;
+          this.getCategories();
+        })
+        .catch(err => {
+          this.text = err.response.data;
+          this.color = "error";
+          this.snackbar = true;
+          this.done = false;
+        });
     },
     fecharSnackbar() {
       this.snackbar = false;
