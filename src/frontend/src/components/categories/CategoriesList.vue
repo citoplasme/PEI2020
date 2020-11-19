@@ -115,7 +115,7 @@
               </v-tooltip>
               <v-tooltip bottom v-if="levelU >= levelMin">
                 <template v-slot:activator="{ on }">
-                  <v-btn v-on="on" icon @click="validateName = props.item.id">
+                  <v-btn v-on="on" icon @click="validateName = props.item">
                     <v-icon color="green">done_outline</v-icon>
                   </v-btn>
                 </template>
@@ -379,7 +379,6 @@ export default {
       try {
         var response = await this.$request("post", "/categories/", data).then(
           result => {
-            alert(result);
             this.$refs.form.reset();
             this.getCategories();
           }
@@ -461,10 +460,10 @@ export default {
           this.done = false;
         });
     },
-    validar(id) {
-      this.$request("put", "/categories/" + id, {
-        active: true
-      })
+    validar(item) {
+      let data = item;
+      item.active=true
+      this.$request("put", "/categories/" + item.id, data)
         .then(res => {
           this.text = "Category succesfully validated!";
           this.color = "success";
