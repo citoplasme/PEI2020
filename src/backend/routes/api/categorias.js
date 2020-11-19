@@ -66,6 +66,7 @@ router.post('/', Auth.isLoggedInUser, Auth.checkLevel([3, 3.5, 4, 5, 6, 7]), [
     if(!errors.isEmpty()){
         return res.status(422).jsonp(errors.array())
     }
+
     Categories.consultar_by_name(req.body.name)
         .then(dados => {
             if(dados && dados.length > 0) res.status(500).jsonp("The category '" + req.body.name + "' is already on the database.")

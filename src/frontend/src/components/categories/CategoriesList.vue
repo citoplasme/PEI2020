@@ -322,7 +322,6 @@ export default {
     },
 
     preparaLista(listCategories) {
-
       let myTree = [];
       for (let i = 0; i < listCategories.length; i++) {
         if (this.levelU >= this.levelMin) {
@@ -362,24 +361,25 @@ export default {
     },
     async registCategories() {
       let data = {
-        name: this.$data.form.name,
+        name: this.$data.form.name
       };
 
-      if(this.$data.form.description != undefined){
-        data.desc = this.$data.form.description
+      if (
+        this.$data.form.description !== undefined &&
+        this.$data.form.description !== "" &&
+        this.$data.form.description !== null
+      ) {
+        data.desc = this.$data.form.description;
       }
 
-      if (this.levelU >= this.levelMin) {
-        // Teste de admin, se admin submete categoria é imediatamente aprovada
-        data.active = true;
-      } else {
-        data.active = false;
-      }
-      console.log(this.levelU)
-      console.log(data)
+      data.active = this.levelU >= this.levelMin ? true : "false";
+
+      console.log(this.levelU);
+      console.log(data);
       try {
-        var response = await this.$request("post", "/categories", data).then(
+        var response = await this.$request("post", "/categories/", data).then(
           result => {
+            alert(result);
             this.$refs.form.reset();
             this.getCategories();
           }
@@ -390,7 +390,7 @@ export default {
           "An error occurred during the register: " + err.response.data;
         this.color = "error";
         this.dialog = false;
-        console.log(this.text)
+        console.log(this.text);
       }
     },
     edit(item) {
