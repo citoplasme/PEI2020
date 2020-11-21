@@ -158,11 +158,11 @@
                 </v-flex>
                 <v-flex xs12 sm6 md12>
                   <v-select
-                    :items="['Refused', 'Not active', 'Active']"
-                    :rules="regraStatus"
-                    prepend-icon="number"
-                    v-model="editedItem.status"
-                    label="Status"
+                    :items="['Yes', 'No']"
+                    :rules="regraActive"
+                    prepend-icon="lock"
+                    v-model="editedItem.active"
+                    label="Active"
                     required
                   >
                   </v-select>
@@ -231,27 +231,23 @@ import { NIVEL_MINIMO_ALTERAR } from "@/utils/consts";
 
 export default {
   data: () => ({
-    statusInfo: [
+    activeInfo: [
       {
-        value: -1,
-        desc: "Refused"
+        value: true,
+        desc: "Yes"
       },
       {
-        value: 0,
-        desc: "Not active"
-      },
-      {
-        value: 1,
-        desc: "Active"
+        value: false,
+        desc: "No"
       }
     ],
     regraNome: [v => !!v || "Name is required."],
     regraDesc: [v => !!v],
-    regraStatus: [v => !!v || "Status is required"],
+    regraActive: [v => !!v || "Active label is required"],
     editedItem: {
       name: "",
       desc: "",
-      status: ""
+      active: ""
     },
     levelMin: NIVEL_MINIMO_ALTERAR,
     levelU: "",
@@ -289,7 +285,7 @@ export default {
             class: "title"
           },
           {
-            text: "Status",
+            text: "Active",
             sortable: true,
             value: "active",
             class: "title"
@@ -390,35 +386,41 @@ export default {
       }
     },
     edit(item) {
-      this.editedIndex = this.categories.indexOf(item);
-
       this.editedItem = Object.assign({}, item);
 
-      this.editedItem.status = this.statusInfo.find(
-        s => s.value === this.editedItem.status
+      this.editedItem.active = this.activeInfo.find(
+        s => s.value === this.editedItem.active
       ).desc;
 
       this.dialog_edit_category = true;
     },
     save() {
       if (this.$refs.form.validate()) {
-        var parsedStatus;
+        var parsedActive;
 
-        switch (this.editedItem.status) {
-          case "Refused":
-            parsedStatus = -1;
+        switch (this.editedItem.active) {
+          case "Yes":
+            parsedActive = true;
             break;
-          case "Not active":
-            parsedStatus = 0;
-            break;
-          case "Active":
-            parsedStatus = 1;
+          case "No":
+            parsedActive = false;
             break;
         }
-        this.$request("put", "/categorias/" + this.editedItem.name, {
-          desc: this.editedItem.desc,
-          status: parsedStatus
-        })
+
+        var object_to_send = {
+          name: this.editedItem.name,
+          active: parsedActive
+        };
+
+        if (parsedActive == false) object_to_send.active = "false";
+        if (this.editedItem.desc !== null)
+          object_to_send.desc = this.editedItem.desc;
+
+        this.$request(
+          "put",
+          "/categories/" + this.editedItem.id,
+          object_to_send
+        )
           .then(res => {
             this.text = res.data;
             this.color = "success";
