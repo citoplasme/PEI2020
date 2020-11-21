@@ -18,7 +18,7 @@
               rounded
               deletable-chips
               multiple
-              label="eg: Babysitter"
+              label="Example: Arts"
               solo
             ></v-autocomplete>
           </v-col>
@@ -34,7 +34,7 @@
                 @click="go(op.url)"
                 :key="op.url"
               >
-                Pesquisar
+                Search
               </v-btn>
             </div>
           </v-card-text>
@@ -54,7 +54,7 @@ export default {
     searchString: [],
     operacoes: [
       {
-        entidade: "Pesquisa",
+        entidade: "Search",
         ops: [
           {
             label: "pesquisar",

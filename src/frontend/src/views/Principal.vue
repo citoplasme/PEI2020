@@ -6,7 +6,7 @@
     </v-col>
 
     <v-col>
-      <Pesquisa/>
+      <Pesquisa />
       <Gestao v-if="level > 0" :level="level" />
     </v-col>
   </v-row>
@@ -16,7 +16,7 @@
 import Info from "@/components/principal/Info.vue";
 import Gestao from "@/components/principal/Gestao.vue";
 import Operacoes from "@/components/principal/Operacoes.vue";
-import Pesquisa from "@/components/principal/Procura.vue"
+import Pesquisa from "@/components/principal/Procura.vue";
 export default {
   components: {
     Info,
