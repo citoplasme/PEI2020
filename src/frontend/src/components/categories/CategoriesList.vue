@@ -7,7 +7,7 @@
         <v-dialog v-model="dialog" persistent max-width="600px">
           <template v-slot:activator="{ on, attrs }">
             <v-btn
-              v-if="levelU > 3"
+              v-if="levelU >= 3"
               color="blue darken-4"
               dark
               v-bind="attrs"
@@ -38,6 +38,14 @@
                     clearable
                     color="indigo"
                   ></v-textarea>
+                  <v-select
+                    v-if="levelU >= levelMin"
+                    :items="['Yes', 'No']"
+                    v-model="form.active"
+                    label="Active"
+                    required
+                  >
+                  </v-select>
                 </v-form>
               </v-container>
               <small>*all fields are required</small>
@@ -149,7 +157,6 @@
                     prepend-icon="description"
                     v-model="editedItem.desc"
                     label="Description"
-                    :rules="regraDesc"
                     auto-grow
                     solo
                     clearable
@@ -242,7 +249,6 @@ export default {
       }
     ],
     regraNome: [v => !!v || "Name is required."],
-    regraDesc: [v => !!v],
     regraActive: [v => !!v || "Active label is required"],
     editedItem: {
       name: "",
@@ -258,7 +264,8 @@ export default {
     dialog_edit_category: false,
     form: {
       name: "",
-      description: ""
+      description: "",
+      active: "No"
     },
     eliminarName: "",
     validateName: "",
@@ -368,12 +375,18 @@ export default {
         data.desc = this.$data.form.description;
       }
 
-      data.active = this.levelU >= this.levelMin ? true : "false";
+      //data.active = this.levelU >= this.levelMin ? true : "false";
+
+      if (this.levelU >= this.levelMin) {
+        if (this.$data.form.active == "Yes") data.active = true;
+        else if (this.$data.form.active == "No") data.active = "false";
+      } else data.active = "false";
 
       try {
         var response = await this.$request("post", "/categories/", data).then(
           result => {
             this.$refs.form.reset();
+
             this.getCategories();
           }
         );
@@ -394,7 +407,7 @@ export default {
 
       this.dialog_edit_category = true;
     },
-    save() {
+    async save() {
       if (this.$refs.form.validate()) {
         var parsedActive;
 
@@ -416,7 +429,7 @@ export default {
         if (this.editedItem.desc !== null)
           object_to_send.desc = this.editedItem.desc;
 
-        this.$request(
+        await this.$request(
           "put",
           "/categories/" + this.editedItem.id,
           object_to_send
