@@ -13,6 +13,12 @@ export default new Router({
       component: () => import("./views/Principal.vue"),
       meta: { levels: [0, 1, 2, 3, 3.5, 4, 5, 6, 7] }
     },
+    {
+      path: "/users/pesquisa",
+      name: "pesquisa",
+      component: () => import("./views/users/Pesquisa.vue"),
+      meta: { levels: [0, 1, 2, 3, 3.5, 4, 5, 6, 7] }
+    },
     // Routes da gestão de utilizadores
     {
       path: "/users/autenticacao",
