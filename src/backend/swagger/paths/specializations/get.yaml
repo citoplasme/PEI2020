@@ -1,0 +1,52 @@
+summary: If no parameters are passed, it returns the specializations list.
+description: If no parameters are passed, it returns the specializations list.
+security:
+  - apiKeyQuery: []
+  - apiKeyAuth: []
+  - userQuery: []
+  - userAuth: []
+tags:
+  - Specializations
+parameters:
+  - name: category
+    in: query
+    description: 'Name of the parent category of the specialization'
+    schema:
+      type: String
+    required: false
+  - name: name
+    in: query
+    description: 'Name of the specialization to list'
+    schema:
+      type: String
+    required: false
+  - name: desc
+    in: query
+    description: 'Description of the specialization to list'
+    schema:
+      type: String
+    required: false
+  - name: active
+    in: query
+    description: 'Status of the subcategories to list'
+    schema:
+      type: boolean
+    required: false
+responses:
+  200:
+    description: Returns the specialization list.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/Specializations'
+        examples:
+          Example of a list of Specializations:
+            $ref: '#/components/examples/Specializations'
+  401:
+    $ref: '#/components/responses/UnauthorizedUser'
+  403:
+    $ref: '#/components/responses/PermissionsUser'
+  422:
+    $ref: '#/components/responses/ValidationParameters'
+  500:
+    description: Error.

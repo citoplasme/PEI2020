@@ -51,7 +51,13 @@ servers:
           - "v1"
 tags:
   - name: Locations
+    description: "List of locations"
+  - name: Countries
     description: "List of countries"
+  - name: Categories
+    description: "Categories available on the platform"
+  - name: Specializations
+    description: "Specializations of the categories avaiable on the platform"
   - name: Auth
     description: "Stores where authentication requests were made."
   - name: Logs

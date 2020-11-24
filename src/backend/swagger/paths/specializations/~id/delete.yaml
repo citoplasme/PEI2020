@@ -1,0 +1,25 @@
+summary: Deletes a specialization.
+description: Deletes a specialization.
+security:
+  - userQuery: []
+  - userAuth: []
+tags:
+  - Specializations
+parameters:
+  - name: id
+    in: path
+    description: 'Specialization identifier'
+    schema:
+      type: string
+    required: true
+responses:
+  200:
+    description: Deleted a specialization.
+  401:
+    $ref: '#/components/responses/UnauthorizedUser'
+  403:
+    $ref: '#/components/responses/PermissionsUser'
+  422:
+    $ref: '#/components/responses/ValidationParameters'
+  500:
+    description: Error.

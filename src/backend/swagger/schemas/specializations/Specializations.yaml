@@ -4,14 +4,17 @@ items:
   properties:
     _id:
       type: string
+    category:
+      type: string
     name:
       type: string
     desc:
       type: string
-    status:
-      type: integer
+    active:
+      type: boolean
     required:
     - _id
+    - category
     - name
     - desc
-    - status
+    - active

@@ -1,4 +1,5 @@
 - _id: "5fb3e8d619c78d1bc2ad3836"
   name: "Painting class"
+  category: "5fb6b75a53629eed36abd7ef"
   desc: "Experienced professionals teaching paiting classes in Portugal"
-  status: 0
+  active: false

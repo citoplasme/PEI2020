@@ -1,9 +1,11 @@
 value:
   - _id: "5fb3e8d619c78d1bc2ad3836"
     name: "Painting class"
+    category: "Classes"
     desc: "Experienced professionals teaching paiting classes in Portugal"
-    status: 0
+    active: false
   - _id: "5fb3e8d619c78d1bc2ad3837"
     name: "Singing class"
+    category: "Classes"
     desc: "Find suitable professional help to sing"
-    status: 1
+    active: true
