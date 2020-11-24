@@ -67,7 +67,7 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
-      <v-spacer></v-spacer>
+        <v-spacer></v-spacer>
         <v-text-field
           v-model="search"
           append-icon="search"
@@ -90,18 +90,17 @@
           </v-alert>
         </template>
 
-        
-
         <template v-slot:item="props">
           <tr>
             <td class="subheading">{{ props.item.name }}</td>
             <td class="subheading">{{ props.item.desc }}</td>
-            <td class="subheading">{{ props.item.active }}</td>
-            <td class="subheading">
-
-              <v-tooltip bottom v-if="levelU >= levelMin">
+            <td v-if="levelU >= levelMin" class="subheading">
+              {{ props.item.active }}
+            </td>
+            <td v-if="levelU >= levelMin" class="subheading">
+              <v-tooltip bottom>
                 <template v-slot:activator="{ on }">
-                  <v-btn v-on="on" icon @click="eliminarName = props.item.id">
+                  <v-btn v-on="on" icon @click="eliminarId = props.item.id">
                     <v-icon color="red">delete</v-icon>
                   </v-btn>
                 </template>
@@ -109,7 +108,7 @@
               </v-tooltip>
               <v-tooltip bottom v-if="levelU >= levelMin">
                 <template v-slot:activator="{ on }">
-                  <v-btn v-on="on" icon @click="validateName = props.item">
+                  <v-btn v-on="on" icon @click="validateId = props.item">
                     <v-icon color="green">done_outline</v-icon>
                   </v-btn>
                 </template>
@@ -118,9 +117,42 @@
             </td>
           </tr>
         </template>
-        
       </v-data-table>
     </v-card>
+    <v-dialog :value="eliminarId != ''" persistent max-width="290px">
+      <v-card>
+        <v-card-title class="headline">Action Confirmation</v-card-title>
+        <v-card-text>
+          Are you sure that you want to delete the category?
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="red" text @click="eliminarId = ''">
+            Cancel
+          </v-btn>
+          <v-btn color="primary" text @click="eliminar(eliminarId)">
+            Confirm
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <v-dialog :value="validateId != ''" persistent max-width="290px">
+      <v-card>
+        <v-card-title class="headline">Action Confirmation</v-card-title>
+        <v-card-text>
+          Are you sure that you want to validate the category?
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="red" text @click="validateId = ''">
+            Cancel
+          </v-btn>
+          <v-btn color="primary" text @click="validar(validateId)">
+            Confirm
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-content>
 </template>
 
@@ -155,10 +187,13 @@ export default {
     },
     levelMin: NIVEL_MINIMO_ALTERAR,
     levelU: "",
+    eliminarId: "",
+    validateId: "",
+    snackbar: true,
+    done: false
   }),
   methods: {
     preparaCabecalhos(level) {
-      console.log(level)
       if (level >= NIVEL_MINIMO_ALTERAR) {
         this.headers = [
           {
@@ -197,23 +232,40 @@ export default {
             sortable: true,
             value: "desc",
             class: "title"
-          },
-          {
-            text: "Operations",
-            value: "ops"
           }
         ];
       }
     },
+    preparaLista(listCategories) {
+      let myTree = [];
+      for (let i = 0; i < listCategories.length; i++) {
+        if (this.levelU >= this.levelMin) {
+          myTree.push({
+            id: listCategories[i]._id,
+            category: listCategories[i].category,
+            name: listCategories[i].name,
+            desc: listCategories[i].desc,
+            active: listCategories[i].active
+          });
+        } else if (listCategories[i].active == 1) {
+          myTree.push({
+            id: listCategories[i]._id,
+            category: listCategories[i].category,
+            name: listCategories[i].name,
+            desc: listCategories[i].desc
+          });
+        }
+      }
+      return myTree;
+    },
     async getSubCategories(id) {
-      this.preparaCabecalhos(this.levelU)
+      this.preparaCabecalhos(this.levelU);
       try {
         var response = await this.$request(
           "get",
           "/specializations?category=" + id
         );
-
-        this.subCategories = Array.from(response.data);
+        this.subCategories = this.preparaLista(Array.from(response.data));
       } catch (e) {
         return e;
       }
@@ -246,13 +298,15 @@ export default {
       } else data.active = "false";
 
       try {
-        var response = await this.$request("post", "/specializations/", data).then(
-          result => {
-            this.$refs.form.reset();
+        var response = await this.$request(
+          "post",
+          "/specializations/",
+          data
+        ).then(result => {
+          this.$refs.form.reset();
 
-            this.getSubCategories(this.categoryId);
-          }
-        );
+          this.getSubCategories(this.categoryId);
+        });
         this.dialog = false;
       } catch (err) {
         this.text =
@@ -260,14 +314,54 @@ export default {
         this.color = "error";
         this.dialog = false;
       }
+    },
+    eliminar(id) {
+      this.$request("delete", "/specializations/" + id)
+        .then(res => {
+          this.text = "Category succesfully deleted!";
+          this.color = "success";
+          this.eliminarId = "";
+          this.snackbar = true;
+          this.done = true;
+          this.getSubCategories(this.categoryId);
+        })
+        .catch(err => {
+          this.text = err.response;
+          this.color = "error";
+          this.snackbar = true;
+          this.done = false;
+        });
+    },
+    validar(item) {
+      let data = item;
+      item.active = true;
+      this.$request("put", "/specializations/" + item.id, data)
+        .then(res => {
+          this.text = "Category succesfully validated!";
+          this.color = "success";
+          this.validateId = "";
+          this.snackbar = true;
+          this.done = true;
+          this.getSubCategories(this.categoryId);
+        })
+        .catch(err => {
+          this.text = err.response.data;
+          this.color = "error";
+          this.snackbar = true;
+          this.done = false;
+        });
+    },
+    fecharSnackbar() {
+      this.snackbar = false;
+      if (this.done == true) this.getCategories();
     }
   },
   async created() {
+    let level = await this.$userLevel(this.$store.state.token);
+    this.levelU = level;
     await this.getCategory(this.categoryId);
     await this.getSubCategories(this.categoryId);
     this.ready = true;
-    let level = await this.$userLevel(this.$store.state.token);
-    this.levelU=level
-  },
+  }
 };
 </script>
