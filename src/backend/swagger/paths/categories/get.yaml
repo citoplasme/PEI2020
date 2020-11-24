@@ -32,7 +32,7 @@ responses:
     content:
       application/json:
         schema:
-          $ref: '#/components/schemas/Categorias'
+          $ref: '#/components/schemas/Categories'
         examples:
           Example of a list of Categories:
             $ref: '#/components/examples/Categories'

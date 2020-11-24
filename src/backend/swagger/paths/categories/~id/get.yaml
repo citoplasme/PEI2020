@@ -1,5 +1,5 @@
-summary: Get a Category by name.
-description: Get a Category by name.
+summary: Consult a category.
+description: Consult a category.
 security:
   - apiKeyQuery: []
   - apiKeyAuth: []
@@ -8,22 +8,20 @@ security:
 tags:
   - Categories
 parameters:
-  - name: name
+  - name: id
     in: path
-    description: 'Name of the Category'
+    description: 'Category identifier'
     schema:
       type: string
     required: true
 responses:
   200:
-    description: Returns the Category.
+    description: Consult a category.
     content:
       application/json:
         schema:
-          $ref: '#/components/schemas/Categoria'
-        examples:
-          Example of a list of Categories:
-            $ref: '#/components/examples/Categoria'
+          $ref: '#/components/schemas/Category'
+        example: !!inc/file '/examples/categories/Category.yaml'
   401:
     $ref: '#/components/responses/UnauthorizedUser'
   403:

@@ -6,8 +6,8 @@ properties:
     type: string
   desc:
     type: string
-  status:
-    type: integer
+  active:
+    type: boolean
   subCategorias: 
     type: array
     items:
@@ -19,11 +19,11 @@ properties:
           type: string
         desc:
           type: string
-        status:
-          type: integer
+        active:
+          type: boolean
   required:
   - _id
   - name
   - desc
-  - status
+  - active
   - subCategorias

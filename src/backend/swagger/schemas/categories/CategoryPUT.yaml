@@ -2,8 +2,7 @@ type: object
 properties:
   name:
     type: string
+  active:
+    type: boolean
   desc:
     type: string
-  required:
-  - name
-  - desc

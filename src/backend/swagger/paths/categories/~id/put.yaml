@@ -1,30 +1,33 @@
-summary: Changes a Category data.
-description: Changes a Category data.
+summary: Updates a certain category.
+description: Updates a certain category.
 security:
   - userQuery: []
   - userAuth: []
+  - apiKeyQuery: []
+  - apiKeyAuth: []
 tags:
   - Categories
 parameters:
-  - name: name
+  - name: id
     in: path
-    description: 'Name of the Category'
+    description: 'Category identifier'
     schema:
       type: string
     required: true
 requestBody:
-  description: 'Data to change'
+  description: 'Category to change'
   required: true
   content:
     application/json:
       schema:
-        $ref: '#/components/schemas/CategoriaPUT'
+        $ref: '#/components/schemas/CategoryPUT'
       example:
-        status: 1
-        desc: "Texto editado"
+        name: Category name
+        desc: New description for category
+        active: false
 responses:
   200:
-    description: Category edited with success.
+    description: Category updated.
   401:
     $ref: '#/components/responses/UnauthorizedUser'
   403:

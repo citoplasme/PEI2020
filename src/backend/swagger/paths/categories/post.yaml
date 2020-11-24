@@ -3,6 +3,8 @@ description: Add/register a category.
 security:
   - userQuery: []
   - userAuth: []
+  - apiKeyQuery: []
+  - apiKeyAuth: []
 tags:
   - Categories
 requestBody:
@@ -11,10 +13,11 @@ requestBody:
   content:
     application/json:
       schema:
-        $ref: '#/components/schemas/CategoriaPOST'
+        $ref: '#/components/schemas/CategoryPOST'
       example:
         name: "Classes"
         desc: "Find suitable professional help to improve your skills"
+        active: true
 responses:
   200:
     description: Category registered with success.
