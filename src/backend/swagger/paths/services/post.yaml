@@ -1,0 +1,28 @@
+summary: Add/register a service.
+description: Add/register a service.
+security:
+  - userQuery: []
+  - userAuth: []
+  - apiKeyQuery: []
+  - apiKeyAuth: []
+tags:
+  - Services
+requestBody:
+  description: 'Service data to register'
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/ServicePOST'
+      example: !!inc/file '/examples/services/ServicePOST.yaml'
+responses:
+  200:
+    description: Service registered with success.
+  401:
+    $ref: '#/components/responses/UnauthorizedUser'
+  403:
+    $ref: '#/components/responses/PermissionsUser'
+  422:
+    $ref: '#/components/responses/ValidationParameters'
+  500:
+    description: Error.

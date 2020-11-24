@@ -97,7 +97,7 @@ var ServiceSchema = mongoose.Schema({
     }
 }, { minimize: false });
 
-var Services = require('../controllers/api/servicos.js');
+var Services = require('../controllers/api/services.js');
 
 // After an update, this trigger is released
 ServiceSchema.post("update", function(doc) { // utilizar para mudar o status para 4 após as reviews estarem presentes

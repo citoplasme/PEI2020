@@ -1,0 +1,25 @@
+client: "5fb4f73f40b9914167a3888a"
+service_provider: "5f180dd028b3cb0f53f5c567"
+urgent: false
+status: 3
+review:
+  client:
+    payment: 3
+    ponctuality: 4
+    security: 5
+    general: 4
+    karma: 3.5
+  service_provider:
+    ponctuality: 4
+    quality: 4
+    security: 4
+    attendance: 4
+    general: 4
+    karma: 4
+orcamento:
+  - datetime: ISODate("2020-11-04T14:58:44.318Z")
+    user: "5f180dd028b3cb0f53f5c567"
+    value: "5$ per hour"
+date: "2020-11-11"
+hour: "14:30"
+duration: "5 hours"

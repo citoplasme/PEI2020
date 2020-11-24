@@ -1,0 +1,70 @@
+summary: If no parameters are passed, it returns the services list.
+description: If no parameters are passed, it returns the services list.
+security:
+  - apiKeyQuery: []
+  - apiKeyAuth: []
+  - userQuery: []
+  - userAuth: []
+tags:
+  - Services
+parameters:
+  - name: client
+    in: query
+    description: 'Id of the client of the service'
+    schema:
+      type: String
+    required: false
+  - name: service_provider
+    in: query
+    description: 'Service provider'
+    schema:
+      type: String
+    required: false
+  - name: urgent
+    in: query
+    description: 'Urgency of the service'
+    schema:
+      type: boolean
+    required: false
+  - name: date
+    in: query
+    description: 'Date'
+    schema:
+      type: String
+    required: false
+  - name: hour
+    in: query
+    description: 'Hour'
+    schema:
+      type: String
+    required: false
+  - name: duration
+    in: query
+    description: 'Duration'
+    schema:
+      type: String
+    required: false
+  - name: desc
+    in: query
+    description: 'Description of the service'
+    schema:
+      type: String
+    required: false
+responses:
+  200:
+    description: Returns the services list.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/Services'
+        examples:
+          Example of a list of Services:
+            $ref: '#/components/examples/Services'
+  401:
+    $ref: '#/components/responses/UnauthorizedUser'
+  403:
+    $ref: '#/components/responses/PermissionsUser'
+  422:
+    $ref: '#/components/responses/ValidationParameters'
+  500:
+    description: Error.

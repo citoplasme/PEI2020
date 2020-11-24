@@ -1,0 +1,32 @@
+summary: Consult a service.
+description: Consult a service.
+security:
+  - apiKeyQuery: []
+  - apiKeyAuth: []
+  - userQuery: []
+  - userAuth: []
+tags:
+  - Services
+parameters:
+  - name: id
+    in: path
+    description: 'Service identifier'
+    schema:
+      type: string
+    required: true
+responses:
+  200:
+    description: Consult a service.
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/Service'
+        example: !!inc/file '/examples/services/Service.yaml'
+  401:
+    $ref: '#/components/responses/UnauthorizedUser'
+  403:
+    $ref: '#/components/responses/PermissionsUser'
+  422:
+    $ref: '#/components/responses/ValidationParameters'
+  500:
+    description: Error.

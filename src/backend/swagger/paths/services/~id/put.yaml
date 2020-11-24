@@ -1,0 +1,35 @@
+summary: Updates a certain service.
+description: Updates a certain service.
+security:
+  - userQuery: []
+  - userAuth: []
+  - apiKeyQuery: []
+  - apiKeyAuth: []
+tags:
+  - Services
+parameters:
+  - name: id
+    in: path
+    description: 'Service identifier'
+    schema:
+      type: string
+    required: true
+requestBody:
+  description: 'Service to change'
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/ServicePUT'
+      example: !!inc/file '/examples/services/ServicePUT.yaml'
+responses:
+  200:
+    description: Service updated.
+  401:
+    $ref: '#/components/responses/UnauthorizedUser'
+  403:
+    $ref: '#/components/responses/PermissionsUser'
+  422:
+    $ref: '#/components/responses/ValidationParameters'
+  500:
+    description: Error.

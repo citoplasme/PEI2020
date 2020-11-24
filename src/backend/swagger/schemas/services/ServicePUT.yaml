@@ -1,0 +1,58 @@
+type: object
+properties:
+  client:
+    type: string
+  service_provider:
+    type: string
+  urgent:
+    type: boolean
+  status:
+    type: integer
+  review:
+    type: object
+    properties:
+      client:
+        type: object
+        properties:
+          payment:
+            type: integer
+          ponctuality:
+            type: integer
+          security:
+            type: interger
+          general:
+            type: integer
+          karma:
+            type: number
+      service_provider:
+        type: object
+        properties:
+          ponctuality:
+            type: integer
+          quality:
+            type: integer
+          security:
+            type: integer
+          attendance:
+            type: integer
+          general:
+            type: integer
+          karma:
+            type: number
+  orcamento:
+    type: array
+    items:
+      type: object
+      properties:
+        datetime:
+          type: String
+        user:
+          type: String
+        value:
+          type: String
+  date:
+    type: String
+  hour:
+    type: String
+  duration:
+    type: String

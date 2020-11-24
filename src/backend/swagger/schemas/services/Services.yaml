@@ -1,0 +1,29 @@
+type: array
+items:
+  type: object
+  properties:
+    _id:
+      type: string
+    client:
+      type: string
+    service_provider:
+      type: string
+    urgent:
+      type: string
+    date:
+      type: boolean
+    hour:
+      type: string
+    duration:
+      type: string
+    desc:
+      type: string
+    required:
+    - _id
+    - client
+    - service_provider
+    - urgent
+    - date
+    - hour
+    - duration
+    - desc

@@ -129,7 +129,7 @@ mainRouter.use('/parametros', require('./routes/api/parametros'));
 
 mainRouter.use('/countries', require('./routes/api/countries'));
 mainRouter.use('/locations', require('./routes/api/locations'));
-mainRouter.use('/services', require('./routes/api/servicos'));
+mainRouter.use('/services', require('./routes/api/services'));
 
 mainRouter.use('/categories',require('./routes/api/categories'));
 mainRouter.use('/specializations',require('./routes/api/specializations'));

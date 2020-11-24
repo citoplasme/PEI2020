@@ -56,6 +56,8 @@ tags:
     description: "List of countries"
   - name: Categories
     description: "Categories available on the platform"
+  - name: Services
+    description: "Services agreed on the platform"
   - name: Specializations
     description: "Specializations of the categories avaiable on the platform"
   - name: Auth
