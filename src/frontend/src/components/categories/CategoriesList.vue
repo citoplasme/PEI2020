@@ -336,6 +336,7 @@ export default {
           });
         } else if (listCategories[i].active == 1) {
           myTree.push({
+            id: listCategories[i]._id,
             name: listCategories[i].name,
             desc: listCategories[i].desc
           });

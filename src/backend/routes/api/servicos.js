@@ -593,16 +593,47 @@ router.put('/:id/status', Auth.isLoggedInUser, Auth.checkLevel([1, 2, 3, 3.5, 4,
             if(dados){
                 // Check if user is part of the service
                 if(req.user.id === dados.client || req.user.id === dados.service_provider){
+                    // Check if the service has no service provider
+                    if(dados.service_provider === undefined && dados.client === req.user.id){
+                        // Status can only be updated to -1 - Cancelled
+                        if(req.body.status === -1){
+                            // Update
+                            Services.update_status(req.params.id, req.body.status)
+                                .then(dados => {
+                                    if(dados) { 
+                                        res.jsonp("Status successfully updated.")
+                                    }
+                                    else res.status(500).jsonp("Error while updating the status for the service with identifier '" + req.params.id + "'.")
+                                })
+                                .catch(erro => res.status(500).jsonp("Error while updating the status for the service with identifier '" + req.params.id + "': " + erro))
+                        }
+                        else {
+                            res.status(500).send('An error occurred while updating the service: the service has no service provider, being only possible to cancel it.')
+                        }
+                    }
                     // Check if service is already closed
                     if (dados.status === -2 || dados.status === -1 || dados.status === 4){
-
+                        res.status(500).send('An error occurred while updating the service: the service is already closed.')
                     }
                     // Check if new status is cancelation
                     else if(req.body.status === -1){
+                        // Check if date - now >= 24h
+                        if(dados.status === 2 || dados.status === 3){
+                            
+                            // Check if date difference >= 24h
+                            if(Services.date_difference(dados.date, dados.hour) >= 2400){
 
+                            }
+                        }
                     } 
                     // Check if new status is cancelation or accept
                     else if(req.body.status === -2 || req.body.status === 2) {
+                        // Check if the last bid was from the other part of the service
+
+
+                    }
+                    // Check if job is marked as finished
+                    else if(req.body.status === 3){
 
                     }
                 } else {

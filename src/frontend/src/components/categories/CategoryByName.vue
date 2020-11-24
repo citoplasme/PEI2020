@@ -263,7 +263,6 @@ export default {
     }
   },
   async created() {
-    console.log(this.props.categoryId)
     await this.getCategory(this.categoryId);
     await this.getSubCategories(this.categoryId);
     this.ready = true;

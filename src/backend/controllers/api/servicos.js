@@ -118,3 +118,42 @@ Services.calculate_karma_service_provider = function(obj){
     var val = obj.ponctuality * 0.1 + obj.payment * 0.3 + obj.security * 0.2 + obj.general * 0.4;
     return val;
 }
+
+// Date manipulation
+Services.date_to_number = function(date_ob){
+	// adjust 0 before single digit date
+	let date = ("0" + date_ob.getDate()).slice(-2);
+
+	// current month
+	let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+
+	// current year
+	let year = date_ob.getFullYear();
+
+	// current hours
+	let hours = date_ob.getHours();
+
+	// current minutes
+	let minutes = date_ob.getMinutes();
+
+	// YYYYMMDDHHmm
+	return minutes + hours * 100 + date * 10000 + month * 1000000 + year * 100000000;
+}
+
+
+// >= 2400
+Services.date_difference = function(data, horario){
+	if(data === undefined){
+		return -1;
+	} else if (horario === undefined){
+		horario = "00:00:00";
+	} else {
+		horario = horario + ":00";
+	}
+	let marcacao = new Date(data + "T" + horario + "Z");
+
+	// current date
+	let date_ob = new Date();
+
+	return Services.date_to_number(marcacao) - Services.date_to_number(date_ob); 
+}
