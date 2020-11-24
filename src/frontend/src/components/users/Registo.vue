@@ -28,7 +28,7 @@
                 label="Email"
                 type="email"
                 :rules="regraEmail"
-                required 
+                required
               />
 
               <v-text-field
@@ -53,25 +53,17 @@
                 @input="verificaPassword()"
                 required
               />
-
-              <v-checkbox 
-                label="Provider" 
-                value="3" 
-                v-model="provider" 
-                @change="requester=!provider" 
-                required 
-                hide-details
-              />
-              <v-checkbox 
-                label="Requester" 
-                value="1" 
-                v-model="requester" 
-                @change="provider=!requester" 
-                required 
-                hide-details
-                true-value
-              />
-
+              <v-flex>
+                <v-select
+                  :items="['Client', 'Service Provider']"
+                  :rules="regraTipo"
+                  prepend-icon="assignment"
+                  v-model="form.type"
+                  label="User Type"
+                  required
+                >
+                </v-select>
+              </v-flex>
             </v-form>
           </v-card-text>
           <v-card-actions>
@@ -112,16 +104,14 @@ export default {
         name: "",
         email: "",
         password: "",
-        rep_password: ""
+        rep_password: "",
+        type: ""
       },
       snackbar: false,
       color: "",
       done: false,
       timeout: 4000,
-      text: "",
-      level:"",
-      provider:"",
-      requester:"",
+      text: ""
     };
   },
 
@@ -140,15 +130,22 @@ export default {
       }
     },
     async registarUtilizador() {
-      this.level = this.requester ? this.requester : this.provider;
-      console.log("level:" + this.level)
       if (this.$refs.form.validate()) {
+        var parsedType;
+        switch (this.$data.form.type) {
+          case "Client":
+            parsedType = 1;
+            break;
+          case "Service Provider":
+            parsedType = 3;
+            break;
+        }
         try {
           var response = await this.$request("post", "/users/registar", {
             name: this.$data.form.name,
             email: this.$data.form.email,
             password: this.$data.form.password,
-            level: this.level
+            level: parsedType
           });
 
           this.$router.push("/");
