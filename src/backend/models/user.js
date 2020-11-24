@@ -60,7 +60,12 @@ var UserSchema = mongoose.Schema({
 		// required: true
 	},
 	photo: {
-		type: String // Base64 encoding image
+		content: {
+			type: String
+		},
+		extension: {
+			type: String
+		}
 	},
 	locations: {
 		type: [String],

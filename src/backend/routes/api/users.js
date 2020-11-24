@@ -11,6 +11,12 @@ var secretKey = require('./../../config/app');
 var Mailer = require('../../controllers/api/mailer');
 var mongoose = require('mongoose');
 
+// Para a foto (upload de ficheiros)
+var formidable = require("formidable")
+var ncp = require('ncp').ncp;
+ncp.limit = 16;
+var fs = require('fs')
+
 router.get('/', Auth.isLoggedInUser, Auth.checkLevel(5), (req, res) => {
     Users.listar(req,function(err, result){
         if(err){
@@ -339,18 +345,43 @@ router.put('/:id/updateToS', Auth.isLoggedInUser, async function(req, res) {
 });
 
 router.put('/:id/uploadphoto', Auth.isLoggedInUser, async function(req, res) {
-    if(req.params.id == req.user.id) {
-        Users.savePhoto(req.params.id, req.body.photo, function(err, user) {
-            if(err) {
-                res.status(500).send(err);
+    
+    var form = new formidable.IncomingForm()
+    form.parse(req, async (error, fields, formData) => {
+        if(!error){
+            // Verify the existence of the file
+            if(formData.file && formData.file.type && formData.file.path){
+                // Verify if the file is a PDF
+                if(formData.file.type === "image/png" || formData.file.type === "image/jpg" || formData.file.type === "image/jpeg"){
+                    // Check if the photo is for the logged user
+                    if(req.params.id == req.user.id) {
+
+                        const contents = fs.readFileSync(formData.file.path, {encoding: 'base64'});
+                        
+                        Users.savePhoto(req.params.id, contents, formData.file.type.split("/")[1], function(err, user) {
+                            if(err) {
+                                res.status(500).send(err);
+                            }
+                            else {
+                                res.send('Photo uploaded successfully.')
+                            }
+                        });
+                    } 
+                    else{
+                        res.status(403).send("Unable to upload photo for an user other than you.")
+                    } 
+                } 
+                else {
+                    res.status(500).json(`Error while uploading photo: the extension has to be PNG, JPEG or JPG.`)
+                }
+            } else {
+                res.status(500).json(`Error while uploading photo: the photo was not sent.`)
             }
-            else {
-                res.send('Photo uploaded successfully.')
-            }
-        });
-    } else{
-        res.status(403).send("Unable to upload photo for an user other than you.")
-    }
+        }
+        else {
+            res.status(500).json(`Error while uploading photo: ${error}`)
+        }
+    }) 
 });
 
 router.delete('/:id/removephoto', Auth.isLoggedInUser, async function(req, res) {

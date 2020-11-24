@@ -447,13 +447,14 @@ Users.uncheckTermsOfService = function(callback) {
     
 }
 
-Users.savePhoto = function(id, photo, callback) {
+Users.savePhoto = function(id, photo, extension, callback) {
     Users.getUserById(id, async function(err, user) {
         if (err) {
             callback(err, null)
         }
         else {
-            user.photo = photo;
+            user.photo.content = photo;
+            user.photo.extension = extension
             try {
                 user.save();
                 callback(null,user);
