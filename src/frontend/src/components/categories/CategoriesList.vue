@@ -251,6 +251,7 @@ export default {
     regraNome: [v => !!v || "Name is required."],
     regraActive: [v => !!v || "Active label is required"],
     editedItem: {
+      id: "",
       name: "",
       desc: "",
       active: ""

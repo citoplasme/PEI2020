@@ -98,6 +98,14 @@
               {{ props.item.active }}
             </td>
             <td v-if="levelU >= levelMin" class="subheading">
+              <v-tooltip bottom v-if="levelU >= levelMin">
+                <template v-slot:activator="{ on }">
+                  <v-btn icon v-on="on" @click="edit(props.item)">
+                    <v-icon medium color="primary">edit</v-icon>
+                  </v-btn>
+                </template>
+                <span>Edit sub-category</span>
+              </v-tooltip>
               <v-tooltip bottom>
                 <template v-slot:activator="{ on }">
                   <v-btn v-on="on" icon @click="eliminarId = props.item.id">
@@ -119,6 +127,59 @@
         </template>
       </v-data-table>
     </v-card>
+    <v-dialog v-model="dialog_edit_subcategory" persistent max-width="500px">
+      <v-card>
+        <v-card-title class="headline">
+          <span class="headline">Edit sub-category</span>
+        </v-card-title>
+        <v-card-text>
+          <v-form ref="form" lazy-validation>
+            <v-container grid-list-md>
+              <v-layout wrap>
+                <v-flex xs12 sm6 md12>
+                  <v-text-field
+                    prepend-icon="label"
+                    v-model="editedItem.name"
+                    label="Name"
+                    :rules="regraNome"
+                    required
+                  ></v-text-field>
+                </v-flex>
+                <v-flex xs12 sm6 md12>
+                  <v-textarea
+                    prepend-icon="description"
+                    v-model="editedItem.desc"
+                    label="Description"
+                    auto-grow
+                    solo
+                    clearable
+                    color="indigo"
+                  ></v-textarea>
+                </v-flex>
+                <v-flex xs12 sm6 md12>
+                  <v-select
+                    :items="['Yes', 'No']"
+                    :rules="regraActive"
+                    prepend-icon="lock"
+                    v-model="editedItem.active"
+                    label="Active"
+                    required
+                  >
+                  </v-select>
+                </v-flex>
+              </v-layout>
+            </v-container>
+          </v-form>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="red" text @click="dialog_edit_subcategory = false"
+            >Cancel</v-btn
+          >
+          <v-btn color="primary" text @click="save">Save</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
     <v-dialog :value="eliminarId != ''" persistent max-width="290px">
       <v-card>
         <v-card-title class="headline">Action Confirmation</v-card-title>
@@ -153,6 +214,15 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <v-snackbar
+      v-model="snackbar"
+      :color="color"
+      :timeout="timeout"
+      :top="true"
+    >
+      {{ text }}
+      <v-btn text @click="fecharSnackbar">Close</v-btn>
+    </v-snackbar>
   </v-content>
 </template>
 
@@ -180,17 +250,38 @@ export default {
     },
     ready: false,
     dialog: false,
+    dialog_edit_subcategory: false,
+    editedItem: {
+      id: "",
+      name: "",
+      desc: "",
+      active: "",
+      category: ""
+    },
     form: {
       name: "",
       description: "",
       active: "No"
     },
+    activeInfo: [
+      {
+        value: true,
+        desc: "Yes"
+      },
+      {
+        value: false,
+        desc: "No"
+      }
+    ],
+    regraNome: [v => !!v || "Name is required."],
+    regraActive: [v => !!v || "Active label is required"],
     levelMin: NIVEL_MINIMO_ALTERAR,
     levelU: "",
     eliminarId: "",
     validateId: "",
-    snackbar: true,
-    done: false
+    snackbar: false,
+    done: false,
+    timeout: 4000
   }),
   methods: {
     preparaCabecalhos(level) {
@@ -315,6 +406,64 @@ export default {
         this.dialog = false;
       }
     },
+    edit(item) {
+      this.editedItem = Object.assign({}, item);
+
+      this.editedItem.active = this.activeInfo.find(
+        s => s.value === this.editedItem.active
+      ).desc;
+
+      this.dialog_edit_subcategory = true;
+    },
+    async save() {
+      if (this.$refs.form.validate()) {
+        var parsedActive;
+
+        switch (this.editedItem.active) {
+          case "Yes":
+            parsedActive = true;
+            break;
+          case "No":
+            parsedActive = false;
+            break;
+        }
+
+        var object_to_send = {
+          name: this.editedItem.name,
+          active: parsedActive,
+          category: this.editedItem.category
+        };
+
+        if (parsedActive == false) object_to_send.active = "false";
+        if (this.editedItem.desc !== null)
+          object_to_send.desc = this.editedItem.desc;
+
+        await this.$request(
+          "put",
+          "/specializations/" + this.editedItem.id,
+          object_to_send
+        )
+          .then(res => {
+            this.text = res.data;
+            this.color = "success";
+            this.snackbar = true;
+            this.done = true;
+            this.dialog_edit_subcategory = false;
+            this.getSubCategories(this.categoryId);
+          })
+          .catch(err => {
+            this.text = err.response.data;
+            this.color = "error";
+            this.snackbar = true;
+            this.done = false;
+          });
+      } else {
+        this.text = "Please check if you have filled every field.";
+        this.color = "error";
+        this.snackbar = true;
+        this.done = false;
+      }
+    },
     eliminar(id) {
       this.$request("delete", "/specializations/" + id)
         .then(res => {
@@ -353,7 +502,7 @@ export default {
     },
     fecharSnackbar() {
       this.snackbar = false;
-      if (this.done == true) this.getCategories();
+      if (this.done == true) this.getSubCategories(this.categoryId);
     }
   },
   async created() {
