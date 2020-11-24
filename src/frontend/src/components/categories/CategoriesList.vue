@@ -99,7 +99,7 @@
             <td class="subheading">
               <v-tooltip bottom>
                 <template v-slot:activator="{ on }">
-                  <v-btn icon v-on="on" @click="go(props.item.name)">
+                  <v-btn icon v-on="on" @click="go(props.item.id)">
                     <v-icon medium color="gray">search</v-icon>
                   </v-btn>
                 </template>

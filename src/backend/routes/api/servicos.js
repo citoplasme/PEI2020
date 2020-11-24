@@ -131,7 +131,7 @@ router.get('/:id', Auth.isLoggedInUser, [
 
 /* 
 Status: 
--2 - Recused
+-2 - Refused
 -1 - Canceled
 0 - Generated
 1 - Negotiating
@@ -230,6 +230,96 @@ router.post('/', Auth.isLoggedInUser, Auth.checkLevel([1, 2, 3, 3.5, 4, 5, 6, 7]
 })
 
 // PUT/:id
+router.put('/:id', Auth.isLoggedInUser, Auth.checkLevel([1, 2, 3, 3.5, 4, 5, 6, 7]), [
+    existe("body", "client"),
+    existe("body", "service_provider").optional(),
+    existe("body", "urgent"),
+    estaEm('body', 'status', vcServiceStatus),
+    dataValida("body", "date").optional(), 
+    horaValida("body", "hour").optional(), 
+    existe("body", "duration").optional(),
+    existe("body", "desc").optional(),
+    eMongoId('param', 'id')
+], async function (req, res) {
+    const errors = validationResult(req)
+    if(!errors.isEmpty()){
+        return res.status(422).jsonp(errors.array())
+    }
+
+    // Admins can manipulate the DB as they please
+    else if(req.user.level >= 6){
+        Services.update(req.params.id, req.body)
+            .then(dados => {
+                if(dados) res.jsonp("Service successfully updated.")
+                else res.status(500).jsonp("Error updating the service.")
+            })
+            .catch(erro => res.status(500).jsonp("Error creating the service: " + erro))
+    }
+    // User has to be a part of the service. Either the client or the service_provider
+    else {
+        // Urgent service request not associated with any service provider (optional) 
+        if(req.body.service_provider === undefined){
+            // Client creates a service for himself
+            if(req.user.id === req.body.client){
+                Services.update(req.params.id, req.body)
+                    .then(dados => {
+                        if(dados) res.jsonp("Service successfully updated.")
+                        else res.status(500).jsonp("Error updating the service.")
+                    })
+                    .catch(erro => res.status(500).jsonp("Error updating the service: " + erro))
+            }
+            // Client is not creating a service for himself
+            else {
+                res.status(500).jsonp("Error updating the service: you are not part of the service that you want to update.")
+            }
+        }
+        // Request made to a specific client/service provider
+        else {
+            if(req.user.id === req.body.client || req.user.id === req.body.service_provider){
+                // Verify if both users exist and if service_provider is valid
+                if(req.user.id === req.body.service_provider){
+                    // Verify if is a service provider (level)
+                    if(req.user.level >= 3){
+                        Services.update(req.params.id, req.body)
+                            .then(dados => {
+                                if(dados) res.jsonp("Service successfully updated.")
+                                else res.status(500).jsonp("Error updating the service.")
+                            })
+                            .catch(erro => res.status(500).jsonp("Error updating the service: " + erro))
+                    } else {
+                        res.status(500).jsonp("Error updating the service: you are not a service provider.")
+                    }
+                }
+                // User is the client 
+                else {
+                    // Check if service_provider is valid
+                    await Users.listarPorId(req.body.service_provider, function(err, result){
+                        if(err){
+                            res.status(500).jsonp("Error updating the service: problem while validating the service provider.")
+                        }else{
+                            // Service provider is valid
+                            if(result.level >= 3){
+                                Services.update(req.params.id, req.body)
+                                    .then(dados => {
+                                        if(dados) res.jsonp("Service successfully updated.")
+                                        else res.status(500).jsonp("Error updating the service.")
+                                    })
+                                    .catch(erro => res.status(500).jsonp("Error updating the service: " + erro))
+                            }
+                            else{
+                                res.status(500).jsonp("Error updating the service: the service provider is not valid.")
+                            }
+                        }
+                    });
+                }
+            } else {
+                res.status(500).jsonp("Error updating the service: you are not part of the service that you want to create.")
+            }
+        }
+    }
+})
+
+
 
 // PUT/:id/bid
 // Check if user is part of the service
@@ -487,7 +577,48 @@ router.put('/:id/review', Auth.isLoggedInUser, Auth.checkLevel([1, 2, 3, 3.5, 4,
             // Update status
     // Else
         // Updates status
+router.put('/:id/status', Auth.isLoggedInUser, Auth.checkLevel([1, 2, 3, 3.5, 4, 5, 6, 7]), [
+    eMongoId('param', 'id'),
+    estaEm('body', 'status', vcServiceStatus),
+], (req, res) => {
+    const errors = validationResult(req)
 
+    if(!errors.isEmpty()){
+        return res.status(422).jsonp(errors.array())
+    }
+
+    // Get the service to be updated
+    Services.consultar(req.params.id)
+        .then(dados => {
+            if(dados){
+                // Check if user is part of the service
+                if(req.user.id === dados.client || req.user.id === dados.service_provider){
+                    // Check if service is already closed
+                    if (dados.status === -2 || dados.status === -1 || dados.status === 4){
+
+                    }
+                    // Check if new status is cancelation
+                    else if(req.body.status === -1){
+
+                    } 
+                    // Check if new status is cancelation or accept
+                    else if(req.body.status === -2 || req.body.status === 2) {
+
+                    }
+                } else {
+                    res.status(500).send('An error occurred while updating the service: you are not part of the service.')
+                }
+            } else {
+                res.status(404).send(`Error: The data item with identified by '${req.params.id}' does not exist on the services.`)
+            }
+        })
+        .catch(erro => res.status(500).send(`Error while listing the service with identifier '${req.params.id}': ${erro}`))
+
+    // Get service
+        // Check req.user.id == service.client || service_provider
+            // 
+    
+})
 // DELETE/:id
 router.delete('/:id', Auth.isLoggedInUser, Auth.checkLevel([1, 2, 3, 3.5, 4, 5, 6, 7]), [
     eMongoId('param', 'id')

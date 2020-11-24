@@ -1,5 +1,5 @@
 <template>
-  <CategoryByName :categoryName="this.categoryName" />
+  <CategoryByName :categoryId="this.categoryId" />
 </template>
 
 <script>
@@ -10,11 +10,11 @@ export default {
     CategoryByName
   },
   data: () => ({
-    categoryName: ""
+    categoryId: ""
   }),
 
   created() {
-    this.categoryName = window.location.pathname.split("/")[2];
+    this.categoryId = window.location.pathname.split("/")[2];
   }
 };
 </script>

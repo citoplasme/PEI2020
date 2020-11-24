@@ -37,6 +37,14 @@ Services.criar = n => {
 }
 
 // PUT
+Services.update = function(id, obj){
+    id = mongoose.Types.ObjectId(id);
+    return Service
+        .update({_id : id}, {$set : obj})
+        //.update({_id : id}, obj, {overwrite : true})
+        .exec()
+}
+
 Services.update_bid = function(id, value, user){
     var bid = {
         user : user,

@@ -1,8 +1,9 @@
 <template>
   <v-content>
-    <v-card class="ma-4">
+    <Loading v-if="!ready" :message="'the category'" />
+    <v-card v-else class="ma-4">
       <v-card-title>
-        <h1>{{ categoryName }}</h1>
+        <h1>{{ category.name }}</h1>
         <v-spacer></v-spacer>
         <v-text-field
           v-model="search"
@@ -11,7 +12,7 @@
           single-line
         ></v-text-field>
       </v-card-title>
-      <v-subheader>{{ categoryDesc }}</v-subheader>
+      <v-subheader>{{ category.desc }}</v-subheader>
       <v-data-table
         :headers="headers"
         :items="subCategories"
@@ -30,7 +31,7 @@
           <tr>
             <td class="subheading">{{ props.item.name }}</td>
             <td class="subheading">{{ props.item.desc }}</td>
-            <td class="subheading">{{ props.item.status }}</td>
+            <td class="subheading">{{ props.item.active }}</td>
           </tr>
         </template>
       </v-data-table>
@@ -39,8 +40,12 @@
 </template>
 
 <script>
+import Loading from "@/components/generic/Loading";
 export default {
-  props: ["categoryName"],
+  props: ["categoryId"],
+  components: {
+    Loading
+  },
   data: () => ({
     search: "",
     headers: [
@@ -57,9 +62,9 @@ export default {
         class: "title"
       },
       {
-        text: "Status",
+        text: "Active",
         sortable: true,
-        value: "status",
+        value: "active",
         class: "title"
       }
     ],
@@ -67,22 +72,37 @@ export default {
     categoryDesc: "",
     subCategories: [],
     color: "",
-    text: ""
+    text: "",
+    category: {
+      name: "",
+      desc: "",
+      active: false
+    },
+    ready: false
   }),
   async created() {
-    await this.getSubCategories(this.categoryName);
+    await this.getCategory(this.categoryId);
+    await this.getSubCategories(this.categoryId);
+
+    this.ready = true;
   },
   methods: {
-    async getSubCategories(categoryName) {
+    async getSubCategories(id) {
       try {
         var response = await this.$request(
           "get",
-          "/categorias/" + categoryName
+          "/specializations?category=" + id
         );
 
-        this.categoryDesc = response.data.desc;
-
-        this.subCategories = Array.from(response.data.subcategories);
+        this.subCategories = Array.from(response.data);
+      } catch (e) {
+        return e;
+      }
+    },
+    async getCategory(id) {
+      try {
+        var response = await this.$request("get", "/categories/" + id);
+        this.category = response.data;
       } catch (e) {
         return e;
       }
