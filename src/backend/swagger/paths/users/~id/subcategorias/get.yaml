@@ -16,6 +16,7 @@ responses:
       application/json:
         schema:
           $ref: '#/components/schemas/UserSubCategorias'
+        example: !!inc/file '/examples/users/UsersSubCategories.yaml'
   401:
     $ref: '#/components/responses/UnauthorizedUser'
   403:

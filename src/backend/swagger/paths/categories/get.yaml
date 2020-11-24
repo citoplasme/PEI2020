@@ -1,5 +1,5 @@
-summary: Returns the Category list.
-description: Returns the Category list.
+summary: If no parameters are passed, it returns the categories list.
+description: If no parameters are passed, it returns the categories list.
 security:
   - apiKeyQuery: []
   - apiKeyAuth: []
@@ -8,11 +8,23 @@ security:
 tags:
   - Categories
 parameters:
+  - name: name
+    in: query
+    description: 'Name of the category to list'
+    schema:
+      type: String
+    required: false
   - name: status
     in: query
     description: 'Status of the categories to list (0-> not active 1-> active -1->refused)'
     schema:
       type: integer
+    required: false
+  - name: desc
+    in: query
+    description: 'Description of the categories to list'
+    schema:
+      type: String
     required: false
 responses:
   200:
@@ -23,7 +35,7 @@ responses:
           $ref: '#/components/schemas/Categorias'
         examples:
           Example of a list of Categories:
-            $ref: '#/components/examples/Categorias'
+            $ref: '#/components/examples/Categories'
   401:
     $ref: '#/components/responses/UnauthorizedUser'
   403:

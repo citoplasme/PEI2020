@@ -1,7 +1,7 @@
 var Auth = require('../../controllers/auth.js');
 var express = require('express');
 var router = express.Router();
-var Categories = require('../../controllers/api/categorias.js');
+var Categories = require('../../controllers/api/categories.js');
 var Specializations = require('../../controllers/api/specializations.js');
 var url = require('url')
 var validKeys = ["name", "active", "desc"];
