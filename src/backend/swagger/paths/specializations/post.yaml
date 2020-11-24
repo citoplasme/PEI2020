@@ -1,0 +1,32 @@
+summary: Add/register a specialization.
+description: Add/register a specialization.
+security:
+  - userQuery: []
+  - userAuth: []
+  - apiKeyQuery: []
+  - apiKeyAuth: []
+tags:
+  - Specializations
+requestBody:
+  description: 'Specialization data to register'
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/SpecializationPOST'
+      example:
+        name: "Dancing classes"
+        category: "5fb6b75a53629eed36abd7ef"
+        desc: "Find suitable professional help to improve your skills"
+        active: true
+responses:
+  200:
+    description: Specialization registered with success.
+  401:
+    $ref: '#/components/responses/UnauthorizedUser'
+  403:
+    $ref: '#/components/responses/PermissionsUser'
+  422:
+    $ref: '#/components/responses/ValidationParameters'
+  500:
+    description: Error.

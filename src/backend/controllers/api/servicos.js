@@ -5,7 +5,7 @@ var Services = module.exports;
 
 // GET
 Services.listar = (filtro) => {
-    return Service.find(filtro);
+    return Service.find(filtro, {fatura : 0});
 };
 
 Services.listar_from_user = (filtro, user) => {

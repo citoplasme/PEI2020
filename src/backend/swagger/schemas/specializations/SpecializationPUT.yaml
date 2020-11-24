@@ -1,0 +1,10 @@
+type: object
+properties:
+  name:
+    type: string
+  category:
+    type: string
+  active:
+    type: boolean
+  desc:
+    type: string

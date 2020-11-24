@@ -6,10 +6,10 @@ properties:
     type: string
   desc:
     type: string
-  status:
-    type: integer
+  active:
+    type: boolean
 required:
 - _id
 - name
 - desc
-- status
+- active

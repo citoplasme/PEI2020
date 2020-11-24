@@ -14,11 +14,11 @@ parameters:
     schema:
       type: String
     required: false
-  - name: status
+  - name: active
     in: query
-    description: 'Status of the categories to list (0-> not active 1-> active -1->refused)'
+    description: 'Status of the categories to list'
     schema:
-      type: integer
+      type: boolean
     required: false
   - name: desc
     in: query

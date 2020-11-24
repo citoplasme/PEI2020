@@ -1,0 +1,39 @@
+summary: Updates a certain specialization.
+description: Updates a certain specialization.
+security:
+  - userQuery: []
+  - userAuth: []
+  - apiKeyQuery: []
+  - apiKeyAuth: []
+tags:
+  - Specializations
+parameters:
+  - name: id
+    in: path
+    description: 'Specialization identifier'
+    schema:
+      type: string
+    required: true
+requestBody:
+  description: 'Specialization to change'
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/SpecializationPUT'
+      example:
+        name: Specialization name
+        category: New associated category id
+        desc: New description for specialization
+        active: false
+responses:
+  200:
+    description: Specialization updated.
+  401:
+    $ref: '#/components/responses/UnauthorizedUser'
+  403:
+    $ref: '#/components/responses/PermissionsUser'
+  422:
+    $ref: '#/components/responses/ValidationParameters'
+  500:
+    description: Error.
