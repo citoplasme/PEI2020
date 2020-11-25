@@ -1,7 +1,7 @@
 var Auth = require('../../controllers/auth.js');
 var express = require('express');
 var router = express.Router();
-var Services = require('../../controllers/api/servicos.js');
+var Services = require('../../controllers/api/services.js');
 var Users = require('../../controllers/api/users.js');
 var url = require('url')
 var validKeys = ["client", "service_provider", "urgent", "status", "date", "hour", "duration", "desc"];
