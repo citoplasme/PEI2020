@@ -117,10 +117,11 @@
               <v-tooltip bottom v-if="levelU >= levelMin">
                 <template v-slot:activator="{ on }">
                   <v-btn v-on="on" icon @click="validateId = props.item">
-                    <v-icon color="green">done_outline</v-icon>
+                    <v-icon v-if="props.item.active==false" color="green">done_outline</v-icon>
+                    <v-icon v-if="props.item.active==true" color="red">clear</v-icon> 
                   </v-btn>
                 </template>
-                <span>Validate category</span>
+                <span>Alter category state</span>
               </v-tooltip>
             </td>
           </tr>
@@ -201,7 +202,7 @@
       <v-card>
         <v-card-title class="headline">Action Confirmation</v-card-title>
         <v-card-text>
-          Are you sure that you want to validate the category?
+          Are you sure that you want to alter the category state?
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -483,7 +484,7 @@ export default {
     },
     validar(item) {
       let data = item;
-      item.active = true;
+      item.active = item.active==true ? "false" : true;
       this.$request("put", "/specializations/" + item.id, data)
         .then(res => {
           this.text = "Category succesfully validated!";

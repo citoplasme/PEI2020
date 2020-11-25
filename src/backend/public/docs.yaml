@@ -315,38 +315,6 @@ paths:
           $ref: '#/components/responses/ValidationParameters'
         '500':
           description: Error.
-  '/auth/{id}':
-    get:
-      summary: Returns the URL of a SAML request.
-      description: Returns the URL of a SAML request.
-      tags:
-        - Auth
-      security:
-        - apiKeyQuery: []
-        - apiKeyAuth: []
-        - userQuery: []
-        - userAuth: []
-      parameters:
-        - name: id
-          in: path
-          required: true
-          description: To obtain the URL it is necessary to provide the identifier in DB.
-          schema:
-            type: string
-      responses:
-        '200':
-          description: URL.
-          content:
-            application/json:
-              schema:
-                type: string
-              example: 'http://localhost:8080'
-        '401':
-          $ref: '#/components/responses/UnauthorizedKey'
-        '403':
-          $ref: '#/components/responses/PermissionsKey'
-        '500':
-          description: Error.
   /services:
     get:
       summary: 'If no parameters are passed, it returns the services list.'
@@ -473,70 +441,36 @@ paths:
           $ref: '#/components/responses/ValidationParameters'
         '500':
           description: Error.
-  /countries:
+  '/auth/{id}':
     get:
-      summary: Returns the full countries list if no name is passed.
-      description: Returns the full countries list if no name is passed.
+      summary: Returns the URL of a SAML request.
+      description: Returns the URL of a SAML request.
+      tags:
+        - Auth
       security:
         - apiKeyQuery: []
         - apiKeyAuth: []
         - userQuery: []
         - userAuth: []
-      tags:
-        - Countries
       parameters:
-        - in: query
-          name: country
+        - name: id
+          in: path
+          required: true
+          description: To obtain the URL it is necessary to provide the identifier in DB.
           schema:
             type: string
-          description: Returns the country with that name
-          required: false
       responses:
         '200':
-          description: Returns the country list.
+          description: URL.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Countries'
-              examples:
-                Example of a list of countries:
-                  $ref: '#/components/examples/Countries'
+                type: string
+              example: 'http://localhost:8080'
         '401':
-          $ref: '#/components/responses/UnauthorizedUser'
+          $ref: '#/components/responses/UnauthorizedKey'
         '403':
-          $ref: '#/components/responses/PermissionsUser'
-        '422':
-          $ref: '#/components/responses/ValidationParameters'
-        '500':
-          description: Error.
-    post:
-      summary: Adds a new country.
-      description: Adds a new country.
-      security:
-        - userQuery: []
-        - userAuth: []
-      tags:
-        - Countries
-      requestBody:
-        description: Information required for adding a new country.
-        required: true
-        content:
-          application/json:
-            schema:
-              properties:
-                country:
-                  type: string
-              required:
-                - country
-            example:
-              country: Portugal
-      responses:
-        '200':
-          description: Country added.
-        '401':
-          $ref: '#/components/responses/UnauthorizedUser'
-        '403':
-          $ref: '#/components/responses/PermissionsUser'
+          $ref: '#/components/responses/PermissionsKey'
         '500':
           description: Error.
   /locations:
@@ -718,6 +652,104 @@ paths:
           $ref: '#/components/responses/ValidationParameters'
         '500':
           description: Error.
+  /countries:
+    get:
+      summary: Returns the full countries list if no name is passed.
+      description: Returns the full countries list if no name is passed.
+      security:
+        - apiKeyQuery: []
+        - apiKeyAuth: []
+        - userQuery: []
+        - userAuth: []
+      tags:
+        - Countries
+      parameters:
+        - in: query
+          name: country
+          schema:
+            type: string
+          description: Returns the country with that name
+          required: false
+      responses:
+        '200':
+          description: Returns the country list.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Countries'
+              examples:
+                Example of a list of countries:
+                  $ref: '#/components/examples/Countries'
+        '401':
+          $ref: '#/components/responses/UnauthorizedUser'
+        '403':
+          $ref: '#/components/responses/PermissionsUser'
+        '422':
+          $ref: '#/components/responses/ValidationParameters'
+        '500':
+          description: Error.
+    post:
+      summary: Adds a new country.
+      description: Adds a new country.
+      security:
+        - userQuery: []
+        - userAuth: []
+      tags:
+        - Countries
+      requestBody:
+        description: Information required for adding a new country.
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                country:
+                  type: string
+              required:
+                - country
+            example:
+              country: Portugal
+      responses:
+        '200':
+          description: Country added.
+        '401':
+          $ref: '#/components/responses/UnauthorizedUser'
+        '403':
+          $ref: '#/components/responses/PermissionsUser'
+        '500':
+          description: Error.
+  /parametros:
+    get:
+      summary: Returns all data API parameters.
+      description: |
+        Returns all data API parameters.
+
+        **Access allowed to:** Level 7 users
+      security:
+        - userQuery: []
+        - userAuth: []
+      tags:
+        - Parameters
+      responses:
+        '200':
+          description: Data API parameters.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Parametros'
+              example:
+                keyExpires:
+                  desc: API Keys expiration time
+                  valor: 30d
+                userExpires:
+                  desc: User Token Expiration Time
+                  valor: 8h
+        '401':
+          $ref: '#/components/responses/UnauthorizedKey'
+        '403':
+          $ref: '#/components/responses/PermissionsKey'
+        '500':
+          description: Error.
   /categories:
     get:
       summary: 'If no parameters are passed, it returns the categories list.'
@@ -866,38 +898,6 @@ paths:
           $ref: '#/components/responses/ValidationParameters'
         '500':
           description: Error.
-  /parametros:
-    get:
-      summary: Returns all data API parameters.
-      description: |
-        Returns all data API parameters.
-
-        **Access allowed to:** Level 7 users
-      security:
-        - userQuery: []
-        - userAuth: []
-      tags:
-        - Parameters
-      responses:
-        '200':
-          description: Data API parameters.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Parametros'
-              example:
-                keyExpires:
-                  desc: API Keys expiration time
-                  valor: 30d
-                userExpires:
-                  desc: User Token Expiration Time
-                  valor: 8h
-        '401':
-          $ref: '#/components/responses/UnauthorizedKey'
-        '403':
-          $ref: '#/components/responses/PermissionsKey'
-        '500':
-          description: Error.
   '/logs/{verbo}':
     get:
       summary: Returns orders placed (log) in the last 30 days for a given route.
@@ -993,64 +993,6 @@ paths:
         '500':
           description: Error.
   '/services/{id}':
-    get:
-      summary: Consult a service.
-      description: Consult a service.
-      security:
-        - apiKeyQuery: []
-        - apiKeyAuth: []
-        - userQuery: []
-        - userAuth: []
-      tags:
-        - Services
-      parameters:
-        - name: id
-          in: path
-          description: Service identifier
-          schema:
-            type: string
-          required: true
-      responses:
-        '200':
-          description: Consult a service.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Service'
-              example:
-                client: 5fb4f73f40b9914167a3888a
-                service_provider: 5f180dd028b3cb0f53f5c567
-                urgent: false
-                status: 3
-                review:
-                  client:
-                    payment: 3
-                    ponctuality: 4
-                    security: 5
-                    general: 4
-                    karma: 3.5
-                  service_provider:
-                    ponctuality: 4
-                    quality: 4
-                    security: 4
-                    attendance: 4
-                    general: 4
-                    karma: 4
-                orcamento:
-                  - datetime: 'ISODate("2020-11-04T14:58:44.318Z")'
-                    user: 5f180dd028b3cb0f53f5c567
-                    value: 5$ per hour
-                date: '2020-11-11'
-                hour: '14:30'
-                duration: 5 hours
-        '401':
-          $ref: '#/components/responses/UnauthorizedUser'
-        '403':
-          $ref: '#/components/responses/PermissionsUser'
-        '422':
-          $ref: '#/components/responses/ValidationParameters'
-        '500':
-          description: Error.
     put:
       summary: Updates a certain service.
       description: Updates a certain service.
@@ -1104,6 +1046,64 @@ paths:
       responses:
         '200':
           description: Service updated.
+        '401':
+          $ref: '#/components/responses/UnauthorizedUser'
+        '403':
+          $ref: '#/components/responses/PermissionsUser'
+        '422':
+          $ref: '#/components/responses/ValidationParameters'
+        '500':
+          description: Error.
+    get:
+      summary: Consult a service.
+      description: Consult a service.
+      security:
+        - apiKeyQuery: []
+        - apiKeyAuth: []
+        - userQuery: []
+        - userAuth: []
+      tags:
+        - Services
+      parameters:
+        - name: id
+          in: path
+          description: Service identifier
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Consult a service.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Service'
+              example:
+                client: 5fb4f73f40b9914167a3888a
+                service_provider: 5f180dd028b3cb0f53f5c567
+                urgent: false
+                status: 3
+                review:
+                  client:
+                    payment: 3
+                    ponctuality: 4
+                    security: 5
+                    general: 4
+                    karma: 3.5
+                  service_provider:
+                    ponctuality: 4
+                    quality: 4
+                    security: 4
+                    attendance: 4
+                    general: 4
+                    karma: 4
+                orcamento:
+                  - datetime: 'ISODate("2020-11-04T14:58:44.318Z")'
+                    user: 5f180dd028b3cb0f53f5c567
+                    value: 5$ per hour
+                date: '2020-11-11'
+                hour: '14:30'
+                duration: 5 hours
         '401':
           $ref: '#/components/responses/UnauthorizedUser'
         '403':
@@ -1179,69 +1179,35 @@ paths:
           $ref: '#/components/responses/ValidationParameters'
         '500':
           description: Error.
-  '/countries/{id}':
-    get:
-      summary: Consult a country.
-      description: Consult a county.
-      security:
-        - apiKeyQuery: []
-        - apiKeyAuth: []
-        - userQuery: []
-        - userAuth: []
-      tags:
-        - Countries
-      parameters:
-        - name: id
-          in: path
-          description: Country identifier
-          schema:
-            type: string
-          required: true
-      responses:
-        '200':
-          description: Consult a country.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Country'
-              example:
-                _id: 5fabb0d299427bd00a1fd3fa
-                country: Afghanistan
-        '401':
-          $ref: '#/components/responses/UnauthorizedUser'
-        '403':
-          $ref: '#/components/responses/PermissionsUser'
-        '422':
-          $ref: '#/components/responses/ValidationParameters'
-        '500':
-          description: Error.
+  '/locations/{id}':
     put:
-      summary: Updates a certain Country.
-      description: Updates a certain Country.
+      summary: Updates a certain Location.
+      description: Updates a certain location.
       security:
         - userQuery: []
         - userAuth: []
       tags:
-        - Countries
+        - Locations
       parameters:
         - name: id
           in: path
-          description: Country identifier
+          description: Location identifier
           schema:
             type: string
           required: true
       requestBody:
-        description: Country to change
+        description: Location to change
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CountryPut'
+              $ref: '#/components/schemas/LocationPut'
             example:
               country: Portugal
+              name: Felgueiras
       responses:
         '200':
-          description: Country updated.
+          description: Location updated.
         '401':
           $ref: '#/components/responses/UnauthorizedUser'
         '403':
@@ -1250,33 +1216,6 @@ paths:
           $ref: '#/components/responses/ValidationParameters'
         '500':
           description: Error.
-    delete:
-      summary: Deletes a Country.
-      description: Deletes a Country.
-      security:
-        - userQuery: []
-        - userAuth: []
-      tags:
-        - Countries
-      parameters:
-        - name: id
-          in: path
-          description: Country identifier
-          schema:
-            type: string
-          required: true
-      responses:
-        '200':
-          description: Deleted a Country.
-        '401':
-          $ref: '#/components/responses/UnauthorizedUser'
-        '403':
-          $ref: '#/components/responses/PermissionsUser'
-        '422':
-          $ref: '#/components/responses/ValidationParameters'
-        '500':
-          description: Error.
-  '/locations/{id}':
     get:
       summary: Consult a country.
       description: Consult a county.
@@ -1313,42 +1252,6 @@ paths:
                   - Sharif
                   - Wazir Akbar Khan
                 country: Afghanistan
-        '401':
-          $ref: '#/components/responses/UnauthorizedUser'
-        '403':
-          $ref: '#/components/responses/PermissionsUser'
-        '422':
-          $ref: '#/components/responses/ValidationParameters'
-        '500':
-          description: Error.
-    put:
-      summary: Updates a certain Location.
-      description: Updates a certain location.
-      security:
-        - userQuery: []
-        - userAuth: []
-      tags:
-        - Locations
-      parameters:
-        - name: id
-          in: path
-          description: Location identifier
-          schema:
-            type: string
-          required: true
-      requestBody:
-        description: Location to change
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/LocationPut'
-            example:
-              country: Portugal
-              name: Felgueiras
-      responses:
-        '200':
-          description: Location updated.
         '401':
           $ref: '#/components/responses/UnauthorizedUser'
         '403':
@@ -1455,7 +1358,175 @@ paths:
           $ref: '#/components/responses/PermissionsUser'
         '500':
           description: Error.
+  '/countries/{id}':
+    put:
+      summary: Updates a certain Country.
+      description: Updates a certain Country.
+      security:
+        - userQuery: []
+        - userAuth: []
+      tags:
+        - Countries
+      parameters:
+        - name: id
+          in: path
+          description: Country identifier
+          schema:
+            type: string
+          required: true
+      requestBody:
+        description: Country to change
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CountryPut'
+            example:
+              country: Portugal
+      responses:
+        '200':
+          description: Country updated.
+        '401':
+          $ref: '#/components/responses/UnauthorizedUser'
+        '403':
+          $ref: '#/components/responses/PermissionsUser'
+        '422':
+          $ref: '#/components/responses/ValidationParameters'
+        '500':
+          description: Error.
+    get:
+      summary: Consult a country.
+      description: Consult a county.
+      security:
+        - apiKeyQuery: []
+        - apiKeyAuth: []
+        - userQuery: []
+        - userAuth: []
+      tags:
+        - Countries
+      parameters:
+        - name: id
+          in: path
+          description: Country identifier
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Consult a country.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Country'
+              example:
+                _id: 5fabb0d299427bd00a1fd3fa
+                country: Afghanistan
+        '401':
+          $ref: '#/components/responses/UnauthorizedUser'
+        '403':
+          $ref: '#/components/responses/PermissionsUser'
+        '422':
+          $ref: '#/components/responses/ValidationParameters'
+        '500':
+          description: Error.
+    delete:
+      summary: Deletes a Country.
+      description: Deletes a Country.
+      security:
+        - userQuery: []
+        - userAuth: []
+      tags:
+        - Countries
+      parameters:
+        - name: id
+          in: path
+          description: Country identifier
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Deleted a Country.
+        '401':
+          $ref: '#/components/responses/UnauthorizedUser'
+        '403':
+          $ref: '#/components/responses/PermissionsUser'
+        '422':
+          $ref: '#/components/responses/ValidationParameters'
+        '500':
+          description: Error.
+  /chaves/renovar:
+    put:
+      summary: Renews the API key.
+      description: Renews the API key.
+      tags:
+        - Keys
+      parameters:
+        - name: email
+          in: query
+          required: true
+          description: Associated email to API key.
+          schema:
+            type: string
+            format: email
+            example: exemplo@exemplo.pt
+      responses:
+        '200':
+          description: API key renewed.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  apikey:
+                    type: string
+              example:
+                apikey: >-
+                  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1ODUxNzcxNDMsImV4cCI6MTU4Nzc2OTE0M30.4y50-kHf21fFaLPZdD4pecg4J8o968SclcYD5ObAA2s
+        '422':
+          $ref: '#/components/responses/ValidationParameters'
+        '500':
+          description: Error.
   '/categories/{id}':
+    put:
+      summary: Updates a certain category.
+      description: Updates a certain category.
+      security:
+        - userQuery: []
+        - userAuth: []
+        - apiKeyQuery: []
+        - apiKeyAuth: []
+      tags:
+        - Categories
+      parameters:
+        - name: id
+          in: path
+          description: Category identifier
+          schema:
+            type: string
+          required: true
+      requestBody:
+        description: Category to change
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CategoryPUT'
+            example:
+              name: Category name
+              desc: New description for category
+              active: false
+      responses:
+        '200':
+          description: Category updated.
+        '401':
+          $ref: '#/components/responses/UnauthorizedUser'
+        '403':
+          $ref: '#/components/responses/PermissionsUser'
+        '422':
+          $ref: '#/components/responses/ValidationParameters'
+        '500':
+          description: Error.
     get:
       summary: Consult a category.
       description: Consult a category.
@@ -1500,45 +1571,6 @@ paths:
           $ref: '#/components/responses/ValidationParameters'
         '500':
           description: Error.
-    put:
-      summary: Updates a certain category.
-      description: Updates a certain category.
-      security:
-        - userQuery: []
-        - userAuth: []
-        - apiKeyQuery: []
-        - apiKeyAuth: []
-      tags:
-        - Categories
-      parameters:
-        - name: id
-          in: path
-          description: Category identifier
-          schema:
-            type: string
-          required: true
-      requestBody:
-        description: Category to change
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CategoryPUT'
-            example:
-              name: Category name
-              desc: New description for category
-              active: false
-      responses:
-        '200':
-          description: Category updated.
-        '401':
-          $ref: '#/components/responses/UnauthorizedUser'
-        '403':
-          $ref: '#/components/responses/PermissionsUser'
-        '422':
-          $ref: '#/components/responses/ValidationParameters'
-        '500':
-          description: Error.
     delete:
       summary: Deletes a category.
       description: Deletes a category.
@@ -1561,38 +1593,6 @@ paths:
           $ref: '#/components/responses/UnauthorizedUser'
         '403':
           $ref: '#/components/responses/PermissionsUser'
-        '422':
-          $ref: '#/components/responses/ValidationParameters'
-        '500':
-          description: Error.
-  /chaves/renovar:
-    put:
-      summary: Renews the API key.
-      description: Renews the API key.
-      tags:
-        - Keys
-      parameters:
-        - name: email
-          in: query
-          required: true
-          description: Associated email to API key.
-          schema:
-            type: string
-            format: email
-            example: exemplo@exemplo.pt
-      responses:
-        '200':
-          description: API key renewed.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  apikey:
-                    type: string
-              example:
-                apikey: >-
-                  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1ODUxNzcxNDMsImV4cCI6MTU4Nzc2OTE0M30.4y50-kHf21fFaLPZdD4pecg4J8o968SclcYD5ObAA2s
         '422':
           $ref: '#/components/responses/ValidationParameters'
         '500':
@@ -1636,6 +1636,38 @@ paths:
           $ref: '#/components/responses/UnauthorizedKey'
         '403':
           $ref: '#/components/responses/PermissionsKey'
+        '422':
+          $ref: '#/components/responses/ValidationParameters'
+        '500':
+          description: Error.
+  /users/registar:
+    post:
+      summary: Add/register a user.
+      description: Add/register a user.
+      security:
+        - userQuery: []
+        - userAuth: []
+      tags:
+        - Users
+      requestBody:
+        description: User data to register
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserPOST'
+            example:
+              email: example@example.com
+              type: 2
+              name: Example
+              password: 123password
+      responses:
+        '200':
+          description: User added/registered.
+        '401':
+          $ref: '#/components/responses/UnauthorizedUser'
+        '403':
+          $ref: '#/components/responses/PermissionsUser'
         '422':
           $ref: '#/components/responses/ValidationParameters'
         '500':
@@ -1727,38 +1759,6 @@ paths:
           $ref: '#/components/responses/ValidationParameters'
         '500':
           description: Error.
-  /users/registar:
-    post:
-      summary: Add/register a user.
-      description: Add/register a user.
-      security:
-        - userQuery: []
-        - userAuth: []
-      tags:
-        - Users
-      requestBody:
-        description: User data to register
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UserPOST'
-            example:
-              email: example@example.com
-              type: 2
-              name: Example
-              password: 123password
-      responses:
-        '200':
-          description: User added/registered.
-        '401':
-          $ref: '#/components/responses/UnauthorizedUser'
-        '403':
-          $ref: '#/components/responses/PermissionsUser'
-        '422':
-          $ref: '#/components/responses/ValidationParameters'
-        '500':
-          description: Error.
   '/users/{id}/token':
     get:
       summary: Returns information of a user with a specific token.
@@ -1831,33 +1831,6 @@ paths:
           $ref: '#/components/responses/ValidationParameters'
         '500':
           description: Error.
-  '/chaves/{id}/ativar':
-    put:
-      summary: Activate API key.
-      description: Activate API key.
-      security:
-        - userQuery: []
-        - userAuth: []
-      tags:
-        - Keys
-      parameters:
-        - name: id
-          in: path
-          description: Key's identifier in DB.
-          schema:
-            type: string
-          required: true
-      responses:
-        '200':
-          description: API key activated.
-        '401':
-          $ref: '#/components/responses/UnauthorizedUser'
-        '403':
-          $ref: '#/components/responses/PermissionsUser'
-        '422':
-          $ref: '#/components/responses/ValidationParameters'
-        '500':
-          description: Error.
   '/services/{id}/bill':
     get:
       summary: Consult a service's bill.
@@ -1917,6 +1890,33 @@ paths:
           $ref: '#/components/responses/ValidationParameters'
         '500':
           description: Error.
+  '/chaves/{id}/ativar':
+    put:
+      summary: Activate API key.
+      description: Activate API key.
+      security:
+        - userQuery: []
+        - userAuth: []
+      tags:
+        - Keys
+      parameters:
+        - name: id
+          in: path
+          description: Key's identifier in DB.
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: API key activated.
+        '401':
+          $ref: '#/components/responses/UnauthorizedUser'
+        '403':
+          $ref: '#/components/responses/PermissionsUser'
+        '422':
+          $ref: '#/components/responses/ValidationParameters'
+        '500':
+          description: Error.
   '/users/{id}/password':
     put:
       summary: Change a user's account password.
@@ -1955,6 +1955,140 @@ paths:
       responses:
         '200':
           description: Changed a user's account password.
+        '401':
+          $ref: '#/components/responses/UnauthorizedUser'
+        '403':
+          $ref: '#/components/responses/PermissionsUser'
+        '422':
+          $ref: '#/components/responses/ValidationParameters'
+        '500':
+          description: Error.
+  '/specializations/{id}':
+    put:
+      summary: Updates a certain specialization.
+      description: Updates a certain specialization.
+      security:
+        - userQuery: []
+        - userAuth: []
+        - apiKeyQuery: []
+        - apiKeyAuth: []
+      tags:
+        - Specializations
+      parameters:
+        - name: id
+          in: path
+          description: Specialization identifier
+          schema:
+            type: string
+          required: true
+      requestBody:
+        description: Specialization to change
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SpecializationPUT'
+            example:
+              name: Specialization name
+              category: New associated category id
+              desc: New description for specialization
+              active: false
+      responses:
+        '200':
+          description: Specialization updated.
+        '401':
+          $ref: '#/components/responses/UnauthorizedUser'
+        '403':
+          $ref: '#/components/responses/PermissionsUser'
+        '422':
+          $ref: '#/components/responses/ValidationParameters'
+        '500':
+          description: Error.
+    get:
+      summary: Consult a category.
+      description: Consult a category.
+      security:
+        - apiKeyQuery: []
+        - apiKeyAuth: []
+        - userQuery: []
+        - userAuth: []
+      tags:
+        - Specializations
+      parameters:
+        - name: id
+          in: path
+          description: Specialization identifier
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Consult a specialization.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Specialization'
+              example:
+                - _id: 5fb3e8d619c78d1bc2ad3836
+                  name: Painting class
+                  category: 5fb6b75a53629eed36abd7ef
+                  desc: >-
+                    Experienced professionals teaching paiting classes in
+                    Portugal
+                  active: false
+        '401':
+          $ref: '#/components/responses/UnauthorizedUser'
+        '403':
+          $ref: '#/components/responses/PermissionsUser'
+        '422':
+          $ref: '#/components/responses/ValidationParameters'
+        '500':
+          description: Error.
+    delete:
+      summary: Deletes a specialization.
+      description: Deletes a specialization.
+      security:
+        - userQuery: []
+        - userAuth: []
+      tags:
+        - Specializations
+      parameters:
+        - name: id
+          in: path
+          description: Specialization identifier
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Deleted a specialization.
+        '401':
+          $ref: '#/components/responses/UnauthorizedUser'
+        '403':
+          $ref: '#/components/responses/PermissionsUser'
+        '422':
+          $ref: '#/components/responses/ValidationParameters'
+        '500':
+          description: Error.
+  '/users/{id}/updateToS':
+    put:
+      summary: Update terms of service agreement.
+      description: Update terms of service agreement.
+      security:
+        - userQuery: []
+        - userAuth: []
+      tags:
+        - Users
+      parameters:
+        - name: id
+          in: path
+          description: User identifier
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Agreed to terms of service.
         '401':
           $ref: '#/components/responses/UnauthorizedUser'
         '403':
@@ -2034,113 +2168,6 @@ paths:
           $ref: '#/components/responses/PermissionsUser'
         '500':
           description: Error.
-  '/specializations/{id}':
-    get:
-      summary: Consult a category.
-      description: Consult a category.
-      security:
-        - apiKeyQuery: []
-        - apiKeyAuth: []
-        - userQuery: []
-        - userAuth: []
-      tags:
-        - Specializations
-      parameters:
-        - name: id
-          in: path
-          description: Specialization identifier
-          schema:
-            type: string
-          required: true
-      responses:
-        '200':
-          description: Consult a specialization.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Specialization'
-              example:
-                - _id: 5fb3e8d619c78d1bc2ad3836
-                  name: Painting class
-                  category: 5fb6b75a53629eed36abd7ef
-                  desc: >-
-                    Experienced professionals teaching paiting classes in
-                    Portugal
-                  active: false
-        '401':
-          $ref: '#/components/responses/UnauthorizedUser'
-        '403':
-          $ref: '#/components/responses/PermissionsUser'
-        '422':
-          $ref: '#/components/responses/ValidationParameters'
-        '500':
-          description: Error.
-    put:
-      summary: Updates a certain specialization.
-      description: Updates a certain specialization.
-      security:
-        - userQuery: []
-        - userAuth: []
-        - apiKeyQuery: []
-        - apiKeyAuth: []
-      tags:
-        - Specializations
-      parameters:
-        - name: id
-          in: path
-          description: Specialization identifier
-          schema:
-            type: string
-          required: true
-      requestBody:
-        description: Specialization to change
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/SpecializationPUT'
-            example:
-              name: Specialization name
-              category: New associated category id
-              desc: New description for specialization
-              active: false
-      responses:
-        '200':
-          description: Specialization updated.
-        '401':
-          $ref: '#/components/responses/UnauthorizedUser'
-        '403':
-          $ref: '#/components/responses/PermissionsUser'
-        '422':
-          $ref: '#/components/responses/ValidationParameters'
-        '500':
-          description: Error.
-    delete:
-      summary: Deletes a specialization.
-      description: Deletes a specialization.
-      security:
-        - userQuery: []
-        - userAuth: []
-      tags:
-        - Specializations
-      parameters:
-        - name: id
-          in: path
-          description: Specialization identifier
-          schema:
-            type: string
-          required: true
-      responses:
-        '200':
-          description: Deleted a specialization.
-        '401':
-          $ref: '#/components/responses/UnauthorizedUser'
-        '403':
-          $ref: '#/components/responses/PermissionsUser'
-        '422':
-          $ref: '#/components/responses/ValidationParameters'
-        '500':
-          description: Error.
   '/users/{id}/desativar':
     put:
       summary: Disables a user's account.
@@ -2160,33 +2187,6 @@ paths:
       responses:
         '200':
           description: Disabled a user's account.
-        '401':
-          $ref: '#/components/responses/UnauthorizedUser'
-        '403':
-          $ref: '#/components/responses/PermissionsUser'
-        '422':
-          $ref: '#/components/responses/ValidationParameters'
-        '500':
-          description: Error.
-  '/users/{id}/updateToS':
-    put:
-      summary: Update terms of service agreement.
-      description: Update terms of service agreement.
-      security:
-        - userQuery: []
-        - userAuth: []
-      tags:
-        - Users
-      parameters:
-        - name: id
-          in: path
-          description: User identifier
-          schema:
-            type: string
-          required: true
-      responses:
-        '200':
-          description: Agreed to terms of service.
         '401':
           $ref: '#/components/responses/UnauthorizedUser'
         '403':
@@ -2236,33 +2236,6 @@ paths:
       responses:
         '200':
           description: API key updated.
-        '401':
-          $ref: '#/components/responses/UnauthorizedUser'
-        '403':
-          $ref: '#/components/responses/PermissionsUser'
-        '422':
-          $ref: '#/components/responses/ValidationParameters'
-        '500':
-          description: Error.
-  '/chaves/{id}/desativar':
-    put:
-      summary: Disable API key.
-      description: Disable API key.
-      security:
-        - userQuery: []
-        - userAuth: []
-      tags:
-        - Keys
-      parameters:
-        - name: id
-          in: path
-          description: Key's identifier in DB.
-          schema:
-            type: string
-          required: true
-      responses:
-        '200':
-          description: API key disabled.
         '401':
           $ref: '#/components/responses/UnauthorizedUser'
         '403':
@@ -2340,6 +2313,69 @@ paths:
           $ref: '#/components/responses/ValidationParameters'
         '500':
           description: Error.
+  '/chaves/{id}/desativar':
+    put:
+      summary: Disable API key.
+      description: Disable API key.
+      security:
+        - userQuery: []
+        - userAuth: []
+      tags:
+        - Keys
+      parameters:
+        - name: id
+          in: path
+          description: Key's identifier in DB.
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: API key disabled.
+        '401':
+          $ref: '#/components/responses/UnauthorizedUser'
+        '403':
+          $ref: '#/components/responses/PermissionsUser'
+        '422':
+          $ref: '#/components/responses/ValidationParameters'
+        '500':
+          description: Error.
+  '/users/{id}/uploadphoto':
+    put:
+      summary: Upload user's photo.
+      description: Upload user's photo.
+      security:
+        - userQuery: []
+        - userAuth: []
+      tags:
+        - Users
+      parameters:
+        - name: id
+          in: path
+          description: User identifier
+          schema:
+            type: string
+          required: true
+      requestBody:
+        description: Photo
+        required: true
+        content:
+          application/json:
+            schema:
+              photo: string
+            example:
+              photo: Base64 encoding image
+      responses:
+        '200':
+          description: Changed a user's account data.
+        '401':
+          $ref: '#/components/responses/UnauthorizedUser'
+        '403':
+          $ref: '#/components/responses/PermissionsUser'
+        '422':
+          $ref: '#/components/responses/ValidationParameters'
+        '500':
+          description: Error.
   /chaves/interfaceToken:
     get:
       summary: Returns the API key created for platform interfaces.
@@ -2369,43 +2405,6 @@ paths:
         '500':
           description: Error.
   '/parametros/{parametro}':
-    get:
-      summary: Returns the value of a data API parameter.
-      description: |
-        Returns the value of a data API parameter.
-
-        **Access allowed to:** Level 7 users
-      security:
-        - userQuery: []
-        - userAuth: []
-      tags:
-        - Parameters
-      parameters:
-        - name: parametro
-          in: path
-          required: true
-          description: Parameter.
-          schema:
-            $ref: '#/components/schemas/ParametroTypes'
-      responses:
-        '200':
-          description: Data API parameter value.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Parametro'
-              example:
-                keyExpires:
-                  desc: API Keys expiration time
-                  valor: 30d
-        '401':
-          $ref: '#/components/responses/UnauthorizedKey'
-        '403':
-          $ref: '#/components/responses/PermissionsKey'
-        '422':
-          $ref: '#/components/responses/ValidationParameters'
-        '500':
-          description: Error.
     put:
       summary: Changes the value of a data API parameter.
       description: |
@@ -2446,38 +2445,39 @@ paths:
           $ref: '#/components/responses/ValidationParameters'
         '500':
           description: Error.
-  '/users/{id}/uploadphoto':
-    put:
-      summary: Upload user's photo.
-      description: Upload user's photo.
+    get:
+      summary: Returns the value of a data API parameter.
+      description: |
+        Returns the value of a data API parameter.
+
+        **Access allowed to:** Level 7 users
       security:
         - userQuery: []
         - userAuth: []
       tags:
-        - Users
+        - Parameters
       parameters:
-        - name: id
+        - name: parametro
           in: path
-          description: User identifier
-          schema:
-            type: string
           required: true
-      requestBody:
-        description: Photo
-        required: true
-        content:
-          application/json:
-            schema:
-              photo: string
-            example:
-              photo: Base64 encoding image
+          description: Parameter.
+          schema:
+            $ref: '#/components/schemas/ParametroTypes'
       responses:
         '200':
-          description: Changed a user's account data.
+          description: Data API parameter value.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Parametro'
+              example:
+                keyExpires:
+                  desc: API Keys expiration time
+                  valor: 30d
         '401':
-          $ref: '#/components/responses/UnauthorizedUser'
+          $ref: '#/components/responses/UnauthorizedKey'
         '403':
-          $ref: '#/components/responses/PermissionsUser'
+          $ref: '#/components/responses/PermissionsKey'
         '422':
           $ref: '#/components/responses/ValidationParameters'
         '500':
@@ -2733,6 +2733,26 @@ components:
         - type
         - name
         - password
+    UserLogin:
+      type: object
+      properties:
+        name:
+          type: string
+        token:
+          type: string
+      required:
+        - name
+        - token
+    Data:
+      type: string
+      pattern: '^\d{4}-\d{2}-\d{2}$'
+      description: 'AAAA-MM-DD (Ano, mês, dia)'
+    Rota:
+      type: string
+      pattern: '^(?!www\.|(?:http|ftp)s?://|[A-Za-z]:\\|//)[^/]*/[^/].*$'
+    SIOE:
+      type: string
+      pattern: ^\d*$
     chaveAPI:
       type: object
       properties:
@@ -2770,26 +2790,6 @@ components:
         - level
         - nCalls
         - name
-    Data:
-      type: string
-      pattern: '^\d{4}-\d{2}-\d{2}$'
-      description: 'AAAA-MM-DD (Ano, mês, dia)'
-    Rota:
-      type: string
-      pattern: '^(?!www\.|(?:http|ftp)s?://|[A-Za-z]:\\|//)[^/]*/[^/].*$'
-    SIOE:
-      type: string
-      pattern: ^\d*$
-    UserLogin:
-      type: object
-      properties:
-        name:
-          type: string
-        token:
-          type: string
-      required:
-        - name
-        - token
     Nivel:
       type: string
       enum:
@@ -2866,6 +2866,16 @@ components:
           - date
           - hour
           - duration
+    Codigo:
+      type: string
+      pattern: '^\d{3}(\.\d{2}(\.\d{3}(\.\d{2})?)?)?$'
+      example: 200.10.100
+    Status:
+      type: string
+      enum:
+        - A
+        - H
+        - I
     Country:
       type: object
       properties:
@@ -2876,22 +2886,6 @@ components:
       required:
         - _id
         - country
-    Codigo:
-      type: string
-      pattern: '^\d{3}(\.\d{2}(\.\d{3}(\.\d{2})?)?)?$'
-      example: 200.10.100
-    Estado:
-      type: string
-      enum:
-        - Ativa
-        - Harmonização
-        - Inativa
-    Status:
-      type: string
-      enum:
-        - A
-        - H
-        - I
     Services:
       type: array
       items:
@@ -2922,6 +2916,25 @@ components:
             - hour
             - duration
             - desc
+    Estado:
+      type: string
+      enum:
+        - Ativa
+        - Harmonização
+        - Inativa
+    LogsPaginados:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Log'
+        total:
+          type: integer
+          minimum: 0
+      required:
+        - total
+        - items
     Location:
       type: object
       properties:
@@ -2937,116 +2950,6 @@ components:
         - _id
         - country
         - city
-    LogsPaginados:
-      type: object
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/Log'
-        total:
-          type: integer
-          minimum: 0
-      required:
-        - total
-        - items
-    Category:
-      type: object
-      properties:
-        _id:
-          type: string
-        name:
-          type: string
-        desc:
-          type: string
-        active:
-          type: boolean
-        subCategorias:
-          type: array
-          items:
-            type: object
-            properties:
-              _id:
-                type: string
-              name:
-                type: string
-              desc:
-                type: string
-              active:
-                type: boolean
-        required:
-          - _id
-          - name
-          - desc
-          - active
-          - subCategorias
-    chaves_lista:
-      type: array
-      items:
-        type: object
-        properties:
-          active:
-            type: string
-            enum:
-              - 'Yes'
-              - 'No'
-          contactInfo:
-            type: string
-            format: email
-          created:
-            type: string
-          expiration:
-            type: string
-          id:
-            type: string
-          key:
-            type: string
-          lastUsed:
-            type: string
-          nCalls:
-            type: integer
-            minimum: 0
-          name:
-            type: string
-        required:
-          - active
-          - contactInfo
-          - created
-          - expiration
-          - id
-          - key
-          - lastUsed
-          - nCalls
-          - name
-    Countries:
-      type: array
-      items:
-        type: object
-        properties:
-          _id:
-            type: string
-          country:
-            type: string
-        required:
-          - _id
-          - country
-    Locations:
-      type: array
-      items:
-        type: object
-        properties:
-          _id:
-            type: string
-          country:
-            type: string
-          city:
-            type: array
-            items:
-              type: string
-        required:
-          - _id
-          - country
-          - city
     ServicePUT:
       type: object
       properties:
@@ -3106,13 +3009,110 @@ components:
           type: String
         duration:
           type: String
-    CountryPut:
+    Category:
       type: object
       properties:
-        country:
+        _id:
           type: string
-      required:
-        - country
+        name:
+          type: string
+        desc:
+          type: string
+        active:
+          type: boolean
+        subCategorias:
+          type: array
+          items:
+            type: object
+            properties:
+              _id:
+                type: string
+              name:
+                type: string
+              desc:
+                type: string
+              active:
+                type: boolean
+        required:
+          - _id
+          - name
+          - desc
+          - active
+          - subCategorias
+    Countries:
+      type: array
+      items:
+        type: object
+        properties:
+          _id:
+            type: string
+          country:
+            type: string
+        required:
+          - _id
+          - country
+    Locations:
+      type: array
+      items:
+        type: object
+        properties:
+          _id:
+            type: string
+          country:
+            type: string
+          city:
+            type: array
+            items:
+              type: string
+        required:
+          - _id
+          - country
+          - city
+    chaves_lista:
+      type: array
+      items:
+        type: object
+        properties:
+          active:
+            type: string
+            enum:
+              - 'Yes'
+              - 'No'
+          contactInfo:
+            type: string
+            format: email
+          created:
+            type: string
+          expiration:
+            type: string
+          id:
+            type: string
+          key:
+            type: string
+          lastUsed:
+            type: string
+          nCalls:
+            type: integer
+            minimum: 0
+          name:
+            type: string
+        required:
+          - active
+          - contactInfo
+          - created
+          - expiration
+          - id
+          - key
+          - lastUsed
+          - nCalls
+          - name
+    VerboHTTP:
+      type: string
+      enum:
+        - GET
+        - POST
+        - PUT
+        - DELETE
     UserLevel:
       type: string
       enum:
@@ -3124,23 +3124,11 @@ components:
         - 5
         - 6
         - 7
-    VerboHTTP:
-      type: string
-      enum:
-        - GET
-        - POST
-        - PUT
-        - DELETE
-    Parametro:
-      type: object
-      properties:
-        valor:
-          $ref: '#/components/schemas/ParametroValor'
-        desc:
+    UserCategorias:
+      categorias:
+        type: array
+        items:
           type: string
-      required:
-        - valor
-        - desc
     ServicePOST:
       type: object
       properties:
@@ -3210,11 +3198,23 @@ components:
           - date
           - hour
           - duration
-    UserCategorias:
-      categorias:
-        type: array
-        items:
+    CountryPut:
+      type: object
+      properties:
+        country:
           type: string
+      required:
+        - country
+    Parametro:
+      type: object
+      properties:
+        valor:
+          $ref: '#/components/schemas/ParametroValor'
+        desc:
+          type: string
+      required:
+        - valor
+        - desc
     Categories:
       type: array
       items:
@@ -3247,10 +3247,6 @@ components:
             - desc
             - status
             - subCategorias
-    StatusHTTP:
-      type: string
-      pattern: '[1-5]\d\d'
-      example: 200
     LocationPut:
       type: object
       properties:
@@ -3264,15 +3260,10 @@ components:
     Parametros:
       additionalProperties:
         $ref: '#/components/schemas/Parametro'
-    CategoryPUT:
-      type: object
-      properties:
-        name:
-          type: string
-        active:
-          type: boolean
-        desc:
-          type: string
+    StatusHTTP:
+      type: string
+      pattern: '[1-5]\d\d'
+      example: 200
     UsersNormalizado:
       type: array
       items:
@@ -3292,6 +3283,15 @@ components:
           - email
           - level
           - name
+    CategoryPUT:
+      type: object
+      properties:
+        name:
+          type: string
+        active:
+          type: boolean
+        desc:
+          type: string
     CategoryPOST:
       type: object
       properties:
@@ -3315,14 +3315,6 @@ components:
       enum:
         - Sim
         - Não
-    ParametroTypes:
-      type: string
-      enum:
-        - userExpires
-        - keyExpires
-    ParametroValor:
-      oneOf:
-        - $ref: '#/components/schemas/ParametroExpires'
     LogAgregado:
       type: object
       nullable: true
@@ -3360,6 +3352,14 @@ components:
         - nPUTs
         - nDELETEs
         - routes
+    ParametroValor:
+      oneOf:
+        - $ref: '#/components/schemas/ParametroExpires'
+    ParametroTypes:
+      type: string
+      enum:
+        - userExpires
+        - keyExpires
     errosParametros:
       type: array
       items:
@@ -3405,14 +3405,14 @@ components:
         required:
           - msg
           - param
-    ParametroExpires:
-      type: string
-      pattern: ^\d+(ms|s|m|h|d|y)$
-      example: 30d
     LogsAgregados:
       type: array
       items:
         $ref: '#/components/schemas/LogAgregado'
+    ParametroExpires:
+      type: string
+      pattern: ^\d+(ms|s|m|h|d|y)$
+      example: 30d
     LogAgregadoRota:
       type: object
       properties:
@@ -3562,6 +3562,26 @@ components:
           - excel/csv
       description: Formato de saída do resultado
   examples:
+    Users:
+      value:
+        - _id: 5e90851bc4ec15e6fa94cf8c
+          email: example@example.com
+          internal: true
+          level: 3
+          nCalls: 0
+          name: Example 1
+        - _id: 5e90851bc4ec15e6fa94cf81
+          email: example2@example.com
+          internal: true
+          level: 2
+          nCalls: 0
+          name: Example 2
+        - _id: 5e90851bc4ec15e6fa94cf8a
+          email: example3@example.com
+          internal: true
+          level: 3.5
+          nCalls: 0
+          name: Example 3
     LogsId:
       value:
         - _id: 5e8e3dbf8dcf947f1e9e090d
@@ -3586,26 +3606,6 @@ components:
           route: /logs
           type: User
       summary: Log example for a given id and type
-    Users:
-      value:
-        - _id: 5e90851bc4ec15e6fa94cf8c
-          email: example@example.com
-          internal: true
-          level: 3
-          nCalls: 0
-          name: Example 1
-        - _id: 5e90851bc4ec15e6fa94cf81
-          email: example2@example.com
-          internal: true
-          level: 2
-          nCalls: 0
-          name: Example 2
-        - _id: 5e90851bc4ec15e6fa94cf8a
-          email: example3@example.com
-          internal: true
-          level: 3.5
-          nCalls: 0
-          name: Example 3
     UserInfo:
       local: true
       nCalls: 0
@@ -3677,18 +3677,6 @@ components:
           date: '2020-11-11'
           hour: '14:30'
           duration: 5 hours
-    Location:
-      _id: 5fabb0d299427bd00a1fd3fa
-      cities:
-        - Herat
-        - Kabul
-        - Kandahar
-        - Molah
-        - Rana
-        - Shar
-        - Sharif
-        - Wazir Akbar Khan
-      country: Afghanistan
     LogsPaginados:
       value:
         items:
@@ -3715,6 +3703,18 @@ components:
             type: User
         total: 105910
       summary: Example of a log page
+    Location:
+      _id: 5fabb0d299427bd00a1fd3fa
+      cities:
+        - Herat
+        - Kabul
+        - Kandahar
+        - Molah
+        - Rana
+        - Shar
+        - Sharif
+        - Wazir Akbar Khan
+      country: Afghanistan
     Category:
       - _id: 5fb3e8d619c78d1bc2ad3836
         name: Classes
@@ -3725,12 +3725,6 @@ components:
             name: Painting class
             desc: Experienced professionals teaching paiting classes in Portugal
             active: 0
-    Countries:
-      value:
-        - _id: 5fabb0d299427bd00a1fd3fa
-          country: Afghanistan
-        - _id: 5fabb0d299427bd00a1fd3f9
-          country: Albania
     Locations:
       value:
         - _id: 5fabb0d299427bd00a1fd3fa
@@ -3753,7 +3747,39 @@ components:
             - Tirana
             - Ura Vajgurore
           country: Albania
+    Countries:
+      value:
+        - _id: 5fabb0d299427bd00a1fd3fa
+          country: Afghanistan
+        - _id: 5fabb0d299427bd00a1fd3f9
+          country: Albania
     ServicePUT:
+      client: 5fb4f73f40b9914167a3888a
+      service_provider: 5f180dd028b3cb0f53f5c567
+      urgent: false
+      status: 3
+      review:
+        client:
+          payment: 3
+          ponctuality: 4
+          security: 5
+          general: 4
+          karma: 3.5
+        service_provider:
+          ponctuality: 4
+          quality: 4
+          security: 4
+          attendance: 4
+          general: 4
+          karma: 4
+      orcamento:
+        - datetime: 'ISODate("2020-11-04T14:58:44.318Z")'
+          user: 5f180dd028b3cb0f53f5c567
+          value: 5$ per hour
+      date: '2020-11-11'
+      hour: '14:30'
+      duration: 5 hours
+    ServicePOST:
       client: 5fb4f73f40b9914167a3888a
       service_provider: 5f180dd028b3cb0f53f5c567
       urgent: false
@@ -3783,32 +3809,9 @@ components:
       value:
         _id: _e88bc3f7-95ae-4a48-a15e-79736d8f94aj
         url: 'http://localhost:8080'
-    ServicePOST:
-      client: 5fb4f73f40b9914167a3888a
-      service_provider: 5f180dd028b3cb0f53f5c567
-      urgent: false
-      status: 3
-      review:
-        client:
-          payment: 3
-          ponctuality: 4
-          security: 5
-          general: 4
-          karma: 3.5
-        service_provider:
-          ponctuality: 4
-          quality: 4
-          security: 4
-          attendance: 4
-          general: 4
-          karma: 4
-      orcamento:
-        - datetime: 'ISODate("2020-11-04T14:58:44.318Z")'
-          user: 5f180dd028b3cb0f53f5c567
-          value: 5$ per hour
-      date: '2020-11-11'
-      hour: '14:30'
-      duration: 5 hours
+    UsersCategories:
+      value:
+        - descricao: categoria
     Categories:
       value:
         - _id: 5fb3e8d619c78d1bc2ad3836
@@ -3816,9 +3819,6 @@ components:
           desc: Find suitable professional help to improve your skills
           active: true
           subCategorias: []
-    UsersCategories:
-      value:
-        - descricao: categoria
     UsersNormalizado:
       value:
         - id: 5e90851bc4ec15e6fa94cf8c
@@ -3845,6 +3845,12 @@ components:
         lastAccess: '2020-04-16T15:49:48.680Z'
         route: /users
       summary: Aggregated logs for a base of a route
+    Specialization:
+      - _id: 5fb3e8d619c78d1bc2ad3836
+        name: Painting class
+        category: 5fb6b75a53629eed36abd7ef
+        desc: Experienced professionals teaching paiting classes in Portugal
+        active: false
     logAgregadoRotas:
       value:
         - nGETs: 1
@@ -3866,12 +3872,6 @@ components:
           lastAccess: '2020-04-16T16:57:00.750Z'
           route: /logsAgregados
       summary: Aggregated Logs of Route Bases
-    Specialization:
-      - _id: 5fb3e8d619c78d1bc2ad3836
-        name: Painting class
-        category: 5fb6b75a53629eed36abd7ef
-        desc: Experienced professionals teaching paiting classes in Portugal
-        active: false
     Specializations:
       value:
         - _id: 5fb3e8d619c78d1bc2ad3836

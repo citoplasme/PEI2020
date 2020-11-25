@@ -315,61 +315,169 @@ router.get('/:id/subCategorias', (req, res) => {
 });
 //-------------------------------------------------------------------------------------
 
-router.put('/:id/categorias', Auth.isLoggedInUser, Auth.checkLevel([3, 3.5, 4, 5, 6, 7]),
+router.put('/:id/categories', Auth.isLoggedInUser, Auth.checkLevel([3, 3.5, 4, 5, 6, 7]),
 async function(req, res) {
     
-    if(req.body.categorias === undefined){
+    if(req.body.categories === undefined){
         return res.status(422).send("Unspecified categories");
     }
 
-    Users.listarPorId(req.params.id,function(err, user){
+    Users.listarPorId(req.params.id, function(err, user){
         if(err) {
             res.status(500).send("Could not update categories for that user."); 
         }
         else {
-            var updatedspecs = [];
-            
-            if (req.body.categorias.length >= 1) {
 
-                user.subcategorias.forEach(subcategory => 
-                    {
-                        category = Specializations.consultar(subcategory).then(dados => 
-                            {
-
-                            if(updatedspecs.indexOf(dados.category) === -1 && req.body.categorias.indexOf(dados.category) !== -1) 
-                                updatedspecs.push(subcategory); 
-                            }
-                        );
+            // Se vier com lista vazia nas categorias (ou seja apagar as categorias)
+            if (req.body.categories.length < 1) {
+                Users.updateCategories(req.params.id, req.body.categories, [], function(err, user){
+                    if(err){
+                        res.status(500).send(err);
+                    }else{
+                        res.send('Categories successfully assigned.');
                     }
-                );
-            }   
+                })
+            }
+            else {
 
-            Users.adicionarCategorias(req.params.id, req.body.categorias, updatedspecs, function(err, user){
-                if(err){
-                    res.status(500).send(err);
-                }else{
-                    res.send('Categories successfully assigned.');
-                }
-            })
+                var updatedspecs = [];
+            
+                var notFoundCategories = []
+
+                Categories.listar({})
+                    .then(dados => {
+                        if (Array.isArray(req.body.categories)) {
+                            req.body.categories.forEach(category => {
+
+                                if (!(dados.find(element => element._id == category))) {
+                                    notFoundCategories.push(category)
+                                }
+                            })
+                        }
+                        else {
+                            if (!(dados.find(element => element._id == req.body.categories))) {
+                                notFoundCategories.push(req.body.categories)
+                            }
+                        }
+                        if (notFoundCategories.length >= 1) {
+                            return res.status(404).send(`Categories with identifiers '${notFoundCategories}' do not exist.`)
+                        }
+                        else {
+                            user.subcategorias.forEach(subcategory => 
+                                {
+                                    Specializations.consultar(subcategory).then(dados => 
+                                    {
+        
+                                        if(updatedspecs.indexOf(dados.category) === -1 && req.body.categories.indexOf(dados.category) !== -1) 
+                                            updatedspecs.push(subcategory); 
+                                    }
+                                    );
+                                }
+                            );
+                            
+                            Users.updateCategories(req.params.id, req.body.categories, updatedspecs, function(err, user){
+                                if(err){
+                                    res.status(500).send(err);
+                                }else{
+                                    res.send('Categories successfully assigned.');
+                                }
+                            })
+                        }
+                    }) 
+                    .catch(erro => res.status(500).send(`Error while fetching categories: ${erro}`))
+            }
         }
     })   
 });
 
-/* Pode adicionar subcategoria mesmo que nao tenha a categoria geral nas suas categorias? */
-router.put('/:id/subCategorias', Auth.isLoggedInUser,Auth.checkLevel([3, 3.5, 4, 5, 6, 7]), 
-
+router.put('/:id/specializations', Auth.isLoggedInUser,Auth.checkLevel([3, 3.5, 4, 5, 6, 7]), 
 async function(req, res) {
-    Users.adicionarSubCategorias(req.params.id, req.body.subcategorias,function(err, user){
-        if(err){
-            res.status(500).send(err);
-        }else{
-            res.send('Subcategories successfully assigned.');
+
+    if(req.body.specializations === undefined){
+        return res.status(422).send("Unspecified specializations");
+    }
+
+    Users.listarPorId(req.params.id, function(err, user){
+        if(err) {
+            res.status(500).send("Could not update specializations for that user."); 
         }
-    })
+        else {
+            var specsNotFound = []
+            var parentCategories = user.categorias
+
+            // Caso venha vazia as lista de subcategorias, limpar
+            if (req.body.specializations.length < 1) {
+                Users.updateSpecializations(req.params.id, req.body.specializations, parentCategories,function(err, user){
+                    if(err){
+                        res.status(500).send(err);
+                    }else{
+                        res.send('Specializations successfully assigned.');
+                    }
+                })
+            }
+            else {
+
+            // Verificar se as especializacoes existem 
+                var specsCategories = []
+                Specializations.listar({})
+                    .then(dados => {
+                        if (Array.isArray(req.body.specializations)) {
+                            req.body.specializations.forEach(spec => {
+                                var obj = dados.find(element => element._id == spec)
+                                if (!obj) {
+                                    specsNotFound.push(spec)
+                                }
+                                else {
+                                    specsCategories.push(obj.category)
+                                }
+                            })
+                        }
+                        else {
+                            var obj = dados.find(element => element._id == req.body.specializations)
+                            if (!obj) {
+                                specsNotFound.push(req.body.specializations)
+                            }
+                            else {
+                                specsCategories.push(obj.category)
+                            }
+                        }
+
+                        if (specsNotFound.length >= 1) {
+                            return res.status(404).send(`Specializations with identifiers '${specsNotFound}' do not exist.`)
+                        }
+                        else {
+                            
+                            var updatedCategories = parentCategories.concat(specsCategories.filter(id => parentCategories.indexOf(id) < 0)) 
+                            
+                            /*
+                            req.body.specializations.forEach(spec => 
+                                {
+                                    Specializations.consultar(spec).then(dados => 
+                                    {
+        
+                                        if(parentCategories.indexOf(dados.category) === -1) 
+                                            parentCategories.push(dados.category); 
+                                    }
+                                    );
+                                }
+                            );*/
+                            
+                            Users.updateSpecializations(req.params.id, req.body.specializations, updatedCategories,function(err, user){
+                                if(err){
+                                    res.status(500).send(err);
+                                }else{
+                                    res.send('Specializations successfully assigned.');
+                                }
+                            })
+                        }
+                    })
+            }
+        }
+    })  
 });
 
 router.put('/:id/updateToS', Auth.isLoggedInUser, async function(req, res) {
-    Users.atualizarTermsOfService(req.params.id,function(err, user){
+    Users.updateTermsOfService(req.params.id,function(err, user){
         if(err){
             res.status(500).send(err);
         }else{
