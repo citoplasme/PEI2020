@@ -382,7 +382,7 @@ router.put('/:id/bill', Auth.isLoggedInUser, Auth.checkLevel([3, 3.5, 4, 5, 6, 7
     var form = new formidable.IncomingForm()
     form.parse(req, async (error, fields, formData) => {
         if(!error){
-            // Verify the existance of the file
+            // Verify the existence of the file
             if(formData.file && formData.file.type && formData.file.path){
                 // Verify if the file is a PDF
                 if(formData.file.type === "application/pdf"){
@@ -565,18 +565,6 @@ router.put('/:id/review', Auth.isLoggedInUser, Auth.checkLevel([1, 2, 3, 3.5, 4,
 
 
 // PUT/:id/status
-// Check if user is part of the service
-    // If new status == -1 Canceled
-        // Checks if date - now >= 24h
-            // Updates status
-    // If new status == -2 Recused || new status == 2 accepted
-        // Check if last bid was from the other part of the service
-            // Update status 
-    // If new status === 4 
-        // Update Karmas
-            // Update status
-    // Else
-        // Updates status
 router.put('/:id/status', Auth.isLoggedInUser, Auth.checkLevel([1, 2, 3, 3.5, 4, 5, 6, 7]), [
     eMongoId('param', 'id'),
     estaEm('body', 'status', vcServiceStatus),
@@ -592,11 +580,11 @@ router.put('/:id/status', Auth.isLoggedInUser, Auth.checkLevel([1, 2, 3, 3.5, 4,
         .then(dados => {
             if(dados){
                 // Check if user is part of the service
-                if(req.user.id === dados.client || req.user.id === dados.service_provider){
+                if(req.user.id == dados.client || req.user.id == dados.service_provider){
                     // Check if the service has no service provider
                     if(dados.service_provider === undefined && dados.client === req.user.id){
                         // Status can only be updated to -1 - Cancelled
-                        if(req.body.status === -1){
+                        if(req.body.status == -1){
                             // Update
                             Services.update_status(req.params.id, req.body.status)
                                 .then(dados => {
@@ -612,29 +600,101 @@ router.put('/:id/status', Auth.isLoggedInUser, Auth.checkLevel([1, 2, 3, 3.5, 4,
                         }
                     }
                     // Check if service is already closed
-                    if (dados.status === -2 || dados.status === -1 || dados.status === 4){
+                    else if (dados.status == -2 || dados.status == -1 || dados.status == 3 || dados.status == 4){
                         res.status(500).send('An error occurred while updating the service: the service is already closed.')
                     }
                     // Check if new status is cancelation
-                    else if(req.body.status === -1){
-                        // Check if date - now >= 24h
-                        if(dados.status === 2 || dados.status === 3){
-                            
+                    else if(req.body.status == -1){
+                        // Check if status is accepted (Service is not concluded)
+                        if(dados.status == 2){ 
                             // Check if date difference >= 24h
                             if(Services.date_difference(dados.date, dados.hour) >= 2400){
-
+                                // Update
+                                Services.update_status(req.params.id, req.body.status)
+                                    .then(dados => {
+                                        if(dados) { 
+                                            res.jsonp("Status successfully updated.")
+                                        }
+                                        else res.status(500).jsonp("Error while updating the status for the service with identifier '" + req.params.id + "'.")
+                                    })
+                                    .catch(erro => res.status(500).jsonp("Error while updating the status for the service with identifier '" + req.params.id + "': " + erro))   
+                            }
+                            // Cannot cancel the service
+                            else {
+                                res.status(500).send('An error occurred while updating the service: the time interval to cancel the service has passed.')
                             }
                         }
+                        else {
+                            res.status(500).send('An error occurred while updating the service: the service can not be canceled after marked as finished or canceled.')
+                        }
                     } 
-                    // Check if new status is cancelation or accept
-                    else if(req.body.status === -2 || req.body.status === 2) {
-                        // Check if the last bid was from the other part of the service
+                    // Check if new status is refuse or accept
+                    else if(req.body.status == -2 || req.body.status == 2) {
+                        // Check if the last bid was from the other part of the service                
+                        let bids = dados.orcamento.sort((a,b) => (a.datetime > b.datetime) ? 1 : ((b.datetime > a.datetime) ? -1 : 0)); 
+                        if(bids && bids.length > 0){
 
-
+                            // Last bid
+                            if(bids[0].user === req.user.id){
+                                res.status(500).send('An error occurred while updating the service: you have to wait for the other part\'s response.')
+                            }
+                            else {
+                                // Accept service
+                                if(req.body.status == 2){
+                                    // check if date or hour are defined
+                                    if(dados.date === undefined || dados.hour === undefined){
+                                        res.status(500).send('An error occurred while updating the service: date and hour of the service have to be defined in order to accept the service.')
+                                    }
+                                    else {
+                                        // Update
+                                        Services.update_status(req.params.id, req.body.status)
+                                            .then(dados => {
+                                                if(dados) { 
+                                                    res.jsonp("Status successfully updated.")
+                                                }
+                                                else res.status(500).jsonp("Error while updating the status for the service with identifier '" + req.params.id + "'.")
+                                            })
+                                            .catch(erro => res.status(500).jsonp("Error while updating the status for the service with identifier '" + req.params.id + "': " + erro))
+                                    }
+                                } else {
+                                    // Update
+                                    Services.update_status(req.params.id, req.body.status)
+                                        .then(dados => {
+                                            if(dados) { 
+                                                res.jsonp("Status successfully updated.")
+                                            }
+                                            else res.status(500).jsonp("Error while updating the status for the service with identifier '" + req.params.id + "'.")
+                                        })
+                                        .catch(erro => res.status(500).jsonp("Error while updating the status for the service with identifier '" + req.params.id + "': " + erro))
+                                }  
+                            }
+                        }
+                        else {
+                            res.status(500).send('An error occurred while updating the service: the service has not been through the negotiation phase.')
+                        }
                     }
                     // Check if job is marked as finished
-                    else if(req.body.status === 3){
-
+                    else if(req.body.status == 3){
+                        // Update
+                        Services.update_status(req.params.id, req.body.status)
+                            .then(dados => {
+                                if(dados) { 
+                                    res.jsonp("Status successfully updated.")
+                                }
+                                else res.status(500).jsonp("Error while updating the status for the service with identifier '" + req.params.id + "'.")
+                            })
+                            .catch(erro => res.status(500).jsonp("Error while updating the status for the service with identifier '" + req.params.id + "': " + erro))
+                    }
+                    else {
+                        // Update
+                        Services.update_status(req.params.id, req.body.status)
+                            .then(dados => {
+                                if(dados) { 
+                                    res.jsonp("Status successfully updated.")
+                                }
+                                else res.status(500).jsonp("Error while updating the status for the service with identifier '" + req.params.id + "'.")
+                            })
+                            .catch(erro => res.status(500).jsonp("Error while updating the status for the service with identifier '" + req.params.id + "': " + erro))
                     }
                 } else {
                     res.status(500).send('An error occurred while updating the service: you are not part of the service.')
@@ -643,13 +703,9 @@ router.put('/:id/status', Auth.isLoggedInUser, Auth.checkLevel([1, 2, 3, 3.5, 4,
                 res.status(404).send(`Error: The data item with identified by '${req.params.id}' does not exist on the services.`)
             }
         })
-        .catch(erro => res.status(500).send(`Error while listing the service with identifier '${req.params.id}': ${erro}`))
-
-    // Get service
-        // Check req.user.id == service.client || service_provider
-            // 
-    
+        .catch(erro => res.status(500).send(`Error while listing the service with identifier '${req.params.id}': ${erro}`))    
 })
+
 // DELETE/:id
 router.delete('/:id', Auth.isLoggedInUser, Auth.checkLevel([1, 2, 3, 3.5, 4, 5, 6, 7]), [
     eMongoId('param', 'id')

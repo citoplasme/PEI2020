@@ -254,45 +254,7 @@ Users.adicionarChamadaApi = function(id, callback){
     });
 }
 
-Users.adicionarCategoria = function(id, categoria, callback) {
-    Users.getUserById(id, async function(err,user){
-        if(err) {
-            callback(err,null);
-        }
-        else {
-            user.categorias.indexOf(categoria) === -1 ? 
-                user.categorias.push(categoria) : 
-                callback("Category already assigned.",null);
-            try{
-                user = await user.save()
-                callback(null, user)
-            }catch(err){
-                callback(err, null)
-            }
-        }
-    });
-}
-
-Users.removerCategoria = function(id, categoria, callback) {
-    Users.getUserById(id, async function(err,user){
-        if(err) {
-            callback(err,null);
-        }
-        else {
-            user.categorias.indexOf(categoria) === -1 ? 
-                callback("Can't remove unassigned category.",null) : 
-                user.categorias.remove(categoria);
-            try{
-                user = await user.save()
-                callback(null, user)
-            }catch(err){
-                callback(err, null)
-            }
-        }
-    });
-}
-
-Users.adicionarCategorias = function(id, categorias, updatedSubcategorias,callback) {
+Users.updateCategories = function(id, categorias, updatedSubcategorias,callback) {
     Users.getUserById(id, async function(err,user){
         if(err) {
             callback(err,null);
@@ -310,87 +272,14 @@ Users.adicionarCategorias = function(id, categorias, updatedSubcategorias,callba
     });
 }
 
-/* Limpar as categorias todas */
-Users.removerCategorias = function(id, callback) {
+Users.updateSpecializations = function(id, specializations, categories, callback) {
     Users.getUserById(id, async function(err,user){
         if(err) {
             callback(err,null);
         }
         else {
-            user.categorias = [];
-            try{
-                user = await user.save()
-                callback(null, user)
-            }catch(err){
-                callback(err, null)
-            }
-        }
-    });
-}
-
-Users.adicionarSubCategoria = function(id, subcategoria, callback) {
-    Users.getUserById(id, async function(err,user){
-        if(err) {
-            callback(err,null);
-        }
-        else {
-            user.subcategorias.indexOf(subcategoria) === -1 ? 
-                user.subcategorias.push(subcategoria) : 
-                callback("Subcategory already assigned.",null);
-            try{
-                user = await user.save()
-                callback(null, user)
-            }catch(err){
-                callback(err, null)
-            }
-        }
-    });
-}
-
-Users.removerSubCategoria = function(id, subcategoria, callback) {
-    Users.getUserById(id, async function(err,user){
-        if(err) {
-            callback(err,null);
-        }
-        else {
-            user.subcategorias.indexOf(subcategoria) === -1 ? 
-                callback("Can not remove unassigned subcategory.",null) : 
-                user.subcategorias.remove(categoria);
-            try{
-                user = await user.save()
-                callback(null, user)
-            }catch(err){
-                callback(err, null)
-            }
-        }
-    });
-}
-
-Users.adicionarSubCategorias = function(id, subcategorias, callback) {
-    Users.getUserById(id, async function(err,user){
-        if(err) {
-            callback(err,null);
-        }
-        else {
-            user.subcategorias = subcategorias;
-            try{
-                user = await user.save()
-                callback(null, user)
-            }catch(err){
-                callback(err, null)
-            }
-        }
-    });
-}
-
-/* Limpar subcategorias todas */
-Users.removerSubCategorias = function(id, callback) {
-    Users.getUserById(id, async function(err,user){
-        if(err) {
-            callback(err,null);
-        }
-        else {
-            user.subcategorias = [];
+            user.subcategorias = specializations;
+            user.categorias = categories
             try{
                 user = await user.save()
                 callback(null, user)
@@ -417,7 +306,7 @@ Users.atualizarKarma = function(id, valor,callback) {
 }
 
 /* toggle ao boolean para poder ser usado para por a falso tambem ? */
-Users.atualizarTermsOfService = function(id, callback) {
+Users.updateTermsOfService = function(id, callback) {
     Users.getUserById(id, async function(err, user){
         if (err) {	
             callback(err,null)
