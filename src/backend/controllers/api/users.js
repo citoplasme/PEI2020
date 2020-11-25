@@ -292,14 +292,14 @@ Users.removerCategoria = function(id, categoria, callback) {
     });
 }
 
-/* Substituir a lista de categorias ou append de varias ?*/
-Users.adicionarCategorias = function(id, categorias, callback) {
+Users.adicionarCategorias = function(id, categorias, updatedSubcategorias,callback) {
     Users.getUserById(id, async function(err,user){
         if(err) {
             callback(err,null);
         }
         else {
             user.categorias = categorias;
+            user.subcategorias = updatedSubcategorias;
             try{
                 user = await user.save()
                 callback(null, user)
@@ -366,7 +366,6 @@ Users.removerSubCategoria = function(id, subcategoria, callback) {
     });
 }
 
-/* Mesma cena que as categorias, substituir ou append ?*/
 Users.adicionarSubCategorias = function(id, subcategorias, callback) {
     Users.getUserById(id, async function(err,user){
         if(err) {

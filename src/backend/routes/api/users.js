@@ -4,6 +4,8 @@ var router = express.Router();
 var passport = require('passport');
 var User = require('../../models/user');
 var Users = require('../../controllers/api/users');
+var Specializations = require('../../controllers/api/specializations');
+var Categories = require('../../controllers/api/categories');
 var AuthCalls = require('../../controllers/api/auth');
 var Auth = require('../../controllers/auth');
 var jwt = require('jsonwebtoken');
@@ -253,7 +255,7 @@ router.put('/:id/password', Auth.isLoggedInUser, function (req, res) {
     }
 });
 
-/* Adicionar campos das categorias e subcategorias? */
+
 router.put('/:id', Auth.isLoggedInUser, Auth.checkLevel(5), function (req, res) {
     Users.getUserByEmail(req.body.email, function(err,user){
         if(user && req.params.id != user._id){
@@ -313,18 +315,50 @@ router.get('/:id/subCategorias', (req, res) => {
 });
 //-------------------------------------------------------------------------------------
 
-router.put('/:id/categorias', Auth.isLoggedInUser, Auth.checkLevel(3), async function(req, res) {
-    Users.adicionarCategorias(req.params.id, req.body.categorias,function(err, user){
-        if(err){
-            res.status(500).send(err);
-        }else{
-            res.send('Categories successfully assigned.');
+router.put('/:id/categorias', Auth.isLoggedInUser, Auth.checkLevel([3, 3.5, 4, 5, 6, 7]),
+async function(req, res) {
+    
+    if(req.body.categorias === undefined){
+        return res.status(422).send("Unspecified categories");
+    }
+
+    Users.listarPorId(req.params.id,function(err, user){
+        if(err) {
+            res.status(500).send("Could not update categories for that user."); 
         }
-    })
+        else {
+            var updatedspecs = [];
+            
+            if (req.body.categorias.length >= 1) {
+
+                user.subcategorias.forEach(subcategory => 
+                    {
+                        category = Specializations.consultar(subcategory).then(dados => 
+                            {
+
+                            if(updatedspecs.indexOf(dados.category) === -1 && req.body.categorias.indexOf(dados.category) !== -1) 
+                                updatedspecs.push(subcategory); 
+                            }
+                        );
+                    }
+                );
+            }   
+
+            Users.adicionarCategorias(req.params.id, req.body.categorias, updatedspecs, function(err, user){
+                if(err){
+                    res.status(500).send(err);
+                }else{
+                    res.send('Categories successfully assigned.');
+                }
+            })
+        }
+    })   
 });
 
 /* Pode adicionar subcategoria mesmo que nao tenha a categoria geral nas suas categorias? */
-router.put('/:id/subCategorias', Auth.isLoggedInUser, Auth.checkLevel(3), async function(req, res) {
+router.put('/:id/subCategorias', Auth.isLoggedInUser,Auth.checkLevel([3, 3.5, 4, 5, 6, 7]), 
+
+async function(req, res) {
     Users.adicionarSubCategorias(req.params.id, req.body.subcategorias,function(err, user){
         if(err){
             res.status(500).send(err);
