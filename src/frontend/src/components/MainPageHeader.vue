@@ -1,11 +1,14 @@
 <template>
+
   <v-app-bar app color="primary" dark height="64px">
-    <v-btn to="/" icon>
-      <v-icon large>home</v-icon>
+    <v-btn to="/" icon :class="'pl-6'">
+      <v-list-item-avatar>
+        <img src="../assets/hands.png">
+      </v-list-item-avatar>
     </v-btn>
     <v-toolbar-title class="headline" @click="goHome">
-      <span class="text-uppercase">Servicify</span>
-      <span class="font-weight-light"> - Any Service, Anytime</span>
+      <span class="text" style="font-weight:600">SERVICIFY</span>
+      <span class="text"> - Any Service, Anytime</span>
     </v-toolbar-title>
 
     <v-spacer></v-spacer>
@@ -22,7 +25,7 @@
 
     <v-toolbar-title class="subheading">
       <v-btn
-        class="mr-2"
+        class="mr-2 text"
         color="blue darken-4"
         to="/users/login"
         v-if="this.$store.state.name === ''"
@@ -34,6 +37,7 @@
         color="blue darken-4"
         to="/users/registo"
         v-if="this.$store.state.name === ''"
+        class="text"
       >
         Register
       </v-btn>
@@ -42,7 +46,7 @@
         {{ this.$store.state.name }}</span
       >
       <v-btn
-        class="mr-2"
+        class="mr-2 text"
         color="blue darken-4"
         v-if="this.$store.state.name != ''"
         @click="$router.push('/users/alteracaoPassword')"
@@ -50,6 +54,7 @@
         Change Password
       </v-btn>
       <v-btn
+        class="text"
         color="blue darken-4"
         v-if="this.$store.state.name != ''"
         @click="logoutUtilizador"
@@ -111,3 +116,10 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+@import url("https://fonts.googleapis.com/css2?family=Questrial&display=swap");
+.text{
+  font-family: 'Questrial', sans-serif;
+}
+</style>
