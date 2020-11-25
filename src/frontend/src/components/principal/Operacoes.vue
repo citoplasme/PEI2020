@@ -55,6 +55,16 @@ export default {
               url: "/categories/list"
             }
           ]
+        },
+        {
+          entidade: "Services",
+          texto: "View your Services",
+          ops: [
+            {
+              label: "View",
+              url: "/services/calendar"
+            }
+          ]
         }
       ]
     };

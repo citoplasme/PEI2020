@@ -106,6 +106,13 @@ export default new Router({
       name: "categoryByName",
       component: () => import("./views/categories/CategoryByName.vue"),
       meta: { levels: [0, 1, 2, 3, 3.5, 4, 5, 6, 7] }
+    },
+    //Routes do monitor Services
+    {
+      path: "/services/calendar",
+      name: "servicesCalendar",
+      component: () => import("./views/services/ServicesCalendar.vue"),
+      meta: { levels: [1, 2, 3, 3.5, 4, 5, 6, 7] }
     }
   ]
 });

@@ -22,6 +22,7 @@
     "register-service-worker": "^1.6.2",
     "stream": "0.0.2",
     "uuid": "^3.3.3",
+    "v-calendar": "^2.1.1",
     "v-mask": "^2.0.2",
     "vue": "^2.6.10",
     "vue-chartjs": "^3.4.2",
