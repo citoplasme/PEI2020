@@ -206,10 +206,6 @@ export default {
       //Vai buscar todos os serviços em que o user/provider esteja como cliente
       var snapshot = await this.$request("get", "/services?client="+id);
 
-      //Agora devia ir buscar todos os serviços em que o user/provider esteja como provider
-      //(assim é possivel ver os serviços que se vai fazer e que se vai receber)
-      var snapshot2 = await this.$request("get", "/services?service_provider="+id);
-
       var events=[];
       snapshot.data.forEach(async element => {
         //Vai buscar o nome da empresa
@@ -221,20 +217,6 @@ export default {
           start:element.date,
           end:element.date,
           color:"#ff8080"
-        }
-        events.push(x);
-      });
-
-      snapshot2.data.forEach(async element => {
-        //Vai buscar o nome da empresa
-        //let empresa=await this.$request("get", "/users/"+element.service_provider);
-        var x ={
-          //depois temos de por isto sem ser hardcoded
-          name: "Empresa",
-          details:element.desc,
-          start:element.date,
-          end:element.date,
-          color:"#ff2020"
         }
         events.push(x);
       });
