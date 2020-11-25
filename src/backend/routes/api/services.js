@@ -382,7 +382,7 @@ router.put('/:id/bill', Auth.isLoggedInUser, Auth.checkLevel([3, 3.5, 4, 5, 6, 7
     var form = new formidable.IncomingForm()
     form.parse(req, async (error, fields, formData) => {
         if(!error){
-            // Verify the existance of the file
+            // Verify the existence of the file
             if(formData.file && formData.file.type && formData.file.path){
                 // Verify if the file is a PDF
                 if(formData.file.type === "application/pdf"){
