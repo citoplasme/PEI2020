@@ -171,12 +171,12 @@ export default {
       var events=[];
       snapshot.data.forEach(async element => {
         //Vai buscar o nome da empresa
-        //let empresa=await this.$request("get", "/users/"+element.service_provider);
+        var empresa=await this.$request("get", "/users/service_providers/"+element.service_provider);
         var x ={
           //depois temos de por isto sem ser hardcoded
-          name: "Empresa",
+          name: empresa.data.name,
           details:element.desc,
-          start:element.date,
+          start:element.date+"T"+element.hour+":00",
           end:element.date,
           color:"#ff8080"
         }
