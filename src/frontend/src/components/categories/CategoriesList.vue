@@ -361,8 +361,8 @@ export default {
         return e;
       }
     },
-    go(categoryName) {
-      var url = "/categories/" + categoryName;
+    go(categoryId) {
+      var url = "/categories/" + categoryId;
       if (url.startsWith("http")) {
         window.location.href = url;
       } else {

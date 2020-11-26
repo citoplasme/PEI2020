@@ -97,7 +97,19 @@
             <td v-if="levelU >= levelMin" class="subheading">
               {{ props.item.active }}
             </td>
-            <td v-if="levelU >= levelMin" class="subheading">
+            <td class="subheading">
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on }">
+                  <v-btn
+                    icon
+                    v-on="on"
+                    @click="go(props.item.id, props.item.name)"
+                  >
+                    <v-icon medium color="gray">search</v-icon>
+                  </v-btn>
+                </template>
+                <span>See service providers</span>
+              </v-tooltip>
               <v-tooltip bottom v-if="levelU >= levelMin">
                 <template v-slot:activator="{ on }">
                   <v-btn icon v-on="on" @click="edit(props.item)">
@@ -106,7 +118,7 @@
                 </template>
                 <span>Edit sub-category</span>
               </v-tooltip>
-              <v-tooltip bottom>
+              <v-tooltip bottom v-if="levelU >= levelMin">
                 <template v-slot:activator="{ on }">
                   <v-btn v-on="on" icon @click="eliminarId = props.item.id">
                     <v-icon color="red">delete</v-icon>
@@ -328,6 +340,10 @@ export default {
             sortable: true,
             value: "desc",
             class: "title"
+          },
+          {
+            text: "Operations",
+            value: "ops"
           }
         ];
       }
@@ -372,6 +388,20 @@ export default {
         this.category = response.data;
       } catch (e) {
         return e;
+      }
+    },
+    go(subCategoryId, subcategoryName) {
+      var url =
+        "/serviceProviders/list" +
+        "?subcategoryId=" +
+        subCategoryId +
+        "&subcategoryName=" +
+        subcategoryName;
+
+      if (url.startsWith("http")) {
+        window.location.href = url;
+      } else {
+        this.$router.push(url);
       }
     },
     async registSubCategory() {
