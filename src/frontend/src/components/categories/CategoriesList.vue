@@ -124,8 +124,12 @@
               <v-tooltip bottom v-if="levelU >= levelMin">
                 <template v-slot:activator="{ on }">
                   <v-btn v-on="on" icon @click="validateName = props.item">
-                    <v-icon v-if="props.item.active==false" color="green">done_outline</v-icon>
-                    <v-icon v-if="props.item.active==true" color="red">clear</v-icon> 
+                    <v-icon v-if="props.item.active == false" color="green"
+                      >done_outline</v-icon
+                    >
+                    <v-icon v-if="props.item.active == true" color="red"
+                      >clear</v-icon
+                    >
                   </v-btn>
                 </template>
                 <span>Alter category state</span>
@@ -477,7 +481,7 @@ export default {
     },
     validar(item) {
       let data = item;
-      item.active = item.active==true ? "false" : true;
+      item.active = item.active == true ? "false" : true;
       this.$request("put", "/categories/" + item.id, data)
         .then(res => {
           this.text = "Category succesfully validated!";

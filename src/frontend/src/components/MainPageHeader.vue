@@ -1,9 +1,8 @@
 <template>
-
   <v-app-bar app color="primary" dark height="64px">
     <v-btn to="/" icon :class="'pl-6'">
       <v-list-item-avatar>
-        <img src="../assets/hands.png">
+        <img src="../assets/hands.png" />
       </v-list-item-avatar>
     </v-btn>
     <v-toolbar-title class="headline" @click="goHome">
@@ -119,7 +118,7 @@ export default {
 
 <style scoped>
 @import url("https://fonts.googleapis.com/css2?family=Questrial&display=swap");
-.text{
-  font-family: 'Questrial', sans-serif;
+.text {
+  font-family: "Questrial", sans-serif;
 }
 </style>

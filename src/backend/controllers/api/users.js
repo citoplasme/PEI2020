@@ -61,8 +61,6 @@ Users.comparePassword = function (candidatePassword, hash, callback) {
 
 Users.listar = function(req, callback){
     var filtro = {}
-    if(req.query.entidade!=undefined)
-    filtro = {entidade: req.query.entidade};
     
     User.find(filtro, function(err,users){
         if(err){
@@ -114,6 +112,33 @@ Users.listar = function(req, callback){
         }
     })
 }
+
+Users.list_service_providers = function(callback){
+    var filtro = {level : {$gte : 3, $lte : 4}};
+    
+    User.find(filtro, function(err,users){
+        if(err){
+            callback(err, null)
+        }else{
+            users = users.map(u => {
+                let obj = {
+                    email: u.email,
+                    name: u.name,
+                    categorias: u.categorias,
+                    subcategorias: u.subcategorias,
+                    servicos_realizados: u.servicos_realizados,
+                    karma: u.karma,
+                    locations: u.locations,
+                    _id: u._id,
+                    level: u.level
+                };
+                return obj;
+            });
+            callback(null, users);
+        }
+    })
+}
+
 
 Users.listarPorId = function(id, callback){
     Users.getUserById(id, function(err, user){

@@ -273,6 +273,54 @@ router.put('/:id', Auth.isLoggedInUser, Auth.checkLevel(5), function (req, res) 
     });
 });
 
+router.get('/service_providers', Auth.isLoggedInUser, (req, res) => {
+    Users.list_service_providers(function(err, result){
+        if(err){
+            //res.status(500).send(`Erro: ${err}`);
+            res.status(500).send("It was not possible to obtain the user.");
+        }else{
+            res.json(result);
+        }
+    });
+});
+
+
+router.get('/service_providers/:id', Auth.isLoggedInUser, (req, res) => {
+    Users.listarPorId(req.params.id,function(err, result){
+        if(err){
+            //res.status(500).send(`Erro: ${err}`);
+            res.status(500).send("It was not possible to obtain the user.");
+        }else{
+            // Check if is a service provider
+            if(result.level >= 3 && result.level <= 4){
+                let response = {
+                    email: result.email,
+                    name: result.name,
+                    categorias: result.categorias,
+                    subcategorias: result.subcategorias,
+                    servicos_realizados: result.servicos_realizados,
+                    karma: result.karma,
+                    locations: result.locations,
+                    _id: result._id,
+                    level: result.level
+                };
+                //result._doc.local = result._doc.local.password ? true : false;
+                res.json(response);
+            }
+            else {
+                res.status(500).send("It was not possible to obtain the user.");
+            }
+        }
+    });
+});
+
+
+
+
+
+
+
+
 router.get('/:id', Auth.isLoggedInUser, (req, res) => {
     if(req.params.id == req.user.id || req.user.level >= 5){
         Users.listarPorId(req.params.id,function(err, result){
