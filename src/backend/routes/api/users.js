@@ -69,7 +69,7 @@ router.post('/registar', function (req, res) {
         name: req.body.name,
         email: req.body.email,
         internal: internal,
-        level: 1,
+        level: req.body.level, //1,
         local: {
             password: req.body.password
         },
