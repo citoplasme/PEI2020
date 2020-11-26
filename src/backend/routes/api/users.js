@@ -13,6 +13,10 @@ var secretKey = require('./../../config/app');
 var Mailer = require('../../controllers/api/mailer');
 var mongoose = require('mongoose');
 
+var url = require('url')
+const { validationResult, body } = require('express-validator');
+const { existe, eMongoId, dataValida, horaValida, vcServiceStatus, estaEm } = require('../validation')
+
 // Para a foto (upload de ficheiros)
 var formidable = require("formidable")
 var ncp = require('ncp').ncp;
@@ -273,8 +277,28 @@ router.put('/:id', Auth.isLoggedInUser, Auth.checkLevel(5), function (req, res) 
     });
 });
 
-router.get('/service_providers', Auth.isLoggedInUser, (req, res) => {
-    Users.list_service_providers(function(err, result){
+var validKeys = ["categorias", "subcategorias", "email", "name",];
+
+router.get('/service_providers', Auth.isLoggedInKey, [
+    existe("query", "categorias").optional(),
+    existe("query", "subcategorias").optional(),
+    existe("query", "email").optional(),
+    existe("query", "name").optional()
+], (req, res) => {
+
+    const errors = validationResult(req)
+    if(!errors.isEmpty()){
+        return res.status(422).jsonp(errors.array())
+    }
+    
+    var queryData = url.parse(req.url, true).query;
+    
+    var filtro = Object.entries(queryData)
+        .filter(([k, v]) => validKeys.includes(k))
+
+    filtro = Object.assign({}, ...Array.from(filtro, ([k, v]) => ({[k]: v}) ));
+    
+    Users.list_service_providers(filtro, function(err, result){
         if(err){
             //res.status(500).send(`Erro: ${err}`);
             res.status(500).send("It was not possible to obtain the user.");
@@ -285,7 +309,7 @@ router.get('/service_providers', Auth.isLoggedInUser, (req, res) => {
 });
 
 
-router.get('/service_providers/:id', Auth.isLoggedInUser, (req, res) => {
+router.get('/service_providers/:id', Auth.isLoggedInKey, (req, res) => {
     Users.listarPorId(req.params.id,function(err, result){
         if(err){
             //res.status(500).send(`Erro: ${err}`);

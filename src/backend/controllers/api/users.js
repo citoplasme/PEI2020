@@ -113,9 +113,12 @@ Users.listar = function(req, callback){
     })
 }
 
-Users.list_service_providers = function(callback){
-    var filtro = {level : {$gte : 3, $lte : 4}};
+Users.list_service_providers = function(filtro, callback){
+    filtro = filtro === undefined ? {} : filtro;
+    filtro.level = {$gte : 3, $lte : 4};
     
+    console.log(filtro)
+
     User.find(filtro, function(err,users){
         if(err){
             callback(err, null)
