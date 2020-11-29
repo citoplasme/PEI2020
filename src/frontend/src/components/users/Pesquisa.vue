@@ -1,17 +1,109 @@
-<!--Falta os resultados e a cena da paginação a funcionar direito -->
+<!--Falta meter a query antiga dentro do espaço de procura, em vez de estar procurando por ......,
+    corrigir a procura dentro desta página e mostrar os resultados-->
 <template>
-  <v-card>
-    <v-toolbar :color="panelHeaderColor" dark>
-      <v-toolbar-title>Teste</v-toolbar-title>
-    </v-toolbar>
-  </v-card>
+  <div>
+    <v-card>
+      <v-toolbar :color="panelHeaderColor" dark>
+        <v-toolbar-title>
+          Searching for {{ this.oldsearchString }}
+        </v-toolbar-title>
+      </v-toolbar>
+    </v-card>
+    <Loading v-if="!categoriasReady" :message="'categories'" />
+    <v-card v-else>
+      <v-container fluid>
+        <v-row align="center">
+          <v-col cols="10">
+            <v-autocomplete
+              v-model="searchString"
+              :items="categories"
+              auto-select-first
+              clearable
+              dense
+              chips
+              rounded
+              deletable-chips
+              multiple
+              label="Example: Arts"
+              solo
+            ></v-autocomplete>
+          </v-col>
+        </v-row>
+        <v-row v-for="(item, i) in this.operacoes" :key="i">
+          <v-card-text>
+            <div>
+              <v-btn
+                v-for="op in item.ops"
+                color="primary"
+                dark
+                @click="go(op.url)"
+                :key="op.url"
+              >
+                Search
+              </v-btn>
+            </div>
+          </v-card-text>
+        </v-row>
+      </v-container>
+    </v-card>
+  </div>
 </template>
 <script>
+import Loading from "@/components/generic/Loading";
 export default {
-  data() {
-    return {
-      panelHeaderColor: "primary"
-    };
+  created() {
+    this.created();
+  },
+  data: () => ({
+    categories: [],
+    panelHeaderColor: "primary",
+    categoriasReady: false,
+    oldsearchString: [],
+    searchString: [],
+    operacoes: [
+      {
+        entidade: "Search",
+        ops: [
+          {
+            label: "pesquisar",
+            url: "/users/pesquisa"
+          }
+        ]
+      }
+    ]
+  }),
+  components: {
+    Loading
+  },
+  methods: {
+    go: function(url) {
+      let query = [];
+      if (this.searchString.length > 0) {
+        query = this.searchString;
+      } else {
+        query = ["all"];
+      }
+      if (url.startsWith("http")) {
+        window.location.href = url;
+      } else {
+        this.$router.push({ path: url, query: query });
+      }
+    },
+    created: async function() {
+      let query = this.$route.query;
+      this.oldsearchString = query;
+      try {
+        let response = await this.$request("get", "/categories");
+        let categorias = [];
+        for (let i = 0; i < response.data.length; i++) {
+          categorias.push(response.data[i].name);
+        }
+        this.categories = categorias;
+        this.categoriasReady = true;
+      } catch (e) {
+        return e;
+      }
+    }
   }
 };
 </script>

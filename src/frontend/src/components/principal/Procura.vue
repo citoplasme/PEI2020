@@ -43,7 +43,6 @@
     </v-card>
   </div>
 </template>
-
 <script>
 import Loading from "@/components/generic/Loading";
 export default {
@@ -69,21 +68,16 @@ export default {
   },
   methods: {
     go: function(url) {
-      let query = "";
+      let query = [];
       if (this.searchString.length > 0) {
-        let arrayProcura = "";
-        for (let i = 0; i < this.searchString.length; i++) {
-          arrayProcura = arrayProcura + "+" + this.searchString[i];
-        }
-        query = arrayProcura.substring(1);
+        query = this.searchString;
       } else {
-        query = "all";
+        query = ["all"];
       }
-      //No url nao aparece /q?=a+b, aparece /q?=a b n sei porque
       if (url.startsWith("http")) {
-        window.location.href = url + "/q?=" + query;
+        window.location.href = url;
       } else {
-        this.$router.push(url + "/q?=" + query);
+        this.$router.push({ path: url, query: query });
       }
     }
   },

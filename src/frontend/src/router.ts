@@ -17,7 +17,8 @@ export default new Router({
       path: "/users/pesquisa",
       name: "pesquisa",
       component: () => import("./views/users/Pesquisa.vue"),
-      meta: { levels: [0, 1, 2, 3, 3.5, 4, 5, 6, 7] }
+      meta: { levels: [0, 1, 2, 3, 3.5, 4, 5, 6, 7] },
+      props: true
     },
     // Routes da gestão de utilizadores
     {
