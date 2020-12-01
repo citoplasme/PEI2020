@@ -43,7 +43,14 @@
         {{ this.$store.state.name }}</span
       >
 
-      <v-menu v-if="this.$store.state.name != ''" open-on-hover top offset-y dark elevation="0">
+      <v-menu
+        v-if="this.$store.state.name != ''"
+        open-on-hover
+        top
+        offset-y
+        dark
+        elevation="0"
+      >
         <template v-slot:activator="{ on, attrs }">
           <v-btn color="primary" dark v-bind="attrs" v-on="on">
             <v-icon>
@@ -56,8 +63,8 @@
         <v-spacer></v-spacer>
 
         <v-list>
-          <v-list-item @click="$router.push('/users/editProfile')">
-            <v-list-item-title>Edit Profile</v-list-item-title>
+          <v-list-item @click="$router.push('/users/viewProfile')">
+            <v-list-item-title>View Profile</v-list-item-title>
           </v-list-item>
           <v-list-item @click="$router.push('/users/alteracaoPassword')">
             <v-list-item-title>Change Password</v-list-item-title>

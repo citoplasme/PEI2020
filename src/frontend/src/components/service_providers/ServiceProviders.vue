@@ -101,7 +101,12 @@
               </v-list>
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="blue darken-1" text type="submit">
+                <v-btn
+                  color="blue darken-1"
+                  text
+                  type="submit"
+                  @click="go(item._id)"
+                >
                   <v-icon>
                     search
                   </v-icon>
@@ -196,6 +201,14 @@ export default {
     }
   },
   methods: {
+    go(id) {
+      var url = "/users/" + id;
+      if (url.startsWith("http")) {
+        window.location.href = url;
+      } else {
+        this.$router.push(url);
+      }
+    },
     nextPage() {
       if (this.page + 1 <= this.numberOfPages) this.page += 1;
     },

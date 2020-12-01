@@ -62,6 +62,18 @@ export default new Router({
       component: () => import("./views/users/RegistoAcesso.vue"),
       meta: { levels: [6, 7] }
     },
+    {
+      path: "/users/viewProfile",
+      name: "viewProfile",
+      component: () => import("./views/users/EditProfile.vue"),
+      meta: { levels: [1, 2, 3, 3.5, 4, 5, 6, 7] }
+    },
+    {
+      path: "/users/:id",
+      name: "viewUserById",
+      component: () => import("./views/users/ViewProfile.vue"),
+      meta: { levels: [0, 1, 2, 3, 3.5, 4, 5, 6, 7] }
+    },
     //Métricas
     {
       path: "/gestao/metrica",
