@@ -82,19 +82,19 @@ Users.listar = function(req, callback){
                             item["level"] = 'Decision maker';
                             break;
                         case 4:
-                            item["level"] = 'Validator - level 2';
+                            item["level"] = 'Premium service provider';
                             break;
                         case 3.5:
-                            item["level"] = 'Validator - level 1';
+                            item["level"] = 'Verified service provider';
                             break;
                         case 3:
-                            item["level"] = 'Advanced user';
+                            item["level"] = 'Service provider';
                             break;
                         case 2:
-                            item["level"] = 'Basic user - level 2';
+                            item["level"] = 'Premium user';
                             break;
                         case 1:
-                            item["level"] = 'Basic user - Level 1';
+                            item["level"] = 'Regular user';
                             break;
                         case -1:
                             item["level"] = 'Deactivated user';

@@ -115,11 +115,11 @@
                       'Technological Administrator',
                       'Functional Administrator',
                       'Decision maker',
-                      'Validator - level 2',
-                      'Validator - level 1',
-                      'Advanced user',
-                      'Basic user - level 2',
-                      'Basic user - Level 1',
+                      'Premium service provider',
+                      'Verified service provider',
+                      'Service provider',
+                      'Premium user',
+                      'Regular user',
                       'Deactivated user'
                     ]"
                     :rules="regraTipo"
@@ -392,19 +392,19 @@ export default {
           case "Decision maker":
             parsedType = 5;
             break;
-          case "Validator - level 2":
+          case "Premium service provider":
             parsedType = 4;
             break;
-          case "Validator - level 1":
+          case "Verified service provider":
             parsedType = 3.5;
             break;
-          case "Advanced user":
+          case "Service provider":
             parsedType = 3;
             break;
-          case "Basic user - level 2":
+          case "Premium user":
             parsedType = 2;
             break;
-          case "Basic user - Level 1":
+          case "Regular user":
             parsedType = 1;
             break;
           case "Deactivated user":
