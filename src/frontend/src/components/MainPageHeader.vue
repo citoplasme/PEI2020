@@ -42,7 +42,32 @@
       <span class="font-weight-light ma-2" v-if="this.$store.state.name != ''">
         {{ this.$store.state.name }}</span
       >
-      <v-btn
+
+      <v-menu v-if="this.$store.state.name != ''" open-on-hover top offset-y dark elevation="0">
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn color="primary" dark v-bind="attrs" v-on="on">
+            <v-icon>
+              menu
+            </v-icon>
+            Actions
+          </v-btn>
+        </template>
+
+        <v-spacer></v-spacer>
+
+        <v-list>
+          <v-list-item @click="$router.push('/users/editProfile')">
+            <v-list-item-title>Edit Profile</v-list-item-title>
+          </v-list-item>
+          <v-list-item @click="$router.push('/users/alteracaoPassword')">
+            <v-list-item-title>Change Password</v-list-item-title>
+          </v-list-item>
+          <v-list-item @click="logoutUtilizador">
+            <v-list-item-title>Logout</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
+      <!--v-btn
         class="mr-2 text"
         color="blue darken-4"
         v-if="this.$store.state.name != ''"
@@ -57,7 +82,7 @@
         @click="logoutUtilizador"
       >
         Logout
-      </v-btn>
+      </v-btn-->
       <!--v-btn
         color="red"
         v-if="this.$store.state.name != ''"

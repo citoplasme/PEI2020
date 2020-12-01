@@ -55,7 +55,7 @@ export default {
               url: "/services/calendar"
             }
           ]
-        },
+        }
       ]
     };
   }
