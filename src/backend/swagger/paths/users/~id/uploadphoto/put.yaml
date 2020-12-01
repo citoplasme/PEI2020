@@ -13,14 +13,8 @@ parameters:
       type: string
     required: true
 requestBody:
-  description: 'Photo'
+  description: 'Photo file in JPEG/PNG/JPG format.'
   required: true
-  content:
-    application/json:
-      schema:
-        photo: string
-      example:
-        photo: Base64 encoding image
 responses:
   200:
     description: Changed a user's account data.

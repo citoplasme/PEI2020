@@ -566,7 +566,7 @@ router.put('/:id/uploadphoto', Auth.isLoggedInUser, async function(req, res) {
         if(!error){
             // Verify the existence of the file
             if(formData.file && formData.file.type && formData.file.path){
-                // Verify if the file is a PDF
+                // Verify if the file is a PNG/JPEG/JPG file
                 if(formData.file.type === "image/png" || formData.file.type === "image/jpg" || formData.file.type === "image/jpeg"){
                     // Check if the photo is for the logged user
                     if(req.params.id == req.user.id) {
