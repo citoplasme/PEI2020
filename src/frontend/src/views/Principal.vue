@@ -3,6 +3,7 @@
     <v-col>
       <Info />
       <Operacoes />
+      <MyArea v-if="level > 0" :level="level" />
     </v-col>
 
     <v-col>
@@ -17,12 +18,14 @@ import Info from "@/components/principal/Info.vue";
 import Gestao from "@/components/principal/Gestao.vue";
 import Operacoes from "@/components/principal/Operacoes.vue";
 import Pesquisa from "@/components/principal/Procura.vue";
+import MyArea from "@/components/principal/MyArea.vue";
 export default {
   components: {
     Info,
     Gestao,
     Operacoes,
-    Pesquisa
+    Pesquisa,
+    MyArea
   },
 
   methods: {

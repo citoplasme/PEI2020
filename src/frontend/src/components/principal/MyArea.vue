@@ -1,7 +1,7 @@
 <template>
   <v-card class="ma-4 pa-2">
     <v-toolbar :color="panelHeaderColor" dark>
-      <v-toolbar-title>Operations</v-toolbar-title>
+      <v-toolbar-title>My Area</v-toolbar-title>
     </v-toolbar>
     <v-card-text>
       <v-expansion-panels>
@@ -47,26 +47,15 @@ export default {
       panelHeaderColor: "primary",
       operacoes: [
         {
-          entidade: "Categories",
-          texto: "View avaiable categories",
+          entidade: "Services",
+          texto: "View your services",
           ops: [
             {
               label: "View",
-              url: "/categories/list"
+              url: "/services/calendar"
             }
           ]
         },
-        {
-          entidade: "Service Providers",
-          texto:
-            "View the service providers that are registered on the platform",
-          ops: [
-            {
-              label: "View",
-              url: "/serviceProviders/"
-            }
-          ]
-        }
       ]
     };
   }
