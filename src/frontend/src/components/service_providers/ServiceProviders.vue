@@ -1,16 +1,50 @@
 <template>
   <Loading v-if="!ready" :message="'the service providers'" />
   <v-container v-else fluid>
-    <h2>Service Providers</h2>
-    <h5 v-if="service_providers.length == 0">
-      No results found
-    </h5>
     <v-data-iterator
-      :items="service_providers"
+      :items="items"
       :items-per-page.sync="itemsPerPage"
+      :page="page"
+      :search="search"
+      :sort-by="sortBy.toLowerCase()"
+      :sort-desc="sortDesc"
       hide-default-footer
-      v-else
     >
+      <template v-slot:header>
+        <v-toolbar class="mb-2" color="primary" dark flat>
+          <v-toolbar-title>Service Providers</v-toolbar-title>
+          <v-spacer></v-spacer>
+          <v-text-field
+            v-model="search"
+            clearable
+            flat
+            solo-inverted
+            hide-details
+            prepend-inner-icon="search"
+            label="Search"
+          ></v-text-field>
+          <v-spacer></v-spacer>
+          <v-select
+            v-model="sortBy"
+            flat
+            solo-inverted
+            hide-details
+            :items="keys"
+            prepend-inner-icon="search"
+            label="Sort by"
+          ></v-select>
+          <v-spacer></v-spacer>
+          <v-btn-toggle v-model="sortDesc" mandatory>
+            <v-btn large depressed color="blue" :value="false">
+              <v-icon>keyboard_arrow_up</v-icon>
+            </v-btn>
+            <v-btn large depressed color="blue" :value="true">
+              <v-icon>keyboard_arrow_down</v-icon>
+            </v-btn>
+          </v-btn-toggle>
+        </v-toolbar>
+      </template>
+
       <template v-slot:default="props">
         <v-row>
           <v-col
@@ -22,18 +56,74 @@
             lg="3"
           >
             <v-card>
-              <img style="width:100%; height:100%;" src="@/assets/default_user.png" />
+              <img
+                style="width:100%; height:100%;"
+                src="@/assets/default_user.png"
+              />
               <v-card-title class="subheading font-weight-bold">
                 {{ item.name }}
               </v-card-title>
               <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn color="blue darken-1" text type="submit">
-                  See info
+                  <v-icon>
+                    search
+                  </v-icon>
                 </v-btn>
               </v-card-actions>
             </v-card>
           </v-col>
+        </v-row>
+      </template>
+
+      <template v-slot:footer>
+        <v-row class="mt-2" align="center" justify="center">
+          <span class="grey--text">Items per page</span>
+          <v-menu offset-y>
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn
+                dark
+                text
+                color="primary"
+                class="ml-2"
+                v-bind="attrs"
+                v-on="on"
+              >
+                {{ itemsPerPage }}
+                <v-icon>keyboard_arrow_down</v-icon>
+              </v-btn>
+            </template>
+            <v-list>
+              <v-list-item
+                v-for="(number, index) in itemsPerPageArray"
+                :key="index"
+                @click="updateItemsPerPage(number)"
+              >
+                <v-list-item-title>{{ number }}</v-list-item-title>
+              </v-list-item>
+            </v-list>
+          </v-menu>
+
+          <v-spacer></v-spacer>
+
+          <span
+            class="mr-4
+            grey--text"
+          >
+            Page {{ page }} of {{ numberOfPages }}
+          </span>
+          <v-btn
+            fab
+            dark
+            color="blue darken-3"
+            class="mr-1"
+            @click="formerPage"
+          >
+            <v-icon>keyboard_arrow_left</v-icon>
+          </v-btn>
+          <v-btn fab dark color="blue darken-3" class="ml-1" @click="nextPage">
+            <v-icon>keyboard_arrow_right</v-icon>
+          </v-btn>
         </v-row>
       </template>
     </v-data-iterator>
@@ -44,20 +134,49 @@
 import Loading from "@/components/generic/Loading";
 
 export default {
-  props: ["subcategoryId"],
+  props: ["queryString"],
   components: {
     Loading
   },
   data: () => ({
-    service_providers: [],
+    items: [],
     itemsPerPage: 20,
-    ready: false
+    ready: false,
+    itemsPerPageArray: [10, 20, 30],
+    search: "",
+    filter: {},
+    sortDesc: false,
+    page: 1,
+    sortBy: "karma",
+    keys: [
+      "Email",
+      "Name",
+      "Finished Services", // servicos_realizados
+      "Karma"
+    ]
   }),
+  computed: {
+    numberOfPages() {
+      return Math.ceil(this.items.length / this.itemsPerPage);
+    },
+    filteredKeys() {
+      return this.keys.filter(key => key !== "Name");
+    }
+  },
   methods: {
+    nextPage() {
+      if (this.page + 1 <= this.numberOfPages) this.page += 1;
+    },
+    formerPage() {
+      if (this.page - 1 >= 1) this.page -= 1;
+    },
+    updateItemsPerPage(number) {
+      this.itemsPerPage = number;
+    },
     async getServiceProviders() {
       try {
         let response = await this.$request("get", "/users/service_providers/");
-        this.service_providers = response.data;
+        this.items = response.data;
       } catch (e) {
         return e;
       }

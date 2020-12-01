@@ -58,11 +58,22 @@ export default {
         },
         {
           entidade: "Services",
-          texto: "View your Services",
+          texto: "View your services",
           ops: [
             {
               label: "View",
               url: "/services/calendar"
+            }
+          ]
+        },
+        {
+          entidade: "Service Providers",
+          texto:
+            "View the service providers that are registered on the platform",
+          ops: [
+            {
+              label: "View",
+              url: "/serviceProviders/"
             }
           ]
         }

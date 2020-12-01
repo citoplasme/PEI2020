@@ -392,7 +392,7 @@ export default {
     },
     go(subCategoryId, subcategoryName) {
       var url =
-        "/serviceProviders/list" +
+        "/serviceProviders/" +
         "?subcategoryId=" +
         subCategoryId +
         "&subcategoryName=" +
