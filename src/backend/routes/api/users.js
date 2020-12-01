@@ -277,11 +277,12 @@ router.put('/:id', Auth.isLoggedInUser, Auth.checkLevel(5), function (req, res) 
     });
 });
 
-var validKeys = ["categorias", "subcategorias", "email", "name",];
+var validKeys = ["categorias", "subcategorias", "email", "name", "locations"];
 
 router.get('/service_providers', Auth.isLoggedInKey, [
     existe("query", "categorias").optional(),
     existe("query", "subcategorias").optional(),
+    existe("query", "locations").optional(),
     existe("query", "email").optional(),
     existe("query", "name").optional()
 ], (req, res) => {

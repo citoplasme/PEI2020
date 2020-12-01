@@ -115,9 +115,31 @@ Users.listar = function(req, callback){
 
 Users.list_service_providers = function(filtro, callback){
     filtro = filtro === undefined ? {} : filtro;
+
+    // Check if exists and its an array (if is one element, mongo knows what to do)
+    if(filtro.categorias && filtro.categorias.length > 1){
+        filtro.categorias = {
+            $all: filtro.categorias
+        };
+    }
+
+    // Check if exists and its an array (if is one element, mongo knows what to do)
+    if(filtro.subcategorias && filtro.subcategorias.length > 1){
+        filtro.subcategorias = {
+            $all: filtro.subcategorias
+        };
+    }
+
+    // Check if exists and its an array (if is one element, mongo knows what to do)
+    if(filtro.locations && filtro.locations.length > 1){
+        filtro.locations = {
+            $all: filtro.locations
+        };
+    }
+
     filtro.level = {$gte : 3, $lte : 4};
     
-    console.log(filtro)
+    // console.log(JSON.stringify(filtro, null, 2))
 
     User.find(filtro, function(err,users){
         if(err){
@@ -133,7 +155,8 @@ Users.list_service_providers = function(filtro, callback){
                     karma: u.karma,
                     locations: u.locations,
                     _id: u._id,
-                    level: u.level
+                    level: u.level,
+                    photo: u.photo
                 };
                 return obj;
             });

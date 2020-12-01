@@ -49,20 +49,56 @@
         <v-row>
           <v-col
             v-for="item in props.items"
-            :key="item._id"
+            :key="item.name"
             cols="12"
             sm="6"
             md="4"
-            lg="3"
+            lg="4"
           >
             <v-card>
               <img
+                v-if="
+                  item.photo !== undefined &&
+                    item.photo.content !== undefined &&
+                    item.photo.extension !== undefined
+                "
+                :src="
+                  `data:image/${item.photo.extension};base64,${
+                    item.photo.content
+                  }`
+                "
+                style="width:100%; height:100%;"
+              />
+              <img
+                v-else
                 style="width:100%; height:100%;"
                 src="@/assets/default_user.png"
               />
               <v-card-title class="subheading font-weight-bold">
                 {{ item.name }}
               </v-card-title>
+
+              <v-divider></v-divider>
+
+              <v-list dense>
+                <v-list-item v-for="(key, index) in filteredKeys" :key="index">
+                  <v-list-item-content
+                    :class="{ 'blue--text': sortBy === key }"
+                  >
+                    {{ key }}:
+                  </v-list-item-content>
+                  <v-list-item-content
+                    class="align-end"
+                    :class="{ 'blue--text': sortBy === key }"
+                  >
+                    {{
+                      key === "Finished Services"
+                        ? item["servicos_realizados"]
+                        : item[key.toLowerCase()]
+                    }}
+                  </v-list-item-content>
+                </v-list-item>
+              </v-list>
               <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn color="blue darken-1" text type="submit">
