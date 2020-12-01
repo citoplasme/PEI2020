@@ -22,10 +22,8 @@ responses:
         schema:
           $ref: '#/components/schemas/Category'
         example: !!inc/file '/examples/categories/Category.yaml'
-  401:
-    $ref: '#/components/responses/UnauthorizedUser'
-  403:
-    $ref: '#/components/responses/PermissionsUser'
+  404:
+    description: Category does not exist.
   422:
     $ref: '#/components/responses/ValidationParameters'
   500:

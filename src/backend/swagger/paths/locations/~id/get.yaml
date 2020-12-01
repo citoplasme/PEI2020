@@ -1,5 +1,5 @@
-summary: Consult a country.
-description: Consult a county.
+summary: Consult a location.
+description: Consult a location.
 security:
   - apiKeyQuery: []
   - apiKeyAuth: []
@@ -10,13 +10,13 @@ tags:
 parameters:
   - name: id
     in: path
-    description: 'Country identifier'
+    description: 'Location identifier'
     schema:
       type: string
     required: true
 responses:
   200:
-    description: Consult a country.
+    description: Consult a location.
     content:
       application/json:
         schema:
@@ -26,6 +26,8 @@ responses:
     $ref: '#/components/responses/UnauthorizedUser'
   403:
     $ref: '#/components/responses/PermissionsUser'
+  404:
+    description: Location does not exist.
   422:
     $ref: '#/components/responses/ValidationParameters'
   500:

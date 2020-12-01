@@ -21,7 +21,7 @@ requestBody:
         email: exemplo@exemplo.pt
         entidade: ent_DGLAB
 responses:
-  200:
+  201:
     description: API key created.
   422:
     $ref: '#/components/responses/ValidationParameters'

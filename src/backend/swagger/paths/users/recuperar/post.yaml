@@ -21,7 +21,7 @@ requestBody:
         email: example@example.com
         url: http://localhost:8080.com/
 responses:
-  200:
+  201:
     description: Email sent to user.
   422:
     $ref: '#/components/responses/ValidationParameters'

@@ -20,7 +20,7 @@ requestBody:
         Exemplo CLAV:
           $ref: '#/components/examples/auth_post_clav'
 responses:
-  200:
+  201:
      description: Added the following location of a new SAML request.
      content:
        application/json:
@@ -29,8 +29,6 @@ responses:
          examples:
            Exemplo Local:
              $ref: '#/components/examples/auth_post_local'
-           Exemplo CLAV:
-             $ref: '#/components/examples/auth_post_clav'
   401:
     $ref: '#/components/responses/UnauthorizedKey'
   403:

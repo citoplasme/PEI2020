@@ -1,8 +1,5 @@
 summary: Add/register a user.
 description: Add/register a user.
-security:
-  - userQuery: []
-  - userAuth: []
 tags:
   - Users
 requestBody:
@@ -18,12 +15,8 @@ requestBody:
         name: Example
         password: 123password
 responses:
-  200:
+  201:
     description: User added/registered.
-  401:
-    $ref: '#/components/responses/UnauthorizedUser'
-  403:
-    $ref: '#/components/responses/PermissionsUser'
   422:
     $ref: '#/components/responses/ValidationParameters'
   500:

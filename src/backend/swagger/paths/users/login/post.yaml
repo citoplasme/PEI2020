@@ -21,7 +21,7 @@ requestBody:
         username: example@example.com
         password: 123password
 responses:
-  200:
+  201:
     description: Login successfully.
     content:
       application/json:

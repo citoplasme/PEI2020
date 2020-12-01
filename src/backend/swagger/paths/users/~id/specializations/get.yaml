@@ -17,10 +17,6 @@ responses:
         schema:
           $ref: '#/components/schemas/UserSubCategorias'
         example: !!inc/file '/examples/users/UsersSubCategories.yaml'
-  401:
-    $ref: '#/components/responses/UnauthorizedUser'
-  403:
-    $ref: '#/components/responses/PermissionsUser'
   422:
     $ref: '#/components/responses/ValidationParameters'
   500:

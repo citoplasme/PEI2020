@@ -1,8 +1,6 @@
 summary: If no parameters are passed, it returns the services list.
 description: If no parameters are passed, it returns the services list.
 security:
-  - apiKeyQuery: []
-  - apiKeyAuth: []
   - userQuery: []
   - userAuth: []
 tags:
@@ -60,10 +58,6 @@ responses:
         examples:
           Example of a list of Services:
             $ref: '#/components/examples/Services'
-  401:
-    $ref: '#/components/responses/UnauthorizedUser'
-  403:
-    $ref: '#/components/responses/PermissionsUser'
   422:
     $ref: '#/components/responses/ValidationParameters'
   500:

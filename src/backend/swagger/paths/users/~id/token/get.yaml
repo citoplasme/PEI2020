@@ -25,5 +25,7 @@ responses:
         example: !!inc/file '/examples/users/UserInfo.yaml'
   403:
     $ref: '#/components/responses/PermissionsUser'
+  422:
+    $ref: '#/components/responses/ValidationParameters'
   500:
     description: Error .

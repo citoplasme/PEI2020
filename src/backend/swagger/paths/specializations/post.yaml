@@ -3,8 +3,6 @@ description: Add/register a specialization.
 security:
   - userQuery: []
   - userAuth: []
-  - apiKeyQuery: []
-  - apiKeyAuth: []
 tags:
   - Specializations
 requestBody:
@@ -20,7 +18,7 @@ requestBody:
         desc: "Find suitable professional help to improve your skills"
         active: true
 responses:
-  200:
+  201:
     description: Specialization registered with success.
   401:
     $ref: '#/components/responses/UnauthorizedUser'

@@ -19,11 +19,13 @@ requestBody:
       example:
         country: Portugal
 responses:
-  200:
+  201:
     description: Country added.
   401:
     $ref: '#/components/responses/UnauthorizedUser'
   403:
     $ref: '#/components/responses/PermissionsUser'
+  422:
+    $ref: '#/components/responses/ValidationParameters'
   500:
     description: Error.

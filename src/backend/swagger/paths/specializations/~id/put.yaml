@@ -3,8 +3,6 @@ description: Updates a certain specialization.
 security:
   - userQuery: []
   - userAuth: []
-  - apiKeyQuery: []
-  - apiKeyAuth: []
 tags:
   - Specializations
 parameters:

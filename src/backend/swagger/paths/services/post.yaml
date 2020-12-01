@@ -3,8 +3,6 @@ description: Add/register a service.
 security:
   - userQuery: []
   - userAuth: []
-  - apiKeyQuery: []
-  - apiKeyAuth: []
 tags:
   - Services
 requestBody:
@@ -16,7 +14,7 @@ requestBody:
         $ref: '#/components/schemas/ServicePOST'
       example: !!inc/file '/examples/services/ServicePOST.yaml'
 responses:
-  200:
+  201:
     description: Service registered with success.
   401:
     $ref: '#/components/responses/UnauthorizedUser'
