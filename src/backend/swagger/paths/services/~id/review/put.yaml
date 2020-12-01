@@ -1,0 +1,27 @@
+summary: Updates a certain service's review.
+description: Updates a certain service's review.
+security:
+  - userQuery: []
+  - userAuth: []
+tags:
+  - Services
+parameters:
+  - name: id
+    in: path
+    description: 'Service identifier'
+    schema:
+      type: string
+    required: true
+requestBody:
+  description: 'Services review to change'
+responses:
+  200:
+    description: Service's review updated.
+  401:
+    $ref: '#/components/responses/UnauthorizedUser'
+  403:
+    $ref: '#/components/responses/PermissionsUser'
+  422:
+    $ref: '#/components/responses/ValidationParameters'
+  500:
+    description: Error.

@@ -20,8 +20,8 @@ requestBody:
           - country
           - name
       example:
-        country: Portugal
-        name: Várzea
+        country: "Portugal"
+        name: "Várzea"
 responses:
   201:
     description: Location added.

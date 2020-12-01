@@ -1,7 +1,7 @@
 value:
-  - _id: "5fabb0d299427bd00a1fd3fa"
-    cities: ["Herat","Kabul","Kandahar","Molah","Rana","Shar","Sharif","Wazir Akbar Khan"]
-    country: "Afghanistan"
-  - _id: "5fabb0d299427bd00a1fd3f9"
-    cities: ["Elbasan","Petran","Pogradec","Shkoder","Tirana","Ura Vajgurore"]
-    country: "Albania"
+  - _id: "5fb53614b1508cf0819f30f6"
+    name: "Llorts"
+    country: "5faad3af71604082588d5031"
+  - _id: "5fb53614b1508cf0819f30f7"
+    name: "Engordany"
+    country: "5faad3af71604082588d5031"

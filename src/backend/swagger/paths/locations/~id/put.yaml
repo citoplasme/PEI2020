@@ -20,8 +20,8 @@ requestBody:
       schema:
         $ref: '#/components/schemas/LocationPut'
       example:
-        country: Portugal
-        name: Felgueiras
+        country: "Portugal"
+        name: "Felgueiras"
 responses:
   200:
     description: Location updated.

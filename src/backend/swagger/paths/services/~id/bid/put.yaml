@@ -1,5 +1,5 @@
-summary: Updates a certain service's bill.
-description: Updates a certain service's bill.
+summary: Updates a certain service's bid.
+description: Updates a certain service's bid.
 security:
   - userQuery: []
   - userAuth: []
@@ -13,10 +13,10 @@ parameters:
       type: string
     required: true
 requestBody:
-  description: 'Services bill to change'
+  description: 'Services bid to change'
 responses:
   200:
-    description: Service's bill updated.
+    description: Service's bid updated.
   401:
     $ref: '#/components/responses/UnauthorizedUser'
   403:

@@ -4,11 +4,9 @@ properties:
     type: string
   country:
     type: string
-  city:
-    type: array
-    items:
-      type: string
+  name:
+    type: string
 required:
   - _id
   - country
-  - city
+  - name
