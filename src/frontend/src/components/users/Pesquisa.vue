@@ -4,18 +4,17 @@
   <div>
     <v-card>
       <v-toolbar :color="panelHeaderColor" dark>
-        <v-toolbar-title>
-          Searching for {{ this.oldsearchString }}
-        </v-toolbar-title>
+        <v-toolbar-title> Searching for: {{ this.oldsearch }} </v-toolbar-title>
       </v-toolbar>
     </v-card>
     <Loading v-if="!categoriasReady" :message="'categories'" />
     <v-card v-else>
       <v-container fluid>
-        <v-row align="center">
+        <v-row align="center" v-for="(item, i) in this.operacoes" :key="i">
           <v-col cols="10">
             <v-autocomplete
               v-model="searchString"
+              :append-outer-icon="search ? 'search' : 'search'"
               :items="categories"
               auto-select-first
               clearable
@@ -26,23 +25,11 @@
               multiple
               label="Example: Arts"
               solo
+              v-for="op in item.ops"
+              @click:append-outer="go(op.url)"
+              :key="op.url"
             ></v-autocomplete>
           </v-col>
-        </v-row>
-        <v-row v-for="(item, i) in this.operacoes" :key="i">
-          <v-card-text>
-            <div>
-              <v-btn
-                v-for="op in item.ops"
-                color="primary"
-                dark
-                @click="go(op.url)"
-                :key="op.url"
-              >
-                Search
-              </v-btn>
-            </div>
-          </v-card-text>
         </v-row>
       </v-container>
     </v-card>
@@ -60,6 +47,7 @@ export default {
     categoriasReady: false,
     oldsearchString: [],
     searchString: [],
+    oldsearch: "",
     operacoes: [
       {
         entidade: "Search",
@@ -76,6 +64,9 @@ export default {
     Loading
   },
   methods: {
+    reloadPage() {
+      window.location.reload();
+    },
     go: function(url) {
       let query = [];
       if (this.searchString.length > 0) {
@@ -87,11 +78,21 @@ export default {
         window.location.href = url;
       } else {
         this.$router.push({ path: url, query: query });
+        this.reloadPage();
       }
     },
     created: async function() {
-      let query = this.$route.query;
-      this.oldsearchString = query;
+      this.oldsearchString = this.$route.query;
+      let tam = 0;
+      for (let i = 0; this.oldsearchString[i] != null; i++) tam = i;
+      if (tam == 0) this.oldsearch = this.oldsearchString[0];
+      else {
+        let aux = "";
+        for (let i = 0; i <= tam; i++) {
+          aux = aux + ", " + this.oldsearchString[i];
+        }
+        this.oldsearch = aux.slice(2);
+      }
       try {
         let response = await this.$request("get", "/categories");
         let categorias = [];
