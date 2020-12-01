@@ -1,9 +1,7 @@
 <template>
   <v-app-bar app color="primary" dark height="64px">
-    <v-btn to="/" icon :class="'pl-6'">
-      <v-list-item-avatar>
-        <img src="../assets/hands.png" />
-      </v-list-item-avatar>
+    <v-btn to="/" color="primary" depressed>
+      <v-img :src="require('../assets/hands.png')" width="50px" height="30px" />
     </v-btn>
     <v-toolbar-title class="headline" @click="goHome">
       <span class="text" style="font-weight:600">SERVICIFY</span>

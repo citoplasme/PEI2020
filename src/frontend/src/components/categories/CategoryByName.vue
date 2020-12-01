@@ -391,12 +391,7 @@ export default {
       }
     },
     go(subCategoryId, subcategoryName) {
-      var url =
-        "/serviceProviders/" +
-        "?subcategoryId=" +
-        subCategoryId +
-        "&subcategoryName=" +
-        subcategoryName;
+      var url = "/serviceProviders/" + "?subcategorias=" + subCategoryId;
 
       if (url.startsWith("http")) {
         window.location.href = url;

@@ -13,13 +13,6 @@ export default new Router({
       component: () => import("./views/Principal.vue"),
       meta: { levels: [0, 1, 2, 3, 3.5, 4, 5, 6, 7] }
     },
-    {
-      path: "/users/pesquisa",
-      name: "pesquisa",
-      component: () => import("./views/users/Pesquisa.vue"),
-      meta: { levels: [0, 1, 2, 3, 3.5, 4, 5, 6, 7] },
-      props: true
-    },
     // Routes da gestão de utilizadores
     {
       path: "/users/autenticacao",
@@ -122,5 +115,15 @@ export default new Router({
       component: () => import("./views/service_providers/ServiceProviders.vue"),
       meta: { levels: [0, 1, 2, 3, 3.5, 4, 5, 6, 7] }
     }
+    // Rota de pesquisa de service providers -> Não implementado
+    /*
+    {
+      path: "/users/pesquisa",
+      name: "pesquisa",
+      component: () => import("./views/users/Pesquisa.vue"),
+      meta: { levels: [0, 1, 2, 3, 3.5, 4, 5, 6, 7] },
+      props: true
+    },
+    */
   ]
 });

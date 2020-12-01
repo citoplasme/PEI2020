@@ -11,7 +11,7 @@
       hide-default-footer
     >
       <template v-slot:header>
-        <v-toolbar class="mb-2" color="primary" dark flat>
+        <v-toolbar class="mb-2" color="blue darken-3" dark flat>
           <v-toolbar-title>Service Providers</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-text-field
@@ -35,10 +35,10 @@
           ></v-select>
           <v-spacer></v-spacer>
           <v-btn-toggle v-model="sortDesc" mandatory>
-            <v-btn large depressed color="blue" :value="false">
+            <v-btn depressed color="blue darken-1" :value="false">
               <v-icon>keyboard_arrow_up</v-icon>
             </v-btn>
-            <v-btn large depressed color="blue" :value="true">
+            <v-btn depressed color="blue darken-1" :value="true">
               <v-icon>keyboard_arrow_down</v-icon>
             </v-btn>
           </v-btn-toggle>
@@ -148,16 +148,10 @@
           >
             Page {{ page }} of {{ numberOfPages }}
           </span>
-          <v-btn
-            fab
-            dark
-            color="blue darken-3"
-            class="mr-1"
-            @click="formerPage"
-          >
+          <v-btn dark color="blue darken-3" class="mr-1" @click="formerPage">
             <v-icon>keyboard_arrow_left</v-icon>
           </v-btn>
-          <v-btn fab dark color="blue darken-3" class="ml-1" @click="nextPage">
+          <v-btn dark color="blue darken-3" class="ml-1" @click="nextPage">
             <v-icon>keyboard_arrow_right</v-icon>
           </v-btn>
         </v-row>
@@ -168,6 +162,7 @@
 
 <script>
 import Loading from "@/components/generic/Loading";
+import querystring from "querystring";
 
 export default {
   props: ["queryString"],
@@ -189,7 +184,8 @@ export default {
       "Name",
       "Finished Services", // servicos_realizados
       "Karma"
-    ]
+    ],
+    query: ""
   }),
   computed: {
     numberOfPages() {
@@ -209,18 +205,27 @@ export default {
     updateItemsPerPage(number) {
       this.itemsPerPage = number;
     },
-    async getServiceProviders() {
+    async getServiceProviders(query) {
       try {
-        let response = await this.$request("get", "/users/service_providers/");
+        let queryS = query === "" ? "" : "?" + query;
+        let response = await this.$request(
+          "get",
+          "/users/service_providers/" + queryS
+        );
         this.items = response.data;
       } catch (e) {
         return e;
       }
+    },
+    filter_query_string(qs) {
+      let new_qs = querystring.stringify(qs);
+      return new_qs;
     }
   },
   async created() {
     try {
-      await this.getServiceProviders();
+      this.query = this.filter_query_string(this.queryString);
+      await this.getServiceProviders(this.query);
       this.ready = true;
     } catch (e) {
       return e;

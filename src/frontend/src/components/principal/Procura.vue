@@ -45,6 +45,7 @@
 </template>
 <script>
 import Loading from "@/components/generic/Loading";
+import querystring from "querystring";
 export default {
   data: () => ({
     categories: [],
@@ -56,8 +57,8 @@ export default {
         entidade: "Search",
         ops: [
           {
-            label: "pesquisar",
-            url: "/users/pesquisa"
+            label: "search",
+            url: "/serviceProviders"
           }
         ]
       }
@@ -67,28 +68,41 @@ export default {
     Loading
   },
   methods: {
-    go: function(url) {
-      let query = [];
-      if (this.searchString.length > 0) {
-        query = this.searchString;
-      } else {
-        query = ["all"];
+    filter_query_string(qs) {
+      let new_qs = querystring.stringify(qs);
+      return new_qs;
+    },
+    preparaCampos: async function(array) {
+      try {
+        let res = array.map(v => {
+          return {
+            text: v.name,
+            value: v._id
+          };
+        });
+        return res;
+      } catch (e) {
+        return [];
       }
+    },
+    go: function(url) {
+      let query = {};
+      if (this.searchString.length > 0) {
+        query.categorias = this.searchString;
+      }
+      let qs = this.filter_query_string(query);
+      let queryS = qs === "" ? "" : "?" + qs;
       if (url.startsWith("http")) {
         window.location.href = url;
       } else {
-        this.$router.push({ path: url, query: query });
+        this.$router.push(url + queryS);
       }
     }
   },
   created: async function() {
     try {
-      let response = await this.$request("get", "/categories");
-      let categorias = [];
-      for (let i = 0; i < response.data.length; i++) {
-        categorias.push(response.data[i].name);
-      }
-      this.categories = categorias;
+      let response = await this.$request("get", "/categories?active=true");
+      this.categories = await this.preparaCampos(response.data);
       this.categoriasReady = true;
     } catch (e) {
       return e;
