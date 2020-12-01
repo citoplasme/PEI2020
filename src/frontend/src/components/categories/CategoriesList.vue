@@ -1,6 +1,7 @@
 <template>
   <v-content>
-    <v-card class="ma-4">
+    <Loading v-if="!ready" :message="'the categories'" />
+    <v-card v-else class="ma-4">
       <v-card-title>
         <h1>Categories</h1>
         <v-spacer></v-spacer>
@@ -239,6 +240,7 @@
 </template>
 
 <script>
+import Loading from "@/components/generic/Loading";
 import { NIVEL_MINIMO_ALTERAR } from "@/utils/consts";
 
 export default {
@@ -279,8 +281,12 @@ export default {
     color: "",
     done: false,
     text: "",
-    timeout: 4000
+    timeout: 4000,
+    ready: false
   }),
+  components: {
+    Loading
+  },
   methods: {
     preparaCabecalhos(level) {
       if (level >= NIVEL_MINIMO_ALTERAR) {
@@ -508,6 +514,7 @@ export default {
       let level = await this.$userLevel(this.$store.state.token);
       this.levelU = level;
       await this.getCategories();
+      this.ready = true;
     } catch (e) {
       return e;
     }

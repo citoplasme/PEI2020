@@ -1,8 +1,5 @@
 <template>
-  <SerciceProviders
-    :subcategoryId="this.subcategoryId"
-    :subcategoryName="this.subcategoryName"
-  />
+  <SerciceProviders :subcategoryId="this.subcategoryId" />
 </template>
 
 <script>
@@ -13,15 +10,13 @@ export default {
     SerciceProviders
   },
   data: () => ({
-    subcategoryId: "",
-    subcategoryName: ""
+    subcategoryId: ""
   }),
 
   created() {
     var queryString = this.$route.query;
 
     this.subcategoryId = queryString.subcategoryId;
-    this.subcategoryName = queryString.subcategoryName;
   }
 };
 </script>

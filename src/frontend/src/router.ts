@@ -120,7 +120,7 @@ export default new Router({
       path: "/serviceProviders/list",
       name: "serviceProviders",
       component: () => import("./views/service_providers/ServiceProviders.vue"),
-      meta: { levels: [1, 2, 3, 3.5, 4, 5, 6, 7] }
+      meta: { levels: [0, 1, 2, 3, 3.5, 4, 5, 6, 7] }
     }
   ]
 });

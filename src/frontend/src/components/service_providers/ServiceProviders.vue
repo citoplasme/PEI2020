@@ -1,8 +1,9 @@
 <template>
-  <v-container fluid>
-    <h2>{{ subcategoryName }}</h2>
+  <Loading v-if="!ready" :message="'the service providers'" />
+  <v-container v-else fluid>
+    <h2>Service Providers</h2>
     <h5 v-if="service_providers.length == 0">
-      No service providers related with this specialization
+      No results found
     </h5>
     <v-data-iterator
       :items="service_providers"
@@ -21,9 +22,7 @@
             lg="3"
           >
             <v-card>
-              <v-img
-                src="https://cdn.vuetifyjs.com/images/cards/forest-art.jpg"
-              ></v-img>
+              <img style="width:100%; height:100%;" src="@/assets/default_user.png" />
               <v-card-title class="subheading font-weight-bold">
                 {{ item.name }}
               </v-card-title>
@@ -42,27 +41,35 @@
 </template>
 
 <script>
+import Loading from "@/components/generic/Loading";
+
 export default {
-  props: ["subcategoryId", "subcategoryName"],
-  components: {},
+  props: ["subcategoryId"],
+  components: {
+    Loading
+  },
   data: () => ({
     service_providers: [],
-    itemsPerPage: -1
+    itemsPerPage: 20,
+    ready: false
   }),
-  methods: {},
+  methods: {
+    async getServiceProviders() {
+      try {
+        let response = await this.$request("get", "/users/service_providers/");
+        this.service_providers = response.data;
+      } catch (e) {
+        return e;
+      }
+    }
+  },
   async created() {
-    await this.$request(
-      "get",
-      "/users/service_providers?subcategorias=" + this.subcategoryId
-    )
-      .then(res => {
-        res.data.forEach(element => {
-          this.service_providers.push(Object.assign({}, element));
-        });
-
-        this.itemsPerPage = this.service_providers.length;
-      })
-      .catch(err => {});
+    try {
+      await this.getServiceProviders();
+      this.ready = true;
+    } catch (e) {
+      return e;
+    }
   }
 };
 </script>
