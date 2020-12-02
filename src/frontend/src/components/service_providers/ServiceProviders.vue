@@ -385,12 +385,18 @@ export default {
   },
   async created() {
     try {
-      var res = await this.$request(
-        "get",
-        "/users/" + this.$store.state.token + "/token"
-      );
-      this.client = res.data._id;
-      this.levelU = await this.$userLevel(this.$store.state.token);
+      if(
+        this.$store.state.token !== undefined &&
+        this.$store.state.token !== "" &&
+        this.$store.state.token !== null 
+        ){
+          var res = await this.$request(
+          "get",
+          "/users/" + this.$store.state.token + "/token"
+        );
+        this.client = res.data._id;
+        this.levelU = await this.$userLevel(this.$store.state.token);
+      }
       this.query = this.filter_query_string(this.queryString);
       await this.getServiceProviders(this.query);
       this.ready = true;
