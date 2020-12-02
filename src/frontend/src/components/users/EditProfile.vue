@@ -127,14 +127,16 @@
       </v-list-item>
     </v-list>
 
-    <v-tooltip bottom>
-      <template v-slot:activator="{ on }">
-        <v-btn icon v-on="on" @click="editar(user)">
-          <v-icon medium color="primary">edit</v-icon>
-        </v-btn>
-      </template>
-      <span>Edit user</span>
-    </v-tooltip>
+    <v-col class="text-right">
+      <v-tooltip bottom>
+        <template v-slot:activator="{ on }">
+          <v-btn v-on="on" @click="editar(user)" color="primary">
+            <v-icon medium>edit</v-icon> Edit 
+          </v-btn>
+        </template>
+        <span>Edit user</span>
+      </v-tooltip>
+    </v-col>
 
     <v-dialog v-model="dialog" max-width="500px">
       <v-card>
