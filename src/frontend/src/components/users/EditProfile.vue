@@ -168,11 +168,45 @@
       <v-tooltip bottom>
         <template v-slot:activator="{ on }">
           <v-btn v-on="on" @click="editar(user)" color="primary">
-            <v-icon medium>edit</v-icon> Edit
+            <v-icon medium>edit</v-icon>
           </v-btn>
         </template>
-        <span>Edit user</span>
+        <span>Edit profile</span>
       </v-tooltip>
+
+      <v-tooltip bottom v-if="
+          user.level >= 3 &&
+            user.level <= 4">
+        <template v-slot:activator="{ on }">
+          <v-btn v-on="on" @click="editar_categories(user)" color="primary">
+            <v-icon medium>domain</v-icon>
+          </v-btn>
+        </template>
+        <span>Edit categories</span>
+      </v-tooltip>
+
+      <v-tooltip bottom v-if="
+          user.level >= 3 &&
+            user.level <= 4">
+        <template v-slot:activator="{ on }">
+          <v-btn v-on="on" @click="editar_specializations(user)" color="primary">
+            <v-icon medium>construction</v-icon>
+          </v-btn>
+        </template>
+        <span>Edit specializations</span>
+      </v-tooltip>
+
+      <v-tooltip bottom v-if="
+          user.level >= 3 &&
+            user.level <= 4">
+        <template v-slot:activator="{ on }">
+          <v-btn v-on="on" @click="editar_locations(user)" color="primary">
+            <v-icon medium>location_on</v-icon>
+          </v-btn>
+        </template>
+        <span>Edit locations</span>
+      </v-tooltip>
+
     </v-col>
 
     <v-dialog v-model="dialog" max-width="500px">
@@ -248,6 +282,43 @@
       </v-card>
     </v-dialog>
 
+    <v-dialog v-model="dialog_categories" max-width="500px">
+      <v-card>
+        <v-card-title class="headline">
+          <span class="headline">Edit Categories</span>
+        </v-card-title>
+        <v-card-text>
+          <v-form ref="form_categories" lazy-validation>
+            <v-container grid-list-md>
+              <v-layout wrap>
+                <v-flex xs12 sm6 md12>
+                  <v-autocomplete
+                    prepend-icon="domain"
+                    v-model="searchString"
+                    :items="newcategories"
+                    auto-select-first
+                    clearable
+                    dense
+                    chips
+                    rounded
+                    deletable-chips
+                    multiple
+                    label="Categories"
+                    solo
+                  ></v-autocomplete>
+                </v-flex>
+              </v-layout>
+            </v-container>
+          </v-form>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="red" text @click="dialog_categories = false">Cancel</v-btn>
+          <v-btn color="primary" text @click="guardar_categories">Save</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
     <v-dialog v-model="dialog_image_delete" persistent max-width="290px">
       <v-card>
         <v-card-title class="headline">Action Confirmation</v-card-title>
@@ -309,7 +380,10 @@ export default {
     regraPassword: [v => !!v || "Password is required."],
     editedItem: {},
     ficheiro: {},
-    dialog_image_delete: false
+    dialog_image_delete: false,
+    dialog_categories: false,
+    newcategories: [],
+    searchString: []
   }),
   async created() {
     var res = await this.$request(
@@ -323,6 +397,24 @@ export default {
     this.ready = true;
   },
   methods: {
+    preparaCampos: async function(array) {
+      try {
+        let res = array.map(v => {
+          return {
+            text: v.name,
+            value: v._id
+          };
+        });
+        return res;
+      } catch (e) {
+        return [];
+      }
+    },
+    async editar_categories(){
+      this.newcategories = await this.preparaCampos(this.categories);
+      this.searchString = this.user.categorias.map(x => x._id);
+      this.dialog_categories = true;
+    },
     remover_imagem(item) {
       this.dialog_image_delete = true;
     },
@@ -459,6 +551,32 @@ export default {
             this.snackbar = true;
             this.done = true;
             this.dialog_image = false;
+            this.getUser();
+          })
+          .catch(err => {
+            this.text = err.response.data;
+            this.color = "error";
+            this.snackbar = true;
+            this.done = false;
+          });
+      } else {
+        this.text = "Please check if you have filled every field.";
+        this.color = "error";
+        this.snackbar = true;
+        this.done = false;
+      }
+    },
+    async guardar_categories() {
+      if (this.$refs.form_categories.validate()) {
+        this.$request("put", "/users/" + this.user._id + "/categories", {
+          categories: this.searchString
+        })
+          .then(res => {
+            this.text = res.data;
+            this.color = "success";
+            this.snackbar = true;
+            this.done = true;
+            this.dialog_categories = false;
             this.getUser();
           })
           .catch(err => {
