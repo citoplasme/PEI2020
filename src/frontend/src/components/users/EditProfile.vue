@@ -275,7 +275,6 @@ export default {
         await this.merge_fileds();
 
         await this.getLocations();
-
       } catch (e) {
         return e;
       }
@@ -341,7 +340,7 @@ export default {
     fecharSnackbar() {
       this.snackbar = false;
       if (this.done == true) this.getUtilizadores();
-    },
+    }
   }
 };
 </script>
@@ -378,14 +377,5 @@ export default {
 }
 .fakea {
   color: #1a76d2;
-}
-.v-card {
-  transition: opacity .4s ease-in-out;
-}
-.v-card:not(.on-hover) {
-  opacity: 1;
-}
-.show-btns {
-  color: rgba(255, 255, 255, 1) !important;
 }
 </style>
