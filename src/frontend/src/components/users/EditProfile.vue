@@ -3,6 +3,10 @@
   <v-card v-else class="mx-auto" max-width="1000" tile>
     <v-row class="mx-auto">
       <v-list-item>
+        <v-hover v-slot:default="{ hover }">
+          <v-card
+            class="mx-auto rounded-circle elevation-0"
+          >
         <v-list-item-avatar size="250">
           <v-img
             v-if="
@@ -21,6 +25,24 @@
             :src="require('@/assets/default_user.png')"
           />
         </v-list-item-avatar>
+        <v-expand-transition>
+            <div
+              v-if="hover"
+              class="d-flex transition-fast-in-fast-out darken-2 v-card--reveal display-3 white--text"
+              style="height: 100%;"
+            >
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on }">
+                  <v-btn v-on="on" icon @click="editar_imagem(user)">
+                    <v-icon large color="black">edit</v-icon> 
+                  </v-btn>
+                </template>
+                <span>Edit image</span>
+              </v-tooltip>
+            </div>
+          </v-expand-transition>
+          </v-card>
+        </v-hover>
         <v-list-item-content>
           <v-list-item-title class="title">{{ user.name }}</v-list-item-title>
           <v-list-item-subtitle>{{ user.email }}</v-list-item-subtitle>
@@ -176,6 +198,41 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+
+    <v-dialog v-model="dialog_image" max-width="500px">
+      <v-card>
+        <v-card-title class="headline">
+          <span class="headline">Edit Image</span>
+        </v-card-title>
+        <v-card-text>
+          <v-form ref="form_image" lazy-validation>
+            <v-container grid-list-md>
+              <v-layout wrap>
+                <v-flex xs12 sm6 md12>
+                  <v-file-input
+                    v-model="ficheiro"
+                    placeholder="Select the file"
+                    show-size
+                    clearable
+                    single-line
+                    accept="image/*"
+                    solo
+                    :rules="regraImagem"
+                    required
+                  ></v-file-input>
+                </v-flex>
+              </v-layout>
+            </v-container>
+          </v-form>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="red" text @click="dialog_image = false">Cancel</v-btn>
+          <v-btn color="primary" text @click="guardar_image">Save</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
     <v-snackbar
       v-model="snackbar"
       :color="color"
@@ -199,6 +256,7 @@ export default {
     user: {},
     panelHeaderColor: "primary",
     dialog: false,
+    dialog_image: false,
     snackbar: false,
     color: "",
     done: false,
@@ -209,13 +267,15 @@ export default {
     categories: [],
     specializations: [],
     regraNome: [v => !!v || "Name is required."],
+    regraImagem: [v => !!v || "Image is required."],
     regraEmail: [
       v => !!v || "Email is required.",
       v => /^.+@.+\..+$/.test(v) || "Email has to be valid."
     ],
     regraTipo: [v => !!v || "User type is required."],
     regraPassword: [v => !!v || "Password is required."],
-    editedItem: {}
+    editedItem: {},
+    ficheiro: {}
   }),
   async created() {
     var res = await this.$request(
@@ -229,6 +289,9 @@ export default {
     this.ready = true;
   },
   methods: {
+    editar_imagem(item) {
+      this.dialog_image = true;
+    },
     editar(item) {
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
@@ -340,6 +403,39 @@ export default {
         this.done = false;
       }
     },
+    async guardar_image() {
+      if (this.$refs.form_image.validate()) {
+        var formData = new FormData();
+
+        if (this.ficheiro != null) {
+          formData.append("file", this.ficheiro);
+        }
+        await this.$request(
+          "put",
+          "/users/" + this.user._id + "/uploadphoto",
+          formData
+        )
+          .then(res => {
+              this.text = res.data;
+              this.color = "success";
+              this.snackbar = true;
+              this.done = true;
+              this.dialog_image = false;
+              this.getUser();
+            })
+            .catch(err => {
+              this.text = err.response.data;
+              this.color = "error";
+              this.snackbar = true;
+              this.done = false;
+            });
+      } else {
+        this.text = "Please check if you have filled every field.";
+        this.color = "error";
+        this.snackbar = true;
+        this.done = false;
+      }
+    },
     fecharSnackbar() {
       this.snackbar = false;
       if (this.done == true) this.getUser();
@@ -380,5 +476,13 @@ export default {
 }
 .fakea {
   color: #1a76d2;
+}
+.v-card--reveal {
+  align-items: center;
+  bottom: 0;
+  justify-content: center;
+  opacity: .5;
+  position: absolute;
+  width: 100%;
 }
 </style>
