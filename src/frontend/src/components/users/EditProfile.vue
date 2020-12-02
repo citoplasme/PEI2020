@@ -30,6 +30,7 @@
     <v-row class="mx-auto">
       <v-list>
         <v-list-item> Country/City: </v-list-item>
+        <v-list-item> Birthday: </v-list-item>
         <v-list-item> Bio: </v-list-item>
         <v-list-item> Categories: {{ user.categories }} </v-list-item>
         <v-list-item> Specializations: {{ user.specializations }} </v-list-item>
@@ -60,8 +61,36 @@
                       </v-flex>
                     </v-list-item>
                     <v-list-item
+                      >Birthday:
+                      <v-menu
+                        ref="menu"
+                        v-model="menu"
+                        :close-on-content-click="false"
+                        transition="scale-transition"
+                        offset-y
+                        min-width="200px"
+                      >
+                        <template v-slot:activator="{ on, attrs }">
+                          <v-text-field
+                            v-model="date"
+                            prepend-icon="mdi-calendar"
+                            readonly
+                            v-bind="attrs"
+                            v-on="on"
+                          ></v-text-field>
+                        </template>
+                        <v-date-picker
+                          ref="picker"
+                          v-model="date"
+                          :max="new Date().toISOString().substr(0, 10)"
+                          min="1900-01-01"
+                          @change="save"
+                        ></v-date-picker>
+                      </v-menu>
+                    </v-list-item>
+                    <v-list-item
                       >Bio:
-                      <v-flex xs12 md4>
+                      <v-flex xs12 md8>
                         <v-text-field
                           v-model="Bio"
                           :rules="regraNomes"
@@ -81,8 +110,8 @@
                     ></v-list-item>
                     <v-list-item
                       >Gender:
-                      <v-flex xs12 md4>
-                        <v-text-field v-model="Gender"></v-text-field> </v-flex
+                      <v-flex xs12 sm6 d-flex>
+                        <v-select :items="gender"></v-select> </v-flex
                     ></v-list-item>
                     <v-list-item
                       >Categories:
@@ -123,9 +152,12 @@ export default {
     Loading
   },
   data: () => ({
+    gender: ["Male", "Female", "Other", "None"],
     user: {},
     panelHeaderColor: "primary",
     dialog: false,
+    date: null,
+    menu: false,
     snackbar: false,
     color: "",
     done: false,
@@ -134,6 +166,11 @@ export default {
     id: "",
     ready: false
   }),
+  watch: {
+    menu(val) {
+      val && setTimeout(() => (this.$refs.picker.activePicker = "YEAR"));
+    }
+  },
   async created() {
     var res = await this.$request(
       "get",
@@ -146,6 +183,9 @@ export default {
     this.ready = true;
   },
   methods: {
+    save(date) {
+      this.$refs.menu.save(date);
+    },
     async getUser() {
       try {
         var response = await this.$request("get", "/users/" + this.id);
