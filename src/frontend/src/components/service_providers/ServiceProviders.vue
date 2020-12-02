@@ -385,12 +385,12 @@ export default {
   },
   async created() {
     try {
-      if(
+      if (
         this.$store.state.token !== undefined &&
         this.$store.state.token !== "" &&
-        this.$store.state.token !== null 
-        ){
-          var res = await this.$request(
+        this.$store.state.token !== null
+      ) {
+        var res = await this.$request(
           "get",
           "/users/" + this.$store.state.token + "/token"
         );

@@ -1,5 +1,5 @@
 <template>
-  <Biding :idService="this.idService"/>
+  <Biding :idService="this.idService" />
 </template>
 
 <script>
@@ -15,7 +15,6 @@ export default {
 
   created() {
     this.idService = window.location.pathname.split("/")[3];
-    
   }
 };
 </script>
