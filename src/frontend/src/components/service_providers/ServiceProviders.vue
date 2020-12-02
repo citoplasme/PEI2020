@@ -11,7 +11,7 @@
       hide-default-footer
     >
       <template v-slot:header>
-        <v-toolbar class="mb-2" color="blue darken-3" dark flat>
+        <v-toolbar class="mb-2" color="primary" dark flat>
           <v-toolbar-title>Service Providers</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-text-field
@@ -35,10 +35,10 @@
           ></v-select>
           <v-spacer></v-spacer>
           <v-btn-toggle v-model="sortDesc" mandatory>
-            <v-btn depressed color="blue darken-1" :value="false">
+            <v-btn depressed color="primary" :value="false">
               <v-icon>keyboard_arrow_up</v-icon>
             </v-btn>
-            <v-btn depressed color="blue darken-1" :value="true">
+            <v-btn depressed color="primary" :value="true">
               <v-icon>keyboard_arrow_down</v-icon>
             </v-btn>
           </v-btn-toggle>
@@ -153,10 +153,10 @@
           >
             Page {{ page }} of {{ numberOfPages }}
           </span>
-          <v-btn dark color="blue darken-3" class="mr-1" @click="formerPage">
+          <v-btn dark color="primary" class="mr-1" @click="formerPage">
             <v-icon>keyboard_arrow_left</v-icon>
           </v-btn>
-          <v-btn dark color="blue darken-3" class="ml-1" @click="nextPage">
+          <v-btn dark color="primary" class="ml-1" @click="nextPage">
             <v-icon>keyboard_arrow_right</v-icon>
           </v-btn>
         </v-row>
