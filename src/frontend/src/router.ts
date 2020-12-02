@@ -120,6 +120,12 @@ export default new Router({
       component: () => import("./views/services/ServicesCalendar.vue"),
       meta: { levels: [1, 2, 3, 3.5, 4, 5, 6, 7] }
     },
+    {
+      path: "/services/biding/:idService",
+      name: "servicesBiding",
+      component: () => import("./views/services/Biding.vue"),
+      meta: { levels: [1, 2, 3, 3.5, 4, 5, 6, 7] }
+    },
     //Routes to monitor Services Providers
     {
       path: "/serviceProviders/",
