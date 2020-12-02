@@ -4,7 +4,7 @@
     <v-row class="mx-auto">
       <v-list-item>
         <v-list-item-avatar size="250">
-          <img
+          <v-img
             v-if="
               user.photo !== undefined &&
                 user.photo.content !== undefined &&
@@ -15,10 +15,10 @@
             "
             style="width:100%; height:100%;"
           />
-          <img
+          <v-img
             v-else
             style="width:100%; height:100%;"
-            src="@/assets/default_user.png"
+            :src="require('@/assets/default_user.png')"
           />
         </v-list-item-avatar>
         <v-list-item-content>
