@@ -187,7 +187,7 @@ export default {
 
     await this.getSpecializations();
 
-    //await this.merge_fields();
+    await this.merge_fields();
 
     await this.getLocations();
 
@@ -197,6 +197,7 @@ export default {
     save(date) {
       this.$refs.menu.save(date);
     },
+    async merge_fields() {},
     async getUser() {
       try {
         var response = await this.$request("get", "/users/" + this.id);
