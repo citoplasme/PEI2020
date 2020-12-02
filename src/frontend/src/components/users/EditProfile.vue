@@ -147,6 +147,7 @@
 
 <script>
 import Loading from "@/components/generic/Loading";
+import querystring from "querystring";
 export default {
   components: {
     Loading
@@ -164,7 +165,9 @@ export default {
     timeout: 4000,
     text: "",
     id: "",
-    ready: false
+    ready: false,
+    categories: [],
+    specializations: []
   }),
   watch: {
     menu(val) {
@@ -180,6 +183,14 @@ export default {
 
     await this.getUser();
 
+    await this.getCategories();
+
+    await this.getSpecializations();
+
+    //await this.merge_fields();
+
+    await this.getLocations();
+
     this.ready = true;
   },
   methods: {
@@ -193,7 +204,73 @@ export default {
       } catch (e) {
         return e;
       }
+    },
+    async getLocations() {
+      try {
+        if (this.user.locations && this.user.locations.length > 0) {
+          let qs = this.filter_query_string(this.user.locations);
+          let queryS = qs === "" ? "" : "?" + qs;
+          var response = await this.$request("get", "/locations/" + queryS);
+          let specs = this.user.locations.map(sc => {
+            return response.data.find(obj => obj._id === sc);
+          });
+          this.user.locations = specs;
+        }
+      } catch (e) {
+        return e;
+      }
+    },
+    async getCategories() {
+      try {
+        var response = await this.$request("get", "/categories/");
+        this.categories = response.data;
+      } catch (e) {
+        return e;
+      }
+    },
+    async getSpecializations() {
+      try {
+        var response = await this.$request("get", "/specializations/");
+        this.specializations = response.data;
+      } catch (e) {
+        return e;
+      }
     }
   }
 };
 </script>
+
+<style scoped>
+.expansion-panel-heading {
+  background-color: #283593 !important;
+  color: #fff;
+  font-size: large;
+  font-weight: bold;
+}
+.card-heading {
+  font-size: x-large;
+  font-weight: bold;
+}
+.info-label {
+  color: #283593; /* indigo darken-3 */
+  padding: 5px;
+  font-weight: 400;
+  width: 100%;
+  background-color: #e8eaf6; /* indigo lighten-5 */
+  font-weight: bold;
+  margin: 5px;
+  border-radius: 3px;
+}
+.info-content {
+  padding: 5px;
+  width: 100%;
+  border: 1px solid #1a237e;
+}
+.fakea:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+.fakea {
+  color: #1a76d2;
+}
+</style>

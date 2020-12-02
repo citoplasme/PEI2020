@@ -1,9 +1,9 @@
 <template>
   <div>
-    <Loading v-if="!categoriasReady" :message="'categories'" />
+    <Loading v-if="!categoriasReady" :message="'filters'" />
     <v-card v-else class="ma-4 pa-2">
       <v-toolbar :color="panelHeaderColor" dark>
-        <v-toolbar-title>Detailed Search</v-toolbar-title>
+        <v-toolbar-title>Quick Search</v-toolbar-title>
       </v-toolbar>
       <v-container fluid>
         <v-row align="center">
