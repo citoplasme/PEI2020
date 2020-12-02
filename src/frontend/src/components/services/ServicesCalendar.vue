@@ -75,8 +75,8 @@
               <v-btn icon>
                 <v-icon>mdi-heart</v-icon>
               </v-btn>
-              <v-btn icon>
-                <v-icon>mdi-dots-vertical</v-icon>
+              <v-btn icon @click="go(selectedEvent.id)">
+                <v-icon>attach_money</v-icon>
               </v-btn>
             </v-toolbar>
             <v-card-text>
@@ -157,6 +157,15 @@ export default {
     }
   },
   methods: {
+    go(id) {
+      
+      var url = "/services/biding/" + id;
+      if (url.startsWith("http")) {
+        window.location.href = url;
+      } else {
+        this.$router.push(url);
+      }
+    },
     async getEvents () {
       //Vai buscar o id do utilizador/provider
       var res = await this.$request(
@@ -172,8 +181,10 @@ export default {
       snapshot.data.forEach(async element => {
         //Vai buscar o nome da empresa
         var empresa=await this.$request("get", "/users/service_providers/"+element.service_provider);
+        
         var x ={
           //depois temos de por isto sem ser hardcoded
+          id:element._id,
           name: empresa.data.name,
           details:element.desc,
           start:element.date+"T"+element.hour+":00",
@@ -242,6 +253,7 @@ export default {
     },
     showEvent ({ nativeEvent, event }) {
       const open = () => {
+        
         this.selectedEvent = event
         this.selectedElement = nativeEvent.target
         setTimeout(() => this.selectedOpen = true, 10)

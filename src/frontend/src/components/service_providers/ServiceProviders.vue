@@ -331,7 +331,7 @@ export default {
     async makeService(id) {
       let data = {
         urgent: this.$data.form.urgent,
-        status: "0",
+        status: "1",
         client: this.client,
         service_provider: id
       };
