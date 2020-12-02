@@ -4,43 +4,58 @@
     <v-row class="mx-auto">
       <v-list-item>
         <v-hover v-slot:default="{ hover }">
-          <v-card
-            class="mx-auto rounded-circle elevation-0"
-          >
-        <v-list-item-avatar size="250">
-          <v-img
-            v-if="
-              user.photo !== undefined &&
-                user.photo.content !== undefined &&
-                user.photo.extension !== undefined
-            "
-            :src="
-              `data:image/${user.photo.extension};base64,${user.photo.content}`
-            "
-            style="width:100%; height:100%;"
-          />
-          <v-img
-            v-else
-            style="width:100%; height:100%;"
-            :src="require('@/assets/default_user.png')"
-          />
-        </v-list-item-avatar>
-        <v-expand-transition>
-            <div
-              v-if="hover"
-              class="d-flex transition-fast-in-fast-out darken-2 v-card--reveal display-3 white--text"
-              style="height: 100%;"
-            >
-              <v-tooltip bottom>
-                <template v-slot:activator="{ on }">
-                  <v-btn v-on="on" icon @click="editar_imagem(user)">
-                    <v-icon large color="black">edit</v-icon> 
-                  </v-btn>
-                </template>
-                <span>Edit image</span>
-              </v-tooltip>
-            </div>
-          </v-expand-transition>
+          <v-card class="mx-auto rounded-circle elevation-0">
+            <v-list-item-avatar size="250">
+              <v-img
+                v-if="
+                  user.photo !== undefined &&
+                    user.photo.content !== undefined &&
+                    user.photo.extension !== undefined
+                "
+                :src="
+                  `data:image/${user.photo.extension};base64,${
+                    user.photo.content
+                  }`
+                "
+                style="width:100%; height:100%;"
+              />
+              <v-img
+                v-else
+                style="width:100%; height:100%;"
+                :src="require('@/assets/default_user.png')"
+              />
+            </v-list-item-avatar>
+            <v-expand-transition>
+              <div
+                v-if="hover"
+                class="d-flex transition-fast-in-fast-out darken-2 v-card--reveal display-3 white--text"
+                style="height: 100%;"
+              >
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on }">
+                    <v-btn v-on="on" icon @click="editar_imagem(user)">
+                      <v-icon large color="black">edit</v-icon>
+                    </v-btn>
+                  </template>
+                  <span>Edit image</span>
+                </v-tooltip>
+                <v-tooltip
+                  bottom
+                  v-if="
+                    user.photo !== undefined &&
+                      user.photo.content !== undefined &&
+                      user.photo.extension !== undefined
+                  "
+                >
+                  <template v-slot:activator="{ on }">
+                    <v-btn v-on="on" icon @click="remover_imagem(user)">
+                      <v-icon large color="black">clear</v-icon>
+                    </v-btn>
+                  </template>
+                  <span>Remove image</span>
+                </v-tooltip>
+              </div>
+            </v-expand-transition>
           </v-card>
         </v-hover>
         <v-list-item-content>
@@ -153,7 +168,7 @@
       <v-tooltip bottom>
         <template v-slot:activator="{ on }">
           <v-btn v-on="on" @click="editar(user)" color="primary">
-            <v-icon medium>edit</v-icon> Edit 
+            <v-icon medium>edit</v-icon> Edit
           </v-btn>
         </template>
         <span>Edit user</span>
@@ -233,6 +248,24 @@
       </v-card>
     </v-dialog>
 
+    <v-dialog v-model="dialog_image_delete" persistent max-width="290px">
+      <v-card>
+        <v-card-title class="headline">Action Confirmation</v-card-title>
+        <v-card-text>
+          Are you sure that you want to delete the image?
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="red" text @click="dialog_image_delete = false">
+            Cancel
+          </v-btn>
+          <v-btn color="primary" text @click="eliminar_imagem()">
+            Confirm
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
     <v-snackbar
       v-model="snackbar"
       :color="color"
@@ -275,7 +308,8 @@ export default {
     regraTipo: [v => !!v || "User type is required."],
     regraPassword: [v => !!v || "Password is required."],
     editedItem: {},
-    ficheiro: {}
+    ficheiro: {},
+    dialog_image_delete: false
   }),
   async created() {
     var res = await this.$request(
@@ -289,6 +323,9 @@ export default {
     this.ready = true;
   },
   methods: {
+    remover_imagem(item) {
+      this.dialog_image_delete = true;
+    },
     editar_imagem(item) {
       this.dialog_image = true;
     },
@@ -416,25 +453,42 @@ export default {
           formData
         )
           .then(res => {
-              this.text = res.data;
-              this.color = "success";
-              this.snackbar = true;
-              this.done = true;
-              this.dialog_image = false;
-              this.getUser();
-            })
-            .catch(err => {
-              this.text = err.response.data;
-              this.color = "error";
-              this.snackbar = true;
-              this.done = false;
-            });
+            this.text = res.data;
+            this.color = "success";
+            this.snackbar = true;
+            this.done = true;
+            this.dialog_image = false;
+            this.getUser();
+          })
+          .catch(err => {
+            this.text = err.response.data;
+            this.color = "error";
+            this.snackbar = true;
+            this.done = false;
+          });
       } else {
         this.text = "Please check if you have filled every field.";
         this.color = "error";
         this.snackbar = true;
         this.done = false;
       }
+    },
+    async eliminar_imagem() {
+      await this.$request("delete", "/users/" + this.user._id + "/removephoto")
+        .then(res => {
+          this.text = res.data;
+          this.color = "success";
+          this.snackbar = true;
+          this.done = true;
+          this.dialog_image_delete = false;
+          this.getUser();
+        })
+        .catch(err => {
+          this.text = err.response.data;
+          this.color = "error";
+          this.snackbar = true;
+          this.done = false;
+        });
     },
     fecharSnackbar() {
       this.snackbar = false;
@@ -481,7 +535,7 @@ export default {
   align-items: center;
   bottom: 0;
   justify-content: center;
-  opacity: .5;
+  opacity: 0.5;
   position: absolute;
   width: 100%;
 }
