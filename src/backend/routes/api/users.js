@@ -327,7 +327,8 @@ router.get('/service_providers/:id', Auth.isLoggedInKey, (req, res) => {
                     karma: result.karma,
                     locations: result.locations,
                     _id: result._id,
-                    level: result.level
+                    level: result.level,
+                    photo: result.photo
                 };
                 //result._doc.local = result._doc.local.password ? true : false;
                 res.json(response);

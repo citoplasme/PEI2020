@@ -8,7 +8,7 @@
 
     <v-col>
       <Pesquisa />
-      <Gestao v-if="level > 0" :level="level" />
+      <Gestao v-if="level > 4" :level="level" />
     </v-col>
   </v-row>
 </template>
