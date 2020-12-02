@@ -634,8 +634,9 @@ router.put('/:id/status', Auth.isLoggedInUser, Auth.checkLevel([1, 2, 3, 3.5, 4,
                         let bids = dados.orcamento.sort((a,b) => (a.datetime > b.datetime) ? 1 : ((b.datetime > a.datetime) ? -1 : 0)); 
                         if(bids && bids.length > 0){
 
+                            
                             // Last bid
-                            if(bids[0].user === req.user.id){
+                            if(bids[bids.length - 1].user === req.user.id){
                                 res.status(500).send('An error occurred while updating the service: you have to wait for the other part\'s response.')
                             }
                             else {
