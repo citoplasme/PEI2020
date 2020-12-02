@@ -24,109 +24,167 @@
         <v-list-item-content>
           <v-list-item-title class="title">{{ user.name }}</v-list-item-title>
           <v-list-item-subtitle>{{ user.email }}</v-list-item-subtitle>
-          <v-list-item-subtitle>{{ user.level >= 3 && user.level <= 4 ? "Service Provider" : "Client" }}</v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
     </v-row>
     <v-list>
-        <v-list-item
-          v-if="
-            user.level >= 3 &&
-              user.level <= 4 &&
-              user.categorias &&
-              user.categorias.length > 0
-          "
-        >
-          <v-col cols="2">
-            <div class="info-label">Categories</div>
-          </v-col>
-          <v-col>
-            <div class="info-content">
-              <ul>
-                <li v-for="item in user.categorias" :key="item._id">
-                  <span class="fakea" @click="go(`/categories/${item._id}`)">{{
-                    item.name
-                  }}</span>
-                </li>
-              </ul>
-            </div>
-          </v-col>
-        </v-list-item>
+      <v-list-item
+        v-if="
+          user.level >= 3 &&
+            user.level <= 4 &&
+            user.categorias &&
+            user.categorias.length > 0
+        "
+      >
+        <v-col cols="2">
+          <div class="info-label">Categories</div>
+        </v-col>
+        <v-col>
+          <div class="info-content">
+            <ul>
+              <li v-for="item in user.categorias" :key="item._id">
+                <span class="fakea" @click="go(`/categories/${item._id}`)">{{
+                  item.name
+                }}</span>
+              </li>
+            </ul>
+          </div>
+        </v-col>
+      </v-list-item>
 
-        <v-list-item
-          v-if="
-            user.level >= 3 &&
-              user.level <= 4 &&
-              user.subcategorias &&
-              user.subcategorias.length > 0
-          "
-        >
-          <v-col cols="2">
-            <div class="info-label">Specializations</div>
-          </v-col>
-          <v-col>
-            <div class="info-content">
-              <ul>
-                <li v-for="item in user.subcategorias" :key="item._id">
-                  <span
-                    class="fakea"
-                    @click="go(`/serviceProviders/?subcategorias=${item._id}`)"
-                    >{{ item.name }}</span
+      <v-list-item
+        v-if="
+          user.level >= 3 &&
+            user.level <= 4 &&
+            user.subcategorias &&
+            user.subcategorias.length > 0
+        "
+      >
+        <v-col cols="2">
+          <div class="info-label">Specializations</div>
+        </v-col>
+        <v-col>
+          <div class="info-content">
+            <ul>
+              <li v-for="item in user.subcategorias" :key="item._id">
+                <span
+                  class="fakea"
+                  @click="go(`/serviceProviders/?subcategorias=${item._id}`)"
+                  >{{ item.name }}</span
+                >
+              </li>
+            </ul>
+          </div>
+        </v-col>
+      </v-list-item>
+
+      <v-list-item
+        v-if="
+          user.level >= 3 &&
+            user.level <= 4 &&
+            user.locations &&
+            user.locations.length > 0
+        "
+      >
+        <v-col cols="2">
+          <div class="info-label">Locations</div>
+        </v-col>
+        <v-col>
+          <div class="info-content">
+            <ul>
+              <li v-for="item in user.locations" :key="item._id">
+                <span
+                  class="fakea"
+                  @click="go(`/serviceProviders/?locations=${item._id}`)"
+                  >{{ item.name }}</span
+                >
+              </li>
+            </ul>
+          </div>
+        </v-col>
+      </v-list-item>
+
+      <v-list-item>
+        <v-col cols="2">
+          <div class="info-label">Karma</div>
+        </v-col>
+        <v-col>
+          <div class="info-content">
+            <p>{{ user.karma }}</p>
+          </div>
+        </v-col>
+      </v-list-item>
+
+      <v-list-item>
+        <v-col cols="2">
+          <div class="info-label">Completed Services</div>
+        </v-col>
+        <v-col>
+          <div class="info-content">
+            <p>{{ user.servicos_realizados }}</p>
+          </div>
+        </v-col>
+      </v-list-item>
+    </v-list>
+    <!--v-dialog v-model="dialog" max-width="500px">
+      <v-card>
+        <v-card-title class="headline">
+          <span class="headline">Edit user</span>
+        </v-card-title>
+        <v-card-text>
+          <v-form ref="form" lazy-validation>
+            <v-container grid-list-md>
+              <v-layout wrap>
+                <v-flex xs12 sm6 md12>
+                  <v-text-field
+                    prepend-icon="person"
+                    v-model="editedItem.name"
+                    label="Name"
+                    :rules="regraNome"
+                    required
+                  ></v-text-field>
+                </v-flex>
+                <v-flex xs12 sm6 md12>
+                  <v-text-field
+                    prepend-icon="email"
+                    v-model="editedItem.email"
+                    label="Email"
+                    :rules="regraEmail"
+                    required
+                  ></v-text-field>
+                </v-flex>
+                <v-flex xs12 sm6 md12>
+                  <v-select
+                    :items="[
+                      'Technological Administrator',
+                      'Functional Administrator',
+                      'Decision maker',
+                      'Premium service provider',
+                      'Verified service provider',
+                      'Service provider',
+                      'Premium user',
+                      'Regular user',
+                      'Deactivated user'
+                    ]"
+                    :rules="regraTipo"
+                    prepend-icon="assignment"
+                    v-model="editedItem.level"
+                    label="User level"
+                    required
                   >
-                </li>
-              </ul>
-            </div>
-          </v-col>
-        </v-list-item>
-
-        <v-list-item
-          v-if="
-            user.level >= 3 &&
-              user.level <= 4 &&
-              user.locations &&
-              user.locations.length > 0
-          "
-        >
-          <v-col cols="2">
-            <div class="info-label">Locations</div>
-          </v-col>
-          <v-col>
-            <div class="info-content">
-              <ul>
-                <li v-for="item in user.locations" :key="item._id">
-                  <span
-                    class="fakea"
-                    @click="go(`/serviceProviders/?locations=${item._id}`)"
-                    >{{ item.name }}</span
-                  >
-                </li>
-              </ul>
-            </div>
-          </v-col>
-        </v-list-item>
-
-        <v-list-item>
-          <v-col cols="2">
-            <div class="info-label">Karma</div>
-          </v-col>
-          <v-col>
-            <div class="info-content">
-              <p> {{ user.karma }} </p>
-            </div>
-          </v-col>
-        </v-list-item>
-
-        <v-list-item>
-          <v-col cols="2">
-            <div class="info-label">Completed Services</div>
-          </v-col>
-          <v-col>
-            <div class="info-content">
-              <p> {{ user.servicos_realizados }} </p>
-            </div>
-          </v-col>
-        </v-list-item>
-      </v-list>
+                  </v-select>
+                </v-flex>
+              </v-layout>
+            </v-container>
+          </v-form>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="red" text @click="dialog = false">Cancel</v-btn>
+          <v-btn color="primary" text @click="guardar">Save</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog-->
   </v-card>
 </template>
 
@@ -149,7 +207,7 @@ export default {
     id: "",
     ready: false,
     categories: [],
-    specializations: [],
+    specializations: []
   }),
   async created() {
     var res = await this.$request(
@@ -173,7 +231,7 @@ export default {
   methods: {
     filter_query_string(ids) {
       let obj = {
-        _id : ids
+        _id: ids
       };
       let new_qs = querystring.stringify(obj);
       return new_qs;
@@ -213,7 +271,7 @@ export default {
     },
     async getLocations() {
       try {
-        if(this.user.locations && this.user.locations.length > 0){
+        if (this.user.locations && this.user.locations.length > 0) {
           let qs = this.filter_query_string(this.user.locations);
           let queryS = qs === "" ? "" : "?" + qs;
           var response = await this.$request("get", "/locations/" + queryS);

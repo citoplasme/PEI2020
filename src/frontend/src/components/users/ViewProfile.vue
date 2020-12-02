@@ -24,109 +24,108 @@
         <v-list-item-content>
           <v-list-item-title class="title">{{ user.name }}</v-list-item-title>
           <v-list-item-subtitle>{{ user.email }}</v-list-item-subtitle>
-          <v-list-item-subtitle>{{ user.level >= 3 && user.level <= 4 ? "Service Provider" : "Client" }}</v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
     </v-row>
     <v-list>
-        <v-list-item
-          v-if="
-            user.level >= 3 &&
-              user.level <= 4 &&
-              user.categorias &&
-              user.categorias.length > 0
-          "
-        >
-          <v-col cols="2">
-            <div class="info-label">Categories</div>
-          </v-col>
-          <v-col>
-            <div class="info-content">
-              <ul>
-                <li v-for="item in user.categorias" :key="item._id">
-                  <span class="fakea" @click="go(`/categories/${item._id}`)">{{
-                    item.name
-                  }}</span>
-                </li>
-              </ul>
-            </div>
-          </v-col>
-        </v-list-item>
+      <v-list-item
+        v-if="
+          user.level >= 3 &&
+            user.level <= 4 &&
+            user.categorias &&
+            user.categorias.length > 0
+        "
+      >
+        <v-col cols="2">
+          <div class="info-label">Categories</div>
+        </v-col>
+        <v-col>
+          <div class="info-content">
+            <ul>
+              <li v-for="item in user.categorias" :key="item._id">
+                <span class="fakea" @click="go(`/categories/${item._id}`)">{{
+                  item.name
+                }}</span>
+              </li>
+            </ul>
+          </div>
+        </v-col>
+      </v-list-item>
 
-        <v-list-item
-          v-if="
-            user.level >= 3 &&
-              user.level <= 4 &&
-              user.subcategorias &&
-              user.subcategorias.length > 0
-          "
-        >
-          <v-col cols="2">
-            <div class="info-label">Specializations</div>
-          </v-col>
-          <v-col>
-            <div class="info-content">
-              <ul>
-                <li v-for="item in user.subcategorias" :key="item._id">
-                  <span
-                    class="fakea"
-                    @click="go(`/serviceProviders/?subcategorias=${item._id}`)"
-                    >{{ item.name }}</span
-                  >
-                </li>
-              </ul>
-            </div>
-          </v-col>
-        </v-list-item>
+      <v-list-item
+        v-if="
+          user.level >= 3 &&
+            user.level <= 4 &&
+            user.subcategorias &&
+            user.subcategorias.length > 0
+        "
+      >
+        <v-col cols="2">
+          <div class="info-label">Specializations</div>
+        </v-col>
+        <v-col>
+          <div class="info-content">
+            <ul>
+              <li v-for="item in user.subcategorias" :key="item._id">
+                <span
+                  class="fakea"
+                  @click="go(`/serviceProviders/?subcategorias=${item._id}`)"
+                  >{{ item.name }}</span
+                >
+              </li>
+            </ul>
+          </div>
+        </v-col>
+      </v-list-item>
 
-        <v-list-item
-          v-if="
-            user.level >= 3 &&
-              user.level <= 4 &&
-              user.locations &&
-              user.locations.length > 0
-          "
-        >
-          <v-col cols="2">
-            <div class="info-label">Locations</div>
-          </v-col>
-          <v-col>
-            <div class="info-content">
-              <ul>
-                <li v-for="item in user.locations" :key="item._id">
-                  <span
-                    class="fakea"
-                    @click="go(`/serviceProviders/?locations=${item._id}`)"
-                    >{{ item.name }}</span
-                  >
-                </li>
-              </ul>
-            </div>
-          </v-col>
-        </v-list-item>
+      <v-list-item
+        v-if="
+          user.level >= 3 &&
+            user.level <= 4 &&
+            user.locations &&
+            user.locations.length > 0
+        "
+      >
+        <v-col cols="2">
+          <div class="info-label">Locations</div>
+        </v-col>
+        <v-col>
+          <div class="info-content">
+            <ul>
+              <li v-for="item in user.locations" :key="item._id">
+                <span
+                  class="fakea"
+                  @click="go(`/serviceProviders/?locations=${item._id}`)"
+                  >{{ item.name }}</span
+                >
+              </li>
+            </ul>
+          </div>
+        </v-col>
+      </v-list-item>
 
-        <v-list-item>
-          <v-col cols="2">
-            <div class="info-label">Karma</div>
-          </v-col>
-          <v-col>
-            <div class="info-content">
-              <p> {{ user.karma }} </p>
-            </div>
-          </v-col>
-        </v-list-item>
+      <v-list-item>
+        <v-col cols="2">
+          <div class="info-label">Karma</div>
+        </v-col>
+        <v-col>
+          <div class="info-content">
+            <p>{{ user.karma }}</p>
+          </div>
+        </v-col>
+      </v-list-item>
 
-        <v-list-item>
-          <v-col cols="2">
-            <div class="info-label">Completed Services</div>
-          </v-col>
-          <v-col>
-            <div class="info-content">
-              <p> {{ user.servicos_realizados }} </p>
-            </div>
-          </v-col>
-        </v-list-item>
-      </v-list>
+      <v-list-item>
+        <v-col cols="2">
+          <div class="info-label">Completed Services</div>
+        </v-col>
+        <v-col>
+          <div class="info-content">
+            <p>{{ user.servicos_realizados }}</p>
+          </div>
+        </v-col>
+      </v-list-item>
+    </v-list>
   </v-card>
 </template>
 
@@ -149,7 +148,7 @@ export default {
     text: "",
     ready: false,
     categories: [],
-    specializations: [],
+    specializations: []
   }),
   async created() {
     await this.getUser();
@@ -167,7 +166,7 @@ export default {
   methods: {
     filter_query_string(ids) {
       let obj = {
-        _id : ids
+        _id: ids
       };
       let new_qs = querystring.stringify(obj);
       return new_qs;
@@ -210,7 +209,7 @@ export default {
     },
     async getLocations() {
       try {
-        if(this.user.locations && this.user.locations.length > 0){
+        if (this.user.locations && this.user.locations.length > 0) {
           let qs = this.filter_query_string(this.user.locations);
           let queryS = qs === "" ? "" : "?" + qs;
           var response = await this.$request("get", "/locations/" + queryS);
@@ -277,4 +276,3 @@ export default {
   color: #1a76d2;
 }
 </style>
-
