@@ -312,9 +312,10 @@ export default {
     },
     guardar() {
       if (this.$refs.form.validate()) {
-        this.$request("put", "/users/" + this.editedItem.id, {
+        this.$request("put", "/users/" + this.editedItem._id, {
           nome: this.editedItem.name,
-          email: this.editedItem.email
+          email: this.editedItem.email,
+          level: this.user.level
         })
           .then(res => {
             this.text = res.data;
@@ -322,7 +323,7 @@ export default {
             this.snackbar = true;
             this.done = true;
             this.dialog = false;
-            this.getUtilizadores();
+            this.getUser();
           })
           .catch(err => {
             this.text = err.response.data;
@@ -339,7 +340,7 @@ export default {
     },
     fecharSnackbar() {
       this.snackbar = false;
-      if (this.done == true) this.getUtilizadores();
+      if (this.done == true) this.getUser();
     }
   }
 };
