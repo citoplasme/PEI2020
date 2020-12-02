@@ -4,7 +4,7 @@
     <v-row class="mx-auto">
       <v-list-item>
         <v-list-item-avatar size="250">
-          <img
+          <v-img
             v-if="
               user.photo !== undefined &&
                 user.photo.content !== undefined &&
@@ -15,7 +15,7 @@
             "
             style="width:100%; height:100%;"
           />
-          <img
+          <v-img
             v-else
             style="width:100%; height:100%;"
             src="@/assets/default_user.png"
@@ -27,121 +27,162 @@
         </v-list-item-content>
       </v-list-item>
     </v-row>
-    <v-row class="mx-auto">
-      <v-list>
-        <v-list-item> Country/City: </v-list-item>
-        <v-list-item> Birthday: </v-list-item>
-        <v-list-item> Bio: </v-list-item>
-        <v-list-item> Categories: {{ user.categories }} </v-list-item>
-        <v-list-item> Specializations: {{ user.specializations }} </v-list-item>
-        <v-list-item> Karma: {{ user.karma }} </v-list-item>
-        <v-list-item> Services: {{ user.servicos_realizados }} </v-list-item>
-        <v-list-item>
-          <div class="text-xs-center">
-            <v-dialog v-model="dialog" width="500">
-              <template v-slot:activator="{ on }">
-                <v-btn color="primary" dark rounded v-on="on">
-                  Edit Profile
-                </v-btn>
-              </template>
-              <v-card>
-                <v-card-title class="headline grey lighten-2" primary-title>
-                  Edit Profile
-                </v-card-title>
-                <v-card-text>
-                  <v-list>
-                    <v-list-item
-                      >Name:
-                      <v-flex xs12 md4>
-                        <v-text-field
-                          v-model="Nome"
-                          :rules="regraNomes"
-                          required
-                        ></v-text-field>
-                      </v-flex>
-                    </v-list-item>
-                    <v-list-item
-                      >Birthday:
-                      <v-menu
-                        ref="menu"
-                        v-model="menu"
-                        :close-on-content-click="false"
-                        transition="scale-transition"
-                        offset-y
-                        min-width="200px"
-                      >
-                        <template v-slot:activator="{ on, attrs }">
-                          <v-text-field
-                            v-model="date"
-                            prepend-icon="mdi-calendar"
-                            readonly
-                            v-bind="attrs"
-                            v-on="on"
-                          ></v-text-field>
-                        </template>
-                        <v-date-picker
-                          ref="picker"
-                          v-model="date"
-                          :max="new Date().toISOString().substr(0, 10)"
-                          min="1900-01-01"
-                          @change="save"
-                        ></v-date-picker>
-                      </v-menu>
-                    </v-list-item>
-                    <v-list-item
-                      >Bio:
-                      <v-flex xs12 md8>
-                        <v-text-field
-                          v-model="Bio"
-                          :rules="regraNomes"
-                          required
-                        ></v-text-field> </v-flex
-                    ></v-list-item>
-                    <v-list-item
-                      >Country/City:
-                      <v-flex xs12 md4>
-                        <v-text-field v-model="Country" required></v-text-field>
-                      </v-flex>
-                      <v-flex xs12 md4>
-                        <v-text-field
-                          v-model="City"
-                          required
-                        ></v-text-field> </v-flex
-                    ></v-list-item>
-                    <v-list-item
-                      >Gender:
-                      <v-flex xs12 sm6 d-flex>
-                        <v-select :items="gender"></v-select> </v-flex
-                    ></v-list-item>
-                    <v-list-item
-                      >Categories:
-                      <v-flex xs12 md4>
-                        <v-text-field
-                          v-model="categoriesUser"
-                        ></v-text-field> </v-flex
-                    ></v-list-item>
-                    <v-list-item
-                      >Specializations:
-                      <v-flex xs12 md4>
-                        <v-text-field
-                          v-model="specializationsUser"
-                        ></v-text-field> </v-flex
-                    ></v-list-item>
-                  </v-list>
-                </v-card-text>
-                <v-divider></v-divider>
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn color="primary" flat @click="dialog = false">
-                    Apply
-                  </v-btn>
-                </v-card-actions></v-card
-              ></v-dialog
-            >
-          </div></v-list-item
-        >
-      </v-list>
-    </v-row>
+    <v-list>
+      <v-list-item
+        v-if="
+          user.level >= 3 &&
+            user.level <= 4 &&
+            user.categorias &&
+            user.categorias.length > 0
+        "
+      >
+        <v-col cols="2">
+          <div class="info-label">Categories</div>
+        </v-col>
+        <v-col>
+          <div class="info-content">
+            <ul>
+              <li v-for="item in user.categorias" :key="item._id">
+                <span class="fakea" @click="go(`/categories/${item._id}`)">{{
+                  item.name
+                }}</span>
+              </li>
+            </ul>
+          </div>
+        </v-col>
+      </v-list-item>
+
+      <v-list-item
+        v-if="
+          user.level >= 3 &&
+            user.level <= 4 &&
+            user.subcategorias &&
+            user.subcategorias.length > 0
+        "
+      >
+        <v-col cols="2">
+          <div class="info-label">Specializations</div>
+        </v-col>
+        <v-col>
+          <div class="info-content">
+            <ul>
+              <li v-for="item in user.subcategorias" :key="item._id">
+                <span
+                  class="fakea"
+                  @click="go(`/serviceProviders/?subcategorias=${item._id}`)"
+                  >{{ item.name }}</span
+                >
+              </li>
+            </ul>
+          </div>
+        </v-col>
+      </v-list-item>
+
+      <v-list-item
+        v-if="
+          user.level >= 3 &&
+            user.level <= 4 &&
+            user.locations &&
+            user.locations.length > 0
+        "
+      >
+        <v-col cols="2">
+          <div class="info-label">Locations</div>
+        </v-col>
+        <v-col>
+          <div class="info-content">
+            <ul>
+              <li v-for="item in user.locations" :key="item._id">
+                <span
+                  class="fakea"
+                  @click="go(`/serviceProviders/?locations=${item._id}`)"
+                  >{{ item.name }}</span
+                >
+              </li>
+            </ul>
+          </div>
+        </v-col>
+      </v-list-item>
+
+      <v-list-item>
+        <v-col cols="2">
+          <div class="info-label">Karma</div>
+        </v-col>
+        <v-col>
+          <div class="info-content">
+            <p>{{ user.karma }}</p>
+          </div>
+        </v-col>
+      </v-list-item>
+
+      <v-list-item>
+        <v-col cols="2">
+          <div class="info-label">Completed Services</div>
+        </v-col>
+        <v-col>
+          <div class="info-content">
+            <p>{{ user.servicos_realizados }}</p>
+          </div>
+        </v-col>
+      </v-list-item>
+    </v-list>
+
+    <v-tooltip bottom>
+      <template v-slot:activator="{ on }">
+        <v-btn icon v-on="on" @click="editar(user)">
+          <v-icon medium color="primary">edit</v-icon>
+        </v-btn>
+      </template>
+      <span>Edit user</span>
+    </v-tooltip>
+
+    <v-dialog v-model="dialog" max-width="500px">
+      <v-card>
+        <v-card-title class="headline">
+          <span class="headline">Edit Profile</span>
+        </v-card-title>
+        <v-card-text>
+          <v-form ref="form" lazy-validation>
+            <v-container grid-list-md>
+              <v-layout wrap>
+                <v-flex xs12 sm6 md12>
+                  <v-text-field
+                    prepend-icon="person"
+                    v-model="editedItem.name"
+                    label="Name"
+                    :rules="regraNome"
+                    required
+                  ></v-text-field>
+                </v-flex>
+                <v-flex xs12 sm6 md12>
+                  <v-text-field
+                    prepend-icon="email"
+                    v-model="editedItem.email"
+                    label="Email"
+                    :rules="regraEmail"
+                    required
+                  ></v-text-field>
+                </v-flex>
+              </v-layout>
+            </v-container>
+          </v-form>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="red" text @click="dialog = false">Cancel</v-btn>
+          <v-btn color="primary" text @click="guardar">Save</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <v-snackbar
+      v-model="snackbar"
+      :color="color"
+      :timeout="timeout"
+      :top="true"
+    >
+      {{ text }}
+      <v-btn text @click="fecharSnackbar">Close</v-btn>
+    </v-snackbar>
   </v-card>
 </template>
 
@@ -153,12 +194,9 @@ export default {
     Loading
   },
   data: () => ({
-    gender: ["Male", "Female", "Other", "None"],
     user: {},
     panelHeaderColor: "primary",
     dialog: false,
-    date: null,
-    menu: false,
     snackbar: false,
     color: "",
     done: false,
@@ -167,13 +205,16 @@ export default {
     id: "",
     ready: false,
     categories: [],
-    specializations: []
+    specializations: [],
+    regraNome: [v => !!v || "Name is required."],
+    regraEmail: [
+      v => !!v || "Email is required.",
+      v => /^.+@.+\..+$/.test(v) || "Email has to be valid."
+    ],
+    regraTipo: [v => !!v || "User type is required."],
+    regraPassword: [v => !!v || "Password is required."],
+    editedItem: {}
   }),
-  watch: {
-    menu(val) {
-      val && setTimeout(() => (this.$refs.picker.activePicker = "YEAR"));
-    }
-  },
   async created() {
     var res = await this.$request(
       "get",
@@ -183,25 +224,58 @@ export default {
 
     await this.getUser();
 
-    await this.getCategories();
-
-    await this.getSpecializations();
-
-    await this.merge_fields();
-
-    await this.getLocations();
-
     this.ready = true;
   },
   methods: {
-    save(date) {
-      this.$refs.menu.save(date);
+    editar(item) {
+      this.editedItem = Object.assign({}, item);
+      this.dialog = true;
     },
-    async merge_fields() {},
+    filter_query_string(ids) {
+      let obj = {
+        _id: ids
+      };
+      let new_qs = querystring.stringify(obj);
+      return new_qs;
+    },
+    go: function(url) {
+      if (url.startsWith("http")) {
+        window.location.href = url;
+      } else {
+        this.$router.push(url);
+      }
+    },
+    async merge_fileds() {
+      try {
+        // FILTRAR ACTIVES ???
+        let cats = this.user.categorias.map(c => {
+          return this.categories.find(obj => obj._id === c);
+        });
+
+        // FILTRAR ACTIVES ???
+        let specs = this.user.subcategorias.map(sc => {
+          return this.specializations.find(obj => obj._id === sc);
+        });
+
+        this.user.categorias = cats;
+        this.user.subcategorias = specs;
+      } catch (e) {
+        return e;
+      }
+    },
     async getUser() {
       try {
         var response = await this.$request("get", "/users/" + this.id);
         this.user = response.data;
+
+        await this.getCategories();
+
+        await this.getSpecializations();
+
+        await this.merge_fileds();
+
+        await this.getLocations();
+
       } catch (e) {
         return e;
       }
@@ -236,7 +310,38 @@ export default {
       } catch (e) {
         return e;
       }
-    }
+    },
+    guardar() {
+      if (this.$refs.form.validate()) {
+        this.$request("put", "/users/" + this.editedItem.id, {
+          nome: this.editedItem.name,
+          email: this.editedItem.email
+        })
+          .then(res => {
+            this.text = res.data;
+            this.color = "success";
+            this.snackbar = true;
+            this.done = true;
+            this.dialog = false;
+            this.getUtilizadores();
+          })
+          .catch(err => {
+            this.text = err.response.data;
+            this.color = "error";
+            this.snackbar = true;
+            this.done = false;
+          });
+      } else {
+        this.text = "Please check if you have filled every field.";
+        this.color = "error";
+        this.snackbar = true;
+        this.done = false;
+      }
+    },
+    fecharSnackbar() {
+      this.snackbar = false;
+      if (this.done == true) this.getUtilizadores();
+    },
   }
 };
 </script>
@@ -273,5 +378,14 @@ export default {
 }
 .fakea {
   color: #1a76d2;
+}
+.v-card {
+  transition: opacity .4s ease-in-out;
+}
+.v-card:not(.on-hover) {
+  opacity: 1;
+}
+.show-btns {
+  color: rgba(255, 255, 255, 1) !important;
 }
 </style>
