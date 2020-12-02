@@ -1,7 +1,7 @@
 <template>
   <Loading v-if="!ready" :message="'your profile'" />
   <v-card v-else class="mx-auto" max-width="1000" tile>
-    <v-row>
+    <v-row class="mx-auto">
       <v-list-item>
         <v-list-item-avatar size="250">
           <img
@@ -27,7 +27,7 @@
         </v-list-item-content>
       </v-list-item>
     </v-row>
-    <v-row>
+    <v-row class="mx-auto">
       <v-list>
         <v-list-item> Karma: {{ user.karma }} </v-list-item>
         <v-list-item> Services: {{ user.servicos_realizados }} </v-list-item>

@@ -46,9 +46,7 @@
       <v-menu
         v-if="this.$store.state.name != ''"
         open-on-hover
-        top
         offset-y
-        dark
         elevation="0"
       >
         <template v-slot:activator="{ on, attrs }">

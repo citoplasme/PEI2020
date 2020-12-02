@@ -2,7 +2,7 @@
   <v-row class="ma-8">
     <v-col cols="6">
       <v-card>
-        <v-card-title class="indigo darken-4 subtitle-1 white--text" dark>
+        <v-card-title class="primary subtitle-1 white--text" dark>
           Account Recovery
         </v-card-title>
         <v-card-text>
@@ -17,7 +17,7 @@
     </v-col>
     <v-col cols="6">
       <v-card>
-        <v-card-title class="indigo darken-4 subtitle-1 white--text" dark>
+        <v-card-title class="primary subtitle-1 white--text" dark>
           API Keys
         </v-card-title>
         <v-card-text>
