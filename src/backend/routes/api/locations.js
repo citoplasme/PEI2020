@@ -4,7 +4,7 @@ var router = express.Router();
 var Locations = require('../../controllers/api/locations.js');
 var Countries = require('../../controllers/api/countries.js');
 var url = require('url')
-var validKeys = ["country", "name"];
+var validKeys = ["country", "name", "_id"];
 const { validationResult } = require('express-validator');
 const { existe, eMongoId } = require('../validation');
 
@@ -12,7 +12,9 @@ const { existe, eMongoId } = require('../validation');
 // ?country=XXX
 // ?name=XXX
 router.get('/', Auth.isLoggedInKey, [
-    existe("query", "country").optional()
+    existe("query", "country").optional(),
+    existe("query", "name").optional(),
+    existe("query", "_id").optional()
 ], (req, res) => {
     
     const errors = validationResult(req)
