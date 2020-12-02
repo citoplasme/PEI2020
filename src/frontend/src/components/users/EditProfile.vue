@@ -29,8 +29,88 @@
     </v-row>
     <v-row class="mx-auto">
       <v-list>
+        <v-list-item> Country/City: </v-list-item>
+        <v-list-item> Bio: </v-list-item>
+        <v-list-item> Categories: {{ user.categories }} </v-list-item>
+        <v-list-item> Specializations: {{ user.specializations }} </v-list-item>
         <v-list-item> Karma: {{ user.karma }} </v-list-item>
         <v-list-item> Services: {{ user.servicos_realizados }} </v-list-item>
+        <v-list-item>
+          <div class="text-xs-center">
+            <v-dialog v-model="dialog" width="500">
+              <template v-slot:activator="{ on }">
+                <v-btn color="primary" dark rounded v-on="on">
+                  Edit Profile
+                </v-btn>
+              </template>
+              <v-card>
+                <v-card-title class="headline grey lighten-2" primary-title>
+                  Edit Profile
+                </v-card-title>
+                <v-card-text>
+                  <v-list>
+                    <v-list-item
+                      >Name:
+                      <v-flex xs12 md4>
+                        <v-text-field
+                          v-model="Nome"
+                          :rules="regraNomes"
+                          required
+                        ></v-text-field>
+                      </v-flex>
+                    </v-list-item>
+                    <v-list-item
+                      >Bio:
+                      <v-flex xs12 md4>
+                        <v-text-field
+                          v-model="Bio"
+                          :rules="regraNomes"
+                          required
+                        ></v-text-field> </v-flex
+                    ></v-list-item>
+                    <v-list-item
+                      >Country/City:
+                      <v-flex xs12 md4>
+                        <v-text-field v-model="Country" required></v-text-field>
+                      </v-flex>
+                      <v-flex xs12 md4>
+                        <v-text-field
+                          v-model="City"
+                          required
+                        ></v-text-field> </v-flex
+                    ></v-list-item>
+                    <v-list-item
+                      >Gender:
+                      <v-flex xs12 md4>
+                        <v-text-field v-model="Gender"></v-text-field> </v-flex
+                    ></v-list-item>
+                    <v-list-item
+                      >Categories:
+                      <v-flex xs12 md4>
+                        <v-text-field
+                          v-model="categoriesUser"
+                        ></v-text-field> </v-flex
+                    ></v-list-item>
+                    <v-list-item
+                      >Specializations:
+                      <v-flex xs12 md4>
+                        <v-text-field
+                          v-model="specializationsUser"
+                        ></v-text-field> </v-flex
+                    ></v-list-item>
+                  </v-list>
+                </v-card-text>
+                <v-divider></v-divider>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn color="primary" flat @click="dialog = false">
+                    Apply
+                  </v-btn>
+                </v-card-actions></v-card
+              ></v-dialog
+            >
+          </div></v-list-item
+        >
       </v-list>
     </v-row>
   </v-card>
@@ -44,6 +124,8 @@ export default {
   },
   data: () => ({
     user: {},
+    panelHeaderColor: "primary",
+    dialog: false,
     snackbar: false,
     color: "",
     done: false,

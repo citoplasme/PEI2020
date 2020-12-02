@@ -1,5 +1,3 @@
-<!--Falta meter a query antiga dentro do espaço de procura, em vez de estar procurando por ......,
-    corrigir a procura dentro desta página e mostrar os resultados-->
 <template>
   <div>
     <v-card>
