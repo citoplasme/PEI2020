@@ -299,7 +299,6 @@
                     chips
                     rounded
                     deletable-chips
-                    multiple
                     label="Categories"
                     solo
                   ></v-autocomplete>
@@ -470,7 +469,7 @@ export default {
       this.dialog_image_delete = true;
     },
     editar_imagem(item) {
-      this.ficheiro = Object.assign({}, this.user.photo);
+      this.ficheiro = {}; //Object.assign({}, this.user.photo);
       this.dialog_image = true;
     },
     editar(item) {
