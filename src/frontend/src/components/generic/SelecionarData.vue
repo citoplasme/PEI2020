@@ -21,8 +21,8 @@
 
     <v-date-picker v-model="dataValor" no-title scrollable locale="pt">
       <v-spacer></v-spacer>
-      <v-btn text color="primary" @click="menu1 = false">Fechar</v-btn>
-      <v-btn text color="primary" @click="dataSelecionada">Selecionar</v-btn>
+      <v-btn text color="primary" @click="menu1 = false">Close</v-btn>
+      <v-btn text color="primary" @click="dataSelecionada">Select</v-btn>
     </v-date-picker>
   </v-menu>
 </template>

@@ -67,11 +67,11 @@
                     item.photo.content
                   }`
                 "
-                style="width:100%; height:100%;"
+                style="width: 100%; height: 100%"
               />
               <img
                 v-else
-                style="width:100%; height:100%;"
+                style="width: 100%; height: 100%"
                 src="@/assets/default_user.png"
               />
               <v-card-title class="subheading font-weight-bold">
@@ -107,9 +107,17 @@
                   type="submit"
                   @click="go(item._id)"
                 >
-                  <v-icon>
-                    search
-                  </v-icon>
+                  <v-icon> search </v-icon>
+                </v-btn>
+                <v-btn
+                  v-if="levelU > 0"
+                  color="blue darken-1"
+                  text
+                  type="submit"
+                  icon
+                  @click="service = item._id"
+                >
+                  <v-icon> touch_app </v-icon>
                 </v-btn>
               </v-card-actions>
             </v-card>
@@ -147,10 +155,7 @@
 
           <v-spacer></v-spacer>
 
-          <span
-            class="mr-4
-            grey--text"
-          >
+          <span class="mr-4 grey--text">
             Page {{ page }} of {{ numberOfPages }}
           </span>
           <v-btn dark color="primary" class="mr-1" @click="formerPage">
@@ -162,17 +167,92 @@
         </v-row>
       </template>
     </v-data-iterator>
+
+    <v-dialog :value="service != ''" persistent max-width="500px">
+      <v-card>
+        <v-card-title class="headline">
+          <span class="headline">Request Service</span>
+        </v-card-title>
+        <v-card-text>
+          <v-form ref="form" lazy-validation>
+            <v-container grid-list-md>
+              <v-layout wrap>
+                <v-flex xs12 sm6 md12>
+                  <v-select
+                    :items="[true, 'false']"
+                    :rules="regraTipo"
+                    prepend-icon="warning"
+                    v-model="form.urgent"
+                    label="Urgent"
+                    required
+                  >
+                  </v-select>
+                </v-flex>
+                <v-flex xs12 sm6 md12>
+                  <selecionar-data
+                    :dataMinima="new Date().toISOString().substr(0, 10)"
+                    :d="form.date"
+                    @dataSelecionada="form.date = $event"
+                    :label="'AAAA-MM-DD'"
+                  >
+                  </selecionar-data>
+                </v-flex>
+                <v-flex xs12 sm6 md12>
+                  <v-text-field
+                    prepend-icon="label"
+                    v-model="form.hour"
+                    label="Hour"
+                    :rules="regraHour"
+                    required
+                  ></v-text-field>
+                </v-flex>
+                <v-flex xs12 sm6 md12>
+                  <v-text-field
+                    prepend-icon="label"
+                    v-model="form.duration"
+                    label="Duration"
+                    required
+                  ></v-text-field>
+                </v-flex>
+                <v-flex xs12 sm6 md12>
+                  <v-textarea
+                    prepend-icon="description"
+                    v-model="form.description"
+                    label="Description"
+                    auto-grow
+                    solo
+                    clearable
+                    color="primary"
+                  ></v-textarea>
+                </v-flex>
+              </v-layout>
+            </v-container>
+          </v-form>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="red" text @click="service = ''">
+            Cancel
+          </v-btn>
+          <v-btn color="primary" text @click="makeService(service)"
+            >Request</v-btn
+          >
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
 <script>
 import Loading from "@/components/generic/Loading";
 import querystring from "querystring";
+import SelecionarData from "../generic/SelecionarData.vue";
 
 export default {
   props: ["queryString"],
   components: {
-    Loading
+    Loading,
+    SelecionarData
   },
   data: () => ({
     items: [],
@@ -190,7 +270,21 @@ export default {
       "Finished Services", // servicos_realizados
       "Karma"
     ],
-    query: ""
+    query: "",
+    levelU: "",
+    service: false,
+    form: {
+      urgent: "",
+      service_provider: "",
+      date: "",
+      hour: "",
+      duration: "",
+      desc: ""
+    },
+    regraTipo: [v => !!v || "Type is required."],
+    text: "",
+    client: "",
+    regraHour: [v => /\d{2}:\d{2}/.test(v) || "Hour has to be in hh:mm."]
   }),
   computed: {
     numberOfPages() {
@@ -233,10 +327,70 @@ export default {
     filter_query_string(qs) {
       let new_qs = querystring.stringify(qs);
       return new_qs;
+    },
+    async makeService(id) {
+      let data = {
+        urgent: this.$data.form.urgent,
+        status: "0",
+        client: this.client,
+        service_provider: id
+      };
+
+      if (
+        this.$data.form.description !== undefined &&
+        this.$data.form.description !== "" &&
+        this.$data.form.description !== null
+      ) {
+        data.desc = this.$data.form.description;
+      }
+
+      if (
+        this.$data.form.date !== undefined &&
+        this.$data.form.date !== "" &&
+        this.$data.form.date !== null
+      ) {
+        data.date = this.$data.form.date;
+      }
+
+      if (
+        this.$data.form.hour !== undefined &&
+        this.$data.form.hour !== "" &&
+        this.$data.form.hour !== null
+      ) {
+        data.hour = this.$data.form.hour;
+      }
+
+      if (
+        this.$data.form.duration !== undefined &&
+        this.$data.form.duration !== "" &&
+        this.$data.form.duration !== null
+      ) {
+        data.duration = this.$data.form.duration;
+      }
+
+      try {
+        var response = await this.$request("post", "/services/", data).then(
+          result => {
+            this.service = "";
+            this.$refs.form.reset();
+          }
+        );
+      } catch (err) {
+        this.text =
+          "An error occurred during the register: " + err.response.data;
+        this.color = "error";
+        this.service = "";
+      }
     }
   },
   async created() {
     try {
+      var res = await this.$request(
+        "get",
+        "/users/" + this.$store.state.token + "/token"
+      );
+      this.client = res.data._id;
+      this.levelU = await this.$userLevel(this.$store.state.token);
       this.query = this.filter_query_string(this.queryString);
       await this.getServiceProviders(this.query);
       this.ready = true;
