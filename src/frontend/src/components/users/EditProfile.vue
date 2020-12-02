@@ -18,7 +18,7 @@
           <v-img
             v-else
             style="width:100%; height:100%;"
-            src="@/assets/default_user.png"
+            :src="require('@/assets/default_user.png')"
           />
         </v-list-item-avatar>
         <v-list-item-content>
