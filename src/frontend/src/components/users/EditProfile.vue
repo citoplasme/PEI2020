@@ -9,10 +9,14 @@
               <v-img
                 v-if="
                   user.photo !== undefined &&
-                  user.photo.content !== undefined &&
-                  user.photo.extension !== undefined
+                    user.photo.content !== undefined &&
+                    user.photo.extension !== undefined
                 "
-                :src="`data:image/${user.photo.extension};base64,${user.photo.content}`"
+                :src="
+                  `data:image/${user.photo.extension};base64,${
+                    user.photo.content
+                  }`
+                "
                 style="width: 100%; height: 100%"
               />
               <v-img
@@ -39,8 +43,8 @@
                   bottom
                   v-if="
                     user.photo !== undefined &&
-                    user.photo.content !== undefined &&
-                    user.photo.extension !== undefined
+                      user.photo.content !== undefined &&
+                      user.photo.extension !== undefined
                   "
                 >
                   <template v-slot:activator="{ on }">
@@ -64,9 +68,9 @@
       <v-list-item
         v-if="
           user.level >= 3 &&
-          user.level <= 4 &&
-          user.categorias &&
-          user.categorias.length > 0
+            user.level <= 4 &&
+            user.categorias &&
+            user.categorias.length > 0
         "
       >
         <v-col cols="2">
@@ -88,9 +92,9 @@
       <v-list-item
         v-if="
           user.level >= 3 &&
-          user.level <= 4 &&
-          user.subcategorias &&
-          user.subcategorias.length > 0
+            user.level <= 4 &&
+            user.subcategorias &&
+            user.subcategorias.length > 0
         "
       >
         <v-col cols="2">
@@ -114,9 +118,9 @@
       <v-list-item
         v-if="
           user.level >= 3 &&
-          user.level <= 4 &&
-          user.locations &&
-          user.locations.length > 0
+            user.level <= 4 &&
+            user.locations &&
+            user.locations.length > 0
         "
       >
         <v-col cols="2">
@@ -389,7 +393,7 @@ import Loading from "@/components/generic/Loading";
 import querystring from "querystring";
 export default {
   components: {
-    Loading,
+    Loading
   },
   data: () => ({
     user: {},
@@ -405,14 +409,14 @@ export default {
     ready: false,
     categories: [],
     specializations: [],
-    regraNome: [(v) => !!v || "Name is required."],
-    regraImagem: [(v) => !!v || "Image is required."],
+    regraNome: [v => !!v || "Name is required."],
+    regraImagem: [v => !!v || "Image is required."],
     regraEmail: [
-      (v) => !!v || "Email is required.",
-      (v) => /^.+@.+\..+$/.test(v) || "Email has to be valid.",
+      v => !!v || "Email is required.",
+      v => /^.+@.+\..+$/.test(v) || "Email has to be valid."
     ],
-    regraTipo: [(v) => !!v || "User type is required."],
-    regraPassword: [(v) => !!v || "Password is required."],
+    regraTipo: [v => !!v || "User type is required."],
+    regraPassword: [v => !!v || "Password is required."],
     editedItem: {},
     ficheiro: [],
     dialog_image_delete: false,
@@ -421,7 +425,7 @@ export default {
     searchString: [],
     dialog_specializations: false,
     searchString2: [],
-    newspecializations: [],
+    newspecializations: []
   }),
   async created() {
     var res = await this.$request(
@@ -435,12 +439,12 @@ export default {
     this.ready = true;
   },
   methods: {
-    preparaCampos: async function (array) {
+    preparaCampos: async function(array) {
       try {
-        let res = array.map((v) => {
+        let res = array.map(v => {
           return {
             text: v.name,
-            value: v._id,
+            value: v._id
           };
         });
         return res;
@@ -449,16 +453,16 @@ export default {
       }
     },
     async editar_specializations() {
-      let specs = this.specializations.filter((el) =>
-        this.user.categorias.find((e) => e._id === el.category)
+      let specs = this.specializations.filter(el =>
+        this.user.categorias.find(e => e._id === el.category)
       );
       this.newspecializations = await this.preparaCampos(specs);
-      this.searchString2 = this.user.subcategorias.map((x) => x._id);
+      this.searchString2 = this.user.subcategorias.map(x => x._id);
       this.dialog_specializations = true;
     },
     async editar_categories() {
       this.newcategories = await this.preparaCampos(this.categories);
-      this.searchString = this.user.categorias.map((x) => x._id);
+      this.searchString = this.user.categorias.map(x => x._id);
       this.dialog_categories = true;
     },
     remover_imagem(item) {
@@ -474,12 +478,12 @@ export default {
     },
     filter_query_string(ids) {
       let obj = {
-        _id: ids,
+        _id: ids
       };
       let new_qs = querystring.stringify(obj);
       return new_qs;
     },
-    go: function (url) {
+    go: function(url) {
       if (url.startsWith("http")) {
         window.location.href = url;
       } else {
@@ -489,13 +493,13 @@ export default {
     async merge_fileds() {
       try {
         // FILTRAR ACTIVES ???
-        let cats = this.user.categorias.map((c) => {
-          return this.categories.find((obj) => obj._id === c);
+        let cats = this.user.categorias.map(c => {
+          return this.categories.find(obj => obj._id === c);
         });
 
         // FILTRAR ACTIVES ???
-        let specs = this.user.subcategorias.map((sc) => {
-          return this.specializations.find((obj) => obj._id === sc);
+        let specs = this.user.subcategorias.map(sc => {
+          return this.specializations.find(obj => obj._id === sc);
         });
 
         this.user.categorias = cats;
@@ -526,8 +530,8 @@ export default {
           let qs = this.filter_query_string(this.user.locations);
           let queryS = qs === "" ? "" : "?" + qs;
           var response = await this.$request("get", "/locations/" + queryS);
-          let specs = this.user.locations.map((sc) => {
-            return response.data.find((obj) => obj._id === sc);
+          let specs = this.user.locations.map(sc => {
+            return response.data.find(obj => obj._id === sc);
           });
           this.user.locations = specs;
         }
@@ -556,9 +560,9 @@ export default {
         this.$request("put", "/users/" + this.editedItem._id, {
           nome: this.editedItem.name,
           email: this.editedItem.email,
-          level: this.user.level,
+          level: this.user.level
         })
-          .then((res) => {
+          .then(res => {
             this.text = res.data;
             this.color = "success";
             this.snackbar = true;
@@ -566,7 +570,7 @@ export default {
             this.dialog = false;
             this.getUser();
           })
-          .catch((err) => {
+          .catch(err => {
             this.text = err.response.data;
             this.color = "error";
             this.snackbar = true;
@@ -591,7 +595,7 @@ export default {
           "/users/" + this.user._id + "/uploadphoto",
           formData
         )
-          .then((res) => {
+          .then(res => {
             this.text = res.data;
             this.color = "success";
             this.snackbar = true;
@@ -599,7 +603,7 @@ export default {
             this.dialog_image = false;
             this.getUser();
           })
-          .catch((err) => {
+          .catch(err => {
             this.text = err.response.data;
             this.color = "error";
             this.snackbar = true;
@@ -615,9 +619,9 @@ export default {
     async guardar_categories() {
       if (this.$refs.form_categories.validate()) {
         this.$request("put", "/users/" + this.user._id + "/categories", {
-          categories: this.searchString,
+          categories: this.searchString
         })
-          .then((res) => {
+          .then(res => {
             this.text = res.data;
             this.color = "success";
             this.snackbar = true;
@@ -625,7 +629,7 @@ export default {
             this.dialog_categories = false;
             this.getUser();
           })
-          .catch((err) => {
+          .catch(err => {
             this.text = err.response.data;
             this.color = "error";
             this.snackbar = true;
@@ -641,9 +645,9 @@ export default {
     async guardar_specializations() {
       if (this.$refs.form_specializations.validate()) {
         this.$request("put", "/users/" + this.user._id + "/specializations", {
-          specializations: this.searchString2,
+          specializations: this.searchString2
         })
-          .then((res) => {
+          .then(res => {
             this.text = res.data;
             this.color = "success";
             this.snackbar = true;
@@ -651,7 +655,7 @@ export default {
             this.dialog_specializations = false;
             this.getUser();
           })
-          .catch((err) => {
+          .catch(err => {
             this.text = err.response.data;
             this.color = "error";
             this.snackbar = true;
@@ -666,7 +670,7 @@ export default {
     },
     async eliminar_imagem() {
       await this.$request("delete", "/users/" + this.user._id + "/removephoto")
-        .then((res) => {
+        .then(res => {
           this.text = res.data;
           this.color = "success";
           this.snackbar = true;
@@ -674,7 +678,7 @@ export default {
           this.dialog_image_delete = false;
           this.getUser();
         })
-        .catch((err) => {
+        .catch(err => {
           this.text = err.response.data;
           this.color = "error";
           this.snackbar = true;
@@ -684,8 +688,8 @@ export default {
     fecharSnackbar() {
       this.snackbar = false;
       if (this.done == true) this.getUser();
-    },
-  },
+    }
+  }
 };
 </script>
 
