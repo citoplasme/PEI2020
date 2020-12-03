@@ -167,7 +167,7 @@
     <v-col class="text-right">
       <v-tooltip bottom>
         <template v-slot:activator="{ on }">
-          <v-btn v-on="on" @click="editar(user)" color="primary">
+          <v-btn v-on="on" @click="editar(user)" color="primary" class="mr-1">
             <v-icon medium>edit</v-icon>
           </v-btn>
         </template>
@@ -176,7 +176,12 @@
 
       <v-tooltip bottom v-if="user.level >= 3 && user.level <= 4">
         <template v-slot:activator="{ on }">
-          <v-btn v-on="on" @click="editar_categories(user)" color="primary">
+          <v-btn
+            v-on="on"
+            @click="editar_categories(user)"
+            color="primary"
+            class="mr-1 ml-1"
+          >
             <v-icon medium>domain</v-icon>
           </v-btn>
         </template>
@@ -189,6 +194,7 @@
             v-on="on"
             @click="editar_specializations(user)"
             color="primary"
+            class="mr-1 ml-1"
           >
             <v-icon medium>construction</v-icon>
           </v-btn>
@@ -198,7 +204,12 @@
 
       <v-tooltip bottom v-if="user.level >= 3 && user.level <= 4">
         <template v-slot:activator="{ on }">
-          <v-btn v-on="on" @click="editar_locations(user)" color="primary">
+          <v-btn
+            v-on="on"
+            @click="editar_locations(user)"
+            color="primary"
+            class="ml-1"
+          >
             <v-icon medium>location_on</v-icon>
           </v-btn>
         </template>
