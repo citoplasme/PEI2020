@@ -624,6 +624,18 @@ router.put('/:id/status', Auth.isLoggedInUser, Auth.checkLevel([1, 2, 3, 3.5, 4,
                                 res.status(500).send('An error occurred while updating the service: the time interval to cancel the service has passed.')
                             }
                         }
+                        // Check if service is still in negotiation
+                        else if (dados.status == 1){
+                            // Update
+                            Services.update_status(req.params.id, req.body.status)
+                                .then(dados => {
+                                    if(dados) { 
+                                        res.jsonp("Status successfully updated.")
+                                    }
+                                    else res.status(500).jsonp("Error while updating the status for the service with identifier '" + req.params.id + "'.")
+                                })
+                                .catch(erro => res.status(500).jsonp("Error while updating the status for the service with identifier '" + req.params.id + "': " + erro))   
+                        }
                         else {
                             res.status(500).send('An error occurred while updating the service: the service can not be canceled after marked as finished or canceled.')
                         }
@@ -633,8 +645,6 @@ router.put('/:id/status', Auth.isLoggedInUser, Auth.checkLevel([1, 2, 3, 3.5, 4,
                         // Check if the last bid was from the other part of the service                
                         let bids = dados.orcamento.sort((a,b) => (a.datetime > b.datetime) ? 1 : ((b.datetime > a.datetime) ? -1 : 0)); 
                         if(bids && bids.length > 0){
-
-                            
                             // Last bid
                             if(bids[bids.length - 1].user === req.user.id){
                                 res.status(500).send('An error occurred while updating the service: you have to wait for the other part\'s response.')
