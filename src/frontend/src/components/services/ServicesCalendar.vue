@@ -1,5 +1,13 @@
 <template>
-  <v-row class="fill-height">
+  <div>
+    <div align="center">
+      <v-icon color="red">format_paint</v-icon> - Canceled
+      <v-icon color="#cc9900">format_paint</v-icon> - Negotiating
+      <v-icon color="#cccc00">format_paint</v-icon> - Waiting Service
+      <v-icon color="green">format_paint</v-icon> - Waiting for evaluation
+      <v-icon color="blue">format_paint</v-icon> - Finalized
+    </div>
+    <v-row class="fill-height">
     <v-col>
       <v-sheet height="64">
         <v-toolbar flat>
@@ -92,6 +100,7 @@
       </v-sheet>
     </v-col>
   </v-row>
+  </div>
 </template>
 
 <script>
@@ -182,6 +191,39 @@ export default {
         //Vai buscar o nome da empresa
         var empresa=await this.$request("get", "/users/service_providers/"+element.service_provider);
         
+        //Escolher cor
+        //-2 - Refused                    red
+        //-1 - Canceled                   red
+        //0 - Generated                   
+        //1 - Negotiating                 #cc9900
+        //2 - Accepted                    #cccc00
+        //3 - Waiting for evaluation      green
+        //4 - Finalized                   blue
+        var color;
+        switch (element.status) {
+          case -2:
+            color="red";
+            break;
+          case -1:
+            color="red";
+            break;
+          case 1:
+            color="#cc9900";
+            break;
+          case 2:
+            color="#cccc00";
+            break;
+          case 3:
+            color="green";
+            break;
+          case -4:
+            color="blue";
+            break;
+        
+          default:
+            color="black";
+            break;
+        }
         var x ={
           //depois temos de por isto sem ser hardcoded
           id:element._id,
@@ -189,7 +231,7 @@ export default {
           details:element.desc,
           start:element.date+"T"+element.hour+":00",
           end:element.date,
-          color:"#ff8080"
+          color:color
         }
         events.push(x);
       });

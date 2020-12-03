@@ -3,7 +3,9 @@
 
   <div v-else>
     <div align="center" v-if="e1 == -2 || e1 == -1">
-      <h1>Negotiation Refused</h1>
+
+      <h1 v-if="e1==-2">Negotiation Refused</h1>
+      <h1 v-if="e1==-1">Negotiation Canceled</h1>
       <template>
         <v-container>
           <v-timeline dense clipped>
@@ -82,18 +84,18 @@
       <v-stepper-items>
         <v-stepper-content step="1">
           <v-btn
-            v-if="this.lastBid != this.idLoged"
+            v-if="this.lastBid!= undefined && this.lastBid != this.idLoged"
             @click="acceptBid()"
             color="primary"
           >
             Accept Bid
           </v-btn>
 
-          <template v-else>
+          <template v-if="this.lastBid!= undefined && this.lastBid == this.idLoged">
             <v-dialog v-model="dialog" width="500">
               <template v-slot:activator="{ on, attrs }">
                 <v-btn color="red" v-bind="attrs" v-on="on">
-                  Stop Negotiation
+                  Cancel Negotiation
                 </v-btn>
               </template>
 
@@ -121,7 +123,7 @@
             </v-dialog>
           </template>
 
-          <template v-if="this.lastBid != this.idLoged">
+          <template v-if="this.lastBid!= undefined && this.lastBid != this.idLoged">
             <v-dialog v-model="dialog" width="500">
               <template v-slot:activator="{ on, attrs }">
                 <v-btn color="red" v-bind="attrs" v-on="on">
@@ -251,6 +253,9 @@
       <div v-if="e1 == -2" align="center">
         <h1>Negotiation Refused</h1>
       </div>
+      <div v-if="e1 == -1" align="center">
+        <h1>Negotiation Canceled</h1>
+      </div>
     </v-stepper>
   </div>
 </template>
@@ -273,6 +278,7 @@ export default {
     Loading
   },
   data: () => ({
+    lastBid:undefined,
     e1: 1,
     input: null,
     data: null,
@@ -326,7 +332,8 @@ export default {
     },
     getLastBid() {
       var lastBid = this.data.orcamento[0];
-      this.lastBid = lastBid.user;
+      if (lastBid!=undefined)
+        this.lastBid = lastBid.user;
     },
     async acceptBid() {
       var res = await this.$request(
@@ -364,7 +371,7 @@ export default {
             status: "-1"
           }
         );
-        this.e1 = -2;
+        this.e1 = -1;
         this.dialog = false;
       } else {
         this.dialog = false;
