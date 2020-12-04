@@ -1,0 +1,18 @@
+summary: Consult the locations of a service provider.
+description: Consult the locations where a service provider operates.
+tags:
+  - Users
+parameters:
+  - name: id
+    in: path
+    description: 'User identifier'
+    schema:
+      type: string
+    required: true
+responses:
+  200:
+    description: Locations of a service provider.
+  422:
+    $ref: '#/components/responses/ValidationParameters'
+  500:
+    description: Error.

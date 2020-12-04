@@ -1,0 +1,38 @@
+summary: Update service provider locations.
+description: Update locations where the service provider operates.
+security:
+  - userQuery: []
+  - userAuth: []
+tags:
+  - Users
+parameters:
+  - name: id
+    in: path
+    description: 'User identifier'
+    schema:
+      type: string
+    required: true
+requestBody:
+  description: 'Locations to update.'
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        properties: 
+          locations:
+      example:
+          locations: [locationId]
+responses:
+  200:
+    description: Updated locations of the service provider.
+  401:
+    $ref: '#/components/responses/UnauthorizedUser'
+  403:
+    $ref: '#/components/responses/PermissionsUser'
+  404:
+    description: Location does not exist.
+  422:
+    $ref: '#/components/responses/ValidationParameters'
+  500:
+    description: Error.

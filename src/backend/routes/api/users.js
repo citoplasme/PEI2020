@@ -6,6 +6,7 @@ var User = require('../../models/user');
 var Users = require('../../controllers/api/users');
 var Specializations = require('../../controllers/api/specializations');
 var Categories = require('../../controllers/api/categories');
+var Locations = require('../../controllers/api/locations');
 var AuthCalls = require('../../controllers/api/auth');
 var Auth = require('../../controllers/auth');
 var jwt = require('jsonwebtoken');
@@ -405,6 +406,18 @@ router.get('/:id/subCategorias', (req, res) => {
             }
         });
 });
+
+/* Ver locations */
+router.get('/:id/locations', (req, res) => {
+    Users.listarPorId(req.params.id,function(err, result){
+        if(err){
+            res.status(500).send("It was not possible to obtain locations.");
+        }else{
+            res.json(result.locations);
+        }
+    });
+});
+
 //-------------------------------------------------------------------------------------
 
 router.put('/:id/categories', Auth.isLoggedInUser, Auth.checkLevel([3, 3.5, 4, 5, 6, 7]),
@@ -559,6 +572,72 @@ async function(req, res) {
                                     res.status(500).send(err);
                                 }else{
                                     res.send('Specializations successfully assigned.');
+                                }
+                            })
+                        }
+                    })
+            }
+        }
+    })  
+});
+
+
+
+router.put('/:id/locations', Auth.isLoggedInUser,Auth.checkLevel([3, 3.5, 4, 5, 6, 7]), 
+async function(req, res) {
+
+    if(req.body.locations === undefined){
+        return res.status(422).send("Unspecified locations");
+    }
+
+    Users.listarPorId(req.params.id, function(err, user){
+        if(err) {
+            res.status(500).send("Could not update locations for that user."); 
+        }
+        else {
+            var locationsNotFound = []
+            
+            // Caso venha vazia as lista de locations, limpar
+            if (req.body.locations.length < 1) {
+                Users.updateLocations(req.params.id, req.body.locations, function(err, user){
+                    if(err){
+                        res.status(500).send(err);
+                    }else{
+                        res.send('Locations successfully assigned.');
+                    }
+                })
+            }
+            else {
+
+            // Verificar se as locations existem 
+
+                Locations.listar({})
+                    .then(dados => {
+                        if (Array.isArray(req.body.locations)) {
+                            req.body.locations.forEach(spec => {
+                                var obj = dados.find(element => element._id == spec)
+                                if (!obj) {
+                                    locationsNotFound.push(spec)
+                                }
+                            })
+                        }
+                        else {
+                            var obj = dados.find(element => element._id == req.body.locations)
+                            if (!obj) {
+                                locationsNotFound.push(req.body.locations)
+                            }
+                        }
+
+                        if (locationsNotFound.length >= 1) {
+                            return res.status(404).send(`Locations with identifiers '${locationsNotFound}' do not exist.`)
+                        }
+                        else {
+                                                                                    
+                            Users.updateLocations(req.params.id, req.body.locations, function(err, user){
+                                if(err){
+                                    res.status(500).send(err);
+                                }else{
+                                    res.send('Locations successfully assigned.');
                                 }
                             })
                         }

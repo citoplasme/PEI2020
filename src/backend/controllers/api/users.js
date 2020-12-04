@@ -341,6 +341,24 @@ Users.updateSpecializations = function(id, specializations, categories, callback
     });
 }
 
+Users.updateLocations = function(id, locations, callback) {
+    Users.getUserById(id, async function(err, user){
+        if (err) {
+            callback(err,null);
+        }
+        else {
+            user.locations = locations;
+            try {
+                user = await user.save()
+                callback(null, user)
+            }
+            catch(err){
+                callback(err, null)
+            }
+        }
+    });
+}
+
 Users.incrementarServicosRealizados = function(id, callback) {
     User.findOneAndUpdate({_id: id}, {$inc: {servicos_realizados: 1}}, {useFindAndModify: false}, function(err, user){
         if (err) {	
