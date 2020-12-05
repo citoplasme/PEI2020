@@ -126,6 +126,12 @@ export default new Router({
       component: () => import("./views/services/Biding.vue"),
       meta: { levels: [1, 2, 3, 3.5, 4, 5, 6, 7] }
     },
+    {
+      path: "/services/monitor",
+      name: "servicesMonitor",
+      component: () => import("./views/services/ServicesMonitor.vue"),
+      meta: { levels: [7] }
+    },
     //Routes to monitor Services Providers
     {
       path: "/serviceProviders/",

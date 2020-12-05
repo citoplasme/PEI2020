@@ -8,6 +8,14 @@ Services.listar = (filtro) => {
     return Service.find(filtro);
 };
 
+Services.total_services = () => {
+    return Service.find().countDocuments()
+}
+
+Services.services_count_by_status = () => {
+    return Service.aggregate([{$group: { _id: "$status", numberOfServices: { $sum: 1 }}}])
+}
+
 Services.listar_from_user = (filtro, user) => {
     filtro = filtro === undefined ? {} : filtro;
     filtro.$or = [{ client : user }, { service_provider : user}];

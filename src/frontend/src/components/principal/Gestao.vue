@@ -107,6 +107,17 @@ export default {
               level: [7]
             }
           ]
+        },
+        {
+          entidade: "Services",
+          texto: "",
+          ops: [
+            {
+              label: "Monitor services",
+              url: "/services/monitor",
+              level: [7]
+            }
+          ]
         }
       ]
     };

@@ -6,7 +6,7 @@ var Users = require('../../controllers/api/users.js');
 var url = require('url')
 var validKeys = ["client", "service_provider", "urgent", "status", "date", "hour", "duration", "desc"];
 const { validationResult, body } = require('express-validator');
-const { existe, eMongoId, dataValida, horaValida, vcServiceStatus, estaEm } = require('../validation')
+const { existe, eMongoId, dataValida, horaValida, vcServiceStatus, monitoringActions, estaEm } = require('../validation')
 
 // Para os ficheiros
 var formidable = require("formidable")
@@ -51,6 +51,30 @@ router.get('/', Auth.isLoggedInUser, [
             .then(dados => res.jsonp(dados))
 	        .catch(erro => res.status(500).send(`Error while listing the services: ${erro}`))
     }
+})
+
+router.get('/monitoring', Auth.isLoggedInUser, Auth.checkLevel(7),[
+    estaEm('query', 'action', monitoringActions),
+], async function (req, res) {
+
+    const errors = validationResult(req)
+    if(!errors.isEmpty()){
+        return res.status(422).jsonp(errors.array())
+    }
+
+    var queryData = url.parse(req.url, true).query;
+
+    if(queryData.action == "status"){
+        Services.services_count_by_status()
+            .then(dados => res.jsonp(dados))
+            .catch(erro => res.status(500).send(`Error while grouping the services by status: ${erro}`))
+    }
+    else if(queryData.action == "total"){
+        Services.total_services()
+            .then(dados => res.jsonp(dados))
+            .catch(erro => res.status(500).send(`Error while counting the number of services: ${erro}`))
+    }
+    else res.status(500).send(`Error in query data: action is not valid`)
 })
 
 router.get('/:id/bill', Auth.isLoggedInUser, [

@@ -99,6 +99,9 @@ module.exports.dataValida = function (location, field, ifF) {
 // Services
 module.exports.vcServiceStatus = [-2, -1, 0, 1, 2, 3, 4]
 
+//Monitoring actions
+module.exports.monitoringActions = ["status", "total"]
+
 //Users
 module.exports.vcUserLevels = [-1, 1, 2, 3, 3.5, 4, 5, 6, 7]
 module.exports.vcUsersFormato = ["normalizado"]
