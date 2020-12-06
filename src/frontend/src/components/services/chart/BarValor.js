@@ -4,7 +4,7 @@ export default {
   extends: Bar,
   data() {
     return {
-      contador: [0,0,0,0,0,0,0],
+      contador: [0, 0, 0, 0, 0, 0, 0],
       resultsval: [],
       status_info: [
         {
@@ -77,42 +77,48 @@ export default {
     async servicesPriceCount() {
       await this.$request("get", "/services")
         .then(res => {
-          var result = Object.assign([], res.data).sort(function(a, b) {
-            return a._id - b._id;
-          }).filter(function(a){
-            if (a.status>=2) return a;
-          });
-          this.resultsval=result;
+          var result = Object.assign([], res.data)
+            .sort(function(a, b) {
+              return a._id - b._id;
+            })
+            .filter(function(a) {
+              if (a.status >= 2) return a;
+            });
+          this.resultsval = result;
           result.forEach(element => {
-            var preco = element.orcamento[element.orcamento.length-1].value;
-            if(isNaN(preco)){
-              preco=preco.replace(/\D/g,'');
+            var preco = element.orcamento[element.orcamento.length - 1].value;
+            if (isNaN(preco)) {
+              preco = preco.replace(/\D/g, "");
             }
-            var descricao = this.status_info.find((s => s.value[0] <= preco) && (s2 => s2.value[1] >= preco)).desc;
-            var cor = this.status_info.find((s => s.value[0] <= preco) && (s2 => s2.value[1] >= preco)).backgroundColor;
-            if(!this.info.labels.includes(descricao)) {
+            var descricao = this.status_info.find(
+              (s => s.value[0] <= preco) && (s2 => s2.value[1] >= preco)
+            ).desc;
+            var cor = this.status_info.find(
+              (s => s.value[0] <= preco) && (s2 => s2.value[1] >= preco)
+            ).backgroundColor;
+            if (!this.info.labels.includes(descricao)) {
               this.info.labels.push(descricao);
               this.info.datasets[0].backgroundColor.push(cor);
             }
             if (preco <= 25) {
-              this.contador[0]=this.contador[0]+1;
-            } else if (preco <=50){
-              this.contador[1]=this.contador[1]+1;
-            } else if (preco <=100){
-              this.contador[2]=this.contador[2]+1;
-            } else if (preco <=250){
-              this.contador[3]=this.contador[3]+1;
-            } else if (preco <=500){
-              this.contador[4]=this.contador[4]+1;
-            } else if (preco <=1000){
-              this.contador[5]=this.contador[5]+1;
+              this.contador[0] = this.contador[0] + 1;
+            } else if (preco <= 50) {
+              this.contador[1] = this.contador[1] + 1;
+            } else if (preco <= 100) {
+              this.contador[2] = this.contador[2] + 1;
+            } else if (preco <= 250) {
+              this.contador[3] = this.contador[3] + 1;
+            } else if (preco <= 500) {
+              this.contador[4] = this.contador[4] + 1;
+            } else if (preco <= 1000) {
+              this.contador[5] = this.contador[5] + 1;
             } else {
-              this.contador[6]=this.contador[6]+1;
+              this.contador[6] = this.contador[6] + 1;
             }
           });
-          this.info.datasets[0].data = this.contador.filter(function(a){
-            return a>0;
-          });  
+          this.info.datasets[0].data = this.contador.filter(function(a) {
+            return a > 0;
+          });
           this.renderChart(this.info, this.options);
         })
         .catch(err => {
