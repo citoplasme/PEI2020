@@ -1,45 +1,44 @@
 import { Bar } from "vue-chartjs";
+import _ from "lodash";
 
 export default {
   extends: Bar,
   data() {
     return {
-      contador: [0, 0, 0, 0, 0, 0, 0],
-      resultsval: [],
       status_info: [
         {
-          value: [0, 25],
-          desc: "[0-25]",
+          value: 0,
+          desc: "Sunday",
           backgroundColor: "#63b179"
         },
         {
-          value: [26, 50],
-          desc: "[26-50]",
+          value: 1,
+          desc: "Monday",
           backgroundColor: "#aed987"
         },
         {
-          value: [51, 100],
-          desc: "[51-100]",
+          value: 2,
+          desc: "Tuesday",
           backgroundColor: "#ffff9d"
         },
         {
-          value: [101, 250],
-          desc: "[101-250]",
+          value: 3,
+          desc: "Wednesday",
           backgroundColor: "#fcc267"
         },
         {
-          value: [251, 500],
-          desc: "[251-500]",
+          value: 4,
+          desc: "Thursday",
           backgroundColor: "#ef8250"
         },
         {
-          value: [501, 1000],
-          desc: "[501-1000]",
+          value: 5,
+          desc: "Friday",
           backgroundColor: "#00b300"
         },
         {
-          value: [1001, 9999999999],
-          desc: "[>1000]",
+          value: 6,
+          desc: "Saturday",
           backgroundColor: "#00aba9"
         }
       ],
@@ -70,55 +69,47 @@ export default {
       }
     };
   },
-  mounted() {
-    this.servicesPriceCount();
+  async mounted() {
+    await this.servicesPriceCount();
   },
   methods: {
+    days_of_week(array) {
+      try {
+        let res = array.map(ser => {
+          let date = new Date(ser.date);
+          let o = date.getDay();
+          return o;
+        });
+        return res;
+      } catch (e) {
+        return e;
+      }
+    },
     async servicesPriceCount() {
       await this.$request("get", "/services")
         .then(res => {
-          var result = Object.assign([], res.data)
-            .sort(function(a, b) {
-              return a._id - b._id;
-            })
-            .filter(function(a) {
-              if (a.status >= 2) return a;
-            });
-          this.resultsval = result;
-          result.forEach(element => {
-            var preco = element.orcamento[element.orcamento.length - 1].value;
-            if (isNaN(preco)) {
-              preco = preco.replace(/\D/g, "");
-            }
-            var descricao = this.status_info.find(
-              (s => s.value[0] <= preco) && (s2 => s2.value[1] >= preco)
-            ).desc;
-            var cor = this.status_info.find(
-              (s => s.value[0] <= preco) && (s2 => s2.value[1] >= preco)
-            ).backgroundColor;
-            if (!this.info.labels.includes(descricao)) {
-              this.info.labels.push(descricao);
-              this.info.datasets[0].backgroundColor.push(cor);
-            }
-            if (preco <= 25) {
-              this.contador[0] = this.contador[0] + 1;
-            } else if (preco <= 50) {
-              this.contador[1] = this.contador[1] + 1;
-            } else if (preco <= 100) {
-              this.contador[2] = this.contador[2] + 1;
-            } else if (preco <= 250) {
-              this.contador[3] = this.contador[3] + 1;
-            } else if (preco <= 500) {
-              this.contador[4] = this.contador[4] + 1;
-            } else if (preco <= 1000) {
-              this.contador[5] = this.contador[5] + 1;
-            } else {
-              this.contador[6] = this.contador[6] + 1;
-            }
+          // Ficar só com serviços já finalizados ou à espera de avaliação
+          let result = res.data.filter(
+            s => (s.status == 3 || s.status == 4) && s.date !== undefined
+          );
+
+          // Ficar com um array de dias da semana só
+          let response = this.days_of_week(result);
+
+          // Agrupar por ano em cada classe -> objeto chaves : valores
+          // Cada chave é o dia, valor é o contador
+          response = _.countBy(response);
+
+          Object.entries(response).forEach(([key, value]) => {
+            this.info.labels.push(
+              this.status_info.find(s => s.value == key).desc
+            );
+            this.info.datasets[0].backgroundColor.push(
+              this.status_info.find(s => s.value == key).backgroundColor
+            );
+            this.info.datasets[0].data.push(value);
           });
-          this.info.datasets[0].data = this.contador.filter(function(a) {
-            return a > 0;
-          });
+
           this.renderChart(this.info, this.options);
         })
         .catch(err => {
