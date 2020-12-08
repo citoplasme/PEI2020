@@ -261,7 +261,7 @@ export default {
     itemsPerPageArray: [10, 20, 30],
     search: "",
     filter: {},
-    sortDesc: false,
+    sortDesc: true,
     page: 1,
     sortBy: "karma",
     keys: [

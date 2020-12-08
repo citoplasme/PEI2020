@@ -3,6 +3,7 @@ var AuthCall = require('../../models/auth');
 var bcrypt = require('bcryptjs');
 var xml2js = require('xml2js');
 var mongoose = require('mongoose');
+const { cli } = require('winston');
 const request = require('../../controllers/api/utils').request
 const salt = 14
 
@@ -447,3 +448,37 @@ Users.removePhoto = function(id, callback) {
 }
 
 
+Users.update_karma_and_nservices = function(client, review_client, service_provider, review_service_provider, callback){
+    try{
+        // Update karma and Num serv client
+        let cli = mongoose.Types.ObjectId(client);
+        User.findOneAndUpdate(
+            {
+                _id: cli
+            }, 
+            {$inc: 
+                {
+                    karma: review_client, 
+                    servicos_realizados : 1
+                }
+            }
+        ).exec();
+        // Update karma and Num serv service provider
+        let ser = mongoose.Types.ObjectId(service_provider);
+        User.findOneAndUpdate(
+            {
+                _id: ser
+            }, 
+            {$inc: 
+                {
+                    karma: review_service_provider, 
+                    servicos_realizados : 1
+                }
+            }
+        ).exec();
+        callback(null, "DONE")
+    }
+    catch(e){
+        callback(e, null)
+    }
+}
