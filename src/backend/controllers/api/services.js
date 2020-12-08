@@ -149,7 +149,7 @@ Services.date_to_number = function(date_ob){
 }
 
 
-// >= 2400
+// >= 10000
 Services.date_difference = function(data, horario){
 	if(data === undefined){
 		return -1;

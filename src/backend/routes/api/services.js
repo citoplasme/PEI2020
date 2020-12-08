@@ -632,7 +632,7 @@ router.put('/:id/status', Auth.isLoggedInUser, Auth.checkLevel([1, 2, 3, 3.5, 4,
                         // Check if status is accepted (Service is not concluded)
                         if(dados.status == 2){ 
                             // Check if date difference >= 24h
-                            if(Services.date_difference(dados.date, dados.hour) >= 2400){
+                            if(Services.date_difference(dados.date, dados.hour) >= 10000){
                                 // Update
                                 Services.update_status(req.params.id, req.body.status)
                                     .then(dados => {
