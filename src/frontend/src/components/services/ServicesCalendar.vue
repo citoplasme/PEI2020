@@ -9,6 +9,26 @@
       <v-icon color="green">format_paint</v-icon> - Waiting for evaluation
       <v-icon color="blue">format_paint</v-icon> - Finalized
     </div>
+    <v-row class="ma-4; text-right">
+      <v-col>
+        <v-tooltip>
+          <template v-slot:activator="{ on }">
+            <v-btn v-on="on" icon @click="calendar_view = false">
+              <v-icon color="primary">list</v-icon>
+            </v-btn>
+          </template>
+          <span>List View</span>
+        </v-tooltip>
+        <v-tooltip>
+          <template v-slot:activator="{ on }">
+            <v-btn v-on="on" icon @click="calendar_view = true">
+              <v-icon color="primary">calendar_today</v-icon>
+            </v-btn>
+          </template>
+          <span>Calendar View</span>
+        </v-tooltip>
+      </v-col>
+    </v-row>
     <v-row class="fill-height">
       <v-col>
         <v-sheet height="64">
@@ -104,9 +124,11 @@
         </v-sheet>
       </v-col>
     </v-row>
-    <v-row>
-      <v-col class="text-right">
-        <v-tooltip bottom right>
+  </div>
+  <div v-else-if="!calendar_view">
+    <v-row class="ma-4; text-right">
+      <v-col>
+        <v-tooltip>
           <template v-slot:activator="{ on }">
             <v-btn v-on="on" icon @click="calendar_view = false">
               <v-icon color="primary">list</v-icon>
@@ -114,7 +136,7 @@
           </template>
           <span>List View</span>
         </v-tooltip>
-        <v-tooltip bottom>
+        <v-tooltip>
           <template v-slot:activator="{ on }">
             <v-btn v-on="on" icon @click="calendar_view = true">
               <v-icon color="primary">calendar_today</v-icon>
@@ -124,8 +146,6 @@
         </v-tooltip>
       </v-col>
     </v-row>
-  </div>
-  <div v-else-if="!calendar_view">
     <v-card class="ma-4">
       <v-card-title>
         <h1>Services</h1>
@@ -176,26 +196,6 @@
         </template>
       </v-data-table>
     </v-card>
-    <v-row>
-      <v-col class="text-right">
-        <v-tooltip bottom right>
-          <template v-slot:activator="{ on }">
-            <v-btn v-on="on" icon @click="calendar_view = false">
-              <v-icon color="primary">list</v-icon>
-            </v-btn>
-          </template>
-          <span>List View</span>
-        </v-tooltip>
-        <v-tooltip bottom>
-          <template v-slot:activator="{ on }">
-            <v-btn v-on="on" icon @click="calendar_view = true">
-              <v-icon color="primary">calendar_today</v-icon>
-            </v-btn>
-          </template>
-          <span>Calendar View</span>
-        </v-tooltip>
-      </v-col>
-    </v-row>
   </div>
 </template>
 

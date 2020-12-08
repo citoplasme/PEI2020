@@ -12,7 +12,7 @@
       <v-text-field
         filled
         v-model="dataValor"
-        label="Data: AAAA-MM-DD"
+        label="Date: AAAA-MM-DD"
         prepend-icon="event"
         readonly
         v-on="on"
