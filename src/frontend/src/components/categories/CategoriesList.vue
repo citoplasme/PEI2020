@@ -91,7 +91,7 @@
         </template>
 
         <template v-slot:item="props">
-          <tr @click="go(props.item.id)">
+          <tr>
             <td class="subheading">{{ props.item.name }}</td>
             <td class="subheading">{{ props.item.desc }}</td>
             <td v-if="levelU >= levelMin" class="subheading">
