@@ -399,16 +399,21 @@ export default {
         var response = await this.$request("post", "/categories/", data).then(
           result => {
             this.$refs.form.reset();
-
             this.getCategories();
+            this.text = result.data;
           }
         );
         this.dialog = false;
+        this.color = "success";
+        this.snackbar = true;
+        this.done = true;
       } catch (err) {
         this.text =
           "An error occurred during the register: " + err.response.data;
         this.color = "error";
         this.dialog = false;
+        this.snackbar = true;
+        this.done = false;
       }
     },
     edit(item) {
