@@ -312,6 +312,7 @@
                     deletable-chips
                     label="Categories"
                     solo
+                    multiple
                   ></v-autocomplete>
                 </v-flex>
               </v-layout>
@@ -369,6 +370,67 @@
       </v-card>
     </v-dialog>
 
+    <v-dialog v-model="dialog_locations" max-width="500px">
+      <v-card>
+        <v-card-title class="headline">
+          <span class="headline">Edit Locations</span>
+        </v-card-title>
+        <v-card-text>
+          <Loading v-if="!locs_ready" :message="'locations'" />
+          <v-form ref="form_locations" lazy-validation v-else>
+            <v-container grid-list-md>
+              <v-layout wrap>
+                <v-flex xs12 sm6 md12>
+                  <v-autocomplete
+                    prepend-icon="flag"
+                    v-model="searchString4"
+                    :items="newcountries"
+                    auto-select-first
+                    clearable
+                    dense
+                    chips
+                    rounded
+                    deletable-chips
+                    multiple
+                    label="Countries"
+                    solo
+                  ></v-autocomplete>
+                </v-flex>
+              </v-layout>
+              <v-layout wrap>
+                <v-flex xs12 sm6 md12>
+                  <v-autocomplete
+                    prepend-icon="location_on"
+                    v-model="searchString3"
+                    :items="newlocations"
+                    auto-select-first
+                    clearable
+                    dense
+                    chips
+                    rounded
+                    deletable-chips
+                    multiple
+                    label="Locations"
+                    solo
+                  ></v-autocomplete>
+                </v-flex>
+              </v-layout>
+            </v-container>
+          </v-form>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="primary" text @click="load_locations(searchString4)"
+            >Load Locations</v-btn
+          >
+          <v-btn color="red" text @click="dialog_locations = false"
+            >Cancel</v-btn
+          >
+          <v-btn color="primary" text @click="guardar_locations">Save</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
     <v-dialog v-model="dialog_image_delete" persistent max-width="290px">
       <v-card>
         <v-card-title class="headline">Action Confirmation</v-card-title>
@@ -386,7 +448,6 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-
     <v-snackbar
       v-model="snackbar"
       :color="color"
@@ -402,6 +463,7 @@
 <script>
 import Loading from "@/components/generic/Loading";
 import querystring from "querystring";
+
 export default {
   components: {
     Loading
@@ -436,7 +498,15 @@ export default {
     searchString: [],
     dialog_specializations: false,
     searchString2: [],
-    newspecializations: []
+    newspecializations: [],
+    countries: [],
+    dialog_locations: false,
+    searchString3: [],
+    searchString4: [],
+    newcountries: [],
+    locations: [],
+    newlocations: [],
+    locs_ready: true
   }),
   async created() {
     var res = await this.$request(
@@ -476,6 +546,37 @@ export default {
       this.searchString = this.user.categorias.map(x => x._id);
       this.dialog_categories = true;
     },
+    async load_locations(paises) {
+      this.locs_ready = false;
+      // GET Locations na BD
+      this.locations = await this.get_locations(paises);
+      // Converter para array de text/value
+      this.newlocations = await this.preparaCampos(this.locations);
+      // Limpar selecionadas
+      this.searchString3 = [];
+      this.locs_ready = true;
+    },
+    async editar_locations() {
+      // Abrir dialog
+      this.dialog_locations = true;
+      // Loading
+      this.locs_ready = false;
+      // GET Países na BD
+      this.countries = await this.get_countries();
+      // Converter para array de text/value
+      this.newcountries = await this.preparaCampos(this.countries);
+      // Ids das locations do user
+      this.searchString3 = this.user.locations.map(x => x._id);
+      // Ids dos países do user
+      this.searchString4 = [
+        ...new Set(this.user.locations.map(x => x.country))
+      ];
+      // GET Locations na BD
+      this.locations = await this.get_locations(this.searchString4);
+      // Converter para array de text/value
+      this.newlocations = await this.preparaCampos(this.locations);
+      this.locs_ready = true;
+    },
     remover_imagem(item) {
       this.dialog_image_delete = true;
     },
@@ -490,6 +591,13 @@ export default {
     filter_query_string(ids) {
       let obj = {
         _id: ids
+      };
+      let new_qs = querystring.stringify(obj);
+      return new_qs;
+    },
+    filter_query_string_locs(ids) {
+      let obj = {
+        country: ids
       };
       let new_qs = querystring.stringify(obj);
       return new_qs;
@@ -531,6 +639,24 @@ export default {
         await this.merge_fileds();
 
         await this.getLocations();
+      } catch (e) {
+        return e;
+      }
+    },
+    async get_countries() {
+      try {
+        var response = await this.$request("get", "/countries/");
+        return response.data;
+      } catch (e) {
+        return e;
+      }
+    },
+    async get_locations(paises) {
+      try {
+        let qs = this.filter_query_string_locs(paises);
+        let queryS = qs === "" ? "" : "?" + qs;
+        var response = await this.$request("get", "/locations/" + queryS);
+        return response.data;
       } catch (e) {
         return e;
       }
@@ -664,6 +790,32 @@ export default {
             this.snackbar = true;
             this.done = true;
             this.dialog_specializations = false;
+            this.getUser();
+          })
+          .catch(err => {
+            this.text = err.response.data;
+            this.color = "error";
+            this.snackbar = true;
+            this.done = false;
+          });
+      } else {
+        this.text = "Please check if you have filled every field.";
+        this.color = "error";
+        this.snackbar = true;
+        this.done = false;
+      }
+    },
+    async guardar_locations() {
+      if (this.$refs.form_locations.validate()) {
+        this.$request("put", "/users/" + this.user._id + "/locations", {
+          locations: this.searchString3
+        })
+          .then(res => {
+            this.text = res.data;
+            this.color = "success";
+            this.snackbar = true;
+            this.done = true;
+            this.dialog_locations = false;
             this.getUser();
           })
           .catch(err => {
