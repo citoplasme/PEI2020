@@ -53,6 +53,20 @@ router.get('/', Auth.isLoggedInUser, [
     }
 })
 
+router.get('/urgent', Auth.isLoggedInUser, async function (req, res) {
+    
+    const errors = validationResult(req)
+    if(!errors.isEmpty()){
+        return res.status(422).jsonp(errors.array())
+    }
+
+    let filtro = {urgent : true, service_provider: {$exists : false}};
+
+    Services.listar(filtro)
+        .then(dados => res.jsonp(dados))
+        .catch(erro => res.status(500).send(`Error while listing the services: ${erro}`))
+})
+
 /*
 Monitoring actions
     1 - GET number of services by status
