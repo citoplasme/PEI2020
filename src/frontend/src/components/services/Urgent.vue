@@ -122,6 +122,7 @@
               <v-tooltip bottom>
                 <template v-slot:activator="{ on }">
                   <v-btn
+                    v-if="levelU >= 3 && logged !== props.item.client"
                     icon
                     v-on="on"
                     @click="go"
