@@ -71,11 +71,11 @@
 
         <v-divider></v-divider>
 
-        <v-stepper-step step="3">
+        <v-stepper-step :complete="e1 > 3" step="3">
           Review
         </v-stepper-step>
         <v-divider></v-divider>
-        <v-stepper-step step="4">
+        <v-stepper-step :complete="e1 >= 4" step="4">
           Finished
         </v-stepper-step>
       </v-stepper-header>
@@ -233,19 +233,17 @@
         </v-stepper-content>
 
         <v-stepper-content step="2">
-          
-          <div v-if="10000>this.date_diff" align="center">
-              <v-btn
-                  v-if="this.lastBid != undefined && this.lastBid != this.idLoged"
-                  @click="review()"
-                  color="primary"
-                >
-                  Review Service
-                </v-btn>
+          <div v-if="0 > this.date_diff" align="center">
+            <v-btn
+              v-if="this.lastBid != undefined"
+              @click="review()"
+              color="primary"
+            >
+              Review Service
+            </v-btn>
           </div>
-          <div v-else align="center">
-
-              <v-dialog v-model="dialog" width="500">
+          <div v-if="24 < this.date_diff" align="center">
+            <v-dialog v-model="dialog" width="500">
               <template v-slot:activator="{ on, attrs }">
                 <v-btn color="red" v-bind="attrs" v-on="on">
                   Cancel Negotiation
@@ -295,11 +293,11 @@
                       length="5"
                       size="32"
                       value="3"
+                      v-model="empresa_review.payment"
                     ></v-rating>
-                  </th> 
+                  </th>
                 </tr>
               </table>
-              
             </div>
             <div>
               <table>
@@ -317,11 +315,11 @@
                       length="5"
                       size="32"
                       value="3"
+                      v-model="empresa_review.ponctuality"
                     ></v-rating>
-                  </th> 
+                  </th>
                 </tr>
               </table>
-              
             </div>
             <div>
               <table>
@@ -339,14 +337,14 @@
                       length="5"
                       size="32"
                       value="3"
+                      v-model="empresa_review.security"
                     ></v-rating>
-                  </th> 
+                  </th>
                 </tr>
               </table>
-              
             </div>
             <div>
-              <table >
+              <table>
                 <tr>
                   <th style="width:100px">
                     General
@@ -361,27 +359,28 @@
                       length="5"
                       size="32"
                       value="3"
+                      v-model="empresa_review.general"
                     ></v-rating>
-                  </th> 
+                  </th>
                 </tr>
               </table>
-              
             </div>
             <v-textarea
               solo
               name="input-7-4"
               label="Commentary"
+              v-model="empresa_review.comentario"
             ></v-textarea>
+
             <div align="center">
               <v-btn
-                  v-if="this.lastBid != undefined && this.lastBid != this.idLoged"
-                  @click="sendReview()"
-                  color="primary"
-                >
-                  Send Review
-                </v-btn>
+                v-if="this.lastBid != undefined"
+                @click="sendReview()"
+                color="primary"
+              >
+                Send Review
+              </v-btn>
             </div>
-            
           </div>
           <div v-else>
             <div>
@@ -400,11 +399,11 @@
                       length="5"
                       size="32"
                       value="3"
+                      v-model="cliente_review.ponctuality"
                     ></v-rating>
-                  </th> 
+                  </th>
                 </tr>
               </table>
-              
             </div>
             <div>
               <table>
@@ -422,11 +421,11 @@
                       length="5"
                       size="32"
                       value="3"
+                      v-model="cliente_review.quality"
                     ></v-rating>
-                  </th> 
+                  </th>
                 </tr>
               </table>
-              
             </div>
             <div>
               <table>
@@ -444,14 +443,14 @@
                       length="5"
                       size="32"
                       value="3"
+                      v-model="cliente_review.security"
                     ></v-rating>
-                  </th> 
+                  </th>
                 </tr>
               </table>
-              
             </div>
             <div>
-              <table >
+              <table>
                 <tr>
                   <th style="width:100px">
                     Attendance
@@ -466,14 +465,14 @@
                       length="5"
                       size="32"
                       value="3"
+                      v-model="cliente_review.attendance"
                     ></v-rating>
-                  </th> 
+                  </th>
                 </tr>
               </table>
-              
             </div>
             <div>
-              <table >
+              <table>
                 <tr>
                   <th style="width:100px">
                     General
@@ -488,33 +487,244 @@
                       length="5"
                       size="32"
                       value="3"
+                      v-model="cliente_review.general"
                     ></v-rating>
-                  </th> 
+                  </th>
                 </tr>
               </table>
-              
             </div>
             <v-textarea
               solo
               name="input-7-4"
               label="Commentary"
+              v-model="cliente_review.comentario"
             ></v-textarea>
             <div align="center">
               <v-btn
-                  v-if="this.lastBid != undefined && this.lastBid != this.idLoged"
-                  @click="sendReview()"
-                  color="primary"
-                >
-                  Send Review
-                </v-btn>
+                v-if="this.lastBid != undefined"
+                @click="sendReview()"
+                color="primary"
+              >
+                Send Review
+              </v-btn>
             </div>
-            
           </div>
         </v-stepper-content>
         <v-stepper-content step="4">
-          <v-card class="mb-12 elevation-0" color="#E3F2FD" height="200px"
-            >Service is Finished</v-card
-          >
+          <div v-if="this.idLoged == this.data.client">
+            <h2>Review Feita Pela Empresa</h2>
+            <div>
+              <table>
+                <tr>
+                  <th style="width:100px">
+                    Payment
+                  </th>
+                  <th>
+                    <v-rating
+                      color="blue"
+                      empty-icon="star_outline"
+                      full-icon="star"
+                      half-icon="star_half"
+                      hover
+                      length="5"
+                      size="32"
+                      readonly
+                      :value="this.data.review.client.payment"
+                    ></v-rating>
+                  </th>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table>
+                <tr>
+                  <th style="width:100px">
+                    Punctuality
+                  </th>
+                  <th>
+                    <v-rating
+                      color="blue"
+                      empty-icon="star_outline"
+                      full-icon="star"
+                      half-icon="star_half"
+                      hover
+                      length="5"
+                      size="32"
+                      readonly
+                      :value="this.data.review.client.ponctuality"
+                    ></v-rating>
+                  </th>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table>
+                <tr>
+                  <th style="width:100px">
+                    Security
+                  </th>
+                  <th>
+                    <v-rating
+                      color="blue"
+                      empty-icon="star_outline"
+                      full-icon="star"
+                      half-icon="star_half"
+                      hover
+                      length="5"
+                      size="32"
+                      readonly
+                      :value="this.data.review.client.payment"
+                    ></v-rating>
+                  </th>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table>
+                <tr>
+                  <th style="width:100px">
+                    General
+                  </th>
+                  <th>
+                    <v-rating
+                      color="blue"
+                      empty-icon="star_outline"
+                      full-icon="star"
+                      half-icon="star_half"
+                      hover
+                      length="5"
+                      size="32"
+                      readonly
+                      :value="this.data.review.client.payment"
+                    ></v-rating>
+                  </th>
+                </tr>
+              </table>
+            </div>
+            <v-textarea
+              solo
+              name="input-7-4"
+              :label="this.data.review.client.comentario"
+            ></v-textarea>
+          </div>
+          <div v-else>
+            <h2>Review Feita Pelo Cliente</h2>
+            <div>
+              <table>
+                <tr>
+                  <th style="width:100px">
+                    Punctuality
+                  </th>
+                  <th>
+                    <v-rating
+                      color="blue"
+                      empty-icon="star_outline"
+                      full-icon="star"
+                      half-icon="star_half"
+                      hover
+                      length="5"
+                      size="32"
+                      readonly
+                      :value="this.data.review.service_provider.ponctuality"
+                    ></v-rating>
+                  </th>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table>
+                <tr>
+                  <th style="width:100px">
+                    Quality
+                  </th>
+                  <th>
+                    <v-rating
+                      color="blue"
+                      empty-icon="star_outline"
+                      full-icon="star"
+                      half-icon="star_half"
+                      hover
+                      length="5"
+                      size="32"
+                      readonly
+                      :value="this.data.review.service_provider.quality"
+                    ></v-rating>
+                  </th>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table>
+                <tr>
+                  <th style="width:100px">
+                    Security
+                  </th>
+                  <th>
+                    <v-rating
+                      color="blue"
+                      empty-icon="star_outline"
+                      full-icon="star"
+                      half-icon="star_half"
+                      hover
+                      length="5"
+                      size="32"
+                      readonly
+                      :value="this.data.review.service_provider.security"
+                    ></v-rating>
+                  </th>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table>
+                <tr>
+                  <th style="width:100px">
+                    Attendance
+                  </th>
+                  <th>
+                    <v-rating
+                      color="blue"
+                      empty-icon="star_outline"
+                      full-icon="star"
+                      half-icon="star_half"
+                      hover
+                      length="5"
+                      size="32"
+                      readonly
+                      :value="this.data.review.service_provider.attendance"
+                    ></v-rating>
+                  </th>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table>
+                <tr>
+                  <th style="width:100px">
+                    General
+                  </th>
+                  <th>
+                    <v-rating
+                      color="blue"
+                      empty-icon="star_outline"
+                      full-icon="star"
+                      half-icon="star_half"
+                      hover
+                      length="5"
+                      size="32"
+                      readonly
+                      :value="this.data.review.service_provider.general"
+                    ></v-rating>
+                  </th>
+                </tr>
+              </table>
+            </div>
+            <v-textarea
+              solo
+              name="input-7-4"
+              :label="this.data.review.service_provider.comentario"
+            ></v-textarea>
+          </div>
         </v-stepper-content>
       </v-stepper-items>
       <div v-if="e1 == -2" align="center">
@@ -550,7 +760,22 @@ export default {
     input: null,
     data: null,
     ready: false,
-    dialog: false
+    dialog: false,
+    empresa_review: {
+      payment: 3,
+      ponctuality: 3,
+      security: 3,
+      general: 3,
+      comentario: ""
+    },
+    cliente_review: {
+      ponctuality: 3,
+      quality: 3,
+      security: 3,
+      attendance: 3,
+      general: 3,
+      comentario: ""
+    }
   }),
 
   async created() {
@@ -560,42 +785,23 @@ export default {
   },
 
   methods: {
-    //10000 equivale a 1 dia
-    date_difference(data, horario){
-    console.log("Entrou")
-	if(data === undefined){
-		return -1;
-	} else if (horario === undefined){
-		horario = "00:00:00";
-	} else {
-		horario = horario + ":00";
-	}
-	let marcacao = new Date(data + "T" + horario + "Z");
+    // >= 24
+    date_difference(data, horario) {
+      if (data === undefined) {
+        return -1;
+      } else if (horario === undefined) {
+        horario = "00:00:00";
+      } else {
+        horario = horario + ":00";
+      }
+      let marcacao = new Date(data + "T" + horario + "Z");
 
-	// current date
-	let date_ob = new Date();
+      // current date
+      let date_ob = new Date();
 
-	return this.date_to_number(marcacao) - this.date_to_number(date_ob); 
-  },
-    date_to_number(date_ob){
-	// adjust 0 before single digit date
-	let date = ("0" + date_ob.getDate()).slice(-2);
-
-	// current month
-	let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
-
-	// current year
-	let year = date_ob.getFullYear();
-
-	// current hours
-	let hours = date_ob.getHours();
-
-	// current minutes
-	let minutes = date_ob.getMinutes();
-
-	// YYYYMMDDHHmm
-	return minutes + hours * 100 + date * 10000 + month * 1000000 + year * 100000000;
-  },
+      //return Services.date_to_number(marcacao) - Services.date_to_number(date_ob);
+      return (marcacao - date_ob) / 36e5; // 60 * 60 * 1000
+    },
     async comment() {
       var value = this.input;
 
@@ -626,18 +832,18 @@ export default {
     },
     async getService() {
       var res = await this.$request("get", "/services/" + this.idService);
-      
+
       this.data = res.data;
 
       //testar datas
-      this.date_diff = this.date_difference("2020-12-08");
-      
+      this.date_diff = this.date_difference("2020-12-09");
+
       //this.date_diff = this.date_difference(res.data.date,res.data.hour);
-      
-      
+
       //Vai ordenar orçamentos por data
       this.data.orcamento.sort((a, b) => (a.datetime < b.datetime ? 1 : -1));
-      //vai usar isto para escolher a tab em que esta negotiation / waiting service etc
+
+      //vai usar o status para determinar em que janela vai estar
       this.e1 = res.data.status;
     },
     getLastBid() {
@@ -686,17 +892,36 @@ export default {
         this.dialog = false;
       }
     },
-    review() {
-      this.e1=3;
+    async review() {
+      var res = await this.$request(
+        "put",
+        "/services/" + this.idService + "/status",
+        {
+          status: "3"
+        }
+      );
+      this.e1 = 3;
     },
-    sendReview() {
+    async sendReview() {
       //se for o cliente online
-      if (this.idLoged==this.data.client){
-          //ir buscar os dados usando o findelement by id, tenho de por ID's em todos os elementos ainda
+      if (this.idLoged == this.data.client) {
+        //ir buscar os dados usando o findelement by id, tenho de por ID's em todos os elementos ainda
+
+        var res = await this.$request(
+          "put",
+          "/services/" + this.idService + "/review",
+          this.cliente_review
+        );
       }
       //se for a empresa
-      else{
+      else {
         //ir buscar os dados usando o findelement by id, tenho de por ID's em todos os elementos ainda
+
+        var res2 = await this.$request(
+          "put",
+          "/services/" + this.idService + "/review",
+          this.empresa_review
+        );
       }
     }
   }
