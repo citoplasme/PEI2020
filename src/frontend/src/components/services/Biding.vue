@@ -2,6 +2,33 @@
   <Loading v-if="!ready" :message="'service'" />
 
   <div v-else>
+    <div>
+      <p></p>
+       <v-card
+          class="mx-auto"
+          max-width="100%"
+        >
+          <v-card-text>
+            <table border=0 style="width:100%">
+              <tr>
+                <th>
+                  <div v-if="this.idLoged!=this.data.client"><b>Client:</b>this.clientName</div>
+                  <div v-else><b>Service Provider:</b> this.serviceProviderName</div>
+                </th>
+                <th>Date: {{this.data.date}}</th> 
+                <th><div v-if="this.data.hour">Hour: {{this.data.hour}}</div></th>
+                <th><div v-if="this.lastBid"><b>Last Bid: </b>{{this.lastBidText}}</div></th>
+              </tr>
+            </table>
+          
+            <p><b>Description:</b>{{this.data.desc}}</p>
+            <p></p>
+            
+          </v-card-text>
+          
+        </v-card>
+        <p></p>
+    </div>
     <div align="center" v-if="e1 == -2 || e1 == -1">
       <h1 v-if="e1 == -2">Negotiation Refused</h1>
       <h1 v-if="e1 == -1">Negotiation Canceled</h1>
@@ -58,6 +85,7 @@
     </div>
 
     <v-stepper v-else v-model="e1">
+      
       <v-stepper-header>
         <v-stepper-step :complete="e1 > 1" step="1">
           Negotiation
@@ -512,7 +540,7 @@
         </v-stepper-content>
         <v-stepper-content step="4">
           <div v-if="this.idLoged == this.data.client">
-            <h2>Review Feita Pela Empresa</h2>
+            <h2>Review by the service provider</h2>
             <div>
               <table>
                 <tr>
@@ -734,6 +762,7 @@
         <h1>Negotiation Canceled</h1>
       </div>
     </v-stepper>
+    
   </div>
 </template>
 
@@ -813,8 +842,10 @@ export default {
           user: this.idLoged
         }
       );
+      this.lastBidText=this.input;
       this.input = null;
       this.lastBid = this.idLoged;
+      
 
       await this.getService();
     },
@@ -848,7 +879,11 @@ export default {
     },
     getLastBid() {
       var lastBid = this.data.orcamento[0];
-      if (lastBid != undefined) this.lastBid = lastBid.user;
+      if (lastBid != undefined){
+        
+        this.lastBid = lastBid.user;
+        this.lastBidText=lastBid.value;
+        }
     },
     async acceptBid() {
       var res = await this.$request(
