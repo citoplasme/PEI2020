@@ -54,8 +54,10 @@
             sm="6"
             md="4"
             lg="4"
+            class="d-flex"
+            style="flex-direction:column"
           >
-            <v-card>
+            <v-card class="ma-1 flex-grow-1">
               <img
                 v-if="
                   item.photo !== undefined &&
