@@ -149,7 +149,7 @@ Services.date_to_number = function(date_ob){
 }
 
 
-// >= 10000
+// >= 24
 Services.date_difference = function(data, horario){
 	if(data === undefined){
 		return -1;
@@ -163,5 +163,6 @@ Services.date_difference = function(data, horario){
 	// current date
 	let date_ob = new Date();
 
-	return Services.date_to_number(marcacao) - Services.date_to_number(date_ob); 
+	//return Services.date_to_number(marcacao) - Services.date_to_number(date_ob); 
+    return (marcacao - date_ob) / 36e5; // 60 * 60 * 1000
 }
