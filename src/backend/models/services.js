@@ -102,7 +102,7 @@ var Users = require('../controllers/api/users.js');
 
 // After an update, this trigger is released
 ServiceSchema.post("update", function(doc) { // utilizar para mudar o status para 4 após as reviews estarem presentes
-    // e quando o estado fica a 4 -> atualizar karma dos dois intervenientes   
+    // e quando o estado fica a 4 -> atualizar karma dos dois intervenientes 
     if(this._conditions && this._conditions._id && this._update && this._update.$set && this._update.$set.status == 4){
         Services.consultar(this._conditions._id)
             .then(data => {

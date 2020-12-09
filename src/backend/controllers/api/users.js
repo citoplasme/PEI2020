@@ -390,10 +390,6 @@ Users.incrementarServicosRealizados = function(id, callback) {
     });   
 }
 
-Users.atualizarKarma = function(id, valor,callback) {
-    // TODO : Conta manhosa ?
-}
-
 /* toggle ao boolean para poder ser usado para por a falso tambem ? */
 Users.updateTermsOfService = function(id, callback) {
     Users.getUserById(id, async function(err, user){
@@ -500,4 +496,16 @@ Users.update_karma_and_nservices = function(client, review_client, service_provi
     catch(e){
         callback(e, null)
     }
+}
+
+Users.consultar = (id) => {
+    id = mongoose.Types.ObjectId(id);
+    return User.findOne({ _id: id });
+};
+
+Users.update_level = function(id, level){
+    id = mongoose.Types.ObjectId(id);
+    return User
+        .update({_id : id}, {$set : { level : level}})
+        .exec()
 }
