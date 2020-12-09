@@ -68,12 +68,12 @@ export default {
       }
     };
   },
-  mounted() {
+  async mounted() {
     this.servicesCountByStatus();
   },
   methods: {
     async servicesCountByStatus() {
-      await this.$request("get", "/services/monitoring?action=status")
+      await this.$request("get", "/services/monitoring?action=1")
         .then(res => {
           var result = Object.assign([], res.data).sort(function(a, b) {
             return a._id - b._id;

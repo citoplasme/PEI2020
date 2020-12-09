@@ -99,8 +99,15 @@ module.exports.dataValida = function (location, field, ifF) {
 // Services
 module.exports.vcServiceStatus = [-2, -1, 0, 1, 2, 3, 4]
 
-//Monitoring actions
-module.exports.monitoringActions = ["status", "total"]
+/*
+Monitoring actions
+  1 - GET number of services by status
+  2 - GET total of services
+  3 - GET number of clients, service_providers and admins
+  4 - GET number of service providers by category
+  5 - GET number of service providers by specialization
+*/
+module.exports.monitoringActions = [1, 2, 3, 4, 5]
 
 //Users
 module.exports.vcUserLevels = [-1, 1, 2, 3, 3.5, 4, 5, 6, 7]

@@ -23,6 +23,25 @@ Users.createUser = function (newUser, callback) {
 	});
 }
 
+Users.categories_by_service_provider = () => {
+    return User.aggregate([{$unwind: "$categorias"}, {$project:{name: "$categorias", user:{userId: "$_id"}}}, {$group:{_id:"$name", users:{$push:"$user"}}}, {$project: {nUsers: { $size: "$users" }}}])
+}
+
+Users.specializations_by_service_provider = () => {
+    return User.aggregate([{$unwind: "$subcategorias"}, {$project:{name: "$subcategorias", user:{userId: "$_id"}}}, {$group:{_id:"$name", users:{$push:"$user"}}}, {$project: {nUsers: { $size: "$users" }}}])
+}
+
+//GET Get total of users grouped by type(client, service_provider, admin)
+Users.total_users_by_level = () => {
+    return User.aggregate( [ {
+        $facet: {
+            "clients": [ { $group: { _id: { $in: [ "$level", [ 1, 2 ] ] }, total: {$sum: 1 } } } ],
+            "service_providers": [ { $group: { _id: { $in: [ "$level", [ 3, 3.5, 4 ] ] }, total: { $sum: 1 } } } ],
+            "admins": [ { $group: { _id: { $in: [ "$level", [ 5, 6, 7 ] ] }, total: { $sum: 1 } } } ]
+        }
+    } ] )
+}
+
 Users.getUserByEmail = function (email, callback) {
 	var query = { email: email };
 	User.findOne(query, callback);

@@ -53,6 +53,15 @@ router.get('/', Auth.isLoggedInUser, [
     }
 })
 
+/*
+Monitoring actions
+    1 - GET number of services by status
+    2 - GET total of services
+    3 - GET number of clients, service_providers and admins
+    4 - GET number of service providers by category
+    5 - GET number of service providers by specialization
+*/
+
 router.get('/monitoring', Auth.isLoggedInUser, Auth.checkLevel(7),[
     estaEm('query', 'action', monitoringActions),
 ], async function (req, res) {
@@ -64,15 +73,42 @@ router.get('/monitoring', Auth.isLoggedInUser, Auth.checkLevel(7),[
 
     var queryData = url.parse(req.url, true).query;
 
-    if(queryData.action == "status"){
+    if(queryData.action == 1){
         Services.services_count_by_status()
             .then(dados => res.jsonp(dados))
             .catch(erro => res.status(500).send(`Error while grouping the services by status: ${erro}`))
     }
-    else if(queryData.action == "total"){
+    else if(queryData.action == 2){
         Services.total_services()
             .then(dados => res.jsonp(dados))
             .catch(erro => res.status(500).send(`Error while counting the number of services: ${erro}`))
+    }
+    else if(queryData.action == 3){
+        Users.total_users_by_level()
+            .then(dados => {
+                return_data = {}
+
+                return_data.clients = dados[0].clients.find(c => c._id === true).total
+                return_data.service_providers = dados[0].service_providers.find(s => s._id === true).total
+                return_data.admins = dados[0].admins.find(a => a._id === true).total
+
+                res.jsonp(return_data)
+            })
+            .catch(erro => res.status(500).send(`Error while grouping the users by level: ${erro}`))
+    }
+    else if(queryData.action == 4){
+        Users.categories_by_service_provider()
+            .then(dados => {{
+                res.jsonp(dados)
+            }})
+            .catch(erro => res.status(500).send(`Error while grouping categories by service providers: ${erro}`))
+    }
+    else if(queryData.action == 5){
+        Users.specializations_by_service_provider()
+            .then(dados => {{
+                res.jsonp(dados)
+            }})
+            .catch(erro => res.status(500).send(`Error while grouping categories by service providers: ${erro}`))
     }
     else res.status(500).send(`Error in query data: action is not valid`)
 })

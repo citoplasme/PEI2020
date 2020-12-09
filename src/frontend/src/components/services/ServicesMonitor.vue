@@ -54,7 +54,28 @@
             <v-flex md6 xs12>
               <v-card light>
                 <v-container>
+                  <v-card-title>Number of services by status</v-card-title>
                   <bar></bar>
+                </v-container>
+              </v-card>
+            </v-flex>
+            <v-flex md6 xs12>
+              <v-card light>
+                <v-container>
+                  <v-card-title
+                    >Number of service providers by category</v-card-title
+                  >
+                  <BarSp :type="'categories'"></BarSp>
+                </v-container>
+              </v-card>
+            </v-flex>
+            <v-flex md6 xs12>
+              <v-card light>
+                <v-container>
+                  <v-card-title
+                    >Number of service providers by specialization</v-card-title
+                  >
+                  <BarSp :type="'specializations'"></BarSp>
                 </v-container>
               </v-card>
             </v-flex>
@@ -67,6 +88,7 @@
             <v-flex md6 xs12>
               <v-card light>
                 <v-container>
+                  <v-card-title>Number of services by day</v-card-title>
                   <BarValor></BarValor>
                 </v-container>
               </v-card>
@@ -82,6 +104,7 @@
 import Loading from "@/components/generic/Loading";
 import Bar from "./chart/Bar";
 import BarValor from "./chart/BarValor";
+import BarSp from "./chart/BarSp";
 
 export default {
   data: () => ({
@@ -89,27 +112,64 @@ export default {
     valorizacao: [],
     valores: [],
     totalServices: [],
-    number_of_services: -1,
     ready: false
   }),
   components: {
     Loading,
     Bar,
-    BarValor
+    BarValor,
+    BarSp
   },
-  mounted() {
-    this.getNumberOfServices();
+  async mounted() {
+    await this.getNumberOfServices();
+    await this.usersCountByLevel();
   },
   methods: {
     async getNumberOfServices() {
-      await this.$request("get", "/services/monitoring?action=total")
+      await this.$request("get", "/services/monitoring?action=2")
         .then(res => {
-          this.number_of_services = res.data;
           this.stats.push({
             bgColor: "primary",
             icon: "person",
             title: "Services",
             data: res.data,
+            action: {
+              label: "",
+              link: ""
+            }
+          });
+          this.ready = true;
+        })
+        .catch(error => alert(error));
+    },
+    async usersCountByLevel() {
+      await this.$request("get", "/services/monitoring?action=3")
+        .then(res => {
+          this.stats.push({
+            bgColor: "primary",
+            icon: "person",
+            title: "Clients",
+            data: res.data.clients,
+            action: {
+              label: "",
+              link: ""
+            }
+          });
+          this.stats.push({
+            bgColor: "primary",
+            icon: "person",
+            title: "Service_providers",
+            data: res.data.service_providers,
+            action: {
+              label: "",
+              link: ""
+            }
+          });
+          this.stats.push({
+            bgColor: "primary",
+            icon: "person",
+            title: "Admins",
+            data: res.data.admins,
             action: {
               label: "",
               link: ""
