@@ -384,8 +384,8 @@ export default {
 
       var events = [];
 
-      // Filtrar serviços com prestadores apenas
-      snapshot.data = snapshot.data.filter(el => el.service_provider !== undefined);
+      // Filtrar serviços com prestadores apenas e que tenham data e hora -> Para o calendário só
+      snapshot.data = snapshot.data.filter(el => el.service_provider !== undefined && el.date !== undefined && el.hour.hour !== undefined);
       
       snapshot.data.forEach(async element => {
         //Vai buscar o nome da empresa
