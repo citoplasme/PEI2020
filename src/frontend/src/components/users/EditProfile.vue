@@ -165,15 +165,6 @@
     </v-list>
 
     <v-col class="text-right">
-      <v-tooltip bottom v-if="user.level >= 3 && user.level <= 4">
-        <template v-slot:activator="{ on }">
-          <v-btn v-on="on" @click="getPremium(user)" color="green" class="mr-1">
-            <v-icon medium>payment</v-icon>
-          </v-btn>
-        </template>
-        <span>Get Karma</span>
-      </v-tooltip>
-
       <v-tooltip bottom>
         <template v-slot:activator="{ on }">
           <v-btn v-on="on" @click="editar(user)" color="primary" class="mr-1">
@@ -217,13 +208,23 @@
             v-on="on"
             @click="editar_locations(user)"
             color="primary"
-            class="ml-1"
+            class="mr-1 ml-1"
           >
             <v-icon medium>location_on</v-icon>
           </v-btn>
         </template>
         <span>Edit locations</span>
       </v-tooltip>
+
+      <v-tooltip bottom v-if="user.level >= 3 && user.level <= 4">
+        <template v-slot:activator="{ on }">
+          <v-btn v-on="on" @click="getPremium(user)" color="primary" class="ml-1">
+            <v-icon medium>payment</v-icon>
+          </v-btn>
+        </template>
+        <span>Get Karma</span>
+      </v-tooltip>
+
     </v-col>
 
     <v-dialog v-model="dialog_premium" max-width="500px">
