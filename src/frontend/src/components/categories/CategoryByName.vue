@@ -23,12 +23,13 @@
             </v-card-title>
             <v-card-text>
               <v-container>
-                <v-form ref="form" lazy-validation>
+                <v-form ref="formPost" lazy-validation>
                   <v-text-field
                     name="name"
                     v-model="form.name"
                     label="Name"
                     required
+                    :rules="regraNome"
                   ></v-text-field>
                   <v-textarea
                     name="description"
@@ -45,6 +46,7 @@
                     v-model="form.active"
                     label="Active"
                     required
+                    :rules="regraActive"
                   >
                   </v-select>
                 </v-form>
@@ -150,7 +152,7 @@
           <span class="headline">Edit sub-category</span>
         </v-card-title>
         <v-card-text>
-          <v-form ref="form" lazy-validation>
+          <v-form ref="formPut" lazy-validation>
             <v-container grid-list-md>
               <v-layout wrap>
                 <v-flex xs12 sm6 md12>
@@ -400,43 +402,49 @@ export default {
       }
     },
     async registSubCategory() {
-      let data = {
-        name: this.$data.form.name,
-        category: this.categoryId
-      };
+      if (this.$refs.formPost.validate()) {
+        let data = {
+          name: this.$data.form.name,
+          category: this.categoryId
+        };
 
-      if (
-        this.$data.form.description !== undefined &&
-        this.$data.form.description !== "" &&
-        this.$data.form.description !== null
-      ) {
-        data.desc = this.$data.form.description;
-      }
+        if (
+          this.$data.form.description !== undefined &&
+          this.$data.form.description !== "" &&
+          this.$data.form.description !== null
+        ) {
+          data.desc = this.$data.form.description;
+        }
 
-      if (this.levelU >= this.levelMin) {
-        if (this.$data.form.active == "Yes") data.active = true;
-        else if (this.$data.form.active == "No") data.active = "false";
-      } else data.active = "false";
+        if (this.levelU >= this.levelMin) {
+          if (this.$data.form.active == "Yes") data.active = true;
+          else if (this.$data.form.active == "No") data.active = "false";
+        } else data.active = "false";
 
-      try {
-        var response = await this.$request(
-          "post",
-          "/specializations/",
-          data
-        ).then(result => {
-          this.$refs.form.reset();
-
-          this.getSubCategories(this.categoryId);
-        });
-        this.dialog = false;
-        this.color = "success";
-        this.snackbar = true;
-        this.done = true;
-      } catch (err) {
-        this.text =
-          "An error occurred during the register: " + err.response.data;
+        try {
+          var response = await this.$request(
+            "post",
+            "/specializations/",
+            data
+          ).then(result => {
+            this.$refs.formPost.reset();
+            this.getSubCategories(this.categoryId);
+          });
+          this.dialog = false;
+          this.color = "success";
+          this.snackbar = true;
+          this.done = true;
+        } catch (err) {
+          this.text =
+            "An error occurred during the register: " + err.response.data;
+          this.color = "error";
+          this.dialog = false;
+          this.snackbar = true;
+          this.done = false;
+        }
+      } else {
+        this.text = "Please check if you have filled every field.";
         this.color = "error";
-        this.dialog = false;
         this.snackbar = true;
         this.done = false;
       }
@@ -451,7 +459,7 @@ export default {
       this.dialog_edit_subcategory = true;
     },
     async save() {
-      if (this.$refs.form.validate()) {
+      if (this.$refs.formPut.validate()) {
         var parsedActive;
 
         switch (this.editedItem.active) {

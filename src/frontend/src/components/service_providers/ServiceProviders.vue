@@ -176,12 +176,12 @@
           <span class="headline">Request Service</span>
         </v-card-title>
         <v-card-text>
-          <v-form ref="form" lazy-validation>
+          <v-form ref="formPost" lazy-validation>
             <v-container grid-list-md>
               <v-layout wrap>
                 <v-flex xs12 sm6 md12>
                   <v-select
-                    :items="[true, 'false']"
+                    :items="['Yes', 'No']"
                     :rules="regraTipo"
                     prepend-icon="warning"
                     v-model="form.urgent"
@@ -200,13 +200,12 @@
                   </selecionar-data>
                 </v-flex>
                 <v-flex xs12 sm6 md12>
-                  <v-text-field
-                    prepend-icon="label"
-                    v-model="form.hour"
-                    label="Hour"
-                    :rules="regraHour"
-                    required
-                  ></v-text-field>
+                  <selecionar-hora
+                    :d="form.hour"
+                    @dataSelecionada="form.hour = $event"
+                    :label="'HH:MM'"
+                  >
+                  </selecionar-hora>
                 </v-flex>
                 <v-flex xs12 sm6 md12>
                   <v-text-field
@@ -242,6 +241,15 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <v-snackbar
+      v-model="snackbar"
+      :color="color"
+      :timeout="timeout"
+      :top="true"
+    >
+      {{ text }}
+      <v-btn text @click="fecharSnackbar">Close</v-btn>
+    </v-snackbar>
   </v-container>
 </template>
 
@@ -249,14 +257,26 @@
 import Loading from "@/components/generic/Loading";
 import querystring from "querystring";
 import SelecionarData from "../generic/SelecionarData.vue";
+import SelecionarHora from "../generic/SelecionarHora";
 
 export default {
   props: ["queryString"],
   components: {
     Loading,
-    SelecionarData
+    SelecionarData,
+    SelecionarHora
   },
   data: () => ({
+    activeInfo: [
+      {
+        value: true,
+        desc: "Yes"
+      },
+      {
+        value: false,
+        desc: "No"
+      }
+    ],
     items: [],
     itemsPerPage: 20,
     ready: false,
@@ -284,9 +304,13 @@ export default {
       desc: ""
     },
     regraTipo: [v => !!v || "Type is required."],
-    text: "",
     client: "",
-    regraHour: [v => /\d{2}:\d{2}/.test(v) || "Hour has to be in hh:mm."]
+    regraHour: [v => /\d{2}:\d{2}/.test(v) || "Hour has to be in hh:mm."],
+    snackbar: false,
+    color: "",
+    done: false,
+    text: "",
+    timeout: 4000
   }),
   computed: {
     numberOfPages() {
@@ -331,58 +355,76 @@ export default {
       return new_qs;
     },
     async makeService(id) {
-      let data = {
-        urgent: this.$data.form.urgent,
-        status: "1",
-        client: this.client,
-        service_provider: id
-      };
+      if (this.$refs.formPost.validate()) {
+        let data = {
+          status: "1",
+          client: this.client,
+          service_provider: id
+        };
 
-      if (
-        this.$data.form.description !== undefined &&
-        this.$data.form.description !== "" &&
-        this.$data.form.description !== null
-      ) {
-        data.desc = this.$data.form.description;
-      }
+        if (this.form.urgent == "Yes") data.urgent = true;
+        else if (this.form.urgent == "No") data.urgent = "false";
 
-      if (
-        this.$data.form.date !== undefined &&
-        this.$data.form.date !== "" &&
-        this.$data.form.date !== null
-      ) {
-        data.date = this.$data.form.date;
-      }
+        if (
+          this.form.description !== undefined &&
+          this.form.description !== "" &&
+          this.form.description !== null
+        ) {
+          data.desc = this.form.description;
+        }
 
-      if (
-        this.$data.form.hour !== undefined &&
-        this.$data.form.hour !== "" &&
-        this.$data.form.hour !== null
-      ) {
-        data.hour = this.$data.form.hour;
-      }
+        if (
+          this.form.date !== undefined &&
+          this.form.date !== "" &&
+          this.form.date !== null
+        ) {
+          data.date = this.form.date;
+        }
 
-      if (
-        this.$data.form.duration !== undefined &&
-        this.$data.form.duration !== "" &&
-        this.$data.form.duration !== null
-      ) {
-        data.duration = this.$data.form.duration;
-      }
+        if (
+          this.form.hour !== undefined &&
+          this.form.hour !== "" &&
+          this.form.hour !== null
+        ) {
+          data.hour = this.form.hour;
+        }
 
-      try {
-        var response = await this.$request("post", "/services/", data).then(
-          result => {
-            this.service = "";
-            this.$refs.form.reset();
-          }
-        );
-      } catch (err) {
-        this.text =
-          "An error occurred during the register: " + err.response.data;
+        if (
+          this.form.duration !== undefined &&
+          this.form.duration !== "" &&
+          this.form.duration !== null
+        ) {
+          data.duration = this.form.duration;
+        }
+
+        try {
+          var response = await this.$request("post", "/services/", data).then(
+            result => {
+              this.service = "";
+              this.text = result.data;
+              this.color = "success";
+              this.snackbar = true;
+              this.done = true;
+              this.$refs.form.reset();
+            }
+          );
+        } catch (err) {
+          this.text =
+            "An error occurred during the register: " + err.response.data;
+          this.color = "error";
+          this.snackbar = true;
+          this.service = "";
+        }
+      } else {
+        this.text = "Please check if you have filled every field.";
         this.color = "error";
-        this.service = "";
+        this.snackbar = true;
+        this.done = false;
       }
+    },
+    fecharSnackbar() {
+      this.snackbar = false;
+      if (this.done == true) this.getServices();
     }
   },
   async created() {

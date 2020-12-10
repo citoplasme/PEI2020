@@ -1,6 +1,6 @@
 <template>
   <v-content>
-    <Loading v-if="!ready" :message="'the categories'" />
+    <Loading v-if="!ready" :message="'the urgent services'" />
     <v-card v-else class="ma-4">
       <v-card-title>
         <h1>Urgent requests</h1>
@@ -30,13 +30,12 @@
                         </selecionar-data>
                       </v-flex>
                       <v-flex xs12 sm6 md12>
-                        <v-text-field
-                          prepend-icon="label"
-                          v-model="form.hour"
-                          label="Hour"
-                          :rules="regraHour"
-                          required
-                        ></v-text-field>
+                        <selecionar-hora
+                          :d="form.hour"
+                          @dataSelecionada="form.hour = $event"
+                          :label="'HH:MM'"
+                        >
+                        </selecionar-hora>
                       </v-flex>
                       <v-flex xs12 sm6 md12>
                         <v-text-field
@@ -55,6 +54,8 @@
                           solo
                           clearable
                           color="primary"
+                          required
+                          :rules="regraDesc"
                         ></v-textarea>
                       </v-flex>
                     </v-layout>
@@ -120,7 +121,7 @@
                     v-if="levelU >= 3 && logged !== props.item.client"
                     icon
                     v-on="on"
-                    @click="go"
+                    @click="accept(props.item)"
                   >
                     <v-icon medium color="green">done_outline</v-icon>
                   </v-btn>
@@ -175,21 +176,14 @@
 import Loading from "@/components/generic/Loading";
 import { NIVEL_MINIMO_ALTERAR } from "@/utils/consts";
 import SelecionarData from "@/components/generic/SelecionarData";
+import SelecionarHora from "@/components/generic/SelecionarHora";
 
 export default {
   data: () => ({
-    activeInfo: [
-      {
-        value: true,
-        desc: "Yes"
-      },
-      {
-        value: false,
-        desc: "No"
-      }
-    ],
     regraNome: [v => !!v || "Name is required."],
+    regraDesc: [v => !!v || "Description is required."],
     regraActive: [v => !!v || "Active label is required"],
+    regraHour: [v => /\d{2}:\d{2}/.test(v) || "Hour has to be in hh:mm."],
     levelMin: NIVEL_MINIMO_ALTERAR,
     levelU: "",
     logged: "",
@@ -245,13 +239,13 @@ export default {
     done: false,
     text: "",
     timeout: 4000,
-    ready: false,
-    regraHour: [v => /\d{2}:\d{2}/.test(v) || "Hour has to be in hh:mm."],
+    ready: true,
     eliminarId: ""
   }),
   components: {
     Loading,
-    SelecionarData
+    SelecionarData,
+    SelecionarHora
   },
   methods: {
     number_to_status(number) {
@@ -304,76 +298,101 @@ export default {
         return e;
       }
     },
-    go(categoryId) {
-      var url = "/categories/" + categoryId;
-      if (url.startsWith("http")) {
-        window.location.href = url;
-      } else {
-        this.$router.push(url);
-      }
-    },
-    async makeService() {
-      let data = {
-        urgent: true,
-        status: "0",
-        client: this.logged
-      };
-
-      if (
-        this.$data.form.description !== undefined &&
-        this.$data.form.description !== "" &&
-        this.$data.form.description !== null
-      ) {
-        data.desc = this.$data.form.description;
-      }
-
-      if (
-        this.$data.form.date !== undefined &&
-        this.$data.form.date !== "" &&
-        this.$data.form.date !== null
-      ) {
-        data.date = this.$data.form.date;
-      }
-
-      if (
-        this.$data.form.hour !== undefined &&
-        this.$data.form.hour !== "" &&
-        this.$data.form.hour !== null
-      ) {
-        data.hour = this.$data.form.hour;
-      }
-
-      if (
-        this.$data.form.duration !== undefined &&
-        this.$data.form.duration !== "" &&
-        this.$data.form.duration !== null
-      ) {
-        data.duration = this.$data.form.duration;
-      }
-
-      //console.log(data.date)
-
+    async accept(item) {
+      let data = item;
+      data.service_provider = this.logged;
+      data.status = "1";
       try {
         var response = await this.$request("post", "/services/", data).then(
           result => {
-            this.service = "";
-            this.$refs.form.reset();
+            this.text = result.data;
             this.dialog = false;
           }
         );
-        this.getServices();
+        this.color = "success";
+        this.snackbar = true;
+        this.done = true;
       } catch (err) {
         this.text =
           "An error occurred during the register: " + err.response.data;
         this.color = "error";
+        this.snackbar = true;
         this.service = "";
         this.dialog = false;
+      }
+    },
+    async makeService() {
+      if (this.$refs.form.validate()) {
+        let data = {
+          urgent: true,
+          status: "0",
+          client: this.logged
+        };
+
+        if (
+          this.$data.form.description !== undefined &&
+          this.$data.form.description !== "" &&
+          this.$data.form.description !== null
+        ) {
+          data.desc = this.$data.form.description;
+        }
+
+        if (
+          this.$data.form.date !== undefined &&
+          this.$data.form.date !== "" &&
+          this.$data.form.date !== null
+        ) {
+          data.date = this.$data.form.date;
+        }
+
+        if (
+          this.$data.form.hour !== undefined &&
+          this.$data.form.hour !== "" &&
+          this.$data.form.hour !== null
+        ) {
+          data.hour = this.$data.form.hour;
+        }
+
+        if (
+          this.$data.form.duration !== undefined &&
+          this.$data.form.duration !== "" &&
+          this.$data.form.duration !== null
+        ) {
+          data.duration = this.$data.form.duration;
+        }
+
+        try {
+          var response = await this.$request("post", "/services/", data).then(
+            result => {
+              this.service = "";
+              this.$refs.form.reset();
+              this.text = result.data;
+              this.dialog = false;
+            }
+          );
+          this.color = "success";
+          this.snackbar = true;
+          this.done = true;
+          this.getServices();
+        } catch (err) {
+          this.text =
+            "An error occurred during the register: " + err.response.data;
+          this.color = "error";
+          this.snackbar = true;
+          this.service = "";
+          this.dialog = false;
+        }
+      } else {
+        this.text = "Please check if you have filled every field.";
+        this.color = "error";
+        this.snackbar = true;
+        this.done = false;
       }
     },
     eliminar(id) {
       this.$request("delete", "/services/" + id)
         .then(res => {
-          this.text = "Category succesfully deleted!";
+          this.text = res.data;
           this.color = "success";
           this.eliminarId = "";
           this.snackbar = true;

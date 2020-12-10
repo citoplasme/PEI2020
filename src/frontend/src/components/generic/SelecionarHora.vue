@@ -34,7 +34,7 @@ export default {
   data() {
     return {
       dataValor: this.d,
-      menu1: false,
+      menu1: false
     };
   },
 

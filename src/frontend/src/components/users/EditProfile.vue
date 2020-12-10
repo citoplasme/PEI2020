@@ -218,13 +218,17 @@
 
       <v-tooltip bottom v-if="user.level >= 3 && user.level <= 4">
         <template v-slot:activator="{ on }">
-          <v-btn v-on="on" @click="getPremium(user)" color="primary" class="ml-1">
+          <v-btn
+            v-on="on"
+            @click="getPremium(user)"
+            color="primary"
+            class="ml-1"
+          >
             <v-icon medium>payment</v-icon>
           </v-btn>
         </template>
         <span>Get Karma</span>
       </v-tooltip>
-
     </v-col>
 
     <v-dialog v-model="dialog_premium" max-width="500px">
