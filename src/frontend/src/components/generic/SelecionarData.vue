@@ -19,7 +19,7 @@
       ></v-text-field>
     </template>
 
-    <v-date-picker v-model="dataValor" :min="minima" no-title scrollable locale="pt">
+    <v-date-picker v-model="dataValor" :min="minima" no-title scrollable>
       <v-spacer></v-spacer>
       <v-btn text color="primary" @click="menu1 = false">Close</v-btn>
       <v-btn text color="primary" @click="dataSelecionada">Select</v-btn>
