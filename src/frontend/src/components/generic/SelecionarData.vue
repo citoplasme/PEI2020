@@ -19,7 +19,7 @@
       ></v-text-field>
     </template>
 
-    <v-date-picker v-model="dataValor" no-title scrollable locale="pt">
+    <v-date-picker v-model="dataValor" min="dataMinima" no-title scrollable locale="pt">
       <v-spacer></v-spacer>
       <v-btn text color="primary" @click="menu1 = false">Close</v-btn>
       <v-btn text color="primary" @click="dataSelecionada">Select</v-btn>
@@ -29,7 +29,7 @@
 
 <script>
 export default {
-  props: ["d"],
+  props: ["d", "dataMinima"],
 
   data() {
     return {
