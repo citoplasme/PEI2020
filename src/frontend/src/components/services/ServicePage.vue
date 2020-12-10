@@ -183,21 +183,100 @@
           </div>
         </v-col>
       </v-list-item>
+      <v-list-item v-if="service.fatura != undefined && service.fatura !== null">
+        <v-col cols="2">
+          <div class="info-label">Bill</div>
+        </v-col>
+        <v-col>
+          <div class="info-content">
+            <p @click="get_fatura()">
+              <v-btn icon color="primary">
+                <v-icon text>
+                  search
+                </v-icon>
+              </v-btn>
+            </p>
+          </div>
+        </v-col>
+      </v-list-item>
     </v-list>
+    <v-col class="text-right" v-if="service.service_provider.id == idLoged && (service.status == 'Waiting for evaluation' || service.status == 'Finalized')">
+      <v-tooltip bottom>
+        <template v-slot:activator="{ on }">
+          <v-btn v-on="on" @click="editar_imagem()" color="primary" class="mr-1">
+            <v-icon medium>attach_file</v-icon>
+          </v-btn>
+        </template>
+        <span>Edit Bill</span>
+      </v-tooltip>
+    </v-col>
+    
+    <v-dialog v-model="dialog_image" max-width="500px">
+      <v-card>
+        <v-card-title class="headline">
+          <span class="headline">Edit Bill</span>
+        </v-card-title>
+        <v-card-text>
+          <v-form ref="form_image" lazy-validation>
+            <v-container grid-list-md>
+              <v-layout wrap>
+                <v-flex xs12 sm6 md12>
+                  <v-file-input
+                    v-model="ficheiro"
+                    placeholder="Select the file"
+                    show-size
+                    clearable
+                    single-line
+                    accept="application/pdf"
+                    solo
+                    :rules="regraImagem"
+                    required
+                  ></v-file-input>
+                </v-flex>
+              </v-layout>
+            </v-container>
+          </v-form>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="red" text @click="dialog_image = false">Cancel</v-btn>
+          <v-btn color="primary" text @click="guardar_image">Save</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <v-snackbar
+      v-model="snackbar"
+      :color="color"
+      :timeout="timeout"
+      :top="true"
+    >
+      {{ text }}
+      <v-btn text @click="fecharSnackbar">Close</v-btn>
+    </v-snackbar>
   </v-card>
 </template>
 
 <script>
 import Loading from "@/components/generic/Loading";
 import querystring from "querystring";
+const lhost = require("@/config/global").host;
 export default {
   props: ["id"],
   components: {
     Loading
   },
   data: () => ({
+    ficheiro: {},
+    dialog_image: false,
+    snackbar: false,
+    color: "",
+    done: false,
+    timeout: 4000,
+    text: "",
+    regraImagem: [v => !!v || "File is required."],
     service: {},
     barColor: "",
+    idLoged: "",
     status_info: [
       {
         value: -2,
@@ -238,9 +317,67 @@ export default {
     ready: false
   }),
   async created() {
+
+    var res2 = await this.$request(
+      "get",
+      "/users/" + this.$store.state.token + "/token"
+    );
+    this.idLoged = res2.data._id;
+
     await this.getService(this.id);
   },
   methods: {
+    fecharSnackbar() {
+      this.snackbar = false;
+      // if (this.done == true) this.getService(this.id);
+    },
+    async guardar_image() {
+      if (this.$refs.form_image.validate()) {
+        var formData = new FormData();
+
+        if (this.ficheiro != null) {
+          formData.append("file", this.ficheiro);
+        }
+        await this.$request(
+          "put",
+          "/services/" + this.id + "/bill",
+          formData
+        )
+          .then(res => {
+            this.text = res.data;
+            this.color = "success";
+            this.snackbar = true;
+            this.done = true;
+            this.dialog_image = false;
+            this.getService(this.id);
+          })
+          .catch(err => {
+            this.text = err.response.data;
+            this.color = "error";
+            this.snackbar = true;
+            this.done = false;
+          });
+      } else {
+        this.text = "Please check if you have filled every field.";
+        this.color = "error";
+        this.snackbar = true;
+        this.done = false;
+      }
+    },
+    editar_imagem() {
+      this.dialog_image = true;
+    },
+    async get_fatura() {
+      var token = await this.$getAuthToken();
+      token = token.replace(" ", "=");
+      
+      var path =
+        "/services/" +
+        this.id +
+        "/bill/";
+      path = lhost + path + "?" + token;
+      window.open(path);
+    },
     go: function(url) {
       if (url.startsWith("http")) {
         window.location.href = url;
