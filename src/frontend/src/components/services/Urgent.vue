@@ -7,12 +7,7 @@
         <v-spacer></v-spacer>
         <v-dialog v-model="dialog" persistent max-width="600px">
           <template v-slot:activator="{ on, attrs }">
-            <v-btn
-              color="blue darken-4"
-              dark
-              v-bind="attrs"
-              v-on="on"
-            >
+            <v-btn color="blue darken-4" dark v-bind="attrs" v-on="on">
               New Urgent Request
             </v-btn>
           </template>
@@ -23,48 +18,48 @@
             <v-card-text>
               <v-container>
                 <v-form ref="form" lazy-validation>
-            <v-container grid-list-md>
-              <v-layout wrap>
-                <v-flex xs12 sm6 md12>
-                  <selecionar-data
-                    :dataMinima="new Date().toISOString().substr(0, 10)"
-                    :d="form.date"
-                    @dataSelecionada="form.date = $event"
-                    :label="'AAAA-MM-DD'"
-                  >
-                  </selecionar-data>
-                </v-flex>
-                <v-flex xs12 sm6 md12>
-                  <v-text-field
-                    prepend-icon="label"
-                    v-model="form.hour"
-                    label="Hour"
-                    :rules="regraHour"
-                    required
-                  ></v-text-field>
-                </v-flex>
-                <v-flex xs12 sm6 md12>
-                  <v-text-field
-                    prepend-icon="label"
-                    v-model="form.duration"
-                    label="Duration"
-                    required
-                  ></v-text-field>
-                </v-flex>
-                <v-flex xs12 sm6 md12>
-                  <v-textarea
-                    prepend-icon="description"
-                    v-model="form.description"
-                    label="Description"
-                    auto-grow
-                    solo
-                    clearable
-                    color="primary"
-                  ></v-textarea>
-                </v-flex>
-              </v-layout>
-            </v-container>
-          </v-form>
+                  <v-container grid-list-md>
+                    <v-layout wrap>
+                      <v-flex xs12 sm6 md12>
+                        <selecionar-data
+                          :dataMinima="new Date().toISOString().substr(0, 10)"
+                          :d="form.date"
+                          @dataSelecionada="form.date = $event"
+                          :label="'AAAA-MM-DD'"
+                        >
+                        </selecionar-data>
+                      </v-flex>
+                      <v-flex xs12 sm6 md12>
+                        <v-text-field
+                          prepend-icon="label"
+                          v-model="form.hour"
+                          label="Hour"
+                          :rules="regraHour"
+                          required
+                        ></v-text-field>
+                      </v-flex>
+                      <v-flex xs12 sm6 md12>
+                        <v-text-field
+                          prepend-icon="label"
+                          v-model="form.duration"
+                          label="Duration"
+                          required
+                        ></v-text-field>
+                      </v-flex>
+                      <v-flex xs12 sm6 md12>
+                        <v-textarea
+                          prepend-icon="description"
+                          v-model="form.description"
+                          label="Description"
+                          auto-grow
+                          solo
+                          clearable
+                          color="primary"
+                        ></v-textarea>
+                      </v-flex>
+                    </v-layout>
+                  </v-container>
+                </v-form>
               </v-container>
               <small>*all fields are required</small>
             </v-card-text>
@@ -163,7 +158,7 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-    
+
     <v-snackbar
       v-model="snackbar"
       :color="color"
@@ -200,41 +195,41 @@ export default {
     logged: "",
     search: "",
     headers: [
-          {
-            text: "Client",
-            sortable: true,
-            value: "client",
-            class: "title"
-          },
-          {
-            text: "Description",
-            sortable: true,
-            value: "desc",
-            class: "title"
-          },
-          {
-            text: "Status",
-            sortable: true,
-            value: "status",
-            class: "title"
-          },
-          {
-            text: "Date",
-            sortable: true,
-            value: "date",
-            class: "title"
-          },
-          {
-            text: "Hour",
-            sortable: true,
-            value: "hour",
-            class: "title"
-          },
-              {
-            text: "Operations",
-            value: "ops"
-          }
-        ],
+      {
+        text: "Client",
+        sortable: true,
+        value: "client",
+        class: "title"
+      },
+      {
+        text: "Description",
+        sortable: true,
+        value: "desc",
+        class: "title"
+      },
+      {
+        text: "Status",
+        sortable: true,
+        value: "status",
+        class: "title"
+      },
+      {
+        text: "Date",
+        sortable: true,
+        value: "date",
+        class: "title"
+      },
+      {
+        text: "Hour",
+        sortable: true,
+        value: "hour",
+        class: "title"
+      },
+      {
+        text: "Operations",
+        value: "ops"
+      }
+    ],
     services: [],
     dialog: false,
     dialog_edit_category: false,
@@ -252,7 +247,7 @@ export default {
     timeout: 4000,
     ready: false,
     regraHour: [v => /\d{2}:\d{2}/.test(v) || "Hour has to be in hh:mm."],
-    eliminarId:""
+    eliminarId: ""
   }),
   components: {
     Loading,
@@ -300,7 +295,7 @@ export default {
       return color;
     },
 
-    async getServices() { 
+    async getServices() {
       try {
         let response = await this.$request("get", "/services/urgent");
         this.services = response.data;
@@ -321,7 +316,7 @@ export default {
       let data = {
         urgent: true,
         status: "0",
-        client: this.logged,
+        client: this.logged
       };
 
       if (
@@ -363,16 +358,16 @@ export default {
           result => {
             this.service = "";
             this.$refs.form.reset();
-            this.dialog=false;
+            this.dialog = false;
           }
         );
-        this.getServices()
+        this.getServices();
       } catch (err) {
         this.text =
           "An error occurred during the register: " + err.response.data;
         this.color = "error";
         this.service = "";
-        this.dialog=false;
+        this.dialog = false;
       }
     },
     eliminar(id) {
@@ -411,7 +406,7 @@ export default {
         this.logged = res.data._id;
         this.levelU = await this.$userLevel(this.$store.state.token);
       }
-      this.getServices()
+      this.getServices();
       this.ready = true;
     } catch (e) {
       return e;

@@ -3,10 +3,10 @@
     <v-toolbar :color="panelHeaderColor" dark>
       <v-toolbar-title>
         <v-icon>
-            announcement
+          announcement
         </v-icon>
         Urgent Requests
-    </v-toolbar-title>
+      </v-toolbar-title>
     </v-toolbar>
     <v-card-text>
       <v-expansion-panels>
@@ -60,7 +60,7 @@ export default {
               url: "/services/urgent"
             }
           ]
-        },
+        }
       ]
     };
   }

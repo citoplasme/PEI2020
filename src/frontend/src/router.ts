@@ -141,9 +141,9 @@ export default new Router({
     },
     //Routes to urgent requests
     {
-      path: "/services/urgent" ,
-      name: "urgent" ,
-      component: () => import ("./views/services/Urgent.vue"),
+      path: "/services/urgent",
+      name: "urgent",
+      component: () => import("./views/services/Urgent.vue"),
       meta: { levels: [0, 1, 2, 3, 3.5, 4, 5, 6, 7] }
     }
     // Rota de pesquisa de service providers -> Não implementado
