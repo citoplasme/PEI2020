@@ -19,7 +19,7 @@
       ></v-text-field>
     </template>
 
-    <v-time-picker format="24hr" v-model="dataValor" no-title scrollable>
+    <v-time-picker format="24hr" v-model="dataValor" scrollable>
       <v-spacer></v-spacer>
       <v-btn text color="primary" @click="menu1 = false">Close</v-btn>
       <v-btn text color="primary" @click="dataSelecionada">Select</v-btn>
