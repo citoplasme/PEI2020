@@ -165,6 +165,15 @@
     </v-list>
 
     <v-col class="text-right">
+      <v-tooltip bottom v-if="user.level >= 3 && user.level <= 4">
+        <template v-slot:activator="{ on }">
+          <v-btn v-on="on" @click="getPremium(user)" color="green" class="mr-1">
+            <v-icon medium>payment</v-icon>
+          </v-btn>
+        </template>
+        <span>Get Karma</span>
+      </v-tooltip>
+
       <v-tooltip bottom>
         <template v-slot:activator="{ on }">
           <v-btn v-on="on" @click="editar(user)" color="primary" class="mr-1">
@@ -216,6 +225,63 @@
         <span>Edit locations</span>
       </v-tooltip>
     </v-col>
+
+    <v-dialog v-model="dialog_premium" max-width="500px">
+      <v-card>
+        <v-card-title class="headline">
+          <span class="headline">Add Karma to your account</span>
+        </v-card-title>
+        <v-card-text>
+          Gib money to get karma boost
+        </v-card-text>
+        <v-row>
+          <v-col>
+            <v-list>
+              <template v-for="(product, index) in this.products">
+                <v-list-item v-bind:key="product.product_id">
+                  <v-list-item-content>
+                    <v-list-item-title
+                      v-html="product.description"
+                    ></v-list-item-title>
+                  </v-list-item-content>
+                  <v-btn @click="addtoCart(product)" color="primary">
+                    Add
+                  </v-btn>
+                </v-list-item>
+                <v-divider
+                  v-if="index + 1 < products.length"
+                  :key="index"
+                ></v-divider>
+              </template>
+            </v-list>
+          </v-col>
+          <v-col>
+            <v-card-text>
+              <h1>CART</h1>
+              <h2 v-if="cart.length == 0">Empty Cart</h2>
+              <template v-else v-for="(product, index) in this.cart">
+                <v-list-item v-bind:key="index">
+                  <v-list-item-content>
+                    <v-list-item-title
+                      v-html="product.description"
+                    ></v-list-item-title>
+                  </v-list-item-content>
+                </v-list-item>
+              </template>
+            </v-card-text>
+          </v-col>
+        </v-row>
+        <v-card-actions>
+          <v-btn @click="clearCart()" color="primary">CLEAR CART</v-btn>
+          <v-spacer></v-spacer>
+          <v-btn v-if="cart.length > 0" color="primary" text @click="payMethod">
+            Proceed to Payment
+          </v-btn>
+          <v-btn color="red" text @click="dialog_premium = false">Cancel</v-btn>
+        </v-card-actions>
+        <div v-if="cart.length > 0" ref="paypal"></div>
+      </v-card>
+    </v-dialog>
 
     <v-dialog v-model="dialog" max-width="500px">
       <v-card>
@@ -463,7 +529,6 @@
 <script>
 import Loading from "@/components/generic/Loading";
 import querystring from "querystring";
-
 export default {
   components: {
     Loading
@@ -501,6 +566,31 @@ export default {
     newspecializations: [],
     countries: [],
     dialog_locations: false,
+    cart: [],
+    cartValue: 0,
+    paypalDescription: "",
+    dialog_premium: false,
+    loaded: false,
+    products: [
+      {
+        product_id: "1karma",
+        price: 1,
+        description: "100 Karma",
+        qty: 0
+      },
+      {
+        product_id: "10karma",
+        price: 10,
+        description: "1000 Karma",
+        qty: 0
+      },
+      {
+        product_id: "100karma",
+        price: 100,
+        description: "10000 Karma",
+        qty: 0
+      }
+    ],
     searchString3: [],
     searchString4: [],
     newcountries: [],
@@ -520,6 +610,50 @@ export default {
     this.ready = true;
   },
   methods: {
+    addtoCart: function(product) {
+      this.cart.push(product);
+      this.paypalDescription =
+        this.paypalDescription + product.description + ", ";
+      this.cartValue = this.cartValue + product.price;
+    },
+    clearCart: function() {
+      this.cart = [];
+      this.cartValue = 0;
+      this.paypalDescription = "";
+    },
+    payMethod: function() {
+      const script = document.createElement("script");
+      script.src =
+        "https://www.paypal.com/sdk/js?client-id=AXBdCpb1zBJLiVZJPUCzGm8pkAXp6wtiWHO6jqTJrI0c1O40BI47_uShRPnESM6saN5R8Tiy8HUt4apZ";
+      script.addEventListener("load", this.setLoaded);
+      document.body.appendChild(script);
+    },
+    setLoaded: function() {
+      this.loaded = true;
+      window.paypal
+        .Buttons({
+          createOrder: (data, actions) => {
+            return actions.order.create({
+              purchase_units: [
+                {
+                  description: this.paypalDescription,
+                  amount: {
+                    currency_code: "USD",
+                    value: this.cartValue
+                  }
+                }
+              ]
+            });
+          },
+          onApprove: async (data, actions) => {
+            const order = await actions.order.capture();
+            this.paidFor = true;
+            alert("Payment Sucessfull");
+          },
+          onError: err => {}
+        })
+        .render(this.$refs.paypal);
+    },
     preparaCampos: async function(array) {
       try {
         let res = array.map(v => {
@@ -587,6 +721,9 @@ export default {
     editar(item) {
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
+    },
+    getPremium(item) {
+      this.dialog_premium = true;
     },
     filter_query_string(ids) {
       let obj = {
@@ -752,6 +889,9 @@ export default {
         this.snackbar = true;
         this.done = false;
       }
+    },
+    async guardar_premium() {
+      //mudar o tipo de cliente?
     },
     async guardar_categories() {
       if (this.$refs.form_categories.validate()) {
