@@ -40,7 +40,7 @@
       </v-btn>
 
       <span class="font-weight-light ma-2" v-if="this.$store.state.name != ''">
-        {{ this.$store.state.name }}</span
+        Welcome, {{ this.$store.state.name }}</span
       >
 
       <v-menu
