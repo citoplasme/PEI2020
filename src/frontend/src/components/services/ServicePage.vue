@@ -1,5 +1,5 @@
 <template>
-  <Loading v-if="!ready" :message="'the profile'" />
+  <Loading v-if="!ready" :message="'the service'" />
   <v-card v-else class="mx-auto" max-width="1000" tile>
     <div>
       <v-system-bar dark :color="barColor">
@@ -8,7 +8,7 @@
       </v-system-bar>
     </div>
     <v-list>
-      <v-list-item>
+      <v-list-item v-if="service.desc !== undefined && service.desc !== null && service.desc !== ''">
         <v-col cols="2">
           <div class="info-label">Description</div>
         </v-col>
@@ -18,7 +18,7 @@
           </div>
         </v-col>
       </v-list-item>
-      <v-list-item>
+      <v-list-item v-if="service.urgent != undefined && service.urgent !== null">
         <v-col cols="2">
           <div class="info-label">Urgent</div>
         </v-col>
@@ -28,7 +28,7 @@
           </div>
         </v-col>
       </v-list-item>
-      <v-list-item>
+      <v-list-item v-if="service.client != undefined && service.client !== null && service.client !== ''">
         <v-col cols="2">
           <div class="info-label">Client</div>
         </v-col>
@@ -43,7 +43,7 @@
           </div>
         </v-col>
       </v-list-item>
-      <v-list-item>
+      <v-list-item v-if="service.service_provider != undefined && service.service_provider !== null && service.service_provider !== ''">
         <v-col cols="2">
           <div class="info-label">Service provider</div>
         </v-col>
@@ -57,7 +57,7 @@
           </div>
         </v-col>
       </v-list-item>
-      <v-list-item>
+      <v-list-item v-if="service.duration != undefined && service.duration !== null && service.duration !== ''">
         <v-col cols="2">
           <div class="info-label">Duration</div>
         </v-col>
@@ -67,7 +67,7 @@
           </div>
         </v-col>
       </v-list-item>
-      <v-list-item>
+      <v-list-item v-if="service.date != undefined && service.date !== null && service.date !== ''">
         <v-col cols="2">
           <div class="info-label">Date</div>
         </v-col>
@@ -77,7 +77,7 @@
           </div>
         </v-col>
       </v-list-item>
-      <v-list-item>
+      <v-list-item v-if="service.hour != undefined && service.hour !== null && service.hour !== ''">
         <v-col cols="2">
           <div class="info-label">Hour</div>
         </v-col>
@@ -87,7 +87,7 @@
           </div>
         </v-col>
       </v-list-item>
-      <v-list-item>
+      <v-list-item v-if="service.orcamento !== undefined && service.orcamento.length > 0">
         <v-col cols="2">
           <div class="info-label">Budget flow</div>
         </v-col>
@@ -118,55 +118,63 @@
           </div>
         </v-col>
       </v-list-item>
-      <v-list-item>
+      <v-list-item v-if="service.review != undefined && service.review !== null">
         <v-col cols="2">
           <div class="info-label">Review</div>
         </v-col>
         <v-col>
           <div class="info-content">
             <ul>
-              <li v-if="Object.keys(service.review.client).length !== 0">
+              <li v-if="service.review.client != undefined && service.review.client !== null && Object.keys(service.review.client).length !== 0">
                 <b>Client</b>
                 <ul>
-                  <li>
+                  <li v-if="service.review.client.ponctuality !== undefined && service.review.client.ponctuality !== null">
                     <b>Ponctuality:</b> {{ service.review.client.ponctuality }}
                   </li>
-                  <li><b>Payment:</b> {{ service.review.client.payment }}</li>
-                  <li><b>Security:</b> {{ service.review.client.security }}</li>
-                  <li><b>General:</b> {{ service.review.client.general }}</li>
-                  <li><b>Karma:</b> {{ service.review.client.karma }}</li>
+                  <li v-if="service.review.client.payment !== undefined && service.review.client.payment !== null">
+                    <b>Payment:</b> {{ service.review.client.payment }}
+                  </li>
+                  <li v-if="service.review.client.security !== undefined && service.review.client.security !== null">
+                    <b>Security:</b> {{ service.review.client.security }}
+                  </li>
+                  <li v-if="service.review.client.general !== undefined && service.review.client.general !== null">
+                    <b>General:</b> {{ service.review.client.general }}
+                  </li>
+                  <li v-if="service.review.client.karma !== undefined && service.review.client.karma !== null">
+                    <b>Karma:</b> {{ service.review.client.karma }}
+                  </li>
                 </ul>
               </li>
               <li
-                v-if="Object.keys(service.review.service_provider).length !== 0"
+                v-if="service.review.service_provider != undefined && service.review.service_provider !== null && Object.keys(service.review.service_provider).length !== 0"
               >
                 <b>Service provider</b>
                 <ul>
-                  <li>
+                  <li v-if="service.review.service_provider.ponctuality !== undefined && service.review.service_provider.ponctuality !== null">
                     <b>Ponctuality:</b>
                     {{ service.review.service_provider.ponctuality }}
                   </li>
-                  <li>
+                  <li v-if="service.review.service_provider.quality !== undefined && service.review.service_provider.quality !== null">
                     <b>Quality:</b>
                     {{ service.review.service_provider.quality }}
                   </li>
-                  <li>
+                  <li v-if="service.review.service_provider.security !== undefined && service.review.service_provider.security !== null">
                     <b>Security:</b>
                     {{ service.review.service_provider.security }}
                   </li>
-                  <li>
+                  <li v-if="service.review.service_provider.attendance !== undefined && service.review.service_provider.attendance !== null">
                     <b>Attendance:</b>
                     {{ service.review.service_provider.attendance }}
                   </li>
-                  <li>
+                  <li v-if="service.review.service_provider.general !== undefined && service.review.service_provider.general !== null">
                     <b>General:</b>
                     {{ service.review.service_provider.general }}
                   </li>
-                  <li>
+                  <li v-if="service.review.service_provider.comentario !== undefined && service.review.service_provider.comentario !== null">
                     <b>Comment:</b>
                     {{ service.review.service_provider.comentario }}
                   </li>
-                  <li>
+                  <li v-if="service.review.service_provider.karma !== undefined && service.review.service_provider.karma !== null">
                     <b>Karma:</b> {{ service.review.service_provider.karma }}
                   </li>
                 </ul>
@@ -259,35 +267,46 @@ export default {
         );
 
         this.service = request_service.data;
-        this.barColor = this.status_info.find(
-          s => s.value === this.service.status
-        ).color;
-        this.service.status = this.status_info.find(
-          s => s.value === this.service.status
-        ).desc;
-        this.service.urgent = this.service.urgent == false ? "No" : "Yes";
 
-        var client_info = await this.$request(
-          "get",
-          "/users/" + this.service.client
-        );
+        if(this.service.status !== undefined && this.service.status !== null){
+          this.barColor = this.status_info.find(
+            s => s.value === this.service.status
+          ).color;
+          this.service.status = this.status_info.find(
+            s => s.value === this.service.status
+          ).desc;
+        } else{
+          this.barColor = "#ff4dd2"
+          this.service.status = "Undefined"
+        }
+        
+        if(this.service.urgent !== undefined && this.service.urgent !== null){
+          this.service.urgent = (this.service.urgent == false) ? "No" : "Yes";
+        }
 
-        var service_provider_info = await this.$request(
-          "get",
-          "/users/" + this.service.service_provider
-        );
+        if(this.service.client !== undefined && this.service.client !== null && this.service.client !== ''){
+          var client_info = await this.$request(
+            "get",
+            "/users/" + this.service.client
+          );
+          this.service.client = {
+            id: this.service.client,
+            name: client_info.data.name
+          };
+        }
+        if(this.service.service_provider !== undefined && this.service.service_provider !== null && this.service.service_provider !== ''){
+          var service_provider_info = await this.$request(
+            "get",
+            "/users/" + this.service.service_provider
+          );
 
-        this.service.client = {
-          id: this.service.client,
-          name: client_info.data.name
-        };
+          this.service.service_provider = {
+            id: this.service.service_provider,
+            name: service_provider_info.data.name
+          };
+        }
 
-        this.service.service_provider = {
-          id: this.service.service_provider,
-          name: service_provider_info.data.name
-        };
-
-        await this.getNamesInBudgetFlow();
+        if(this.service.orcamento !== undefined && this.service.orcamento.length > 0) await this.getNamesInBudgetFlow();
         this.ready = true;
       } catch (e) {
         return e;
