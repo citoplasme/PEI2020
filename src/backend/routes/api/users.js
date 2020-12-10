@@ -367,6 +367,7 @@ router.get('/service_providers/:id', Auth.isLoggedInKey, (req, res) => {
 
 
 router.get('/:id', Auth.isLoggedInUser, (req, res) => {
+    /*
     if(req.params.id == req.user.id || req.user.level >= 5){
         Users.listarPorId(req.params.id,function(err, result){
             if(err){
@@ -381,6 +382,16 @@ router.get('/:id', Auth.isLoggedInUser, (req, res) => {
         //Não tem permissões para aceder à informação de outro utilizador
         res.status(403).send("Your level is not high enough.")
     }
+    */
+   Users.listarPorId(req.params.id,function(err, result){
+    if(err){
+        //res.status(500).send(`Erro: ${err}`);
+        res.status(500).send("It was not possible to obtain the user.");
+    }else{
+        result._doc.local = result._doc.local.password ? true : false
+        res.json(result);
+    }
+});
 });
 
 //-------------------------------------------------------------------------------------
