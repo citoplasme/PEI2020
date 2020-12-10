@@ -2,8 +2,7 @@
   <Loading v-if="!ready" :message="'the service'" />
   <v-card v-else class="mx-auto" max-width="1000" tile>
     <div>
-      <v-system-bar dark :color="barColor">
-        <v-spacer></v-spacer>
+      <v-system-bar height="30%" dark :color="barColor">
         <span>{{ service.status }}</span>
       </v-system-bar>
     </div>
@@ -47,9 +46,6 @@
           <div class="info-label">Client</div>
         </v-col>
         <v-col>
-          <!--<div class="info-content">
-            <p>{{ service.client.id }}</p>
-          </div>-->
           <div class="info-content">
             <span class="fakea" @click="go(`/users/${service.client.id}`)">{{
               service.client.name
@@ -159,7 +155,11 @@
         </v-col>
       </v-list-item>
       <v-list-item
-        v-if="service.review != undefined && service.review !== null"
+        v-if="
+          service.review != undefined &&
+            service.review !== null &&
+            Object.keys(service.review.client).length !== 0
+        "
       >
         <v-col cols="2">
           <div class="info-label">Review</div>
@@ -317,15 +317,15 @@
         </v-col>
       </v-list-item>
     </v-list>
-    <v-col
-      class="text-right"
-      v-if="
-        service.service_provider.id == idLoged &&
-          (service.status == 'Waiting for evaluation' ||
-            service.status == 'Finalized')
-      "
-    >
-      <v-tooltip bottom>
+    <v-col class="text-right">
+      <v-tooltip
+        bottom
+        v-if="
+          service.service_provider.id == idLoged &&
+            (service.status == 'Waiting for evaluation' ||
+              service.status == 'Finalized')
+        "
+      >
         <template v-slot:activator="{ on }">
           <v-btn
             v-on="on"
@@ -338,8 +338,27 @@
         </template>
         <span>Edit Bill</span>
       </v-tooltip>
+      <v-tooltip
+        bottom
+        v-if="
+          service.status == 'Negotiating' ||
+            service.status == 'Accepted' ||
+            service.status == 'Waiting for evaluation'
+        "
+      >
+        <template v-slot:activator="{ on }">
+          <v-btn
+            v-on="on"
+            @click="go('/services/biding/' + service._id)"
+            color="primary"
+            class="mr-1"
+          >
+            <v-icon medium>attach_money</v-icon>
+          </v-btn>
+        </template>
+        <span>Negociate</span>
+      </v-tooltip>
     </v-col>
-
     <v-dialog v-model="dialog_image" max-width="500px">
       <v-card>
         <v-card-title class="headline">

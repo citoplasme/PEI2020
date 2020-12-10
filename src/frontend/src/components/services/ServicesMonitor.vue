@@ -14,11 +14,18 @@
               v-bind:key="index"
             >
               <v-hover v-slot="{ hover }">
-                <v-card :class="{ 'on-hover': hover }" dark :elevation="hover ? 12 : 2" color="primary">
+                <v-card
+                  :class="{ 'on-hover': hover }"
+                  dark
+                  :elevation="hover ? 12 : 2"
+                  color="primary"
+                >
                   <v-container fluid grid-list-sm dark>
                     <v-layout class="mt-0 mb-0 mx-0" row wrap>
                       <v-flex sm3 hidden-xs-only>
-                        <v-icon class="mx-0" x-large dark>{{ stat.icon }}</v-icon>
+                        <v-icon class="mx-0" x-large dark>{{
+                          stat.icon
+                        }}</v-icon>
                       </v-flex>
                       <v-flex sm9 xs12>
                         <v-layout class="mt-0 mb-0 pa-0" row wrap>
@@ -55,7 +62,11 @@
           <v-layout class="" row wrap>
             <v-flex md6 xs12>
               <v-hover v-slot="{ hover }">
-                <v-card light :elevation="hover ? 12 : 2" :class="{ 'on-hover': hover }">
+                <v-card
+                  light
+                  :elevation="hover ? 12 : 2"
+                  :class="{ 'on-hover': hover }"
+                >
                   <v-container>
                     <v-card-title>Number of services by status</v-card-title>
                     <bar></bar>
@@ -65,7 +76,11 @@
             </v-flex>
             <v-flex md6 xs12>
               <v-hover v-slot="{ hover }">
-                <v-card light :elevation="hover ? 12 : 2" :class="{ 'on-hover': hover }">
+                <v-card
+                  light
+                  :elevation="hover ? 12 : 2"
+                  :class="{ 'on-hover': hover }"
+                >
                   <v-container>
                     <v-card-title
                       >Number of service providers by category</v-card-title
@@ -77,10 +92,15 @@
             </v-flex>
             <v-flex md6 xs12>
               <v-hover v-slot="{ hover }">
-                <v-card light :elevation="hover ? 12 : 2" :class="{ 'on-hover': hover }">
+                <v-card
+                  light
+                  :elevation="hover ? 12 : 2"
+                  :class="{ 'on-hover': hover }"
+                >
                   <v-container>
                     <v-card-title
-                      >Number of service providers by specialization</v-card-title
+                      >Number of service providers by
+                      specialization</v-card-title
                     >
                     <BarSp :type="'specializations'"></BarSp>
                   </v-container>
@@ -89,7 +109,11 @@
             </v-flex>
             <v-flex md6 xs12>
               <v-hover v-slot="{ hover }">
-                <v-card light :elevation="hover ? 12 : 2" :class="{ 'on-hover': hover }">
+                <v-card
+                  light
+                  :elevation="hover ? 12 : 2"
+                  :class="{ 'on-hover': hover }"
+                >
                   <v-container>
                     <v-card-title>Number of services by day</v-card-title>
                     <BarValor></BarValor>
@@ -186,4 +210,3 @@ export default {
   }
 };
 </script>
-
