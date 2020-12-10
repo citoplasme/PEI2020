@@ -13,85 +13,89 @@
               v-for="(stat, index) in stats"
               v-bind:key="index"
             >
-              <v-card :class="stat.bgColor" dark>
-                <v-container fluid grid-list-sm dark>
-                  <v-layout class="mt-0 mb-0 mx-0" row wrap>
-                    <v-flex sm3 hidden-xs-only>
-                      <v-icon class="mx-0" x-large dark>{{ stat.icon }}</v-icon>
-                    </v-flex>
-                    <v-flex sm9 xs12>
-                      <v-layout class="mt-0 mb-0 pa-0" row wrap>
-                        <v-flex d-flex xs12>
-                          <div class="silver--text subheading">
-                            {{ stat.title }}
-                          </div>
-                        </v-flex>
-                        <v-flex d-flex xs12 class="mx-4">
-                          <div class="silver--text display-1">
-                            {{ stat.data }}
-                          </div>
-                          &nbsp;&nbsp;
-                          <v-btn
-                            outlined
-                            class="darkgrey--text darken-1"
-                            v-if="stat.action.label.length > 0"
-                            right
-                            text
-                            small
-                            @click="go(stat.action.link)"
-                          >
-                            {{ stat.action.label }}
-                          </v-btn>
-                        </v-flex>
-                      </v-layout>
-                    </v-flex>
-                  </v-layout>
-                </v-container>
-              </v-card>
+              <v-hover v-slot="{ hover }">
+                <v-card :class="{ 'on-hover': hover }" dark :elevation="hover ? 12 : 2" color="primary">
+                  <v-container fluid grid-list-sm dark>
+                    <v-layout class="mt-0 mb-0 mx-0" row wrap>
+                      <v-flex sm3 hidden-xs-only>
+                        <v-icon class="mx-0" x-large dark>{{ stat.icon }}</v-icon>
+                      </v-flex>
+                      <v-flex sm9 xs12>
+                        <v-layout class="mt-0 mb-0 pa-0" row wrap>
+                          <v-flex d-flex xs12>
+                            <div class="silver--text subheading">
+                              {{ stat.title }}
+                            </div>
+                          </v-flex>
+                          <v-flex d-flex xs12 class="mx-4">
+                            <div class="silver--text display-1">
+                              {{ stat.data }}
+                            </div>
+                            &nbsp;&nbsp;
+                            <v-btn
+                              outlined
+                              class="darkgrey--text darken-1"
+                              v-if="stat.action.label.length > 0"
+                              right
+                              text
+                              small
+                              @click="go(stat.action.link)"
+                            >
+                              {{ stat.action.label }}
+                            </v-btn>
+                          </v-flex>
+                        </v-layout>
+                      </v-flex>
+                    </v-layout>
+                  </v-container>
+                </v-card>
+              </v-hover>
             </v-flex>
           </v-layout>
           <v-layout class="" row wrap>
             <v-flex md6 xs12>
-              <v-card light>
-                <v-container>
-                  <v-card-title>Number of services by status</v-card-title>
-                  <bar></bar>
-                </v-container>
-              </v-card>
+              <v-hover v-slot="{ hover }">
+                <v-card light :elevation="hover ? 12 : 2" :class="{ 'on-hover': hover }">
+                  <v-container>
+                    <v-card-title>Number of services by status</v-card-title>
+                    <bar></bar>
+                  </v-container>
+                </v-card>
+              </v-hover>
             </v-flex>
             <v-flex md6 xs12>
-              <v-card light>
-                <v-container>
-                  <v-card-title
-                    >Number of service providers by category</v-card-title
-                  >
-                  <BarSp :type="'categories'"></BarSp>
-                </v-container>
-              </v-card>
+              <v-hover v-slot="{ hover }">
+                <v-card light :elevation="hover ? 12 : 2" :class="{ 'on-hover': hover }">
+                  <v-container>
+                    <v-card-title
+                      >Number of service providers by category</v-card-title
+                    >
+                    <BarSp :type="'categories'"></BarSp>
+                  </v-container>
+                </v-card>
+              </v-hover>
             </v-flex>
             <v-flex md6 xs12>
-              <v-card light>
-                <v-container>
-                  <v-card-title
-                    >Number of service providers by specialization</v-card-title
-                  >
-                  <BarSp :type="'specializations'"></BarSp>
-                </v-container>
-              </v-card>
+              <v-hover v-slot="{ hover }">
+                <v-card light :elevation="hover ? 12 : 2" :class="{ 'on-hover': hover }">
+                  <v-container>
+                    <v-card-title
+                      >Number of service providers by specialization</v-card-title
+                    >
+                    <BarSp :type="'specializations'"></BarSp>
+                  </v-container>
+                </v-card>
+              </v-hover>
             </v-flex>
-          </v-layout>
-        </v-container>
-      </v-col>
-      <v-col>
-        <v-container fluid grid-list-md>
-          <v-layout class="" row wrap>
             <v-flex md6 xs12>
-              <v-card light>
-                <v-container>
-                  <v-card-title>Number of services by day</v-card-title>
-                  <BarValor></BarValor>
-                </v-container>
-              </v-card>
+              <v-hover v-slot="{ hover }">
+                <v-card light :elevation="hover ? 12 : 2" :class="{ 'on-hover': hover }">
+                  <v-container>
+                    <v-card-title>Number of services by day</v-card-title>
+                    <BarValor></BarValor>
+                  </v-container>
+                </v-card>
+              </v-hover>
             </v-flex>
           </v-layout>
         </v-container>
@@ -109,9 +113,6 @@ import BarSp from "./chart/BarSp";
 export default {
   data: () => ({
     stats: [],
-    valorizacao: [],
-    valores: [],
-    totalServices: [],
     ready: false
   }),
   components: {
@@ -158,7 +159,7 @@ export default {
           this.stats.push({
             bgColor: "primary",
             icon: "engineering",
-            title: "Service Providers",
+            title: "Service_providers",
             data: res.data.service_providers,
             action: {
               label: "",
@@ -185,3 +186,4 @@ export default {
   }
 };
 </script>
+
