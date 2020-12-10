@@ -383,6 +383,10 @@ export default {
       this.services = snapshot.data;
 
       var events = [];
+
+      // Filtrar serviços com prestadores apenas
+      snapshot.data = snapshot.data.filter(el => el.service_provider !== undefined);
+      
       snapshot.data.forEach(async element => {
         //Vai buscar o nome da empresa
         var empresa = await this.$request(
