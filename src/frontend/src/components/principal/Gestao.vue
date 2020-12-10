@@ -109,11 +109,11 @@ export default {
           ]
         },
         {
-          entidade: "Services",
+          entidade: "Monitoring",
           texto: "",
           ops: [
             {
-              label: "Monitor services",
+              label: "Monitor Servicify",
               url: "/services/monitor",
               level: [7]
             }

@@ -198,10 +198,7 @@ export default {
     },
     async getUser() {
       try {
-        var response = await this.$request(
-          "get",
-          "/users/service_providers/" + this.id
-        );
+        var response = await this.$request("get", "/users/" + this.id);
         this.user = response.data;
       } catch (e) {
         return e;

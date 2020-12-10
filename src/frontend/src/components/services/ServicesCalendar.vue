@@ -112,6 +112,16 @@
                 <span v-html="selectedEvent.details"></span>
               </v-card-text>
               <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn
+                  @click="go_single(selectedEvent.id)"
+                  depressed
+                  color="grey lighten-4"
+                  right
+                  small
+                >
+                  View details
+                </v-btn>
                 <!-- <v-btn text color="secondary" @click="selectedOpen = false">
                   Cancel
                 </v-btn> -->

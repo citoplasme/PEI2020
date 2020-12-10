@@ -130,7 +130,7 @@ export default {
         .then(res => {
           this.stats.push({
             bgColor: "primary",
-            icon: "person",
+            icon: "design_services",
             title: "Services",
             data: res.data,
             action: {
@@ -157,8 +157,8 @@ export default {
           });
           this.stats.push({
             bgColor: "primary",
-            icon: "person",
-            title: "Service_providers",
+            icon: "engineering",
+            title: "Service Providers",
             data: res.data.service_providers,
             action: {
               label: "",
@@ -167,7 +167,7 @@ export default {
           });
           this.stats.push({
             bgColor: "primary",
-            icon: "person",
+            icon: "admin_panel_settings",
             title: "Admins",
             data: res.data.admins,
             action: {
