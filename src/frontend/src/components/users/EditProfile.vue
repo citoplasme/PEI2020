@@ -227,17 +227,17 @@
             <v-icon medium>payment</v-icon>
           </v-btn>
         </template>
-        <span>Get Karma</span>
+        <span>Get Premium</span>
       </v-tooltip>
     </v-col>
 
-    <v-dialog v-model="dialog_premium" max-width="500px">
+    <v-dialog v-model="dialog_premium" max-width="800px">
       <v-card>
         <v-card-title class="headline">
-          <span class="headline">Add Karma to your account</span>
+          <span class="headline">Add Premium to your account</span>
         </v-card-title>
         <v-card-text>
-          Gib money to get karma boost
+          Add premium to your account and get account boost
         </v-card-text>
         <v-row>
           <v-col>
@@ -246,10 +246,14 @@
                 <v-list-item v-bind:key="product.product_id">
                   <v-list-item-content>
                     <v-list-item-title
-                      v-html="product.description"
+                      v-html="product.description + ' ' + product.price + '$'"
                     ></v-list-item-title>
                   </v-list-item-content>
-                  <v-btn @click="addtoCart(product)" color="primary">
+                  <v-btn
+                    @click="addtoCart(product)"
+                    color="primary"
+                    :disabled="permanentpremium"
+                  >
                     Add
                   </v-btn>
                 </v-list-item>
@@ -268,12 +272,24 @@
                 <v-list-item v-bind:key="index">
                   <v-list-item-content>
                     <v-list-item-title
-                      v-html="product.description"
+                      v-html="
+                        product.description +
+                          ' x' +
+                          product.qty +
+                          '->' +
+                          product.qty * product.price +
+                          '$'
+                      "
                     ></v-list-item-title>
                   </v-list-item-content>
+                  <v-btn @click="removeFromCart(product)" color="primary">
+                    Remove
+                  </v-btn>
                 </v-list-item>
               </template>
             </v-card-text>
+            <overline v-html="'Total Cart Value->' + this.cartValue + '$'">
+            </overline>
           </v-col>
         </v-row>
         <v-card-actions>
@@ -573,26 +589,32 @@ export default {
     dialog_locations: false,
     cart: [],
     cartValue: 0,
-    paypalDescription: "",
     dialog_premium: false,
     loaded: false,
+    permanentpremium: false,
     products: [
       {
-        product_id: "1karma",
-        price: 1,
-        description: "100 Karma",
-        qty: 0
-      },
-      {
-        product_id: "10karma",
+        product_id: "1MP",
         price: 10,
-        description: "1000 Karma",
+        description: "1 Month Premium",
         qty: 0
       },
       {
-        product_id: "100karma",
-        price: 100,
-        description: "10000 Karma",
+        product_id: "6MP",
+        price: 50,
+        description: "6 Month Premium",
+        qty: 0
+      },
+      {
+        product_id: "12MP",
+        price: 90,
+        description: "1 Year Premium",
+        qty: 0
+      },
+      {
+        product_id: "PP",
+        price: 1000,
+        description: "Permanent Premium",
         qty: 0
       }
     ],
@@ -615,16 +637,37 @@ export default {
     this.ready = true;
   },
   methods: {
+    removeFromCart: function(product) {
+      if (this.cart.includes(product)) {
+        this.cart = this.cart.filter(item => item !== product);
+      }
+      if (product.product_id == "PP") {
+        this.permanentpremium = false;
+      }
+      this.cartValue = this.cartValue - product.price * product.qty;
+      product.qty = 0;
+    },
     addtoCart: function(product) {
-      this.cart.push(product);
-      this.paypalDescription =
-        this.paypalDescription + product.description + ", ";
-      this.cartValue = this.cartValue + product.price;
+      if (this.cart.includes(product)) {
+        this.cart = this.cart.filter(item => item !== product);
+      }
+      if (product.product_id == "PP") {
+        this.clearCart();
+        this.cart.push(product);
+        this.permanentpremium = true;
+        this.cartValue = product.price;
+        product.qty = product.qty + 1;
+      } else {
+        product.qty = product.qty + 1;
+        this.cart.push(product);
+        this.cartValue = this.cartValue + product.price;
+      }
     },
     clearCart: function() {
+      this.cart.forEach(element => (element.qty = 0));
       this.cart = [];
       this.cartValue = 0;
-      this.paypalDescription = "";
+      this.permanentpremium = false;
     },
     payMethod: function() {
       const script = document.createElement("script");
@@ -632,6 +675,14 @@ export default {
         "https://www.paypal.com/sdk/js?client-id=AXBdCpb1zBJLiVZJPUCzGm8pkAXp6wtiWHO6jqTJrI0c1O40BI47_uShRPnESM6saN5R8Tiy8HUt4apZ";
       script.addEventListener("load", this.setLoaded);
       document.body.appendChild(script);
+    },
+    addToAccount: function() {
+      var produtoscomprados;
+      this.cart.forEach(
+        element =>
+          (produtoscomprados = produtoscomprados + element.description + ", ")
+      );
+      alert("Comprou premium->" + produtoscomprados);
     },
     setLoaded: function() {
       this.loaded = true;
@@ -641,7 +692,7 @@ export default {
             return actions.order.create({
               purchase_units: [
                 {
-                  description: this.paypalDescription,
+                  description: "Servicify Purchase",
                   amount: {
                     currency_code: "USD",
                     value: this.cartValue
@@ -653,7 +704,7 @@ export default {
           onApprove: async (data, actions) => {
             const order = await actions.order.capture();
             this.paidFor = true;
-            alert("Payment Sucessfull");
+            this.addToAccount();
           },
           onError: err => {}
         })
