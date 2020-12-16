@@ -22,7 +22,12 @@
           />
         </v-list-item-avatar>
         <v-list-item-content>
-          <v-list-item-title class="title">{{ user.name }}</v-list-item-title>
+          <v-list-item-title class="title">
+            {{ user.name }}
+            <v-icon v-if="user.level == 3.5 || user.level == 4" color="primary"
+              >verified_user</v-icon
+            >
+          </v-list-item-title>
           <v-list-item-subtitle>
             <a :href="`mailto:${user.email}`">
               {{ user.email }}
