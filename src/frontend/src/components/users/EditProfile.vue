@@ -256,10 +256,12 @@
                   </v-list-item-content>
                   <v-btn
                     @click="addtoCart(product)"
-                    color="primary"
                     :disabled="permanentpremium"
+                    icon
+                    large
+                    ripple
                   >
-                    Add
+                    <v-icon color="primary">add_shopping_cart</v-icon>
                   </v-btn>
                 </v-list-item>
                 <v-divider
@@ -270,8 +272,12 @@
             </v-list>
           </v-col>
           <v-col>
+            <v-card-title
+              ><v-icon x-large color="primary"
+                >shopping_basket</v-icon
+              ></v-card-title
+            >
             <v-card-text>
-              <h1>CART</h1>
               <h2 v-if="cart.length == 0">Empty Cart</h2>
               <template v-else v-for="(product, index) in this.cart">
                 <v-list-item v-bind:key="index">
@@ -279,29 +285,38 @@
                     <v-list-item-title
                       v-html="
                         product.description +
-                          ' x' +
-                          product.qty +
-                          '->' +
+                          ' - ' +
                           product.qty * product.price +
                           '$'
                       "
                     ></v-list-item-title>
                   </v-list-item-content>
-                  <v-btn @click="removeFromCart(product)" color="primary">
-                    Remove
+                  <v-btn x-small>
+                    <v-icon color="red" @click="decrementProduct(product)"
+                      >remove</v-icon
+                    >
+                  </v-btn>
+                  <span v-if="product.qty">{{ product.qty }}</span>
+                  <v-btn x-small :disabled="permanentpremium">
+                    <v-icon color="primary" @click="addtoCart(product)"
+                      >add</v-icon
+                    >
+                  </v-btn>
+                  <v-btn @click="removeFromCart(product)" icon ripple>
+                    <v-icon color="red lighten-1">delete</v-icon>
                   </v-btn>
                 </v-list-item>
               </template>
             </v-card-text>
-            <overline v-html="'Total Cart Value->' + this.cartValue + '$'">
-            </overline>
           </v-col>
         </v-row>
         <v-card-actions>
-          <v-btn @click="clearCart()" color="primary">CLEAR CART</v-btn>
+          <v-btn @click="clearCart()" large icon ripple
+            ><v-icon color="red">remove_shopping_cart</v-icon></v-btn
+          >
           <v-spacer></v-spacer>
           <v-btn v-if="cart.length > 0" color="primary" text @click="payMethod">
-            Proceed to Payment
+            Proceed to Payment {{ this.cartValue + "$" }}
           </v-btn>
           <v-btn color="red" text @click="dialog_premium = false">Cancel</v-btn>
         </v-card-actions>
@@ -599,25 +614,25 @@ export default {
     permanentpremium: false,
     products: [
       {
-        product_id: "1MP",
+        product_id: 100,
         price: 10,
         description: "1 Month Premium",
         qty: 0
       },
       {
-        product_id: "6MP",
+        product_id: 101,
         price: 50,
         description: "6 Month Premium",
         qty: 0
       },
       {
-        product_id: "12MP",
+        product_id: 102,
         price: 90,
         description: "1 Year Premium",
         qty: 0
       },
       {
-        product_id: "PP",
+        product_id: 103,
         price: 1000,
         description: "Permanent Premium",
         qty: 0
@@ -642,11 +657,20 @@ export default {
     this.ready = true;
   },
   methods: {
+    decrementProduct: function(product) {
+      product.qty -= 2;
+      this.cartValue -= product.price * 2;
+      if (product.qty >= 0) {
+        this.addtoCart(product);
+      } else {
+        this.removeFromCart(product);
+      }
+    },
     removeFromCart: function(product) {
       if (this.cart.includes(product)) {
         this.cart = this.cart.filter(item => item !== product);
       }
-      if (product.product_id == "PP") {
+      if (product.product_id == 103) {
         this.permanentpremium = false;
       }
       this.cartValue = this.cartValue - product.price * product.qty;
@@ -656,7 +680,7 @@ export default {
       if (this.cart.includes(product)) {
         this.cart = this.cart.filter(item => item !== product);
       }
-      if (product.product_id == "PP") {
+      if (product.product_id == 103) {
         this.clearCart();
         this.cart.push(product);
         this.permanentpremium = true;
@@ -666,6 +690,9 @@ export default {
         product.qty = product.qty + 1;
         this.cart.push(product);
         this.cartValue = this.cartValue + product.price;
+        this.cart = this.cart.sort(function(a, b) {
+          return a.product_id - b.product_id;
+        });
       }
     },
     clearCart: function() {
@@ -680,14 +707,6 @@ export default {
         "https://www.paypal.com/sdk/js?client-id=AXBdCpb1zBJLiVZJPUCzGm8pkAXp6wtiWHO6jqTJrI0c1O40BI47_uShRPnESM6saN5R8Tiy8HUt4apZ";
       script.addEventListener("load", this.setLoaded);
       document.body.appendChild(script);
-    },
-    addToAccount: function() {
-      var produtoscomprados;
-      this.cart.forEach(
-        element =>
-          (produtoscomprados = produtoscomprados + element.description + ", ")
-      );
-      alert("Comprou premium->" + produtoscomprados);
     },
     setLoaded: function() {
       this.loaded = true;
@@ -709,7 +728,7 @@ export default {
           onApprove: async (data, actions) => {
             const order = await actions.order.capture();
             this.paidFor = true;
-            this.addToAccount();
+            this.mudaNivel();
           },
           onError: err => {}
         })
@@ -727,6 +746,25 @@ export default {
       } catch (e) {
         return [];
       }
+    },
+    async mudaNivel() {
+      this.$request("put", "/users/" + this.user._id, {
+        nome: this.user.name,
+        email: this.user.email,
+        level: 4
+      })
+        .then(res => {
+          this.text = res.data;
+          this.color = "success";
+          this.snackbar = true;
+          this.done = true;
+        })
+        .catch(err => {
+          this.text = err.response.data;
+          this.color = "error";
+          this.snackbar = true;
+          this.done = false;
+        });
     },
     async editar_specializations() {
       let specs = this.specializations.filter(el =>
