@@ -62,7 +62,6 @@
                   </v-container>
                 </v-form>
               </v-container>
-              <small>*all fields are required</small>
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>

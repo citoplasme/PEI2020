@@ -410,7 +410,7 @@ export default {
               this.color = "success";
               this.snackbar = true;
               this.done = true;
-              this.$refs.form.reset();
+              this.$refs.formPost.reset();
             }
           );
         } catch (err) {
