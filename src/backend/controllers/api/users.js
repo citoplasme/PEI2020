@@ -161,7 +161,7 @@ Users.list_service_providers = function(filtro, callback){
     
     // console.log(JSON.stringify(filtro, null, 2))
 
-    User.find(filtro, function(err,users){
+    User.find(filtro).sort({level : 1, karma : 1}).exec(function(err,users){
         if(err){
             callback(err, null)
         }else{
