@@ -47,8 +47,20 @@ Services.criar = n => {
 // PUT
 Services.update = function(id, obj){
     id = mongoose.Types.ObjectId(id);
+    // Colocar a undefined o que nao vier no corpo do pedido e assim ao dar set atualizar para undefined os campos
+    // Nao pode usar se overwrite pq pode apagar negociação por exemplo
+    let upd = {
+        client : obj.client,
+        service_provider: obj.service_provider, 
+        urgent : obj.urgent,
+        status : obj.status,
+        date : obj.date, 
+        hour : obj.hour, 
+        duration : obj.duration, 
+        desc : obj.desc
+    };
     return Service
-        .update({_id : id}, {$set : obj})
+        .update({_id : id}, {$set : upd})
         //.update({_id : id}, obj, {overwrite : true})
         .exec()
 }
