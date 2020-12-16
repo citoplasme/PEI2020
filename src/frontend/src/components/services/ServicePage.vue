@@ -174,7 +174,7 @@
                     Object.keys(service.review.client).length >= 0
                 "
               >
-                <b>Client</b>
+                <b>Client:</b>
                 <ul>
                   <li
                     v-if="
@@ -225,7 +225,7 @@
                     Object.keys(service.review.service_provider).length >= 0
                 "
               >
-                <b>Service provider</b>
+                <b>Service provider:</b>
                 <ul>
                   <li
                     v-if="
