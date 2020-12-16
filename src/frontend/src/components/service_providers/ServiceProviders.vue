@@ -56,7 +56,7 @@
             lg="4" 
           >
             <v-card>
-              <img
+              <v-img
                 v-if="
                   item.photo !== undefined &&
                     item.photo.content !== undefined &&
@@ -69,10 +69,10 @@
                 "
                 style="width: 100%; height: 100%"
               />
-              <img
+              <v-img
                 v-else
                 style="width: 100%; height: 100%"
-                src="@/assets/default_user.png"
+                :src="require('@/assets/default_user.png')"
               />
               <v-card-title class="subheading font-weight-bold">
                 {{ item.name }}
