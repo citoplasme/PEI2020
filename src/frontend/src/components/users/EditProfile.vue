@@ -847,15 +847,19 @@ export default {
     },
     async merge_fileds() {
       try {
-        // FILTRAR ACTIVES ???
+        // Merge
         let cats = this.user.categorias.map(c => {
           return this.categories.find(obj => obj._id === c);
         });
+        // FILTRAR ACTIVES
+        cats = cats.filter(c => c.active == true);
 
-        // FILTRAR ACTIVES ???
+        // Merge
         let specs = this.user.subcategorias.map(sc => {
           return this.specializations.find(obj => obj._id === sc);
         });
+        // FILTRAR ACTIVES
+        specs = specs.filter(c => c.active == true);
 
         this.user.categorias = cats;
         this.user.subcategorias = specs;

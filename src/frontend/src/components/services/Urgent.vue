@@ -62,7 +62,6 @@
                   </v-container>
                 </v-form>
               </v-container>
-              <small>*all fields are required</small>
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
@@ -105,7 +104,7 @@
 
         <template v-slot:item="props">
           <tr>
-            <td class="subheading">{{ props.item.client }}</td>
+            <td class="subheading">{{ props.item.client.name }}</td>
             <td class="subheading">{{ props.item.desc }}</td>
             <td class="subheading">
               <v-chip :color="getColor(props.item.status)" dark>
@@ -289,10 +288,31 @@ export default {
       return color;
     },
 
+    async prepareServices(services){
+      var i = 0;
+      for(i=0;i<services.length;i++){
+        if (
+          services[i].client !== undefined &&
+          services[i].client !== "" &&
+          services[i].client !== null
+        ) {
+          var client_info = await this.$request(
+            "get",
+            "/users/" + services[i].client
+          );
+          var id = services[i].client
+          services[i].client ={
+            id: id,
+            name: client_info.data.name} ;
+        }
+      }
+      this.services=services
+    },
+
     async getServices() {
       try {
         let response = await this.$request("get", "/services/urgent");
-        this.services = response.data;
+        this.prepareServices(response.data)
         let level = await this.$userLevel(this.$store.state.token);
       } catch (e) {
         return e;
@@ -300,6 +320,7 @@ export default {
     },
     async accept(item) {
       let data = item;
+      data.client = item.client.id
       data.service_provider = this.logged;
       data.status = "1";
       try {

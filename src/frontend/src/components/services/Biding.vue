@@ -10,10 +10,10 @@
             <tr>
               <th>
                 <div v-if="this.idLoged != this.data.client">
-                  <b>Client:</b>this.clientName
+                  <b>Client:</b> {{this.clientName}}
                 </div>
                 <div v-else>
-                  <b>Service Provider:</b> this.serviceProviderName
+                  <b>Service Provider:</b> {{this.serviceProviderName}}
                 </div>
               </th>
               <th>Date: {{ this.data.date }}</th>
@@ -50,7 +50,8 @@
                   large
                 >
                   <template v-slot:icon>
-                    <span>P</span>
+                    <span v-if=" data.client == n.user"> {{clientName[0]}} </span>
+                    <span v-else> {{serviceProviderName[0]}} </span>
                   </template>
                   <v-row justify="space-between">
                     <v-col cols="7">
@@ -71,7 +72,8 @@
                   large
                 >
                   <template v-slot:icon>
-                    <span>E</span>
+                    <span v-if=" data.client == n.user"> {{clientName[0]}} </span>
+                    <span v-else> {{serviceProviderName[0]}} </span>
                   </template>
                   <v-row justify="space-between">
                     <v-col cols="7">
@@ -146,10 +148,10 @@
                 <v-card-actions>
                   <v-spacer></v-spacer>
                   <v-btn color="primary" text @click="cancelBid(true)">
-                    I Yes
+                    Yes
                   </v-btn>
                   <v-btn color="primary" text @click="cancelBid(false)">
-                    I No
+                    No
                   </v-btn>
                 </v-card-actions>
               </v-card>
@@ -180,10 +182,10 @@
                 <v-card-actions>
                   <v-spacer></v-spacer>
                   <v-btn color="primary" text @click="dialogResult(true)">
-                    I Yes
+                    Yes
                   </v-btn>
                   <v-btn color="primary" text @click="dialogResult(false)">
-                    I No
+                    No
                   </v-btn>
                 </v-card-actions>
               </v-card>
@@ -199,7 +201,8 @@
                   large
                 >
                   <template v-slot:icon>
-                    <span>P</span>
+                    <span v-if=" idLoged == data.client"> {{clientName[0]}} </span>
+                    <span v-else> {{serviceProviderName[0]}} </span>
                   </template>
                   <v-text-field
                     v-model="input"
@@ -216,7 +219,7 @@
                 </v-timeline-item>
 
                 <div v-for="n in this.data.orcamento" :key="n.id">
-                  <div v-if="n.user === idLoged">
+                  <div v-if="n.user == idLoged">
                     <v-timeline-item
                       fill-dot
                       class="mb-4"
@@ -225,7 +228,8 @@
                       large
                     >
                       <template v-slot:icon>
-                        <span>P</span>
+                        <span v-if=" data.client == n.user"> {{clientName[0]}} </span>
+                        <span v-else> {{serviceProviderName[0]}} </span>
                       </template>
                       <v-row justify="space-between">
                         <v-col cols="7">
@@ -246,7 +250,8 @@
                       large
                     >
                       <template v-slot:icon>
-                        <span>E</span>
+                        <span v-if=" data.client == n.user"> {{clientName[0]}} </span>
+                        <span v-else> {{serviceProviderName[0]}} </span>
                       </template>
                       <v-row justify="space-between">
                         <v-col cols="7">
@@ -296,10 +301,10 @@
                 <v-card-actions>
                   <v-spacer></v-spacer>
                   <v-btn color="primary" text @click="cancelBid(true)">
-                    I Yes
+                    Yes
                   </v-btn>
                   <v-btn color="primary" text @click="cancelBid(false)">
-                    I No
+                    No
                   </v-btn>
                 </v-card-actions>
               </v-card>
@@ -807,7 +812,9 @@ export default {
       attendance: 3,
       general: 3,
       comentario: ""
-    }
+    },
+    clientName : "",
+    serviceProviderName : ""
   }),
 
   async created() {
@@ -868,10 +875,20 @@ export default {
 
       this.data = res.data;
 
-      //testar datas
-      this.date_diff = this.date_difference("2020-12-09");
+      //vai buscar o nome do user e do service provider
+      var clientName = await this.$request("get", "/users/" + this.data.client);
+      clientName= clientName.data.name;
 
-      //this.date_diff = this.date_difference(res.data.date,res.data.hour);
+      var serviceProvicerName = await this.$request("get", "/users/" + this.data.service_provider);
+      serviceProvicerName= serviceProvicerName.data.name;
+
+      this.clientName = clientName;
+      this.serviceProviderName = serviceProvicerName;
+
+      //testar datas
+      //this.date_diff = this.date_difference("2020-12-09");
+
+      this.date_diff = this.date_difference(res.data.date,res.data.hour);
 
       //Vai ordenar orçamentos por data
       this.data.orcamento.sort((a, b) => (a.datetime < b.datetime ? 1 : -1));
