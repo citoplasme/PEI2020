@@ -158,7 +158,8 @@
         v-if="
           service.review !== undefined &&
             service.review !== null &&
-            (Object.keys(service.review.client).length >= 0 || Object.keys(service.review.service_provider).length >= 0)
+            (Object.keys(service.review.client).length >= 0 ||
+              Object.keys(service.review.service_provider).length >= 0)
         "
       >
         <v-col cols="2">
