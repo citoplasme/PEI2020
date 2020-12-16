@@ -6,7 +6,7 @@
       :items-per-page.sync="itemsPerPage"
       :page="page"
       :search="search"
-      :sort-by="sortBy.toLowerCase()"
+      :sort-by="key_from_sortBy(sortBy)"
       :sort-desc="sortDesc"
       hide-default-footer
     >
@@ -326,6 +326,14 @@ export default {
     }
   },
   methods: {
+    key_from_sortBy(item){
+      if(item == "Finished Services"){
+        return "servicos_realizados";
+      }
+      else {
+        return item.toLowerCase();
+      }
+    },
     go(id) {
       var url = "/users/" + id;
       if (url.startsWith("http")) {
