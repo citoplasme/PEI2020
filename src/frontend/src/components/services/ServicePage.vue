@@ -156,9 +156,9 @@
       </v-list-item>
       <v-list-item
         v-if="
-          service.review != undefined &&
+          service.review !== undefined &&
             service.review !== null &&
-            Object.keys(service.review.client).length !== 0
+            (Object.keys(service.review.client).length >= 0 || Object.keys(service.review.service_provider).length >= 0)
         "
       >
         <v-col cols="2">
@@ -169,9 +169,9 @@
             <ul>
               <li
                 v-if="
-                  service.review.client != undefined &&
+                  service.review.client !== undefined &&
                     service.review.client !== null &&
-                    Object.keys(service.review.client).length !== 0
+                    Object.keys(service.review.client).length >= 0
                 "
               >
                 <b>Client</b>
@@ -220,9 +220,9 @@
               </li>
               <li
                 v-if="
-                  service.review.service_provider != undefined &&
+                  service.review.service_provider !== undefined &&
                     service.review.service_provider !== null &&
-                    Object.keys(service.review.service_provider).length !== 0
+                    Object.keys(service.review.service_provider).length >= 0
                 "
               >
                 <b>Service provider</b>
