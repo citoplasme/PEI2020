@@ -871,7 +871,7 @@ export default {
     },
     async getCategories() {
       try {
-        var response = await this.$request("get", "/categories/");
+        var response = await this.$request("get", "/categories/?active=true");
         this.categories = response.data;
       } catch (e) {
         return e;
@@ -879,7 +879,7 @@ export default {
     },
     async getSpecializations() {
       try {
-        var response = await this.$request("get", "/specializations/");
+        var response = await this.$request("get", "/specializations/?active=true");
         this.specializations = response.data;
       } catch (e) {
         return e;
