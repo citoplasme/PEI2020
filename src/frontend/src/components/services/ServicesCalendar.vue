@@ -373,6 +373,7 @@ export default {
 
     async prepareServices(services){
       var i = 0;
+      console.log(services)
       for(i=0;i<services.length;i++){
         if (
           services[i].client !== undefined &&
@@ -384,14 +385,20 @@ export default {
             "/users/" + services[i].client
           );
           services[i].client = client_info.data.name;
-          var service_provider_info = await this.$request(
-            "get",
-            "/users/" + services[i].service_provider
-          );
-          services[i].service_provider = service_provider_info.data.name
+          if(
+            services[i].service_provider !== undefined &&
+            services[i].service_provider !== "" &&
+            services[i].service_provider !== null
+          ){
+            var service_provider_info = await this.$request(
+              "get",
+              "/users/" + services[i].service_provider
+            );
+            services[i].service_provider = service_provider_info.data.name
+            this.services.push(services[i])
+          }
         }
       }
-      this.services = services
     },
 
     async getEvents() {
@@ -404,7 +411,7 @@ export default {
 
       //Vai buscar todos os serviços em que o user/provider esteja como cliente ou prestador
       var snapshot = await this.$request("get", "/services");
-      
+
       this.prepareServices(snapshot.data);
 
       var events = [];
