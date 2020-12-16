@@ -53,11 +53,9 @@
             cols="12"
             sm="6"
             md="4"
-            lg="4"
-            class="d-flex"
-            style="flex-direction:column"
+            lg="4" 
           >
-            <v-card class="flex-grow-1">
+            <v-card>
               <img
                 v-if="
                   item.photo !== undefined &&
@@ -108,24 +106,35 @@
               </v-list>
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn
-                  color="blue darken-1"
-                  text
-                  type="submit"
-                  @click="go(item._id)"
-                >
-                  <v-icon> search </v-icon>
-                </v-btn>
-                <v-btn
-                  v-if="levelU > 0"
-                  color="blue darken-1"
-                  text
-                  type="submit"
-                  icon
-                  @click="service = item._id"
-                >
-                  <v-icon> touch_app </v-icon>
-                </v-btn>
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on }">
+                    <v-btn
+                      color="blue darken-1"
+                      text
+                      type="submit"
+                      @click="go(item._id)"
+                      v-on="on"
+                    >
+                      <v-icon> search </v-icon>
+                    </v-btn>
+                  </template>
+                  <span>See Profile</span>
+                </v-tooltip>
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on }">
+                    <v-btn
+                      v-if="levelU > 0"
+                      color="blue darken-1"
+                      text
+                      type="submit"
+                      @click="service = item._id"
+                      v-on="on"
+                    >
+                      <v-icon> touch_app </v-icon> 
+                    </v-btn>   
+                  </template>
+                  <span>Send Request</span>
+                </v-tooltip>
               </v-card-actions>
             </v-card>
           </v-col>
@@ -463,3 +472,12 @@ export default {
   }
 };
 </script>
+<style scoped>
+.flexcard {
+  display: flex;
+  flex-direction: column;
+}
+.flexcard .v-toolbar {
+  flex: 0;
+}
+</style>
