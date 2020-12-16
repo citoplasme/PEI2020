@@ -156,10 +156,10 @@
       </v-list-item>
       <v-list-item
         v-if="
-          service.review !== undefined &&
-            service.review !== null &&
-            (Object.keys(service.review.client).length >= 0 ||
-              Object.keys(service.review.service_provider).length >= 0)
+          displayed_service.review !== undefined &&
+            displayed_service.review !== null &&
+            (Object.keys(displayed_service.review.client).length >= 0 ||
+              Object.keys(displayed_service.review.service_provider).length >= 0)
         "
       >
         <v-col cols="2">
@@ -717,29 +717,14 @@ export default {
           service_provider: this.original_service.service_provider
         }
 
-        //delete this.original_service._id
-        //this.original_service.urgent = (parsedUrgent == false) ? "false" : parsedUrgent
         if (this.editedService.desc !== null){
-          console.log("Entrei no if")
-          //this.original_service.desc = this.editedService.desc;
           object_to_send.desc = this.editedService.desc
         }
-        
-        console.log("Objeto a enviar no pedido put:", object_to_send)
-        /*
-        else{
-          console.log("Entrei no else")
-          delete this.original_service.desc
-          console.log("Serviço original sem a descrição:", this.original_service)
-        }*/
-        //this.original_service.date = this.editedService.date
-        //this.original_service.hour = this.editedService.hour
-        //this.original_service.duration = this.editedService.duration
 
         await this.$request(
           "put",
           "/services/" + this.id,
-          object_to_send //this.original_service
+          object_to_send
         )
           .then(res => {
             this.text = res.data;
@@ -763,7 +748,6 @@ export default {
       }
     },
     async getNamesInBudgetFlow() {
-      console.log("1")
       for (let i = 0; i < this.displayed_service.orcamento.length; i++) {
         var user_id = this.displayed_service.orcamento[i].user;
         var proposed_by_info = await this.$request("get", "/users/" + user_id);
@@ -773,7 +757,6 @@ export default {
           name: proposed_by_info.data.name
         };
       }
-      console.log("2")
     },
     async getService(serviceId) {
       try {
