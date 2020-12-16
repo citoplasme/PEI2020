@@ -280,14 +280,20 @@ router.put('/:id', Auth.isLoggedInUser, Auth.checkLevel(1), function (req, res) 
             } 
             // If user is himself
             else if(req.user.id == req.params.id){
-                Users.atualizarMultiplosCampos(req.params.id, req.body.nome, req.body.email, req.body.level, function (err, cb) {
-                    if (err) { 
-                        //res.status(500).send(`Erro: ${err}`);
-                        res.status(500).send('It was not possible to update the user. Please verify if all the fields are filled.');
-                    } else {
-                        res.send('User updated with success.')
-                    }
-                });
+                // Do not allow levels to be higher than 4 if not admin
+                if(req.body.level > 4){
+                    res.status(500).send('You can not update your level to that value.');
+                }
+                else {
+                    Users.atualizarMultiplosCampos(req.params.id, req.body.nome, req.body.email, req.body.level, function (err, cb) {
+                        if (err) { 
+                            //res.status(500).send(`Erro: ${err}`);
+                            res.status(500).send('It was not possible to update the user. Please verify if all the fields are filled.');
+                        } else {
+                            res.send('User updated with success.')
+                        }
+                    });
+                }
             }
             else {
                 res.status(500).send('It was not possible to update the user: you cannot update an user that is not yourself.');
