@@ -1,6 +1,6 @@
 <template>
   <Loading v-if="!ready" :message="'the service'" />
-  <v-card v-else class="mx-auto" max-width="1000" tile>
+  <v-card v-else class="mx-auto my-4" max-width="1000" tile>
     <div>
       <v-system-bar height="30%" dark :color="barColor">
         <span>{{ service.status }}</span>

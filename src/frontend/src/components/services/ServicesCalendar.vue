@@ -2,6 +2,7 @@
   <!--Loading v-if="!ready" :message="'the services'" /-->
   <!--div v-else-if="calendar_view"-->
   <div v-if="calendar_view">
+    <br/>
     <div align="center">
       <v-icon color="red">format_paint</v-icon> - Canceled
       <v-icon color="#cc9900">format_paint</v-icon> - Negotiating
@@ -438,7 +439,7 @@ export default {
           name: empresa.data.name,
           details: element.desc,
           start: element.date + "T" + element.hour + ":00",
-          end: element.date,
+          end: element.date + "T" + element.hour + ":00",
           color: color
         };
         events.push(x);
