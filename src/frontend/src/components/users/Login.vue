@@ -30,13 +30,16 @@
                 type="password"
                 :rules="regraPassword"
                 required
+                @keydown.enter="loginUtilizador"
               />
             </v-form>
           </v-card-text>
           <v-card-actions>
             <v-btn color="error" type="submit" @click="cancelar">Cancel</v-btn>
             <v-spacer></v-spacer>
-            <v-btn color="primary" type="submit" @click="loginUtilizador"
+            <v-btn color="primary" type="submit"
+             @keydown.enter="loginUtilizador" 
+             @click="loginUtilizador"
               >Login</v-btn
             >
           </v-card-actions>
