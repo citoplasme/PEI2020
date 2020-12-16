@@ -78,6 +78,11 @@
               />
               <v-card-title class="subheading font-weight-bold">
                 {{ item.name }}
+                <v-icon
+                  v-if="item.level == 3.5 || item.level == 4"
+                  color="primary"
+                  >verified_user</v-icon
+                >
               </v-card-title>
 
               <v-divider></v-divider>

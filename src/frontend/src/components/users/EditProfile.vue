@@ -59,7 +59,12 @@
           </v-card>
         </v-hover>
         <v-list-item-content>
-          <v-list-item-title class="title">{{ user.name }}</v-list-item-title>
+          <v-list-item-title class="title">
+            {{ user.name }}
+            <v-icon v-if="user.level == 3.5 || user.level == 4" color="primary"
+              >verified_user</v-icon
+            >
+          </v-list-item-title>
           <v-list-item-subtitle>{{ user.email }}</v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
@@ -879,7 +884,10 @@ export default {
     },
     async getSpecializations() {
       try {
-        var response = await this.$request("get", "/specializations/?active=true");
+        var response = await this.$request(
+          "get",
+          "/specializations/?active=true"
+        );
         this.specializations = response.data;
       } catch (e) {
         return e;
