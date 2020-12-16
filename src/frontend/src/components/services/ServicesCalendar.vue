@@ -370,6 +370,30 @@ export default {
         this.$router.push(url);
       }
     },
+
+    async prepareServices(services){
+      var i = 0;
+      for(i=0;i<services.length;i++){
+        if (
+          services[i].client !== undefined &&
+          services[i].client !== "" &&
+          services[i].client !== null
+        ) {
+          var client_info = await this.$request(
+            "get",
+            "/users/" + services[i].client
+          );
+          services[i].client = client_info.data.name;
+          var service_provider_info = await this.$request(
+            "get",
+            "/users/" + services[i].service_provider
+          );
+          services[i].service_provider = service_provider_info.data.name
+        }
+      }
+      this.services = services
+    },
+
     async getEvents() {
       //Vai buscar o id do utilizador/provider
       var res = await this.$request(
@@ -380,8 +404,8 @@ export default {
 
       //Vai buscar todos os serviços em que o user/provider esteja como cliente ou prestador
       var snapshot = await this.$request("get", "/services");
-
-      this.services = snapshot.data;
+      
+      this.prepareServices(snapshot.data);
 
       var events = [];
 
@@ -433,13 +457,15 @@ export default {
             color = "black";
             break;
         }
+        var hora = parseInt(element.hour[0]+element.hour[1]);
+        var newHora= hora+1+element.hour[2]+element.hour[3]+element.hour[4];
         var x = {
           //depois temos de por isto sem ser hardcoded
           id: element._id,
           name: empresa.data.name,
           details: element.desc,
           start: element.date + "T" + element.hour + ":00",
-          end: element.date + "T" + element.hour + ":00",
+          end: element.date + "T" + newHora + ":00",
           color: color
         };
         events.push(x);
