@@ -20,6 +20,7 @@
                 type="email"
                 :rules="regraEmail"
                 required
+                @keydown.enter="loginUtilizador"
               />
               <v-text-field
                 id="password"
