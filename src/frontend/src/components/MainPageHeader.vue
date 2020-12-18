@@ -1,6 +1,6 @@
 <template>
   <v-app-bar app color="primary" dark height="64px">
-    <v-btn to="/" color="primary" depressed>
+    <v-btn to="/" color="primary" text>
       <v-img :src="require('../assets/hands.png')" width="50px" height="30px" />
     </v-btn>
     <v-toolbar-title class="headline" @click="goHome">

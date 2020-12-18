@@ -10,11 +10,13 @@
     <v-spacer></v-spacer>
 
     <div>
+    <v-btn to="/" color="primary" text>
       <v-img
         :src="require('../assets/hands.png')"
         width="110px"
         height="70px"
       />
+    </v-btn>
     </div>
 
     <v-spacer></v-spacer>

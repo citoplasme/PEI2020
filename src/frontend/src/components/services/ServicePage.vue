@@ -135,7 +135,7 @@
                   <b>Proposal value:</b>
                   {{
                     item.value
-                  }}$
+                  }}
                 </ul>
                 <ul>
                   <b>Proposal date:</b>
@@ -322,7 +322,7 @@
       <v-tooltip
         bottom
         v-if="
-          displayed_service.client.id == idLoged &&
+          (displayed_service.client.id == idLoged || displayed_service.service_provider.id == idLoged) &&
             (displayed_service.status == 'Generated' ||
               displayed_service.status == 'Negotiating')
         "
@@ -521,10 +521,10 @@ export default {
     barColor: "",
     idLoged: "",
     regraTipo: [v => !!v || "Type is required."],
-    color: "",
-    text: "",
-    snackbar: false,
-    done: false,
+    //color: "",
+    //text: "",
+    //snackbar: false,
+    //done: false,
     editedService: {
       _id: "",
       desc: "",
