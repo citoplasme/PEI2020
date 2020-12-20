@@ -53,7 +53,7 @@
             cols="12"
             sm="6"
             md="4"
-            lg="4" 
+            lg="4"
           >
             <v-card>
               <v-img
@@ -130,8 +130,8 @@
                       @click="service = item._id"
                       v-on="on"
                     >
-                      <v-icon> touch_app </v-icon> 
-                    </v-btn>   
+                      <v-icon> touch_app </v-icon>
+                    </v-btn>
                   </template>
                   <span>Send Request</span>
                 </v-tooltip>
@@ -335,11 +335,10 @@ export default {
     }
   },
   methods: {
-    key_from_sortBy(item){
-      if(item == "Finished Services"){
+    key_from_sortBy(item) {
+      if (item == "Finished Services") {
         return "servicos_realizados";
-      }
-      else {
+      } else {
         return item.toLowerCase();
       }
     },

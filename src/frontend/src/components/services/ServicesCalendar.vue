@@ -2,7 +2,7 @@
   <!--Loading v-if="!ready" :message="'the services'" /-->
   <!--div v-else-if="calendar_view"-->
   <div v-if="calendar_view">
-    <br/>
+    <br />
     <div align="center">
       <v-icon color="red">format_paint</v-icon> - Canceled
       <v-icon color="#cc9900">format_paint</v-icon> - Negotiating
@@ -371,10 +371,9 @@ export default {
       }
     },
 
-    async prepareServices(services){
+    async prepareServices(services) {
       var i = 0;
-      console.log(services)
-      for(i=0;i<services.length;i++){
+      for (i = 0; i < services.length; i++) {
         if (
           services[i].client !== undefined &&
           services[i].client !== "" &&
@@ -385,17 +384,17 @@ export default {
             "/users/" + services[i].client
           );
           services[i].client = client_info.data.name;
-          if(
+          if (
             services[i].service_provider !== undefined &&
             services[i].service_provider !== "" &&
             services[i].service_provider !== null
-          ){
+          ) {
             var service_provider_info = await this.$request(
               "get",
               "/users/" + services[i].service_provider
             );
-            services[i].service_provider = service_provider_info.data.name
-            this.services.push(services[i])
+            services[i].service_provider = service_provider_info.data.name;
+            this.services.push(services[i]);
           }
         }
       }
@@ -464,8 +463,9 @@ export default {
             color = "black";
             break;
         }
-        var hora = parseInt(element.hour[0]+element.hour[1]);
-        var newHora= hora+1+element.hour[2]+element.hour[3]+element.hour[4];
+        var hora = parseInt(element.hour[0] + element.hour[1]);
+        var newHora =
+          hora + 1 + element.hour[2] + element.hour[3] + element.hour[4];
         var x = {
           //depois temos de por isto sem ser hardcoded
           id: element._id,

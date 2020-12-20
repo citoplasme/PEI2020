@@ -288,9 +288,9 @@ export default {
       return color;
     },
 
-    async prepareServices(services){
+    async prepareServices(services) {
       var i = 0;
-      for(i=0;i<services.length;i++){
+      for (i = 0; i < services.length; i++) {
         if (
           services[i].client !== undefined &&
           services[i].client !== "" &&
@@ -300,19 +300,20 @@ export default {
             "get",
             "/users/" + services[i].client
           );
-          var id = services[i].client
-          services[i].client ={
+          var id = services[i].client;
+          services[i].client = {
             id: id,
-            name: client_info.data.name} ;
+            name: client_info.data.name
+          };
         }
       }
-      this.services=services
+      this.services = services;
     },
 
     async getServices() {
       try {
         let response = await this.$request("get", "/services/urgent");
-        this.prepareServices(response.data)
+        this.prepareServices(response.data);
         let level = await this.$userLevel(this.$store.state.token);
       } catch (e) {
         return e;
@@ -320,7 +321,7 @@ export default {
     },
     async accept(item) {
       let data = item;
-      data.client = item.client.id
+      data.client = item.client.id;
       data.service_provider = this.logged;
       data.status = "1";
       try {

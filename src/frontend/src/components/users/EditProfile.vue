@@ -527,9 +527,9 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="primary" text @click="load_locations(searchString4)"
+          <!--v-btn color="primary" text @click="load_locations(searchString4)"
             >Load Locations</v-btn
-          >
+          -->
           <v-btn color="red" text @click="dialog_locations = false"
             >Cancel</v-btn
           >
@@ -656,6 +656,12 @@ export default {
 
     this.ready = true;
   },
+  watch: {
+    searchString4: function(new_val) {
+      //alert(new_val);
+      this.load_locations(new_val);
+    }
+  },
   methods: {
     decrementProduct: function(product) {
       product.qty -= 2;
@@ -780,13 +786,19 @@ export default {
       this.dialog_categories = true;
     },
     async load_locations(paises) {
+      // Iniciar loading
       this.locs_ready = false;
       // GET Locations na BD
       this.locations = await this.get_locations(paises);
       // Converter para array de text/value
       this.newlocations = await this.preparaCampos(this.locations);
-      // Limpar selecionadas
-      this.searchString3 = [];
+      // Ficar só com ids para limpar lista
+      let possible_locs = this.newlocations.map(x => x.value);
+      // Limpar selecionadas que não estejam na lista de possibilidades
+      this.searchString3 = this.searchString3.filter(id =>
+        possible_locs.includes(id)
+      );
+      // Parar o loading
       this.locs_ready = true;
     },
     async editar_locations() {

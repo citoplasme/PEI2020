@@ -10,10 +10,10 @@
             <tr>
               <th>
                 <div v-if="this.idLoged != this.data.client">
-                  <b>Client:</b> {{this.clientName}}
+                  <b>Client:</b> {{ this.clientName }}
                 </div>
                 <div v-else>
-                  <b>Service Provider:</b> {{this.serviceProviderName}}
+                  <b>Service Provider:</b> {{ this.serviceProviderName }}
                 </div>
               </th>
               <th>Date: {{ this.data.date }}</th>
@@ -50,8 +50,10 @@
                   large
                 >
                   <template v-slot:icon>
-                    <span v-if=" data.client == n.user"> {{clientName[0]}} </span>
-                    <span v-else> {{serviceProviderName[0]}} </span>
+                    <span v-if="data.client == n.user">
+                      {{ clientName[0] }}
+                    </span>
+                    <span v-else> {{ serviceProviderName[0] }} </span>
                   </template>
                   <v-row justify="space-between">
                     <v-col cols="7">
@@ -72,8 +74,10 @@
                   large
                 >
                   <template v-slot:icon>
-                    <span v-if=" data.client == n.user"> {{clientName[0]}} </span>
-                    <span v-else> {{serviceProviderName[0]}} </span>
+                    <span v-if="data.client == n.user">
+                      {{ clientName[0] }}
+                    </span>
+                    <span v-else> {{ serviceProviderName[0] }} </span>
                   </template>
                   <v-row justify="space-between">
                     <v-col cols="7">
@@ -201,8 +205,10 @@
                   large
                 >
                   <template v-slot:icon>
-                    <span v-if=" idLoged == data.client"> {{clientName[0]}} </span>
-                    <span v-else> {{serviceProviderName[0]}} </span>
+                    <span v-if="idLoged == data.client">
+                      {{ clientName[0] }}
+                    </span>
+                    <span v-else> {{ serviceProviderName[0] }} </span>
                   </template>
                   <v-text-field
                     v-model="input"
@@ -228,8 +234,10 @@
                       large
                     >
                       <template v-slot:icon>
-                        <span v-if=" data.client == n.user"> {{clientName[0]}} </span>
-                        <span v-else> {{serviceProviderName[0]}} </span>
+                        <span v-if="data.client == n.user">
+                          {{ clientName[0] }}
+                        </span>
+                        <span v-else> {{ serviceProviderName[0] }} </span>
                       </template>
                       <v-row justify="space-between">
                         <v-col cols="7">
@@ -250,8 +258,10 @@
                       large
                     >
                       <template v-slot:icon>
-                        <span v-if=" data.client == n.user"> {{clientName[0]}} </span>
-                        <span v-else> {{serviceProviderName[0]}} </span>
+                        <span v-if="data.client == n.user">
+                          {{ clientName[0] }}
+                        </span>
+                        <span v-else> {{ serviceProviderName[0] }} </span>
                       </template>
                       <v-row justify="space-between">
                         <v-col cols="7">
@@ -813,8 +823,8 @@ export default {
       general: 3,
       comentario: ""
     },
-    clientName : "",
-    serviceProviderName : ""
+    clientName: "",
+    serviceProviderName: ""
   }),
 
   async created() {
@@ -877,10 +887,13 @@ export default {
 
       //vai buscar o nome do user e do service provider
       var clientName = await this.$request("get", "/users/" + this.data.client);
-      clientName= clientName.data.name;
+      clientName = clientName.data.name;
 
-      var serviceProvicerName = await this.$request("get", "/users/" + this.data.service_provider);
-      serviceProvicerName= serviceProvicerName.data.name;
+      var serviceProvicerName = await this.$request(
+        "get",
+        "/users/" + this.data.service_provider
+      );
+      serviceProvicerName = serviceProvicerName.data.name;
 
       this.clientName = clientName;
       this.serviceProviderName = serviceProvicerName;
@@ -888,7 +901,7 @@ export default {
       //testar datas
       //this.date_diff = this.date_difference("2020-12-09");
 
-      this.date_diff = this.date_difference(res.data.date,res.data.hour);
+      this.date_diff = this.date_difference(res.data.date, res.data.hour);
 
       //Vai ordenar orçamentos por data
       this.data.orcamento.sort((a, b) => (a.datetime < b.datetime ? 1 : -1));
