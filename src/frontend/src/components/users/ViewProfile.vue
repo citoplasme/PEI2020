@@ -24,8 +24,11 @@
         <v-list-item-content>
           <v-list-item-title class="title">
             {{ user.name }}
-            <v-icon v-if="user.level == 3.5 || user.level == 4" color="primary"
+            <v-icon v-if="user.level == 3.5" color="primary"
               >verified_user</v-icon
+            >
+            <v-icon v-else-if="user.level == 4" color="amber lighten-1"
+              >stars</v-icon
             >
           </v-list-item-title>
           <v-list-item-subtitle>

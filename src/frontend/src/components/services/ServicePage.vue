@@ -1,11 +1,11 @@
 <template>
   <Loading v-if="!ready" :message="'the service'" />
-  <v-card v-else class="mx-auto my-4" max-width="1000" tile>
-    <div>
-      <v-system-bar height="30%" dark :color="barColor">
-        <span>{{ displayed_service.status }}</span>
-      </v-system-bar>
-    </div>
+  <v-card v-else class="mx-auto my-4" tile>
+    <v-system-bar height="30%" dark :color="barColor">
+      <span style="color:white"
+        ><b>{{ displayed_service.status }}</b></span
+      >
+    </v-system-bar>
     <v-list>
       <v-list-item
         v-if="
@@ -137,26 +137,118 @@
         </v-col>
         <v-col>
           <div class="info-content">
+            <v-timeline align-top dense>
+              <v-timeline-item
+                v-for="message in displayed_service.orcamento"
+                :key="message.datetime"
+                :color="get_color(message.user.id)"
+                small
+              >
+                <div>
+                  <div class="font-weight-normal">
+                    <strong>
+                      <span
+                        class="fakea"
+                        @click="go(`/users/${message.user.id}`)"
+                      >
+                        {{ message.user.name }}
+                      </span>
+                    </strong>
+                    @{{ get_date_time(message.datetime) }}
+                  </div>
+                  <div>{{ message.value }}</div>
+                </div>
+              </v-timeline-item>
+            </v-timeline>
+          </div>
+        </v-col>
+      </v-list-item>
+      <v-list-item
+        v-if="
+          displayed_service.review.client !== undefined &&
+            displayed_service.review.client !== null &&
+            Object.keys(displayed_service.review.client).length > 0
+        "
+      >
+        <v-col cols="2">
+          <div class="info-label">Service Provider's Feedback</div>
+        </v-col>
+        <v-col>
+          <div class="info-content">
             <ul>
-              <li v-for="item in displayed_service.orcamento" :key="item._id">
-                <ul>
-                  <b>Proposal value:</b>
-                  {{
-                    item.value
-                  }}
-                </ul>
-                <ul>
-                  <b>Proposal date:</b>
-                  {{
-                    item.datetime
-                  }}
-                </ul>
-                <ul>
-                  <b>Proposal made by:</b>
-                  <span class="fakea" @click="go(`/users/${item.user.id}`)">
-                    {{ item.user.name }}
-                  </span>
-                </ul>
+              <li
+                v-if="
+                  displayed_service.review.client.ponctuality !== undefined &&
+                    displayed_service.review.client.ponctuality !== null
+                "
+              >
+                <b>Ponctuality:</b>
+                <v-rating
+                  background-color="cyan lighten-2"
+                  color="primary"
+                  half-increments
+                  length="5"
+                  readonly
+                  v-model="displayed_service.review.client.ponctuality"
+                ></v-rating>
+              </li>
+              <li
+                v-if="
+                  displayed_service.review.client.payment !== undefined &&
+                    displayed_service.review.client.payment !== null
+                "
+              >
+                <b>Payment:</b>
+                <v-rating
+                  background-color="cyan lighten-2"
+                  color="primary"
+                  half-increments
+                  length="5"
+                  readonly
+                  v-model="displayed_service.review.client.payment"
+                ></v-rating>
+              </li>
+              <li
+                v-if="
+                  displayed_service.review.client.security !== undefined &&
+                    displayed_service.review.client.security !== null
+                "
+              >
+                <b>Security:</b>
+                <v-rating
+                  background-color="cyan lighten-2"
+                  color="primary"
+                  half-increments
+                  length="5"
+                  readonly
+                  v-model="displayed_service.review.client.security"
+                ></v-rating>
+              </li>
+              <li
+                v-if="
+                  displayed_service.review.client.general !== undefined &&
+                    displayed_service.review.client.general !== null
+                "
+              >
+                <b>General:</b>
+                <v-rating
+                  background-color="cyan lighten-2"
+                  color="primary"
+                  half-increments
+                  length="5"
+                  readonly
+                  v-model="displayed_service.review.client.general"
+                ></v-rating>
+              </li>
+              <li
+                v-if="
+                  displayed_service.review.client.comentario !== undefined &&
+                    displayed_service.review.client.comentario !== null &&
+                    displayed_service.review.client.comentario !== ''
+                "
+              >
+                <b>Comment:</b>
+                {{ displayed_service.review.client.comentario }}
               </li>
             </ul>
           </div>
@@ -164,229 +256,117 @@
       </v-list-item>
       <v-list-item
         v-if="
-          displayed_service.review !== undefined &&
-            displayed_service.review !== null &&
-            (Object.keys(displayed_service.review.client).length > 0 ||
-              Object.keys(displayed_service.review.service_provider).length > 0)
+          displayed_service.review.service_provider !== undefined &&
+            displayed_service.review.service_provider !== null &&
+            Object.keys(displayed_service.review.service_provider).length > 0
         "
       >
         <v-col cols="2">
-          <div class="info-label">Review</div>
+          <div class="info-label">Client's Feedback</div>
         </v-col>
         <v-col>
           <div class="info-content">
             <ul>
               <li
                 v-if="
-                  displayed_service.review.client !== undefined &&
-                    displayed_service.review.client !== null &&
-                    Object.keys(displayed_service.review.client).length > 0
+                  displayed_service.review.service_provider.ponctuality !==
+                    undefined &&
+                    displayed_service.review.service_provider.ponctuality !==
+                      null
                 "
               >
-                <b>Client:</b>
-                <ul>
-                  <li
-                    v-if="
-                      displayed_service.review.client.ponctuality !==
-                        undefined &&
-                        displayed_service.review.client.ponctuality !== null
-                    "
-                  >
-                    <b>Ponctuality:</b>
-                    <v-rating
-                      background-color="cyan lighten-2"
-                      color="primary"
-                      half-increments
-                      length="5"
-                      readonly
-                      v-model="displayed_service.review.client.ponctuality"
-                    ></v-rating>
-                  </li>
-                  <li
-                    v-if="
-                      displayed_service.review.client.payment !== undefined &&
-                        displayed_service.review.client.payment !== null
-                    "
-                  >
-                    <b>Payment:</b>
-                    <v-rating
-                      background-color="cyan lighten-2"
-                      color="primary"
-                      half-increments
-                      length="5"
-                      readonly
-                      v-model="displayed_service.review.client.payment"
-                    ></v-rating>
-                  </li>
-                  <li
-                    v-if="
-                      displayed_service.review.client.security !== undefined &&
-                        displayed_service.review.client.security !== null
-                    "
-                  >
-                    <b>Security:</b>
-                    <v-rating
-                      background-color="cyan lighten-2"
-                      color="primary"
-                      half-increments
-                      length="5"
-                      readonly
-                      v-model="displayed_service.review.client.security"
-                    ></v-rating>
-                  </li>
-                  <li
-                    v-if="
-                      displayed_service.review.client.general !== undefined &&
-                        displayed_service.review.client.general !== null
-                    "
-                  >
-                    <b>General:</b>
-                    <v-rating
-                      background-color="cyan lighten-2"
-                      color="primary"
-                      half-increments
-                      length="5"
-                      readonly
-                      v-model="displayed_service.review.client.general"
-                    ></v-rating>
-                  </li>
-                  <li
-                    v-if="
-                      displayed_service.review.client.comentario !==
-                        undefined &&
-                        displayed_service.review.client.comentario !== null &&
-                        displayed_service.review.client.comentario !== ''
-                    "
-                  >
-                    <b>Comment:</b>
-                    {{ displayed_service.review.client.comentario }}
-                  </li>
-                </ul>
+                <b>Ponctuality:</b>
+                <v-rating
+                  background-color="cyan lighten-2"
+                  color="primary"
+                  half-increments
+                  length="5"
+                  readonly
+                  v-model="
+                    displayed_service.review.service_provider.ponctuality
+                  "
+                ></v-rating>
               </li>
               <li
                 v-if="
-                  displayed_service.review.service_provider !== undefined &&
-                    displayed_service.review.service_provider !== null &&
-                    Object.keys(displayed_service.review.service_provider)
-                      .length > 0
+                  displayed_service.review.service_provider.quality !==
+                    undefined &&
+                    displayed_service.review.service_provider.quality !== null
                 "
               >
-                <b>Service provider:</b>
-                <ul>
-                  <li
-                    v-if="
-                      displayed_service.review.service_provider.ponctuality !==
-                        undefined &&
-                        displayed_service.review.service_provider
-                          .ponctuality !== null
-                    "
-                  >
-                    <b>Ponctuality:</b>
-                    <v-rating
-                      background-color="cyan lighten-2"
-                      color="primary"
-                      half-increments
-                      length="5"
-                      readonly
-                      v-model="
-                        displayed_service.review.service_provider.ponctuality
-                      "
-                    ></v-rating>
-                  </li>
-                  <li
-                    v-if="
-                      displayed_service.review.service_provider.quality !==
-                        undefined &&
-                        displayed_service.review.service_provider.quality !==
-                          null
-                    "
-                  >
-                    <b>Quality:</b>
-                    <v-rating
-                      background-color="cyan lighten-2"
-                      color="primary"
-                      half-increments
-                      length="5"
-                      readonly
-                      v-model="
-                        displayed_service.review.service_provider.quality
-                      "
-                    ></v-rating>
-                  </li>
-                  <li
-                    v-if="
-                      displayed_service.review.service_provider.security !==
-                        undefined &&
-                        displayed_service.review.service_provider.security !==
-                          null
-                    "
-                  >
-                    <b>Security:</b>
-                    <v-rating
-                      background-color="cyan lighten-2"
-                      color="primary"
-                      half-increments
-                      length="5"
-                      readonly
-                      v-model="
-                        displayed_service.review.service_provider.security
-                      "
-                    ></v-rating>
-                  </li>
-                  <li
-                    v-if="
-                      displayed_service.review.service_provider.attendance !==
-                        undefined &&
-                        displayed_service.review.service_provider.attendance !==
-                          null
-                    "
-                  >
-                    <b>Attendance:</b>
-                    <v-rating
-                      background-color="cyan lighten-2"
-                      color="primary"
-                      half-increments
-                      length="5"
-                      readonly
-                      v-model="
-                        displayed_service.review.service_provider.attendance
-                      "
-                    ></v-rating>
-                  </li>
-                  <li
-                    v-if="
-                      displayed_service.review.service_provider.general !==
-                        undefined &&
-                        displayed_service.review.service_provider.general !==
-                          null
-                    "
-                  >
-                    <b>General:</b>
-                    <v-rating
-                      background-color="cyan lighten-2"
-                      color="primary"
-                      half-increments
-                      length="5"
-                      readonly
-                      v-model="
-                        displayed_service.review.service_provider.general
-                      "
-                    ></v-rating>
-                  </li>
-                  <li
-                    v-if="
-                      displayed_service.review.service_provider.comentario !==
-                        undefined &&
-                        displayed_service.review.service_provider.comentario !==
-                          null &&
-                        displayed_service.review.service_provider.comentario !==
-                          ''
-                    "
-                  >
-                    <b>Comment:</b>
-                    {{ displayed_service.review.service_provider.comentario }}
-                  </li>
-                </ul>
+                <b>Quality:</b>
+                <v-rating
+                  background-color="cyan lighten-2"
+                  color="primary"
+                  half-increments
+                  length="5"
+                  readonly
+                  v-model="displayed_service.review.service_provider.quality"
+                ></v-rating>
+              </li>
+              <li
+                v-if="
+                  displayed_service.review.service_provider.security !==
+                    undefined &&
+                    displayed_service.review.service_provider.security !== null
+                "
+              >
+                <b>Security:</b>
+                <v-rating
+                  background-color="cyan lighten-2"
+                  color="primary"
+                  half-increments
+                  length="5"
+                  readonly
+                  v-model="displayed_service.review.service_provider.security"
+                ></v-rating>
+              </li>
+              <li
+                v-if="
+                  displayed_service.review.service_provider.attendance !==
+                    undefined &&
+                    displayed_service.review.service_provider.attendance !==
+                      null
+                "
+              >
+                <b>Attendance:</b>
+                <v-rating
+                  background-color="cyan lighten-2"
+                  color="primary"
+                  half-increments
+                  length="5"
+                  readonly
+                  v-model="displayed_service.review.service_provider.attendance"
+                ></v-rating>
+              </li>
+              <li
+                v-if="
+                  displayed_service.review.service_provider.general !==
+                    undefined &&
+                    displayed_service.review.service_provider.general !== null
+                "
+              >
+                <b>General:</b>
+                <v-rating
+                  background-color="cyan lighten-2"
+                  color="primary"
+                  half-increments
+                  length="5"
+                  readonly
+                  v-model="displayed_service.review.service_provider.general"
+                ></v-rating>
+              </li>
+              <li
+                v-if="
+                  displayed_service.review.service_provider.comentario !==
+                    undefined &&
+                    displayed_service.review.service_provider.comentario !==
+                      null &&
+                    displayed_service.review.service_provider.comentario !== ''
+                "
+              >
+                <b>Comment:</b>
+                {{ displayed_service.review.service_provider.comentario }}
               </li>
             </ul>
           </div>
@@ -687,6 +667,13 @@ export default {
     await this.getService(this.id);
   },
   methods: {
+    get_date_time(dt) {
+      return dt.substr(11, 8) + " " + dt.substr(0, 10);
+    },
+    get_color(id) {
+      if (id == this.idLoged) return "green";
+      else return "deep-purple lighten-1";
+    },
     fecharSnackbar() {
       this.snackbar = false;
     },
@@ -908,9 +895,12 @@ export default {
   border-radius: 3px;
 }
 .info-content {
+  border-radius: 10px;
   padding: 5px;
   width: 100%;
   border: 1px solid #1a237e;
+  box-shadow: -1px 1px #77aaff, -2px 2px #77aaff, -3px 3px #77aaff,
+    -4px 4px #77aaff, -5px 5px #77aaff;
 }
 .fakea:hover {
   text-decoration: underline;

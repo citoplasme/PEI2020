@@ -76,10 +76,11 @@
               />
               <v-card-title class="subheading font-weight-bold">
                 {{ item.name }}
-                <v-icon
-                  v-if="item.level == 3.5 || item.level == 4"
-                  color="primary"
+                <v-icon v-if="item.level == 3.5" color="primary"
                   >verified_user</v-icon
+                >
+                <v-icon v-else-if="item.level == 4" color="amber lighten-1"
+                  >stars</v-icon
                 >
               </v-card-title>
 
