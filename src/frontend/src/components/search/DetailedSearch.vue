@@ -194,6 +194,20 @@
         </v-card>
       </v-col>
     </v-row>
+    <v-dialog :value="dialog_warning" persistent max-width="290px">
+      <v-card>
+        <v-card-title class="headline">Warning</v-card-title>
+        <v-card-text>
+          If tou want to search using locations, please select from the available ones based on the country or countries selected.
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="red" text @click="dialog_warning = false">
+            Close
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
     <v-snackbar
       v-model="snackbar"
       :color="color"
@@ -236,7 +250,8 @@ export default {
     snackbar: false,
     text: "",
     color: "",
-    timeout: 4000
+    timeout: 4000,
+    dialog_warning: false
   }),
   components: {
     Loading
@@ -388,12 +403,26 @@ export default {
       return new_qs;
     },
     async pesquisar() {
-      this.results_ready = false;
-      let q = this.rename_before_request(this.search);
-      //delete q.countries;
-      let query = this.filter_query_string(q);
-      await this.getServiceProviders(query);
-      this.results_ready = true;
+      // caso tenha countries e não localizações, dialog é ativado
+      if(this.search.countries !== null 
+        && this.search.countries !== undefined 
+        && this.search.countries != "" 
+        && this.search.countries != []
+        && (this.search.locations == null
+        || this.search.locations == undefined 
+        || this.search.locations == ""
+        || this.search.locations == [])){
+        this.dialog_warning = true;
+      }
+      // Tudo preenchido devidamente
+      else {
+        this.results_ready = false;
+        let q = this.rename_before_request(this.search);
+        //delete q.countries;
+        let query = this.filter_query_string(q);
+        await this.getServiceProviders(query);
+        this.results_ready = true;
+      }
     },
     preparaCabecalhos() {
       this.cabecalhos = [
