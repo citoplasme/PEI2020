@@ -194,7 +194,14 @@
                     "
                   >
                     <b>Ponctuality:</b>
-                    {{ displayed_service.review.client.ponctuality }}
+                    <v-rating
+                      background-color="cyan lighten-2"
+                      color="primary"
+                      half-increments
+                      length="5"
+                      readonly
+                      v-model="displayed_service.review.client.ponctuality"
+                    ></v-rating>
                   </li>
                   <li
                     v-if="
@@ -203,7 +210,14 @@
                     "
                   >
                     <b>Payment:</b>
-                    {{ displayed_service.review.client.payment }}
+                    <v-rating
+                      background-color="cyan lighten-2"
+                      color="primary"
+                      half-increments
+                      length="5"
+                      readonly
+                      v-model="displayed_service.review.client.payment"
+                    ></v-rating>
                   </li>
                   <li
                     v-if="
@@ -212,7 +226,14 @@
                     "
                   >
                     <b>Security:</b>
-                    {{ displayed_service.review.client.security }}
+                    <v-rating
+                      background-color="cyan lighten-2"
+                      color="primary"
+                      half-increments
+                      length="5"
+                      readonly
+                      v-model="displayed_service.review.client.security"
+                    ></v-rating>
                   </li>
                   <li
                     v-if="
@@ -221,15 +242,24 @@
                     "
                   >
                     <b>General:</b>
-                    {{ displayed_service.review.client.general }}
+                    <v-rating
+                      background-color="cyan lighten-2"
+                      color="primary"
+                      half-increments
+                      length="5"
+                      readonly
+                      v-model="displayed_service.review.client.general"
+                    ></v-rating>
                   </li>
                   <li
                     v-if="
-                      displayed_service.review.client.karma !== undefined &&
-                        displayed_service.review.client.karma !== null
+                      displayed_service.review.client.comentario !== undefined &&
+                        displayed_service.review.client.comentario !== null &&
+                        displayed_service.review.client.comentario !== ''
                     "
                   >
-                    <b>Karma:</b> {{ displayed_service.review.client.karma }}
+                    <b>Comment:</b>
+                    {{ displayed_service.review.client.comentario }}
                   </li>
                 </ul>
               </li>
@@ -252,7 +282,14 @@
                     "
                   >
                     <b>Ponctuality:</b>
-                    {{ displayed_service.review.service_provider.ponctuality }}
+                    <v-rating
+                      background-color="cyan lighten-2"
+                      color="primary"
+                      half-increments
+                      length="5"
+                      readonly
+                      v-model="displayed_service.review.service_provider.ponctuality"
+                    ></v-rating>
                   </li>
                   <li
                     v-if="
@@ -263,7 +300,14 @@
                     "
                   >
                     <b>Quality:</b>
-                    {{ displayed_service.review.service_provider.quality }}
+                    <v-rating
+                      background-color="cyan lighten-2"
+                      color="primary"
+                      half-increments
+                      length="5"
+                      readonly
+                      v-model="displayed_service.review.service_provider.quality"
+                    ></v-rating>
                   </li>
                   <li
                     v-if="
@@ -274,7 +318,14 @@
                     "
                   >
                     <b>Security:</b>
-                    {{ displayed_service.review.service_provider.security }}
+                    <v-rating
+                      background-color="cyan lighten-2"
+                      color="primary"
+                      half-increments
+                      length="5"
+                      readonly
+                      v-model="displayed_service.review.service_provider.security"
+                    ></v-rating>
                   </li>
                   <li
                     v-if="
@@ -285,7 +336,14 @@
                     "
                   >
                     <b>Attendance:</b>
-                    {{ displayed_service.review.service_provider.attendance }}
+                    <v-rating
+                      background-color="cyan lighten-2"
+                      color="primary"
+                      half-increments
+                      length="5"
+                      readonly
+                      v-model="displayed_service.review.service_provider.attendance"
+                    ></v-rating>
                   </li>
                   <li
                     v-if="
@@ -296,28 +354,27 @@
                     "
                   >
                     <b>General:</b>
-                    {{ displayed_service.review.service_provider.general }}
+                    <v-rating
+                      background-color="cyan lighten-2"
+                      color="primary"
+                      half-increments
+                      length="5"
+                      readonly
+                      v-model="displayed_service.review.service_provider.general"
+                    ></v-rating>
                   </li>
                   <li
                     v-if="
                       displayed_service.review.service_provider.comentario !==
                         undefined &&
                         displayed_service.review.service_provider.comentario !==
-                          null
+                          null && 
+                          displayed_service.review.service_provider.comentario !==
+                          ''
                     "
                   >
                     <b>Comment:</b>
                     {{ displayed_service.review.service_provider.comentario }}
-                  </li>
-                  <li
-                    v-if="
-                      displayed_service.review.service_provider.karma !==
-                        undefined &&
-                        displayed_service.review.service_provider.karma !== null
-                    "
-                  >
-                    <b>Karma:</b>
-                    {{ displayed_service.review.service_provider.karma }}
                   </li>
                 </ul>
               </li>
