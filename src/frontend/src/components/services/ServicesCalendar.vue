@@ -106,7 +106,7 @@
                 <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
                 <v-spacer></v-spacer>
                 <v-btn icon @click="go(selectedEvent.id)">
-                  <v-icon>attach_money</v-icon>
+                  <v-icon>more_horiz</v-icon>
                 </v-btn>
               </v-toolbar>
               <v-card-text>
