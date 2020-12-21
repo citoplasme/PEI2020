@@ -91,6 +91,26 @@
                 ></v-autocomplete>
               </v-col>
             </v-row>
+            <v-row>
+              <v-col cols="3">
+                <div class="info-label">Type of Service Provider</div>
+              </v-col>
+              <v-col>
+                <v-autocomplete
+                  v-model="search.level"
+                  :items="level"
+                  auto-select-first
+                  clearable
+                  dense
+                  chips
+                  rounded
+                  deletable-chips
+                  multiple
+                  label="Type"
+                  solo
+                ></v-autocomplete>
+              </v-col>
+            </v-row>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
@@ -235,12 +255,27 @@ export default {
       countries: [],
       locations: [],
       categories: [],
-      specializations: []
+      specializations: [],
+      level: []
     },
     categories: [],
     specializations: [],
     countries: [],
     locations: [],
+    level: [
+      {
+        text: "Unverified",
+        value: 3
+      },
+      {
+        text: "Verified",
+        value: 3.5
+      },
+      {
+        text: "Premium",
+        value: 4
+      }
+    ],
     results: [],
     footer_props: {
       "items-per-page-options": [10, 20, 100],
@@ -366,6 +401,7 @@ export default {
       this.search.locations = [];
       this.search.categories = [];
       this.search.specializations = [];
+      this.search.level = [];
     },
     clearResults() {
       this.results = [];
@@ -395,6 +431,7 @@ export default {
       copy.categorias = o.categories;
       copy.subcategorias = o.specializations;
       copy.locations = o.locations;
+      copy.level = o.level;
       return copy;
     },
     clean_qs(myObj) {

@@ -55,6 +55,16 @@ export default {
               url: "/services/calendar"
             }
           ]
+        },
+        {
+          entidade: "Detailed Search",
+          texto: "Search for service providers based on multiple fields",
+          ops: [
+            {
+              label: "View",
+              url: "/search"
+            }
+          ]
         }
       ]
     };

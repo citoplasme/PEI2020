@@ -136,6 +136,10 @@ Users.listar = function(req, callback){
 Users.list_service_providers = function(filtro, callback){
     filtro = filtro === undefined ? {} : filtro;
 
+    if(!filtro.level){
+        filtro.level = {$gte : 3, $lte : 4};
+    }
+    
     // Check if exists and its an array (if is one element, mongo knows what to do)
     if(filtro.categorias && filtro.categorias.length > 1){
         filtro.categorias = {
@@ -157,7 +161,7 @@ Users.list_service_providers = function(filtro, callback){
         };
     }
 
-    filtro.level = {$gte : 3, $lte : 4};
+    // filtro.level = {$gte : 3, $lte : 4};
     
     // console.log(JSON.stringify(filtro, null, 2))
 

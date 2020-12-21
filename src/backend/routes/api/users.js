@@ -302,14 +302,15 @@ router.put('/:id', Auth.isLoggedInUser, Auth.checkLevel(1), function (req, res) 
     });
 });
 
-var validKeys = ["categorias", "subcategorias", "email", "name", "locations"];
+var validKeys = ["categorias", "subcategorias", "email", "name", "locations", "level"];
 
 router.get('/service_providers', Auth.isLoggedInKey, [
     existe("query", "categorias").optional(),
     existe("query", "subcategorias").optional(),
     existe("query", "locations").optional(),
     existe("query", "email").optional(),
-    existe("query", "name").optional()
+    existe("query", "name").optional(),
+    estaEm('query', 'level', [3, 3.5, 4]).optional()
 ], (req, res) => {
 
     const errors = validationResult(req)
