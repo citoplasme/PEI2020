@@ -655,7 +655,7 @@
             ></v-textarea>
           </div>
           <div v-else>
-            <h2>Review Feita Pelo Cliente</h2>
+            <h2>Review by the client</h2>
             <div>
               <table>
                 <tr>

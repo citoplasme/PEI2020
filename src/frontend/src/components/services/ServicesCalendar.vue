@@ -4,11 +4,11 @@
   <div v-if="calendar_view">
     <br />
     <div align="center">
-      <v-icon color="red">format_paint</v-icon> - Canceled
-      <v-icon color="#cc9900">format_paint</v-icon> - Negotiating
-      <v-icon color="#cccc00">format_paint</v-icon> - Waiting Service
-      <v-icon color="green">format_paint</v-icon> - Waiting for evaluation
-      <v-icon color="blue">format_paint</v-icon> - Finalized
+      <v-icon color="red">lens</v-icon> Canceled
+      <v-icon color="#cc9900">lens</v-icon> Negotiating
+      <v-icon color="#cccc00">lens</v-icon> Waiting Service
+      <v-icon color="green">lens</v-icon> Waiting for evaluation
+      <v-icon color="blue">lens</v-icon> Finalized
     </div>
     <v-row class="ma-4; text-right">
       <v-col>

@@ -9,37 +9,6 @@
     <v-list>
       <v-list-item
         v-if="
-          displayed_service.desc !== undefined &&
-            displayed_service.desc !== null &&
-            displayed_service.desc !== ''
-        "
-      >
-        <v-col cols="2">
-          <div class="info-label">Description</div>
-        </v-col>
-        <v-col>
-          <div class="info-content">
-            <p>{{ displayed_service.desc }}</p>
-          </div>
-        </v-col>
-      </v-list-item>
-      <v-list-item
-        v-if="
-          displayed_service.urgent != undefined &&
-            displayed_service.urgent !== null
-        "
-      >
-        <v-col cols="2">
-          <div class="info-label">Urgent</div>
-        </v-col>
-        <v-col>
-          <div class="info-content">
-            <p>{{ displayed_service.urgent }}</p>
-          </div>
-        </v-col>
-      </v-list-item>
-      <v-list-item
-        v-if="
           displayed_service.client != undefined &&
             displayed_service.client !== null &&
             displayed_service.client !== ''
@@ -75,6 +44,37 @@
               @click="go(`/users/${displayed_service.service_provider.id}`)"
               >{{ displayed_service.service_provider.name }}</span
             >
+          </div>
+        </v-col>
+      </v-list-item>
+      <v-list-item
+        v-if="
+          displayed_service.desc !== undefined &&
+            displayed_service.desc !== null &&
+            displayed_service.desc !== ''
+        "
+      >
+        <v-col cols="2">
+          <div class="info-label">Description</div>
+        </v-col>
+        <v-col>
+          <div class="info-content">
+            <p>{{ displayed_service.desc }}</p>
+          </div>
+        </v-col>
+      </v-list-item>
+      <v-list-item
+        v-if="
+          displayed_service.urgent != undefined &&
+            displayed_service.urgent !== null
+        "
+      >
+        <v-col cols="2">
+          <div class="info-label">Urgent</div>
+        </v-col>
+        <v-col>
+          <div class="info-content">
+            <p>{{ displayed_service.urgent }}</p>
           </div>
         </v-col>
       </v-list-item>
@@ -166,8 +166,8 @@
         v-if="
           displayed_service.review !== undefined &&
             displayed_service.review !== null &&
-            (Object.keys(displayed_service.review.client).length >= 0 ||
-              Object.keys(displayed_service.review.service_provider).length >=
+            (Object.keys(displayed_service.review.client).length > 0 ||
+              Object.keys(displayed_service.review.service_provider).length >
                 0)
         "
       >
@@ -181,7 +181,7 @@
                 v-if="
                   displayed_service.review.client !== undefined &&
                     displayed_service.review.client !== null &&
-                    Object.keys(displayed_service.review.client).length >= 0
+                    Object.keys(displayed_service.review.client).length > 0
                 "
               >
                 <b>Client:</b>
@@ -238,7 +238,7 @@
                   displayed_service.review.service_provider !== undefined &&
                     displayed_service.review.service_provider !== null &&
                     Object.keys(displayed_service.review.service_provider)
-                      .length >= 0
+                      .length > 0
                 "
               >
                 <b>Service provider:</b>
@@ -753,7 +753,7 @@ export default {
           hour: this.editedService.hour,
           duration: this.editedService.duration,
           review: this.original_service.review,
-          status: this.original_service.status,
+          status: this.original_service.status == 0 ? "0" : this.original_service.status,
           urgent: parsedUrgent == false ? "false" : parsedUrgent,
           orcamento: this.original_service.orcamento,
           client: this.original_service.client,
