@@ -55,10 +55,40 @@
               <v-col cols="3">
                 <div class="info-label">Countries</div>
               </v-col>
+              <v-col>
+                <v-autocomplete
+                  v-model="search.countries"
+                  :items="countries"
+                  auto-select-first
+                  clearable
+                  dense
+                  chips
+                  rounded
+                  deletable-chips
+                  multiple
+                  label="Countries"
+                  solo
+                ></v-autocomplete>
+              </v-col>
             </v-row>
             <v-row>
               <v-col cols="3">
                 <div class="info-label">Locations</div>
+              </v-col>
+              <v-col>
+                <v-autocomplete
+                  v-model="search.locations"
+                  :items="locations"
+                  auto-select-first
+                  clearable
+                  dense
+                  chips
+                  rounded
+                  deletable-chips
+                  multiple
+                  label="Locations"
+                  solo
+                ></v-autocomplete>
               </v-col>
             </v-row>
           </v-card-text>
@@ -125,13 +155,13 @@
                     </v-tooltip>
                     <v-tooltip bottom v-else-if="props.item.level == 3.5">
                       <template v-slot:activator="{ on }">
-                        <v-icon color="primary" v-on="on">verified_user</v-icon>
+                        <v-icon color="green darken-1" v-on="on">verified_user</v-icon>
                       </template>
                       <span>Verified Service Provider</span>
                     </v-tooltip>
                     <v-tooltip bottom v-else>
                       <template v-slot:activator="{ on }">
-                        <v-icon color="primary" v-on="on">stars</v-icon>
+                        <v-icon color="amber lighten-1" v-on="on">stars</v-icon>
                       </template>
                       <span>Premium Service Provider</span>
                     </v-tooltip>
@@ -266,16 +296,24 @@ export default {
     async load_locations(paises) {
       // Iniciar loading
       this.overlay = true;
-      // GET Locations na BD
-      let locs = await this.get_locations(paises);
-      // Converter para array de text/value
-      this.locations = await this.preparaCampos(locs);
-      // Ficar só com ids para limpar lista
-      let possible_locs = this.locations.map(x => x.value);
-      // Limpar selecionadas que não estejam na lista de possibilidades
-      this.search.locations = this.search.locations.filter(id =>
-        possible_locs.includes(id)
-      );
+      // Caso não haja paises selecionadas
+      if (paises == [] || paises == null || paises == undefined || paises == "") {
+        this.locations = [];
+        this.search.locations = [];
+      }
+      // Caso haja paises selecionadas
+      else {
+        // GET Locations na BD
+        let locs = await this.get_locations(paises);
+        // Converter para array de text/value
+        this.locations = await this.preparaCampos(locs);
+        // Ficar só com ids para limpar lista
+        let possible_locs = this.locations.map(x => x.value);
+        // Limpar selecionadas que não estejam na lista de possibilidades
+        this.search.locations = this.search.locations.filter(id =>
+          possible_locs.includes(id)
+        );
+      }
       // Parar o loading
       this.overlay = false;
     },
@@ -403,6 +441,9 @@ export default {
 
     //let r2 = await this.$request("get", "/specializations?active=true");
     //this.specializations = await this.preparaCampos(r2.data);
+
+    let r3 = await this.$request("get", "/countries");
+    this.countries = await this.preparaCampos(r3.data);
 
     this.dataReady = true;
   }
