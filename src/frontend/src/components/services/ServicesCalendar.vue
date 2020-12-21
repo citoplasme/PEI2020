@@ -572,7 +572,7 @@ export default {
         "December"
       ];
 
-      this.$refs.calendar.title = mNames[month - 1] + ", " + year;
+      // this.$refs.calendar.title = mNames[month - 1] + ", " + year;
 
       //forca o texto a mudar
       var x = document.getElementById("changeTitle");
