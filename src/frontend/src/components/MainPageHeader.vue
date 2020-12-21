@@ -149,4 +149,8 @@ export default {
 .text {
   font-family: "Questrial", sans-serif;
 }
+.headline:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
 </style>
