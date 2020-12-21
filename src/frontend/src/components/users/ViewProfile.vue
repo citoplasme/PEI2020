@@ -276,6 +276,9 @@ export default {
   padding: 5px;
   width: 100%;
   border: 1px solid #1a237e;
+  border-radius: 10px;
+  box-shadow: -1px 1px #77aaff, -2px 2px #77aaff, -3px 3px #77aaff,
+    -4px 4px #77aaff, -5px 5px #77aaff;
 }
 .fakea:hover {
   text-decoration: underline;
