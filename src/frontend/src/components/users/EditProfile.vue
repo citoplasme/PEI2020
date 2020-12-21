@@ -788,16 +788,25 @@ export default {
     async load_locations(paises) {
       // Iniciar loading
       this.locs_ready = false;
-      // GET Locations na BD
-      this.locations = await this.get_locations(paises);
-      // Converter para array de text/value
-      this.newlocations = await this.preparaCampos(this.locations);
-      // Ficar só com ids para limpar lista
-      let possible_locs = this.newlocations.map(x => x.value);
-      // Limpar selecionadas que não estejam na lista de possibilidades
-      this.searchString3 = this.searchString3.filter(id =>
-        possible_locs.includes(id)
-      );
+      // Caso não estejam selecionados países
+      if(paises == [] || paises == null || paises == undefined || paises == ""){
+        this.locations = [];
+        this.newlocations = [];
+        this.searchString3 = [];
+      }
+      // Caso existam países selecionados
+      else {
+        // GET Locations na BD
+        this.locations = await this.get_locations(paises);
+        // Converter para array de text/value
+        this.newlocations = await this.preparaCampos(this.locations);
+        // Ficar só com ids para limpar lista
+        let possible_locs = this.newlocations.map(x => x.value);
+        // Limpar selecionadas que não estejam na lista de possibilidades
+        this.searchString3 = this.searchString3.filter(id =>
+          possible_locs.includes(id)
+        );
+      }
       // Parar o loading
       this.locs_ready = true;
     },
