@@ -47,14 +47,13 @@
         v-if="this.$store.state.name != ''"
         open-on-hover
         offset-y
-        elevation="0"
+        class="elevation-0"
       >
         <template v-slot:activator="{ on, attrs }">
-          <v-btn color="primary" dark v-bind="attrs" v-on="on">
-            <v-icon>
+          <v-btn color="primary" text v-bind="attrs" v-on="on">
+            <v-icon color="white">
               menu
             </v-icon>
-            Actions
           </v-btn>
         </template>
 
