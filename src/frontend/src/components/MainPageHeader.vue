@@ -50,7 +50,7 @@
         class="elevation-0"
       >
         <template v-slot:activator="{ on, attrs }">
-          <v-btn color="primary" text v-bind="attrs" v-on="on">
+          <v-btn text v-bind="attrs" v-on="on">
             <v-icon color="white">
               menu
             </v-icon>

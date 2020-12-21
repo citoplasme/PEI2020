@@ -20,7 +20,7 @@
               <div>
                 <v-btn
                   v-for="op in item.ops"
-                  color="red"
+                  color="primary"
                   dark
                   class="ma-2"
                   @click="go(op.url)"
@@ -49,7 +49,7 @@ export default {
   },
   data() {
     return {
-      panelHeaderColor: "red",
+      panelHeaderColor: "primary",
       operacoes: [
         {
           entidade: "Requests",

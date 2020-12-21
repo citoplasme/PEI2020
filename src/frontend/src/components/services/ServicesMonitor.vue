@@ -68,7 +68,7 @@
                   :class="{ 'on-hover': hover }"
                 >
                   <v-container>
-                    <v-card-title>Number of services by status</v-card-title>
+                    <v-card-title>Services per status</v-card-title>
                     <bar></bar>
                   </v-container>
                 </v-card>
@@ -82,9 +82,7 @@
                   :class="{ 'on-hover': hover }"
                 >
                   <v-container>
-                    <v-card-title
-                      >Number of service providers by category</v-card-title
-                    >
+                    <v-card-title>Service providers per category</v-card-title>
                     <BarSp :type="'categories'"></BarSp>
                   </v-container>
                 </v-card>
@@ -99,8 +97,7 @@
                 >
                   <v-container>
                     <v-card-title
-                      >Number of service providers by
-                      specialization</v-card-title
+                      >Service providers per specialization</v-card-title
                     >
                     <BarSp :type="'specializations'"></BarSp>
                   </v-container>
@@ -115,7 +112,7 @@
                   :class="{ 'on-hover': hover }"
                 >
                   <v-container>
-                    <v-card-title>Number of services by day</v-card-title>
+                    <v-card-title>Services per day of week</v-card-title>
                     <BarValor></BarValor>
                   </v-container>
                 </v-card>
