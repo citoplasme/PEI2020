@@ -29,7 +29,7 @@
     <v-spacer></v-spacer>
 
     <v-toolbar-title>
-      <v-btn text depressed href="https://github.com/citoplasme">Github</v-btn>
+      <v-btn text depressed href="https://github.com/citoplasme/PEI2020">Github</v-btn>
     </v-toolbar-title>
   </v-app-bar>
 </template>
