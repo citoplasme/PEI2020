@@ -29,7 +29,7 @@
                   label="Categories"
                   solo
                 ></v-autocomplete>
-            </v-col>
+              </v-col>
             </v-row>
             <v-row>
               <v-col cols="3">
@@ -79,13 +79,81 @@
     </v-row>
     <v-row>
       <v-col>
-        <v-card>
+        <Loading v-if="!results_ready" :message="'the results'" />
+        <v-card v-else>
           <v-card-title class="primary white--text" dark>
             Results
             <v-spacer></v-spacer>
+            <v-text-field
+              v-model="pesquisa"
+              append-icon="search"
+              label="Filter"
+              single-line
+              hide-details
+              dark
+            ></v-text-field>
           </v-card-title>
-          <v-card-text>  
-            <p>{{ results }}</p>
+          <v-card-text>
+            <v-data-table
+              :headers="headers"
+              :items="results"
+              :search="pesquisa"
+              class="elevation-1"
+              :footer-props="footer_props"
+              v-if="this.headers[this.cabecalhos.length - 1]"
+            >
+              <template v-slot:no-results>
+                <v-alert :value="true" color="error" icon="warning"
+                  >No results were found for "{{ pesquisa }}".</v-alert
+                >
+              </template>
+
+              <template v-slot:item="props">
+                <tr>
+                  <td class="subheading">{{ props.item.name }}</td>
+                  <td class="subheading">{{ props.item.email }}</td>
+                  <td class="subheading">{{ props.item.karma }}</td>
+                  <td class="subheading">
+                    {{ props.item.servicos_realizados }}
+                  </td>
+                  <td class="subheading">
+                    <v-tooltip bottom v-if="props.item.level <= 3">
+                      <template v-slot:activator="{ on }">
+                        <v-icon color="primary" v-on="on">person</v-icon>
+                      </template>
+                      <span>Unverified Service Provider</span>
+                    </v-tooltip>
+                    <v-tooltip bottom v-else-if="props.item.level == 3.5">
+                      <template v-slot:activator="{ on }">
+                        <v-icon color="primary" v-on="on">verified_user</v-icon>
+                      </template>
+                      <span>Verified Service Provider</span>
+                    </v-tooltip>
+                    <v-tooltip bottom v-else>
+                      <template v-slot:activator="{ on }">
+                        <v-icon color="primary" v-on="on">stars</v-icon>
+                      </template>
+                      <span>Premium Service Provider</span>
+                    </v-tooltip>
+                  </td>
+                  <td class="subheading">
+                    <v-tooltip bottom>
+                      <template v-slot:activator="{ on }">
+                        <v-btn icon v-on="on" @click="go(props.item._id)">
+                          <v-icon medium color="gray">search</v-icon>
+                        </v-btn>
+                      </template>
+                      <span>See details</span>
+                    </v-tooltip>
+                  </td>
+                </tr>
+              </template>
+
+              <template v-slot:pageText="props">
+                Results: {{ props.pageStart }} - {{ props.pageStop }} of
+                {{ props.itemsLength }}
+              </template>
+            </v-data-table>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
@@ -115,11 +183,12 @@ export default {
   data: () => ({
     dataReady: false,
     overlay: false,
+    results_ready: true,
     search: {
       countries: [],
       locations: [],
       categories: [],
-      specializations: [],
+      specializations: []
     },
     categories: [],
     specializations: [],
@@ -143,10 +212,10 @@ export default {
     Loading
   },
   watch: {
-    "search.countries" : function(new_val) {
+    "search.countries": function(new_val) {
       this.load_locations(new_val);
     },
-    "search.categories" : function(new_val) {
+    "search.categories": function(new_val) {
       this.load_specialziations(new_val);
     }
   },
@@ -155,8 +224,8 @@ export default {
     async load_specialziations(cats) {
       // Iniciar loading
       this.overlay = true;
-      // Caso não haja categories selecionadas 
-      if(cats == [] || cats == null || cats == undefined || cats == ""){
+      // Caso não haja categories selecionadas
+      if (cats == [] || cats == null || cats == undefined || cats == "") {
         this.specializations = [];
         this.search.specializations = [];
       }
@@ -241,12 +310,63 @@ export default {
       this.results = [];
       this.pesquisa = "";
     },
-    pesquisar() {
-      alert(JSON.stringify(this.search));
+    // Get response
+    async getServiceProviders(query) {
+      try {
+        let queryS = query === "" ? "" : "?" + query;
+        let response = await this.$request(
+          "get",
+          "/users/service_providers/" + queryS
+        );
+        // Crop do karma a uma casa decimal
+        let aux = response.data;
+
+        this.results = aux.map(p => {
+          p.karma = p.karma.toFixed(1);
+          return p;
+        });
+      } catch (e) {
+        return e;
+      }
+    },
+    rename_before_request(o) {
+      let copy = {};
+      copy.categorias = o.categories;
+      copy.subcategorias = o.specializations;
+      copy.locations = o.locations;
+      return copy;
+    },
+    clean_qs(myObj) {
+      Object.keys(myObj).forEach(
+        key =>
+          (myObj[key] == null || myObj[key] == [] || myObj[key] == "") &&
+          delete myObj[key]
+      );
+      return myObj;
+    },
+    filter_query_string(qs) {
+      let qs2 = this.clean_qs(qs);
+      let new_qs = querystring.stringify(qs2);
+      return new_qs;
+    },
+    async pesquisar() {
+      this.results_ready = false;
+      let q = this.rename_before_request(this.search);
+      //delete q.countries;
+      let query = this.filter_query_string(q);
+      await this.getServiceProviders(query);
+      this.results_ready = true;
     },
     preparaCabecalhos() {
-      this.cabecalhos = ["Name", "Email", "Karma", "Number of Services"];
-      this.campos = ["name", "email", "karma", "servicos_realizados"];
+      this.cabecalhos = [
+        "Name",
+        "Email",
+        "Karma",
+        "Number of Services",
+        "Type",
+        "Operations"
+      ];
+      this.campos = ["name", "email", "karma", "servicos_realizados", "level"];
       for (let i = 0; i < this.cabecalhos.length; i++) {
         this.headers[i] = {
           text: this.cabecalhos[i],
@@ -273,8 +393,7 @@ export default {
       } catch (e) {
         return [];
       }
-    },
-    
+    }
   },
   created: async function() {
     this.preparaCabecalhos();
@@ -284,7 +403,6 @@ export default {
 
     //let r2 = await this.$request("get", "/specializations?active=true");
     //this.specializations = await this.preparaCampos(r2.data);
-
 
     this.dataReady = true;
   }

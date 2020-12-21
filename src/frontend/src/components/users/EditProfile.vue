@@ -789,7 +789,12 @@ export default {
       // Iniciar loading
       this.locs_ready = false;
       // Caso não estejam selecionados países
-      if(paises == [] || paises == null || paises == undefined || paises == ""){
+      if (
+        paises == [] ||
+        paises == null ||
+        paises == undefined ||
+        paises == ""
+      ) {
         this.locations = [];
         this.newlocations = [];
         this.searchString3 = [];

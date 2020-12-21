@@ -371,7 +371,7 @@ export default {
         let aux = response.data;
 
         this.items = aux.map(p => {
-          p.karma = p.karma.toFixed(1); 
+          p.karma = p.karma.toFixed(1);
           return p;
         });
       } catch (e) {
