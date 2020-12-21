@@ -167,8 +167,7 @@
           displayed_service.review !== undefined &&
             displayed_service.review !== null &&
             (Object.keys(displayed_service.review.client).length > 0 ||
-              Object.keys(displayed_service.review.service_provider).length >
-                0)
+              Object.keys(displayed_service.review.service_provider).length > 0)
         "
       >
         <v-col cols="2">
@@ -253,7 +252,8 @@
                   </li>
                   <li
                     v-if="
-                      displayed_service.review.client.comentario !== undefined &&
+                      displayed_service.review.client.comentario !==
+                        undefined &&
                         displayed_service.review.client.comentario !== null &&
                         displayed_service.review.client.comentario !== ''
                     "
@@ -288,7 +288,9 @@
                       half-increments
                       length="5"
                       readonly
-                      v-model="displayed_service.review.service_provider.ponctuality"
+                      v-model="
+                        displayed_service.review.service_provider.ponctuality
+                      "
                     ></v-rating>
                   </li>
                   <li
@@ -306,7 +308,9 @@
                       half-increments
                       length="5"
                       readonly
-                      v-model="displayed_service.review.service_provider.quality"
+                      v-model="
+                        displayed_service.review.service_provider.quality
+                      "
                     ></v-rating>
                   </li>
                   <li
@@ -324,7 +328,9 @@
                       half-increments
                       length="5"
                       readonly
-                      v-model="displayed_service.review.service_provider.security"
+                      v-model="
+                        displayed_service.review.service_provider.security
+                      "
                     ></v-rating>
                   </li>
                   <li
@@ -342,7 +348,9 @@
                       half-increments
                       length="5"
                       readonly
-                      v-model="displayed_service.review.service_provider.attendance"
+                      v-model="
+                        displayed_service.review.service_provider.attendance
+                      "
                     ></v-rating>
                   </li>
                   <li
@@ -360,7 +368,9 @@
                       half-increments
                       length="5"
                       readonly
-                      v-model="displayed_service.review.service_provider.general"
+                      v-model="
+                        displayed_service.review.service_provider.general
+                      "
                     ></v-rating>
                   </li>
                   <li
@@ -368,8 +378,8 @@
                       displayed_service.review.service_provider.comentario !==
                         undefined &&
                         displayed_service.review.service_provider.comentario !==
-                          null && 
-                          displayed_service.review.service_provider.comentario !==
+                          null &&
+                        displayed_service.review.service_provider.comentario !==
                           ''
                     "
                   >
@@ -810,7 +820,10 @@ export default {
           hour: this.editedService.hour,
           duration: this.editedService.duration,
           review: this.original_service.review,
-          status: this.original_service.status == 0 ? "0" : this.original_service.status,
+          status:
+            this.original_service.status == 0
+              ? "0"
+              : this.original_service.status,
           urgent: parsedUrgent == false ? "false" : parsedUrgent,
           orcamento: this.original_service.orcamento,
           client: this.original_service.client,
