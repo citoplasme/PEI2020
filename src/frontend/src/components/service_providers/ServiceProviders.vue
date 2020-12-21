@@ -109,6 +109,7 @@
                 <v-tooltip bottom>
                   <template v-slot:activator="{ on }">
                     <v-btn
+                      v-if="levelU > 0"
                       color="blue darken-1"
                       text
                       type="submit"
@@ -366,7 +367,13 @@ export default {
           "get",
           "/users/service_providers/" + queryS
         );
-        this.items = response.data;
+        // Crop do karma a uma casa decimal
+        let aux = response.data;
+
+        this.items = aux.map(p => {
+          p.karma = p.karma.toFixed(1); 
+          return p;
+        });
       } catch (e) {
         return e;
       }
@@ -445,7 +452,7 @@ export default {
     },
     fecharSnackbar() {
       this.snackbar = false;
-      if (this.done == true) this.getServices();
+      //if (this.done == true) this.getServices();
     }
   },
   async created() {
