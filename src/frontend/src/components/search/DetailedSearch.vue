@@ -155,7 +155,9 @@
                     </v-tooltip>
                     <v-tooltip bottom v-else-if="props.item.level == 3.5">
                       <template v-slot:activator="{ on }">
-                        <v-icon color="green darken-1" v-on="on">verified_user</v-icon>
+                        <v-icon color="green darken-1" v-on="on"
+                          >verified_user</v-icon
+                        >
                       </template>
                       <span>Verified Service Provider</span>
                     </v-tooltip>
@@ -198,7 +200,8 @@
       <v-card>
         <v-card-title class="headline">Warning</v-card-title>
         <v-card-text>
-          If tou want to search using locations, please select from the available ones based on the country or countries selected.
+          If tou want to search using locations, please select from the
+          available ones based on the country or countries selected.
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -312,7 +315,12 @@ export default {
       // Iniciar loading
       this.overlay = true;
       // Caso não haja paises selecionadas
-      if (paises == [] || paises == null || paises == undefined || paises == "") {
+      if (
+        paises == [] ||
+        paises == null ||
+        paises == undefined ||
+        paises == ""
+      ) {
         this.locations = [];
         this.search.locations = [];
       }
@@ -404,14 +412,16 @@ export default {
     },
     async pesquisar() {
       // caso tenha countries e não localizações, dialog é ativado
-      if(this.search.countries !== null 
-        && this.search.countries !== undefined 
-        && this.search.countries != "" 
-        && this.search.countries != []
-        && (this.search.locations == null
-        || this.search.locations == undefined 
-        || this.search.locations == ""
-        || this.search.locations == [])){
+      if (
+        this.search.countries !== null &&
+        this.search.countries !== undefined &&
+        this.search.countries != "" &&
+        this.search.countries != [] &&
+        (this.search.locations == null ||
+          this.search.locations == undefined ||
+          this.search.locations == "" ||
+          this.search.locations == [])
+      ) {
         this.dialog_warning = true;
       }
       // Tudo preenchido devidamente
