@@ -82,6 +82,15 @@
                   </template>
                 </v-checkbox>
               </v-flex>
+              <v-flex>
+                <v-checkbox v-model="checkbox2">
+                  <template v-slot:label>
+                    <div>
+                      I am over 13 years old.
+                    </div>
+                  </template>
+                </v-checkbox>
+              </v-flex>
             </v-form>
           </v-card-text>
           <v-card-actions>
@@ -441,7 +450,8 @@ export default {
       timeout: 4000,
       text: "",
       tos_modal: false,
-      checkbox: false
+      checkbox: false,
+      checkbox2: false
     };
   },
 
