@@ -117,7 +117,7 @@
                       @click="go(item._id)"
                       v-on="on"
                     >
-                      <v-icon> search </v-icon>
+                      <v-icon> info </v-icon>
                     </v-btn>
                   </template>
                   <span>See Profile</span>
