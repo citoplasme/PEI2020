@@ -1,0 +1,1402 @@
+[
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d0003e9"
+    },
+    "category": "5fe1c7b2fc13ae324d000001",
+    "active": false,
+    "name": "Food Chemist"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d0003ea"
+    },
+    "category": "5fe1c7b2fc13ae324d00000a",
+    "active": true,
+    "name": "Systems Administrator III"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d0003eb"
+    },
+    "category": "5fe1c7b2fc13ae324d000003",
+    "active": true,
+    "name": "Sales Associate"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d0003ec"
+    },
+    "category": "5fe1c7b2fc13ae324d00003d",
+    "active": false,
+    "name": "Software Test Engineer IV"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d0003ed"
+    },
+    "category": "5fe1c7b2fc13ae324d00000a",
+    "active": false,
+    "name": "Account Representative II"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d0003ee"
+    },
+    "category": "5fe1c7b2fc13ae324d000005",
+    "active": true,
+    "name": "Statistician III"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d0003ef"
+    },
+    "category": "5fe1c7b2fc13ae324d000001",
+    "active": false,
+    "name": "Accounting Assistant IV"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d0003f0"
+    },
+    "category": "5fe1c7b2fc13ae324d00000a",
+    "active": true,
+    "name": "Senior Financial Analyst"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d0003f2"
+    },
+    "category": "5fe1c7b2fc13ae324d00006b",
+    "active": false,
+    "name": "Help Desk Technician"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d0003f3"
+    },
+    "category": "5fe1c7b2fc13ae324d000003",
+    "active": false,
+    "name": "VP Marketing"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d0003f5"
+    },
+    "category": "5fe1c7b2fc13ae324d000000",
+    "active": true,
+    "name": "Graphic Designer"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d0003f6"
+    },
+    "category": "5fe1c7b2fc13ae324d000008",
+    "active": false,
+    "name": "Administrative Assistant I"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d0003f9"
+    },
+    "category": "5fe1c7b2fc13ae324d000006",
+    "active": true,
+    "name": "Structural Analysis Engineer"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d0003fa"
+    },
+    "category": "5fe1c7b2fc13ae324d000003",
+    "active": true,
+    "name": "Senior Quality Engineer"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d0003fb"
+    },
+    "category": "5fe1c7b2fc13ae324d000005",
+    "active": true,
+    "name": "Staff Accountant I"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d0003fc"
+    },
+    "category": "5fe1c7b2fc13ae324d00000a",
+    "active": false,
+    "name": "General Manager"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d0003fd"
+    },
+    "category": "5fe1c7b2fc13ae324d00003d",
+    "active": false,
+    "name": "Editor"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d0003ff"
+    },
+    "category": "5fe1c7b2fc13ae324d000000",
+    "active": true,
+    "name": "Speech Pathologist"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d000400"
+    },
+    "category": "5fe1c7b2fc13ae324d00001d",
+    "active": false,
+    "name": "Budget/Accounting Analyst IV"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d000402"
+    },
+    "category": "5fe1c7b2fc13ae324d00003d",
+    "active": true,
+    "name": "Assistant Media Planner"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d000405"
+    },
+    "category": "5fe1c7b2fc13ae324d000001",
+    "active": false,
+    "name": "Engineer IV"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d000406"
+    },
+    "category": "5fe1c7b2fc13ae324d00003d",
+    "active": true,
+    "name": "Professor"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d000407"
+    },
+    "category": "5fe1c7b2fc13ae324d000001",
+    "active": false,
+    "name": "Associate Professor"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d000409"
+    },
+    "category": "5fe1c7b2fc13ae324d000001",
+    "active": true,
+    "name": "Staff Accountant II"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d00040a"
+    },
+    "category": "5fe1c7b2fc13ae324d000008",
+    "active": true,
+    "name": "Human Resources Assistant III"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d00040b"
+    },
+    "category": "5fe1c7b2fc13ae324d000003",
+    "active": true,
+    "name": "Payment Adjustment Coordinator"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d00040c"
+    },
+    "category": "5fe1c7b2fc13ae324d000003",
+    "active": false,
+    "name": "Administrative Officer"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d00040f"
+    },
+    "category": "5fe1c7b2fc13ae324d00003d",
+    "active": false,
+    "name": "Quality Control Specialist"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d000410"
+    },
+    "category": "5fe1c7b2fc13ae324d000005",
+    "active": false,
+    "name": "Director of Sales"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d000413"
+    },
+    "category": "5fe1c7b2fc13ae324d00000a",
+    "active": false,
+    "name": "Assistant Manager"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d000416"
+    },
+    "category": "5fe1c7b2fc13ae324d000001",
+    "active": false,
+    "name": "Civil Engineer"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d000417"
+    },
+    "category": "5fe1c7b2fc13ae324d000001",
+    "active": true,
+    "name": "Safety Technician III"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d000418"
+    },
+    "category": "5fe1c7b2fc13ae324d000001",
+    "active": true,
+    "name": "VP Product Management"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d000419"
+    },
+    "category": "5fe1c7b2fc13ae324d000003",
+    "active": true,
+    "name": "Analog Circuit Design manager"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d00041a"
+    },
+    "category": "5fe1c7b2fc13ae324d000001",
+    "active": true,
+    "name": "Research Nurse"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d00041b"
+    },
+    "category": "5fe1c7b2fc13ae324d000003",
+    "active": true,
+    "name": "Database Administrator III"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d00041c"
+    },
+    "category": "5fe1c7b2fc13ae324d000003",
+    "active": true,
+    "name": "Research Associate"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d00041e"
+    },
+    "category": "5fe1c7b2fc13ae324d000000",
+    "active": false,
+    "name": "Assistant Professor"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d00041f"
+    },
+    "category": "5fe1c7b2fc13ae324d000001",
+    "active": true,
+    "name": "Actuary"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d000420"
+    },
+    "category": "5fe1c7b2fc13ae324d000008",
+    "active": false,
+    "name": "Account Representative III"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d000423"
+    },
+    "category": "5fe1c7b2fc13ae324d000001",
+    "active": false,
+    "name": "Office Assistant I"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d000424"
+    },
+    "category": "5fe1c7b2fc13ae324d000008",
+    "active": false,
+    "name": "Software Engineer II"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d000426"
+    },
+    "category": "5fe1c7b2fc13ae324d000005",
+    "active": true,
+    "name": "Electrical Engineer"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d000427"
+    },
+    "category": "5fe1c7b2fc13ae324d000003",
+    "active": false,
+    "name": "Junior Executive"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d000428"
+    },
+    "category": "5fe1c7b2fc13ae324d000001",
+    "active": true,
+    "name": "Account Coordinator"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d000429"
+    },
+    "category": "5fe1c7b2fc13ae324d000003",
+    "active": false,
+    "name": "Programmer Analyst I"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d00042a"
+    },
+    "category": "5fe1c7b2fc13ae324d000000",
+    "active": true,
+    "name": "Engineer II"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d00042c"
+    },
+    "category": "5fe1c7b2fc13ae324d000005",
+    "active": true,
+    "name": "Recruiter"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d00042d"
+    },
+    "category": "5fe1c7b2fc13ae324d00000a",
+    "active": true,
+    "name": "Nurse Practicioner"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d00042e"
+    },
+    "category": "5fe1c7b2fc13ae324d000003",
+    "active": false,
+    "name": "Marketing Assistant"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d000432"
+    },
+    "category": "5fe1c7b2fc13ae324d000005",
+    "active": false,
+    "name": "Product Engineer"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d000433"
+    },
+    "category": "5fe1c7b2fc13ae324d000005",
+    "active": true,
+    "name": "Staff Scientist"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d000434"
+    },
+    "category": "5fe1c7b2fc13ae324d000003",
+    "active": false,
+    "name": "Business Systems Development Analyst"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d000436"
+    },
+    "category": "5fe1c7b2fc13ae324d000006",
+    "active": false,
+    "name": "VP Sales"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d000438"
+    },
+    "category": "5fe1c7b2fc13ae324d000001",
+    "active": true,
+    "name": "Office Assistant III"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d000439"
+    },
+    "category": "5fe1c7b2fc13ae324d000005",
+    "active": false,
+    "name": "Senior Editor"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d00043b"
+    },
+    "category": "5fe1c7b2fc13ae324d000003",
+    "active": true,
+    "name": "Analyst Programmer"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d00043c"
+    },
+    "category": "5fe1c7b2fc13ae324d000001",
+    "active": false,
+    "name": "Developer II"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d00043d"
+    },
+    "category": "5fe1c7b2fc13ae324d000005",
+    "active": false,
+    "name": "Compensation Analyst"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d000440"
+    },
+    "category": "5fe1c7b2fc13ae324d000003",
+    "active": false,
+    "name": "Design Engineer"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d000441"
+    },
+    "category": "5fe1c7b2fc13ae324d000005",
+    "active": false,
+    "name": "Administrative Assistant II"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d000442"
+    },
+    "category": "5fe1c7b2fc13ae324d00003d",
+    "active": false,
+    "name": "Media Manager I"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d000443"
+    },
+    "category": "5fe1c7b2fc13ae324d000005",
+    "active": true,
+    "name": "Software Consultant"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d000444"
+    },
+    "category": "5fe1c7b2fc13ae324d000001",
+    "active": true,
+    "name": "Biostatistician II"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d000446"
+    },
+    "category": "5fe1c7b2fc13ae324d000001",
+    "active": true,
+    "name": "Developer III"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d000448"
+    },
+    "category": "5fe1c7b2fc13ae324d000003",
+    "active": false,
+    "name": "Desktop Support Technician"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d000449"
+    },
+    "category": "5fe1c7b2fc13ae324d00000a",
+    "active": true,
+    "name": "Senior Cost Accountant"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d00044a"
+    },
+    "category": "5fe1c7b2fc13ae324d00003d",
+    "active": false,
+    "name": "Web Developer II"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d00044b"
+    },
+    "category": "5fe1c7b2fc13ae324d000003",
+    "active": true,
+    "name": "Human Resources Assistant II"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d00044d"
+    },
+    "category": "5fe1c7b2fc13ae324d000003",
+    "active": false,
+    "name": "Programmer I"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d00044f"
+    },
+    "category": "5fe1c7b2fc13ae324d000000",
+    "active": true,
+    "name": "Financial Advisor"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d000450"
+    },
+    "category": "5fe1c7b2fc13ae324d000008",
+    "active": true,
+    "name": "Internal Auditor"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d000451"
+    },
+    "category": "5fe1c7b2fc13ae324d000005",
+    "active": false,
+    "name": "Accounting Assistant III"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d000452"
+    },
+    "category": "5fe1c7b2fc13ae324d000003",
+    "active": true,
+    "name": "Data Coordiator"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d000453"
+    },
+    "category": "5fe1c7b2fc13ae324d000006",
+    "active": false,
+    "name": "Cost Accountant"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d000455"
+    },
+    "category": "5fe1c7b2fc13ae324d000005",
+    "active": false,
+    "name": "Computer Systems Analyst II"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d000456"
+    },
+    "category": "5fe1c7b2fc13ae324d00000a",
+    "active": false,
+    "name": "Tax Accountant"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d000457"
+    },
+    "category": "5fe1c7b2fc13ae324d000003",
+    "active": true,
+    "name": "Account Executive"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d000459"
+    },
+    "category": "5fe1c7b2fc13ae324d000006",
+    "active": false,
+    "name": "Systems Administrator I"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d00045e"
+    },
+    "category": "5fe1c7b2fc13ae324d00000a",
+    "active": true,
+    "name": "Programmer Analyst II"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d000467"
+    },
+    "category": "5fe1c7b2fc13ae324d000001",
+    "active": false,
+    "name": "Account Representative I"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d00046a"
+    },
+    "category": "5fe1c7b2fc13ae324d000001",
+    "active": true,
+    "name": "Chief Design Engineer"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d00046e"
+    },
+    "category": "5fe1c7b2fc13ae324d000003",
+    "active": true,
+    "name": "Information Systems Manager"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d00046f"
+    },
+    "category": "5fe1c7b2fc13ae324d000000",
+    "active": true,
+    "name": "Engineer I"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d000472"
+    },
+    "category": "5fe1c7b2fc13ae324d000009",
+    "active": true,
+    "name": "Physical Therapy Assistant"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d000476"
+    },
+    "category": "5fe1c7b2fc13ae324d000001",
+    "active": true,
+    "name": "Structural Engineer"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d00047b"
+    },
+    "category": "5fe1c7b2fc13ae324d00003d",
+    "active": true,
+    "name": "Financial Analyst"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d00047d"
+    },
+    "category": "5fe1c7b2fc13ae324d000008",
+    "active": true,
+    "name": "Technical Writer"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fbfc13ae324d000482"
+    },
+    "category": "5fe1c7b2fc13ae324d000003",
+    "active": true,
+    "name": "Marketing Manager"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d000484"
+    },
+    "category": "5fe1c7b2fc13ae324d00000a",
+    "active": false,
+    "name": "Programmer Analyst III"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d000485"
+    },
+    "category": "5fe1c7b2fc13ae324d000005",
+    "active": false,
+    "name": "Occupational Therapist"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d00048c"
+    },
+    "category": "5fe1c7b2fc13ae324d000003",
+    "active": false,
+    "name": "Geologist III"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d000492"
+    },
+    "category": "5fe1c7b2fc13ae324d000003",
+    "active": true,
+    "name": "Web Developer IV"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d000495"
+    },
+    "category": "5fe1c7b2fc13ae324d000000",
+    "active": true,
+    "name": "Software Engineer IV"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d000498"
+    },
+    "category": "5fe1c7b2fc13ae324d000005",
+    "active": false,
+    "name": "Accountant IV"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d0004a0"
+    },
+    "category": "5fe1c7b2fc13ae324d000009",
+    "active": false,
+    "name": "Geological Engineer"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d0004a4"
+    },
+    "category": "5fe1c7b2fc13ae324d000001",
+    "active": false,
+    "name": "Dental Hygienist"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d0004a5"
+    },
+    "category": "5fe1c7b2fc13ae324d000000",
+    "active": false,
+    "name": "Software Test Engineer III"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d0004a7"
+    },
+    "category": "5fe1c7b2fc13ae324d000005",
+    "active": false,
+    "name": "Administrative Assistant III"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d0004a9"
+    },
+    "category": "5fe1c7b2fc13ae324d000009",
+    "active": true,
+    "name": "Biostatistician III"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d0004b1"
+    },
+    "category": "5fe1c7b2fc13ae324d000005",
+    "active": false,
+    "name": "Media Manager III"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d0004b5"
+    },
+    "category": "5fe1c7b2fc13ae324d000003",
+    "active": true,
+    "name": "Mechanical Systems Engineer"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d0004b9"
+    },
+    "category": "5fe1c7b2fc13ae324d000001",
+    "active": true,
+    "name": "Health Coach II"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d0004be"
+    },
+    "category": "5fe1c7b2fc13ae324d000003",
+    "active": false,
+    "name": "Sales Representative"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d0004bf"
+    },
+    "category": "5fe1c7b2fc13ae324d000008",
+    "active": false,
+    "name": "Social Worker"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d0004c5"
+    },
+    "category": "5fe1c7b2fc13ae324d00000a",
+    "active": false,
+    "name": "Pharmacist"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d0004d1"
+    },
+    "category": "5fe1c7b2fc13ae324d000001",
+    "active": false,
+    "name": "Nuclear Power Engineer"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d0004d2"
+    },
+    "category": "5fe1c7b2fc13ae324d00000a",
+    "active": false,
+    "name": "Senior Sales Associate"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d0004d3"
+    },
+    "category": "5fe1c7b2fc13ae324d00000a",
+    "active": true,
+    "name": "Nurse"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d0004d4"
+    },
+    "category": "5fe1c7b2fc13ae324d000005",
+    "active": true,
+    "name": "Paralegal"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d0004d9"
+    },
+    "category": "5fe1c7b2fc13ae324d000003",
+    "active": true,
+    "name": "Biostatistician I"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d0004df"
+    },
+    "category": "5fe1c7b2fc13ae324d000001",
+    "active": false,
+    "name": "Librarian"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d0004e1"
+    },
+    "category": "5fe1c7b2fc13ae324d00003d",
+    "active": false,
+    "name": "Health Coach IV"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d0004e5"
+    },
+    "category": "5fe1c7b2fc13ae324d00001d",
+    "active": false,
+    "name": "Environmental Specialist"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d0004ea"
+    },
+    "category": "5fe1c7b2fc13ae324d000001",
+    "active": true,
+    "name": "Legal Assistant"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d0004f2"
+    },
+    "category": "5fe1c7b2fc13ae324d00001d",
+    "active": false,
+    "name": "Accounting Assistant II"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d0004f3"
+    },
+    "category": "5fe1c7b2fc13ae324d00001d",
+    "active": false,
+    "name": "Quality Engineer"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d0004f7"
+    },
+    "category": "5fe1c7b2fc13ae324d000001",
+    "active": false,
+    "name": "Community Outreach Specialist"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d0004fc"
+    },
+    "category": "5fe1c7b2fc13ae324d000003",
+    "active": false,
+    "name": "Senior Developer"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d000502"
+    },
+    "category": "5fe1c7b2fc13ae324d00003d",
+    "active": true,
+    "name": "Engineer III"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d000505"
+    },
+    "category": "5fe1c7b2fc13ae324d000003",
+    "active": true,
+    "name": "Safety Technician I"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d000508"
+    },
+    "category": "5fe1c7b2fc13ae324d000006",
+    "active": false,
+    "name": "Research Assistant II"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d00050b"
+    },
+    "category": "5fe1c7b2fc13ae324d000003",
+    "active": true,
+    "name": "Programmer II"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d00050d"
+    },
+    "category": "5fe1c7b2fc13ae324d000009",
+    "active": false,
+    "name": "VP Accounting"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d000511"
+    },
+    "category": "5fe1c7b2fc13ae324d00000a",
+    "active": false,
+    "name": "Accounting Assistant I"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d000524"
+    },
+    "category": "5fe1c7b2fc13ae324d000005",
+    "active": true,
+    "name": "Database Administrator I"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d000527"
+    },
+    "category": "5fe1c7b2fc13ae324d000003",
+    "active": true,
+    "name": "Developer I"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d00052a"
+    },
+    "category": "5fe1c7b2fc13ae324d000001",
+    "active": true,
+    "name": "Executive Secretary"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d000534"
+    },
+    "category": "5fe1c7b2fc13ae324d000003",
+    "active": true,
+    "name": "Registered Nurse"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d000542"
+    },
+    "category": "5fe1c7b2fc13ae324d000001",
+    "active": false,
+    "name": "Staff Accountant IV"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d000545"
+    },
+    "category": "5fe1c7b2fc13ae324d000005",
+    "active": true,
+    "name": "Automation Specialist III"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d000546"
+    },
+    "category": "5fe1c7b2fc13ae324d000006",
+    "active": false,
+    "name": "Systems Administrator IV"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d00054e"
+    },
+    "category": "5fe1c7b2fc13ae324d000001",
+    "active": true,
+    "name": "Office Assistant IV"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d00054f"
+    },
+    "category": "5fe1c7b2fc13ae324d000008",
+    "active": false,
+    "name": "Environmental Tech"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d000559"
+    },
+    "category": "5fe1c7b2fc13ae324d000003",
+    "active": false,
+    "name": "Automation Specialist IV"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d00055b"
+    },
+    "category": "5fe1c7b2fc13ae324d00000a",
+    "active": true,
+    "name": "Statistician II"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d000563"
+    },
+    "category": "5fe1c7b2fc13ae324d000003",
+    "active": true,
+    "name": "Programmer Analyst IV"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d000564"
+    },
+    "category": "5fe1c7b2fc13ae324d000006",
+    "active": false,
+    "name": "Geologist IV"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d000569"
+    },
+    "category": "5fe1c7b2fc13ae324d000001",
+    "active": true,
+    "name": "Teacher"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d00056a"
+    },
+    "category": "5fe1c7b2fc13ae324d00001d",
+    "active": false,
+    "name": "Web Designer III"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d000585"
+    },
+    "category": "5fe1c7b2fc13ae324d000006",
+    "active": false,
+    "name": "GIS Technical Architect"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d00058c"
+    },
+    "category": "5fe1c7b2fc13ae324d00001d",
+    "active": true,
+    "name": "Biostatistician IV"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d000593"
+    },
+    "category": "5fe1c7b2fc13ae324d000005",
+    "active": true,
+    "name": "Human Resources Manager"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d0005a2"
+    },
+    "category": "5fe1c7b2fc13ae324d000009",
+    "active": true,
+    "name": "Safety Technician II"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d0005a7"
+    },
+    "category": "5fe1c7b2fc13ae324d000008",
+    "active": false,
+    "name": "Web Developer III"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d0005ac"
+    },
+    "category": "5fe1c7b2fc13ae324d000001",
+    "active": false,
+    "name": "Help Desk Operator"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d0005ad"
+    },
+    "category": "5fe1c7b2fc13ae324d000006",
+    "active": true,
+    "name": "Database Administrator IV"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d0005bf"
+    },
+    "category": "5fe1c7b2fc13ae324d00000a",
+    "active": true,
+    "name": "VP Quality Control"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d0005c0"
+    },
+    "category": "5fe1c7b2fc13ae324d000009",
+    "active": true,
+    "name": "Computer Systems Analyst III"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d0005c8"
+    },
+    "category": "5fe1c7b2fc13ae324d000001",
+    "active": true,
+    "name": "Chemical Engineer"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d0005ca"
+    },
+    "category": "5fe1c7b2fc13ae324d000008",
+    "active": true,
+    "name": "Programmer III"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d0005cb"
+    },
+    "category": "5fe1c7b2fc13ae324d000003",
+    "active": true,
+    "name": "Recruiting Manager"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d0005ee"
+    },
+    "category": "5fe1c7b2fc13ae324d00006b",
+    "active": false,
+    "name": "Clinical Specialist"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d0005f4"
+    },
+    "category": "5fe1c7b2fc13ae324d00006b",
+    "active": false,
+    "name": "Project Manager"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d000606"
+    },
+    "category": "5fe1c7b2fc13ae324d000003",
+    "active": false,
+    "name": "Geologist I"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d00062d"
+    },
+    "category": "5fe1c7b2fc13ae324d000001",
+    "active": true,
+    "name": "Web Developer I"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d00062f"
+    },
+    "category": "5fe1c7b2fc13ae324d000009",
+    "active": true,
+    "name": "Software Test Engineer II"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d000630"
+    },
+    "category": "5fe1c7b2fc13ae324d000001",
+    "active": false,
+    "name": "Automation Specialist I"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d000634"
+    },
+    "category": "5fe1c7b2fc13ae324d000006",
+    "active": true,
+    "name": "Research Assistant IV"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d000638"
+    },
+    "category": "5fe1c7b2fc13ae324d000001",
+    "active": false,
+    "name": "Office Assistant II"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d000650"
+    },
+    "category": "5fe1c7b2fc13ae324d000006",
+    "active": true,
+    "name": "Media Manager II"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d000663"
+    },
+    "category": "5fe1c7b2fc13ae324d000018",
+    "active": true,
+    "name": "Automation Specialist II"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d000666"
+    },
+    "category": "5fe1c7b2fc13ae324d000005",
+    "active": true,
+    "name": "Computer Systems Analyst IV"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d00066a"
+    },
+    "category": "5fe1c7b2fc13ae324d000000",
+    "active": true,
+    "name": "Budget/Accounting Analyst III"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d00066c"
+    },
+    "category": "5fe1c7b2fc13ae324d000009",
+    "active": false,
+    "name": "Research Assistant III"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d00067d"
+    },
+    "category": "5fe1c7b2fc13ae324d00000a",
+    "active": true,
+    "name": "Software Engineer III"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d0006c0"
+    },
+    "category": "5fe1c7b2fc13ae324d000003",
+    "active": false,
+    "name": "Health Coach I"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d0006fa"
+    },
+    "category": "5fe1c7b2fc13ae324d000009",
+    "active": false,
+    "name": "Operator"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d000716"
+    },
+    "category": "5fe1c7b2fc13ae324d000001",
+    "active": false,
+    "name": "Web Designer I"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d000723"
+    },
+    "category": "5fe1c7b2fc13ae324d00000a",
+    "active": true,
+    "name": "Developer IV"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d000777"
+    },
+    "category": "5fe1c7b2fc13ae324d000005",
+    "active": true,
+    "name": "Accountant I"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d00077a"
+    },
+    "category": "5fe1c7b2fc13ae324d000001",
+    "active": true,
+    "name": "Accountant II"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d00078d"
+    },
+    "category": "5fe1c7b2fc13ae324d000001",
+    "active": false,
+    "name": "Web Designer IV"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d0007aa"
+    },
+    "category": "5fe1c7b2fc13ae324d00000a",
+    "active": false,
+    "name": "Computer Systems Analyst I"
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7fcfc13ae324d0007ad"
+    },
+    "category": "5fe1c7b2fc13ae324d00003d",
+    "active": false,
+    "name": "Accountant III"
+  }
+]

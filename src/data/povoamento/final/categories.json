@@ -1,0 +1,86 @@
+[
+  {
+    "_id": {
+      "$oid": "5fe1c7b2fc13ae324d000000"
+    },
+    "name": "Capital Goods",
+    "active": false
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7b2fc13ae324d000001"
+    },
+    "name": "Consumer Services",
+    "active": true
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7b2fc13ae324d000003"
+    },
+    "name": "Finance",
+    "active": false
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7b2fc13ae324d000005"
+    },
+    "name": "Health Care",
+    "active": true
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7b2fc13ae324d000006"
+    },
+    "name": "Consumer Non-Durables",
+    "active": true
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7b2fc13ae324d000008"
+    },
+    "name": "Energy",
+    "active": true
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7b2fc13ae324d000009"
+    },
+    "name": "Basic Industries",
+    "active": false
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7b2fc13ae324d00000a"
+    },
+    "name": "Technology",
+    "active": true
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7b2fc13ae324d000018"
+    },
+    "name": "Consumer Durables",
+    "active": false
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7b2fc13ae324d00001d"
+    },
+    "name": "Miscellaneous",
+    "active": false
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7b2fc13ae324d00003d"
+    },
+    "name": "Public Utilities",
+    "active": true
+  },
+  {
+    "_id": {
+      "$oid": "5fe1c7b2fc13ae324d00006b"
+    },
+    "name": "Transportation",
+    "active": false
+  }
+]

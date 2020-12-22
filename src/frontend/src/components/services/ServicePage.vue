@@ -846,12 +846,18 @@ export default {
     async getNamesInBudgetFlow() {
       for (let i = 0; i < this.displayed_service.orcamento.length; i++) {
         var user_id = this.displayed_service.orcamento[i].user;
-        var proposed_by_info = await this.$request("get", "/users/" + user_id);
 
-        this.displayed_service.orcamento[i].user = {
-          id: user_id,
-          name: proposed_by_info.data.name
-        };
+        if (user_id == this.displayed_service.client.id) {
+          this.displayed_service.orcamento[i].user = {
+            id: user_id,
+            name: this.displayed_service.client.name
+          };
+        } else {
+          this.displayed_service.orcamento[i].user = {
+            id: user_id,
+            name: this.displayed_service.service_provider.name
+          };
+        }
       }
     },
     async getService(serviceId) {
@@ -861,7 +867,6 @@ export default {
           "/services/" + serviceId
         );
         this.original_service = request_service.data;
-
         await this.fix_parametros_servico(this.original_service);
 
         this.ready = true;

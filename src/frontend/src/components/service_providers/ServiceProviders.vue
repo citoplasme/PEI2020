@@ -294,9 +294,9 @@ export default {
       }
     ],
     items: [],
-    itemsPerPage: 20,
+    itemsPerPage: 15,
     ready: false,
-    itemsPerPageArray: [10, 20, 30],
+    itemsPerPageArray: [9, 15, 30],
     search: "",
     filter: {},
     sortDesc: true,
