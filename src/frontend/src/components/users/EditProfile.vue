@@ -382,7 +382,7 @@
                     show-size
                     clearable
                     single-line
-                    accept="image/*"
+                    accept="image/png, image/jpeg, image/jpg"
                     solo
                     :rules="regraImagem"
                     required
