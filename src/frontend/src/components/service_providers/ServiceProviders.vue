@@ -301,7 +301,7 @@ export default {
     filter: {},
     sortDesc: true,
     page: 1,
-    sortBy: "karma",
+    sortBy: "",
     keys: [
       "Email",
       "Name",
