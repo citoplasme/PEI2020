@@ -268,6 +268,12 @@ servs = servs.map(se => {
             return e;
         })
     }
+
+    // Horas com dois digitos
+    if(se.hour.length < 5){
+        se.hour = '0' + se.hour;
+    }
+
     return se;
 })
 
