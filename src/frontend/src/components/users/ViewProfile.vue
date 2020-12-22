@@ -138,18 +138,131 @@
         </v-col>
       </v-list-item>
     </v-list>
+    <v-card-actions>
+      <v-spacer/>
+      <v-tooltip bottom>
+        <template v-slot:activator="{ on }">
+          <v-btn
+            color="blue darken-1"
+            text
+            type="submit"
+            @click="service = user._id"
+            v-on="on"
+          >
+            <v-icon> touch_app </v-icon>
+          </v-btn>
+        </template>
+        <span>Send Request</span>
+      </v-tooltip>
+    </v-card-actions>
+
+    <v-dialog :value="service != ''" persistent max-width="500px">
+      <v-card>
+        <v-card-title class="headline">
+          <span class="headline">Request Service</span>
+        </v-card-title>
+        <v-card-text>
+          <v-form ref="formPost" lazy-validation>
+            <v-container grid-list-md>
+              <v-layout wrap>
+                <v-flex xs12 sm6 md12>
+                  <v-select
+                    :items="['Yes', 'No']"
+                    :rules="regraTipo"
+                    prepend-icon="warning"
+                    v-model="form.urgent"
+                    label="Urgent"
+                    required
+                  >
+                  </v-select>
+                </v-flex>
+                <v-flex xs12 sm6 md12>
+                  <selecionar-data
+                    :dataMinima="new Date().toISOString().substr(0, 10)"
+                    :d="form.date"
+                    @dataSelecionada="form.date = $event"
+                    :label="'AAAA-MM-DD'"
+                  >
+                  </selecionar-data>
+                </v-flex>
+                <v-flex xs12 sm6 md12>
+                  <selecionar-hora
+                    :d="form.hour"
+                    @dataSelecionada="form.hour = $event"
+                    :label="'HH:MM'"
+                  >
+                  </selecionar-hora>
+                </v-flex>
+                <v-flex xs12 sm6 md12>
+                  <v-text-field
+                    prepend-icon="label"
+                    v-model="form.duration"
+                    label="Duration"
+                    required
+                  ></v-text-field>
+                </v-flex>
+                <v-flex xs12 sm6 md12>
+                  <v-textarea
+                    prepend-icon="description"
+                    v-model="form.description"
+                    label="Description"
+                    auto-grow
+                    solo
+                    clearable
+                    color="primary"
+                  ></v-textarea>
+                </v-flex>
+              </v-layout>
+            </v-container>
+          </v-form>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="red" text @click="service = ''">
+            Cancel
+          </v-btn>
+          <v-btn color="primary" text @click="makeService(service)"
+            >Request</v-btn
+          >
+        </v-card-actions>
+      </v-card>
+    </v-dialog> 
+    <v-snackbar
+      v-model="snackbar"
+      :color="color"
+      :timeout="timeout"
+      :top="true"
+    >
+      {{ text }}
+      <v-btn text @click="fecharSnackbar">Close</v-btn>
+    </v-snackbar>   
   </v-card>
 </template>
 
 <script>
 import Loading from "@/components/generic/Loading";
 import querystring from "querystring";
+
+import SelecionarData from "@/components/generic/SelecionarData.vue";
+import SelecionarHora from "@/components/generic/SelecionarHora";
+
 export default {
   props: ["id"],
   components: {
-    Loading
+    Loading,
+    SelecionarData,
+    SelecionarHora
   },
   data: () => ({
+    regraTipo: [v => !!v || "Type is required."],
+    form: {
+      urgent: "",
+      service_provider: "",
+      date: "",
+      hour: "",
+      duration: "",
+      desc: ""
+    },
     user: {},
     panelHeaderColor: "primary",
     dialog: false,
@@ -160,7 +273,8 @@ export default {
     text: "",
     ready: false,
     categories: [],
-    specializations: []
+    specializations: [],
+    service: '',
   }),
   async created() {
     await this.getUser();
@@ -246,6 +360,80 @@ export default {
       } catch (e) {
         return e;
       }
+    },
+    async makeService(id) {
+      if (this.$refs.formPost.validate()) {
+        let data = {
+          status: "1",
+          client: this.user._id,
+          service_provider: id
+        };
+
+        if (this.form.urgent == "Yes") data.urgent = true;
+        else if (this.form.urgent == "No") data.urgent = "false";
+
+        if (
+          this.form.description !== undefined &&
+          this.form.description !== "" &&
+          this.form.description !== null
+        ) {
+          data.desc = this.form.description;
+        }
+
+        if (
+          this.form.date !== undefined &&
+          this.form.date !== "" &&
+          this.form.date !== null
+        ) {
+          data.date = this.form.date;
+        }
+
+        if (
+          this.form.hour !== undefined &&
+          this.form.hour !== "" &&
+          this.form.hour !== null
+        ) {
+          data.hour = this.form.hour;
+        }
+
+        if (
+          this.form.duration !== undefined &&
+          this.form.duration !== "" &&
+          this.form.duration !== null
+        ) {
+          data.duration = this.form.duration;
+        }
+
+        console.log(data)
+
+        try {
+          var response = await this.$request("post", "/services/", data).then(
+            result => {
+              this.service = "";
+              this.text = result.data;
+              this.color = "success";
+              this.snackbar = true;
+              this.done = true;
+              this.$refs.formPost.reset();
+            }
+          );
+        } catch (err) {
+          this.text =
+            "An error occurred during the register: " + err.response.data;
+          this.color = "error";
+          this.snackbar = true;
+          this.service = "";
+        }
+      } else {
+        this.text = "Please check if you have filled every field.";
+        this.color = "error";
+        this.snackbar = true;
+        this.done = false;
+      }
+    },
+    fecharSnackbar() {
+      this.snackbar = false;
+      //if (this.done == true) this.getServices();
     }
   }
 };
