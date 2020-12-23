@@ -241,9 +241,9 @@
                   and correct information on the website.
                 </li>
                 <li>
-                  Servicify is not responsible for the information referred to in the
-                  previous paragraph and the End Customer must, prior to the
-                  selection of the Professional, evaluate and prove the
+                  Servicify is not responsible for the information referred to
+                  in the previous paragraph and the End Customer must, prior to
+                  the selection of the Professional, evaluate and prove the
                   truthfulness, accuracy and integrity of the same.
                 </li>
                 <li>
@@ -263,12 +263,12 @@
                 >http://www.servicify.di.uminho.pt/</a
               >, values the privacy of its visitors and in this sense is
               committed to respecting it, ensuring the confidentiality and
-              protection of data recorded by users. <br />This Privacy
-              Statement is intended to ensure security and privacy conditions to
-              users, being only requested and collected the data necessary to
-              provide the service, according to the explicit indications on the
-              site. The user has full freedom to access their data, rectify them
-              or delete them.<br />
+              protection of data recorded by users. <br />This Privacy Statement
+              is intended to ensure security and privacy conditions to users,
+              being only requested and collected the data necessary to provide
+              the service, according to the explicit indications on the site.
+              The user has full freedom to access their data, rectify them or
+              delete them.<br />
               We assume the following commitments towards the Users:
               <ul>
                 <li>
@@ -317,9 +317,9 @@
                   <a href="http://www.servicify.di.uminho.pt/"
                     >http://www.servicify.di.uminho.pt/</a
                   >
-                  provides personal data, such as name, e-mail address, e-mail, etc., necessary to subscribe to the
-                  services, the site's newsletters and the newsletters of
-                  associated partners.<br />
+                  provides personal data, such as name, e-mail address, e-mail,
+                  etc., necessary to subscribe to the services, the site's
+                  newsletters and the newsletters of associated partners.<br />
                   When you interact with our Platform or use our Services, we
                   automatically collect the following data:
                   <ol>
@@ -409,14 +409,14 @@
                   <a href="http://www.servicify.di.uminho.pt/"
                     >http://www.servicify.di.uminho.pt/</a
                   >. The subscription request requires the introduction of a
-                  password , name and email address.
-                  This password guarantees the user exclusive access to the
-                  management of the services.<br />The data provided by the
-                  users will only be used in the execution of the services
-                  selected by the user for which they were provided and for
-                  newsletters of associated partners, and will not be added to
-                  another list, made available to other entities or used to send
-                  unrelated information. <br />
+                  password , name and email address. This password guarantees
+                  the user exclusive access to the management of the
+                  services.<br />The data provided by the users will only be
+                  used in the execution of the services selected by the user for
+                  which they were provided and for newsletters of associated
+                  partners, and will not be added to another list, made
+                  available to other entities or used to send unrelated
+                  information. <br />
                   Access to
                   <a href="http://www.servicify.di.uminho.pt/"
                     >http://www.servicify.di.uminho.pt/</a

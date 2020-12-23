@@ -616,7 +616,7 @@ export default {
     loaded: false,
     permanentpremium: false,
     products: [
-      {
+      /*{
         product_id: 100,
         price: 10,
         description: "1 Month Premium",
@@ -634,6 +634,7 @@ export default {
         description: "1 Year Premium",
         qty: 0
       },
+      */
       {
         product_id: 103,
         price: 1000,
