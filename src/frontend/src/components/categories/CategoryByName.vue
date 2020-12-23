@@ -14,12 +14,12 @@
               v-bind="attrs"
               v-on="on"
             >
-              New Sub-category
+              New Specialization
             </v-btn>
           </template>
           <v-card>
             <v-card-title>
-              <span class="headline">Sub-Category</span>
+              <span class="headline">Specialization</span>
             </v-card-title>
             <v-card-text>
               <v-container>
