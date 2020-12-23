@@ -224,7 +224,7 @@
         <span>Edit locations</span>
       </v-tooltip>
 
-      <v-tooltip bottom v-if="user.level >= 3 && user.level <= 4">
+      <v-tooltip bottom v-if="user.level >= 3 && user.level <= 3.5">
         <template v-slot:activator="{ on }">
           <v-btn
             v-on="on"
