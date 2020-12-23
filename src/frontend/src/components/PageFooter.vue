@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar color="primary" dark dense height="80px" style="max-height:80px">
+  <v-app-bar color="primary" dark dense height="60px" style="max-height:60px">
     <v-toolbar-title>
       Servicify
     </v-toolbar-title>
@@ -13,8 +13,8 @@
       <v-btn to="/" color="primary" text>
         <v-img
           :src="require('../assets/hands.png')"
-          width="110px"
-          height="70px"
+          width="78px"
+          height="50px"
         />
       </v-btn>
     </div>
