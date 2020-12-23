@@ -138,7 +138,7 @@
         </v-col>
       </v-list-item>
     </v-list>
-    <v-card-actions>
+    <v-card-actions v-if="user.level >= 3 && user.level <= 4">
       <v-spacer />
       <v-tooltip bottom>
         <template v-slot:activator="{ on }">
