@@ -589,6 +589,7 @@ export default {
         ? "th"
         : ["th", "st", "nd", "rd", "th", "th", "th", "th", "th", "th"][d % 10];
     }
+    
   }
 };
 </script>

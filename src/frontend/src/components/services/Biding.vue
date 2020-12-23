@@ -60,7 +60,7 @@
                       {{ n.value }}
                     </v-col>
                     <v-col class="text-right" cols="5">
-                      {{ n.datetime }}
+                      @{{ get_date_time(n.datetime) }}
                     </v-col>
                   </v-row>
                 </v-timeline-item>
@@ -84,7 +84,7 @@
                       {{ n.value }}
                     </v-col>
                     <v-col class="text-right" cols="5">
-                      {{ n.datetime }}
+                      @{{ get_date_time(n.datetime) }}
                     </v-col>
                   </v-row>
                 </v-timeline-item>
@@ -124,17 +124,18 @@
             v-if="this.lastBid != undefined && this.lastBid != this.idLoged"
             @click="acceptBid()"
             color="primary"
+            class="mr-1 ml-1"
           >
             Accept Bid
           </v-btn>
-
+          
           <template
             v-if="this.lastBid != undefined && this.lastBid == this.idLoged"
           >
             <v-dialog v-model="dialog" width="500">
               <template v-slot:activator="{ on, attrs }">
-                <v-btn color="red" v-bind="attrs" v-on="on">
-                  Cancel Negotiation
+                <v-btn color="red" class="white--text" v-bind="attrs" v-on="on">
+                  Cancel Service
                 </v-btn>
               </template>
 
@@ -167,7 +168,7 @@
           >
             <v-dialog v-model="dialog" width="500">
               <template v-slot:activator="{ on, attrs }">
-                <v-btn color="red" v-bind="attrs" v-on="on">
+                <v-btn class="white--text ml-1 mr-1" color="red" v-bind="attrs" v-on="on">
                   Stop Negotiation
                 </v-btn>
               </template>
@@ -244,7 +245,7 @@
                           {{ n.value }}
                         </v-col>
                         <v-col class="text-right" cols="5">
-                          {{ n.datetime }}
+                          @{{ get_date_time(n.datetime) }}
                         </v-col>
                       </v-row>
                     </v-timeline-item>
@@ -268,7 +269,7 @@
                           {{ n.value }}
                         </v-col>
                         <v-col class="text-right" cols="5">
-                          {{ n.datetime }}
+                          @{{ get_date_time(n.datetime) }}
                         </v-col>
                       </v-row>
                     </v-timeline-item>
@@ -284,16 +285,52 @@
             <v-btn
               v-if="this.lastBid != undefined"
               @click="review()"
-              color="primary"
+              color="primary" 
+              class="mr-1 ml-1"
             >
-              Review Service
+              Mark Service as finished
             </v-btn>
-          </div>
-          <div v-if="24 < this.date_diff" align="center">
+            
+            <template 
+            
+          >
             <v-dialog v-model="dialog" width="500">
               <template v-slot:activator="{ on, attrs }">
-                <v-btn color="red" v-bind="attrs" v-on="on">
-                  Cancel Negotiation
+                <v-btn color="red" class="white--text mr-1 ml-1" v-bind="attrs" v-on="on">
+                  Cancel Service
+                </v-btn>
+              </template>
+
+              <v-card>
+                <v-card-title class="headline grey lighten-2">
+                  Are you sure?
+                </v-card-title>
+                <v-card-text>
+                  Are you sure you want to stop negotiation? After this you will
+                  not be able to do more bids and the service will be canceled.
+                </v-card-text>
+
+                <v-divider></v-divider>
+
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn color="primary" text @click="cancelBid(true)">
+                    Yes
+                  </v-btn>
+                  <v-btn color="primary" text @click="cancelBid(false)">
+                    No
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
+          </template>
+          </div>
+          <div v-if="24 < this.date_diff" align="center">
+            <h3>Awaiting service completion ...</h3>
+            <v-dialog v-model="dialog" width="500">
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn color="red" class="white--text" v-bind="attrs" v-on="on">
+                  Cancel Service
                 </v-btn>
               </template>
 
@@ -413,19 +450,31 @@
               </table>
             </div>
             <v-textarea
+            label="Comment"
+              auto-grow
               solo
-              name="input-7-4"
-              label="Commentary"
+              clearable
+              color="indigo"
+              counter="3000"
+              
+              maxlength="3000"
               v-model="empresa_review.comentario"
             ></v-textarea>
 
             <div align="center">
               <v-btn
-                v-if="this.lastBid != undefined"
+                v-if="this.lastBid != undefined && this.data.review.client && !this.data.review.client.general"
                 @click="sendReview()"
                 color="primary"
               >
                 Send Review
+              </v-btn>
+              <v-btn
+                v-else
+                @click="sendReview()"
+                color="primary"
+              >
+                Edit Review
               </v-btn>
             </div>
           </div>
@@ -541,19 +590,31 @@
               </table>
             </div>
             <v-textarea
+            label="Comment"
+              auto-grow
               solo
-              name="input-7-4"
-              label="Commentary"
+              clearable
+              color="indigo"
+              counter="3000"
+              maxlength="3000"
               v-model="cliente_review.comentario"
             ></v-textarea>
             <div align="center">
               <v-btn
-                v-if="this.lastBid != undefined"
+                v-if="this.lastBid != undefined && this.data.review.service_provider && !this.data.review.service_provider.general"
                 @click="sendReview()"
                 color="primary"
               >
-                Send Review
+                Send Review 
               </v-btn>
+              <v-btn
+                v-else
+                @click="sendReview()"
+                color="primary"
+              >
+                Edit Review
+              </v-btn>
+
             </div>
           </div>
         </v-stepper-content>
@@ -649,10 +710,17 @@
               </table>
             </div>
             <v-textarea
+            label="Comment"
+              auto-grow
               solo
-              name="input-7-4"
-              :label="this.data.review.client.comentario"
+              clearable
+              color="indigo"
+              counter="3000"
+              maxlength="3000"
+              disabled
+              v-model="this.data.review.client.comentario"
             ></v-textarea>
+            
           </div>
           <div v-else>
             <h2>Review by the client</h2>
@@ -767,9 +835,15 @@
               </table>
             </div>
             <v-textarea
+            label="Comment"
+              auto-grow
               solo
-              name="input-7-4"
-              :label="this.data.review.service_provider.comentario"
+              clearable
+              color="indigo"
+              counter="3000"
+              maxlength="3000"
+              disabled
+              v-model="this.data.review.service_provider.comentario"
             ></v-textarea>
           </div>
         </v-stepper-content>
@@ -781,6 +855,15 @@
         <h1>Negotiation Canceled</h1>
       </div>
     </v-stepper>
+    <v-snackbar
+      v-model="snackbar"
+      :color="color"
+      :timeout="timeout"
+      :top="true"
+    >
+      {{ text }}
+      <v-btn text @click="fecharSnackbar">Close</v-btn>
+    </v-snackbar>
   </div>
 </template>
 
@@ -802,6 +885,11 @@ export default {
     Loading
   },
   data: () => ({
+    snackbar: false,
+    color: "",
+    done: false,
+    timeout: 4000,
+    text: "",
     lastBid: undefined,
     e1: 1,
     input: null,
@@ -885,6 +973,11 @@ export default {
 
       this.data = res.data;
 
+      this.empresa_review = Object.assign({}, this.data.review.client);
+      this.cliente_review = Object.assign({}, this.data.review.service_provider);
+      console.log(this.cliente_review)
+      console.log(this.empresa_review)
+
       //vai buscar o nome do user e do service provider
       var clientName = await this.$request("get", "/users/" + this.data.client);
       clientName = clientName.data.name;
@@ -899,9 +992,9 @@ export default {
       this.serviceProviderName = serviceProvicerName;
 
       //testar datas
-      //this.date_diff = this.date_difference("2020-12-09");
+      this.date_diff = this.date_difference("2020-12-23");
 
-      this.date_diff = this.date_difference(res.data.date, res.data.hour);
+      //this.date_diff = this.date_difference(res.data.date, res.data.hour);
 
       //Vai ordenar orçamentos por data
       this.data.orcamento.sort((a, b) => (a.datetime < b.datetime ? 1 : -1));
@@ -965,8 +1058,20 @@ export default {
         {
           status: "3"
         }
-      );
-      this.e1 = 3;
+      ).then(res => {
+            this.text = res.data;
+            this.color = "success";
+            this.snackbar = true;
+            this.done = true;
+            this.dialog = false;
+            this.e1=3;
+          })
+          .catch(err => {
+            this.text = err.response.data;
+            this.color = "error";
+            this.snackbar = true;
+            this.done = false;
+          });
     },
     async sendReview() {
       //se for o cliente online
@@ -977,18 +1082,50 @@ export default {
           "put",
           "/services/" + this.idService + "/review",
           this.cliente_review
-        );
+        ).then(res => {
+            this.text = res.data;
+            this.color = "success";
+            this.snackbar = true;
+            this.done = true;
+            this.dialog = false;
+            this.getService();
+          })
+          .catch(err => {
+            this.text = err.response.data;
+            this.color = "error";
+            this.snackbar = true;
+            this.done = false;
+          });
       }
       //se for a empresa
       else {
         //ir buscar os dados usando o findelement by id, tenho de por ID's em todos os elementos ainda
 
-        var res2 = await this.$request(
+        await this.$request(
           "put",
           "/services/" + this.idService + "/review",
           this.empresa_review
-        );
+        ) .then(res => {
+            this.text = res.data;
+            this.color = "success";
+            this.snackbar = true;
+            this.done = true;
+            this.dialog = false;
+            this.getService();
+          })
+          .catch(err => {
+            this.text = err.response.data;
+            this.color = "error";
+            this.snackbar = true;
+            this.done = false;
+          });
       }
+    },
+    get_date_time(dt) {
+      return dt.substr(11, 8) + " " + dt.substr(0, 10);
+    },
+    fecharSnackbar() {
+      this.snackbar = false;
     }
   }
 };
