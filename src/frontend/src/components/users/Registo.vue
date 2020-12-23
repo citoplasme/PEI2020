@@ -124,7 +124,7 @@
           acceptance of its Terms of Use, including its privacy policy and
           therefore, in case of disagreement with some of its provisions, the
           use of the service is not allowed.<br />
-          The last amendment to these Terms of Use dates from 22.12.2020.<br /><br />
+          The last amendment to these Terms of Use dates from 23.12.2020.<br /><br />
           <b>Table of Contents:</b><br />
           <ol>
             <li>Definitions and General Conditions</li>
@@ -137,298 +137,383 @@
             <li>Payments</li>
             <li>Transitional and Final Provisions</li>
           </ol>
-          <b>1. Definitions and General Conditions</b><br /><br /><b
-            >a) Definitions</b
-          >
-          <ul>
-            <li>
-              <b>"Servicify"</b> - website of the trademark "Servicify", owned
-              by the company Servicify, Lda.
-            </li>
-            <li>
-              <b>"Final Clients" </b>- those who use Servicify's website to
-              place orders for the provision of certain services by
-              professionals registered for that purpose.
-            </li>
-            <li>
-              <b>"End Customer Information" </b>- any information provided by
-              the End Customer, either during the phase of their registration
-              and registration on the website, or in relation to the description
-              of their requests, the evaluation made by professional service
-              providers or other resulting from the use of the website.
-            </li>
-            <li>
-              <b>"Privacy Policy"</b> - description of the types of information
-              collected from End Users or Customers and the Service Provider and
-              how it is handled.
-            </li>
-            <li>
-              <b>"Request"</b> - description made by the Client of the service
-              he wishes to see provided by a professional registered on the
-              website, through a form for that purpose.
-            </li>
-            <li>
-              <b>"System" </b>- computer equipment, storage and transmission of
-              data, program and computer applications, sequences of commands and
-              automatic processes of analysis and treatment of data that are
-              used by Servicify.
-            </li>
-            <li>
-              <b>"Terms and Conditions"</b> - are the rules that are binding on
-              Servicify, Users, End Customers and Service Providers, contained
-              in this Terms of Use Agreement and the terms of the Privacy
-              Policy.
-            </li>
-            <li>
-              <b>"Professional"</b> - natural or legal persons, service
-              providers, registered in the Servicify website, who intend, by
-              this way, to receive requests from potential End Clients
-              interested in contracting those services.
-            </li>
-            <li>
-              <b>"User"</b> - any natural or legal person who accesses the
-              website until the moment they acquire the status of End Customer
-              or Service Provider.
-            </li>
-            <li>
-              <b>"Website" (of Servicify)</b> - website and its domain, hosting
-              space, page or set of web pages, its contents, graphics of other
-              information contained therein, whose content is managed by
-              Servicify.
-            </li>
-          </ul>
-          <b> b) General Conditions </b>
           <ol>
             <li>
-              Servicify's website is an online platform where End-Customers
-              request a certain service from Service Providers, who can then
-              enter a biding process with the customer
+              <b>Definitions and General Conditions</b><br />
+              <b>a) Definitions</b>
+              <ul>
+                <li>
+                  <b>"Servicify"</b> - website of the trademark "Servicify",
+                  owned by the company Servicify, Lda.
+                </li>
+                <li>
+                  <b>"Final Clients" </b>- those who use Servicify's website to
+                  place orders for the provision of certain services by
+                  professionals registered for that purpose.
+                </li>
+                <li>
+                  <b>"End Customer Information" </b>- any information provided
+                  by the End Customer, either during the phase of their
+                  registration and registration on the website, or in relation
+                  to the description of their requests, the evaluation made by
+                  professional service providers or other resulting from the use
+                  of the website.
+                </li>
+                <li>
+                  <b>"Privacy Policy"</b> - description of the types of
+                  information collected from End Users or Customers and the
+                  Service Provider and how it is handled.
+                </li>
+                <li>
+                  <b>"Request"</b> - description made by the Client of the
+                  service he wishes to see provided by a professional registered
+                  on the website, through a form for that purpose.
+                </li>
+                <li>
+                  <b>"System" </b>- computer equipment, storage and transmission
+                  of data, program and computer applications, sequences of
+                  commands and automatic processes of analysis and treatment of
+                  data that are used by Servicify.
+                </li>
+                <li>
+                  <b>"Terms and Conditions"</b> - are the rules that are binding
+                  on Servicify, Users, End Customers and Service Providers,
+                  contained in this Terms of Use Agreement and the terms of the
+                  Privacy Policy.
+                </li>
+                <li>
+                  <b>"Professional"</b> - natural or legal persons, service
+                  providers, registered in the Servicify website, who intend, by
+                  this way, to receive requests from potential End Clients
+                  interested in contracting those services.
+                </li>
+                <li>
+                  <b>"User"</b> - any natural or legal person who accesses the
+                  website until the moment they acquire the status of End
+                  Customer or Service Provider.
+                </li>
+                <li>
+                  <b>"Website" (of Servicify)</b> - website and its domain,
+                  hosting space, page or set of web pages, its contents,
+                  graphics of other information contained therein, whose content
+                  is managed by Servicify.
+                </li>
+              </ul>
+              <b> b) General Conditions </b>
+              <ol>
+                <li>
+                  Servicify's website is an online platform where End-Customers
+                  request a certain service from Service Providers, who can then
+                  enter a biding process with the customer
+                </li>
+                <li>
+                  Requests submitted by End Clients are disclosed to registered
+                  Service Providers whose activity is compatible with them.
+                </li>
+                <li>
+                  It is up to the End Customer to evaluate the proposals and
+                  services presented by the Professionals, and the selection of
+                  the Professional is their entire and exclusive responsibility.
+                </li>
+                <li>
+                  Servicify is limited, in its intervention, to collecting the
+                  End Clients' requests and the registrations of the
+                  Professional service providers, disclosing those to them in
+                  order to allow the process of choosing the End Client.
+                </li>
+                <li>
+                  The End Customer may even choose not to select any of the
+                  Professionals who contact them for the presentation of their
+                  proposals, recognizing that Servicify is a third party in the
+                  relationship contractually established between End Customer
+                  and Professional. Therefore, Servicify does not guarantee the
+                  performance of the Professional or any transaction that may be
+                  agreed upon between them.
+                </li>
+                <li>
+                  The information regarding orders and Professionals that
+                  appears on the website is provided, respectively, by End
+                  Clients and Professionals.
+                </li>
+                <li>Servicify does not select specific Professionals;</li>
+                <li>
+                  End Clients and Professionals are obliged to include only true
+                  and correct information on the website.
+                </li>
+                <li>
+                  is not responsible for the information referred to in the
+                  previous paragraph and the End Customer must, prior to the
+                  selection of the Professional, evaluate and prove the
+                  truthfulness, accuracy and integrity of the same.
+                </li>
+                <li>
+                  The presentation, by the Professional to the End Client, of
+                  fraudulent proposals or false or incorrect documents, in no
+                  case can be imputed to Servicify, and the End Client is
+                  responsible for the selection of the Professionals and the
+                  confirmation of the information provided by them.
+                </li>
+              </ol>
             </li>
+            <br />
             <li>
-              Requests submitted by End Clients are disclosed to registered
-              Service Providers whose activity is compatible with them.
+              <b>Privacy Policy</b> <br />The company Servicify, Ltd, the entity
+              responsible for the domain
+              <a href="http://www.servicify.di.uminho.pt/"
+                >http://www.servicify.di.uminho.pt/</a
+              >, values the privacy of its visitors and in this sense is
+              committed to respecting it, ensuring the confidentiality and
+              protection of data recorded by users. <br /><br />This Privacy
+              Statement is intended to ensure security and privacy conditions to
+              users, being only requested and collected the data necessary to
+              provide the service, according to the explicit indications on the
+              site. The user has full freedom to access their data, rectify them
+              or delete them.<br /><br />
+              We assume the following commitments towards the Users:
+              <ul>
+                <li>
+                  To process data in a lawful and fair manner, collecting only
+                  the necessary information relevant to the purpose for which
+                  they are intended;
+                </li>
+                <li>
+                  To allow the holder of the data to access and correct the
+                  information about them registered;
+                </li>
+                <li>
+                  Not to use the data collected for a purpose incompatible with
+                  that of collection;
+                </li>
+                <li>To keep the data accurate and, if necessary, current;</li>
+                <li>
+                  To guarantee free of charge the right to delete the data used
+                  when requested by the owner;
+                </li>
+                <li>
+                  To possess security mechanisms that prevent the consultation,
+                  modification, destruction or addition of the data by a person
+                  not authorized to do so;
+                </li>
+                <li>
+                  Not to interconnect personal data, unless authorized by law.
+                </li>
+              </ul>
+              <ol>
+                <br />
+                <li>
+                  <b>Collection of Personal Data</b> <br />The site
+                  <a href="http://www.servicify.di.uminho.pt/"
+                    >http://www.servicify.di.uminho.pt/</a
+                  >
+                  can be viewed without any personal information being required.
+                  However, there are areas - such as placing a service request -
+                  that require the provision of information, requiring users to
+                  provide their personal data in order to take advantage of the
+                  services provided. <br />The collection of user identification
+                  data will be carried out by filling out an online registration
+                  form and will occur in accordance with the strictest security
+                  rules.<br /><br />
+                  The user when registering at
+                  <a href="http://www.servicify.di.uminho.pt/"
+                    >http://www.servicify.di.uminho.pt/</a
+                  >
+                  provides personal data, such as name, e-mail address,
+                  telephone number, e-mail, etc., necessary to subscribe to the
+                  services, the site's newsletters and the newsletters of
+                  associated partners.<br />
+                  When you interact with our Platform or use our Services, we
+                  automatically collect the following data:
+                  <ol>
+                    <li>
+                      <b>User Login Data</b> We store technical details such as
+                      your IP (Internet Protocol), location of your device, time
+                      zone and operating system. We also save your browser type
+                      and version and your Login information, namely
+                      registration date, date of last password change and date
+                      of last successful login.
+                    </li>
+                    <li>
+                      <b> Click Sequence Data</b> We collect information about
+                      your activity on Servicify that includes the sites from
+                      which you arrived at our platform, date and time of each
+                      visit, searches made on Servicify, list of advertisements
+                      or classifieds of Servicify that you clicked, your
+                      interaction with those advertisements or classifieds, the
+                      duration of your visit and the order in which you visited
+                      the content of the platform.
+                    </li>
+                    <li>
+                      <b> Cookies and Similar Technologies</b> "Cookies" are
+                      small text files transferred by a web server to the
+                      storage of your device. We use cookies to manage our
+                      users' sessions, store their language preferences and show
+                      you ads relevant to you. Cookies are used to collect the
+                      date and time of your visit, your search history, your
+                      preferences and your username. You can choose to block all
+                      or part of your browser from using cookies, or to alert
+                      you when websites wish to use cookies. If you disable or
+                      block cookies, remember that part of our service and
+                      platform may become inaccessible or not function properly.
+                      Data collected from third parties or publicly available
+                      sources:
+                    </li>
+                  </ol>
+                  We receive personal data about you from the following third
+                  parties (and public services):
+                  <ul>
+                    <li>
+                      Technical data providers and usability data analyzers:
+                      Google, Facebook, Optimizely and Hotjar;
+                    </li>
+                    <li>
+                      Navigation and conversion data from advertising providers:
+                      Google, Facebook
+                    </li>
+                  </ul>
+                  <a href="http://www.servicify.di.uminho.pt/"
+                    >http://www.servicify.di.uminho.pt/</a
+                  >
+                  uses the services of Google Analytics for Display, namely the
+                  remarketing function. This consists of displaying ads to users
+                  who have already visited
+                  <a href="http://www.servicify.di.uminho.pt/"
+                    >http://www.servicify.di.uminho.pt/</a
+                  ><br />
+                  Users can opt out of Google Analytics for Display Advertisers
+                  and be exposed to Google Display Network ads when visiting Ads
+                  Preferences Manager and Analytics Opt-out Browser Add-on.<br />
+                  <a href="http://www.servicify.di.uminho.pt/"
+                    >http://www.servicify.di.uminho.pt/</a
+                  >
+                  uses remarketing to advertise online, which means that users
+                  who do not "opt-out" from the Google Display Network using the
+                  above methods may be exposed to ads from
+                  <a href="http://www.servicify.di.uminho.pt/"
+                    >http://www.servicify.di.uminho.pt/</a
+                  >
+                  on the Google content network. <br />Third parties such as
+                  Google may display ads from
+                  <a href="http://www.servicify.di.uminho.pt/"
+                    >http://www.servicify.di.uminho.pt/</a
+                  >
+                  on sites within their content network. <br />Third parties,
+                  such as Google, may use Cookies (such as Google Analytics and
+                  DoubleClick cookies) which serve to optimize ads based on
+                  information from past visits of users to
+                  <a href="http://www.servicify.di.uminho.pt/"
+                    >http://www.servicify.di.uminho.pt/</a
+                  >.<br /><br />
+                </li>
+                <li>
+                  <b>User Registration</b> <br />The user registration allows
+                  access to several services of
+                  <a href="http://www.servicify.di.uminho.pt/"
+                    >http://www.servicify.di.uminho.pt/</a
+                  >. The subscription request requires the introduction of a
+                  password and an email address, to which a confirmation link is
+                  sent, which will allow validation of the registration made.
+                  This password guarantees the user exclusive access to the
+                  management of the services.<br />The data provided by the
+                  users will only be used in the execution of the services
+                  selected by the user for which they were provided and for
+                  newsletters of associated partners, and will not be added to
+                  another list, made available to other entities or used to send
+                  unrelated information. <br />
+                  Access to
+                  <a href="http://www.servicify.di.uminho.pt/"
+                    >http://www.servicify.di.uminho.pt/</a
+                  >
+                  is conditioned by a password, which will be indicated by the
+                  user at the time of registration. In case the user forgets his
+                  password, he can recover it by indicating the e-mail address
+                  where the account was registered. For security reasons, the
+                  password must have more than 6 characters.
+                  <br />Recommendation: A good password should include letters,
+                  numbers and special characters and should not be a common or
+                  easily detectable word. <br />The password is personal and
+                  non-transferable. The user's use of it is his/her own
+                  responsibility.
+                </li>
+                <br />
+                <li>
+                  <b>Other Services</b><br />
+                  Other services that may arise later and that require the
+                  introduction of personal data and/or their respective entities
+                  are covered by the privacy and security policy of Servicify,
+                  Lda referred to in this document. Security and Quality of
+                  Information <br />It is our goal to guarantee the quality and
+                  integrity of the information provided by the users of
+                  <a href="http://www.servicify.di.uminho.pt/"
+                    >http://www.servicify.di.uminho.pt/</a
+                  >. In this sense, the necessary measures have been
+                  implemented, both technologically and organizationally, in
+                  order to keep the information secure, accurate, updated and
+                  complete.<br />
+                  To ensure maximum security in the areas of
+                  <a href="http://www.servicify.di.uminho.pt/"
+                    >http://www.servicify.di.uminho.pt/</a
+                  >
+                  where the personal data of users are collected, their
+                  transmission is encrypted. Sharing personal information<br />
+                  The personal information collected at
+                  <a href="http://www.servicify.di.uminho.pt/"
+                    >http://www.servicify.di.uminho.pt/</a
+                  >
+                  is used for the purposes indicated in each case.<br /><br />
+                </li>
+                <li>
+                  <b>Links</b><br />
+                  <a href="http://www.servicify.di.uminho.pt/"
+                    >http://www.servicify.di.uminho.pt/</a
+                  >
+                  contains links to other websites, and the website is not
+                  responsible for the privacy policies or content of such
+                  websites.<br /><br />
+                </li>
+                <li>
+                  <b> Statistical Log</b><br />
+                  Files The IP addresses of all connections made to
+                  <a href="http://www.servicify.di.uminho.pt/"
+                    >http://www.servicify.di.uminho.pt/</a
+                  >
+                  are recorded. This information will be used to perform
+                  aggregate statistical analysis and no relationship will be
+                  established with the services and interactions with users.<br />
+                  The information will be analysed in an aggregated and
+                  anonymous way. The data used for this purpose do not contain
+                  personal identification data or private information.
+                  <br />The analyses carried out from the aggregated statistical
+                  information will be carried out in order to interpret the
+                  patterns of use of the site and continuously improve service
+                  levels and user satisfaction. Aggregated statistical
+                  information resulting from the analyses made may be disclosed
+                  to third parties or publicly.<br />
+                  Should
+                  <a href="http://www.servicify.di.uminho.pt/"
+                    >http://www.servicify.di.uminho.pt/</a
+                  >
+                  change its privacy practices, these will always be available
+                  at this site.<br />
+                  For further information, please contact
+                  support-pt@Servicify.com.
+                </li>
+                <br />
+                <li>
+                  <b>Conditions of Use</b><br />
+                  <a href="http://www.servicify.di.uminho.pt/"
+                    >http://www.servicify.di.uminho.pt/</a
+                  >
+                  reserves the right to cancel the registration of any user who
+                  does not comply with the Terms and Conditions of Use.
+                  <br />If you have any questions, complaints or comments
+                  regarding our privacy statement or policy, please contact us
+                  at support-pt@Servicify.com. <br /><br />
+                </li>
+              </ol>
             </li>
+
             <li>
-              It is up to the End Customer to evaluate the proposals and
-              services presented by the Professionals, and the selection of the
-              Professional is their entire and exclusive responsibility.
-            </li>
-            <li>
-              Servicify is limited, in its intervention, to collecting the End
-              Clients' requests and the registrations of the Professional
-              service providers, disclosing those to them in order to allow the
-              process of choosing the End Client.
-            </li>
-            <li>
-              The End Customer may even choose not to select any of the
-              Professionals who contact them for the presentation of their
-              proposals, recognizing that Servicify is a third party in the
-              relationship contractually established between End Customer and
-              Professional. Therefore, Servicify does not guarantee the
-              performance of the Professional or any transaction that may be
-              agreed upon between them.
-            </li>
-            <li>
-              The information regarding orders and Professionals that appears on
-              the website is provided, respectively, by End Clients and
-              Professionals.
-            </li>
-            <li>Servicify does not select specific Professionals;</li>
-            <li>
-              End Clients and Professionals are obliged to include only true and
-              correct information on the website.
-            </li>
-            <li>
-              is not responsible for the information referred to in the previous
-              paragraph and the End Customer must, prior to the selection of the
-              Professional, evaluate and prove the truthfulness, accuracy and
-              integrity of the same.
-            </li>
-            <li>
-              The presentation, by the Professional to the End Client, of
-              fraudulent proposals or false or incorrect documents, in no case
-              can be imputed to Servicify, and the End Client is responsible for
-              the selection of the Professionals and the confirmation of the
-              information provided by them.
-            </li>
-          </ol>
-          <b>c) Privacy Policy</b> <br />The company Servicify, Ltd, the
-          entity responsible for the domain <a href="http://www.servicify.di.uminho.pt/">http://www.servicify.di.uminho.pt/</a>,
-          values the privacy of its visitors and in this sense is committed to
-          respecting it, ensuring the confidentiality and protection of data
-          recorded by users. <br /><br />This Privacy Statement is intended to
-          ensure security and privacy conditions to users, being only requested
-          and collected the data necessary to provide the service, according to
-          the explicit indications on the site. The user has full freedom to
-          access their data, rectify them or delete them.<br /><br />
-          We assume the following commitments towards the Users:
-          <ul>
-            <li>
-              To process data in a lawful and fair manner, collecting only the
-              necessary information relevant to the purpose for which they are
-              intended;
-            </li>
-            <li>
-              To allow the holder of the data to access and correct the
-              information about them registered;
-            </li>
-            <li>
-              Not to use the data collected for a purpose incompatible with that
-              of collection;
-            </li>
-            <li>To keep the data accurate and, if necessary, current;</li>
-            <li>
-              To guarantee free of charge the right to delete the data used when
-              requested by the owner;
-            </li>
-            <li>
-              To possess security mechanisms that prevent the consultation,
-              modification, destruction or addition of the data by a person not
-              authorized to do so;
-            </li>
-            <li>
-              Not to interconnect personal data, unless authorized by law.
-            </li>
-          </ul>
-          <b>d) Collection of Personal Data</b> <br />The site
-          <a href="http://www.servicify.di.uminho.pt/">http://www.servicify.di.uminho.pt/</a> can be viewed without any personal
-          information being required. However, there are areas - such as placing
-          a service request - that require the provision of information,
-          requiring users to provide their personal data in order to take
-          advantage of the services provided. <br /><br />The collection of user
-          identification data will be carried out by filling out an online
-          registration form and will occur in accordance with the strictest
-          security rules.<br /><br />
-          The user when registering at <a href="http://www.servicify.di.uminho.pt/">http://www.servicify.di.uminho.pt/</a> provides
-          personal data, such as name, e-mail address, telephone number, e-mail,
-          etc., necessary to subscribe to the services, the site's newsletters
-          and the newsletters of associated partners.<br />
-          When you interact with our Platform or use our Services, we
-          automatically collect the following data:
-          <ol>
-            <li>
-              <b>User Login Data</b> We store technical details such as your IP
-              (Internet Protocol), location of your device, time zone and
-              operating system. We also save your browser type and version and
-              your Login information, namely registration date, date of last
-              password change and date of last successful login.
-            </li>
-            <li>
-              <b> Click Sequence Data</b> We collect information about your
-              activity on Servicify that includes the sites from which you
-              arrived at our platform, date and time of each visit, searches
-              made on Servicify, list of advertisements or classifieds of
-              Servicify that you clicked, your interaction with those
-              advertisements or classifieds, the duration of your visit and the
-              order in which you visited the content of the platform.
-            </li>
-            <li>
-              <b> Cookies and Similar Technologies</b> "Cookies" are small text
-              files transferred by a web server to the storage of your device.
-              We use cookies to manage our users' sessions, store their language
-              preferences and show you ads relevant to you. Cookies are used to
-              collect the date and time of your visit, your search history, your
-              preferences and your username. You can choose to block all or part
-              of your browser from using cookies, or to alert you when websites
-              wish to use cookies. If you disable or block cookies, remember
-              that part of our service and platform may become inaccessible or
-              not function properly. Data collected from third parties or
-              publicly available sources:
-            </li>
-          </ol>
-          We receive personal data about you from the following third parties
-          (and public services):
-          <ul>
-            <li>
-              Technical data providers and usability data analyzers: Google,
-              Facebook, Optimizely and Hotjar;
-            </li>
-            <li>
-              Navigation and conversion data from advertising providers: Google,
-              Facebook
-            </li>
-          </ul>
-          <a href="http://www.servicify.di.uminho.pt/">http://www.servicify.di.uminho.pt/</a> uses the services of Google Analytics for
-          Display, namely the remarketing function. This consists of displaying
-          ads to users who have already visited
-          <a href="http://www.servicify.di.uminho.pt/">http://www.servicify.di.uminho.pt/</a><br /><br />
-          Users can opt out of Google Analytics for Display Advertisers and be
-          exposed to Google Display Network ads when visiting Ads Preferences
-          Manager and Analytics Opt-out Browser Add-on.<br /><br />
-          <a href="http://www.servicify.di.uminho.pt/">http://www.servicify.di.uminho.pt/</a> uses remarketing to advertise online, which
-          means that users who do not "opt-out" from the Google Display Network
-          using the above methods may be exposed to ads from
-          <a href="http://www.servicify.di.uminho.pt/">http://www.servicify.di.uminho.pt/</a> on the Google content network.
-          <br /><br />Third parties such as Google may display ads from
-          <a href="http://www.servicify.di.uminho.pt/">http://www.servicify.di.uminho.pt/</a> on sites within their content network.
-          <br /><br />Third parties, such as Google, may use Cookies (such as
-          Google Analytics and DoubleClick cookies) which serve to optimize ads
-          based on information from past visits of users to
-          <a href="http://www.servicify.di.uminho.pt/">http://www.servicify.di.uminho.pt/</a>.<br /><br />
-          <b>e) User Registration</b> <br />The user registration allows
-          access to several services of <a href="http://www.servicify.di.uminho.pt/">http://www.servicify.di.uminho.pt/</a>. The
-          subscription request requires the introduction of a password and an
-          email address, to which a confirmation link is sent, which will allow
-          validation of the registration made. This password guarantees the user
-          exclusive access to the management of the services.<br /><br />The
-          data provided by the users will only be used in the execution of the
-          services selected by the user for which they were provided and for
-          newsletters of associated partners, and will not be added to another
-          list, made available to other entities or used to send unrelated
-          information. <br /><br />
-          Access to <a href="http://www.servicify.di.uminho.pt/">http://www.servicify.di.uminho.pt/</a> is conditioned by a password,
-          which will be indicated by the user at the time of registration. In
-          case the user forgets his password, he can recover it by indicating
-          the e-mail address where the account was registered. For security
-          reasons, the password must have more than 6 characters.
-          <br /><br />Recommendation: A good password should include letters,
-          numbers and special characters and should not be a common or easily
-          detectable word. <br /><br />The password is personal and
-          non-transferable. The user's use of it is his/her own
-          responsibility.<br /><br />
-          <b>f) Other Services</b><br />
-          Other services that may arise later and that require the introduction
-          of personal data and/or their respective entities are covered by the
-          privacy and security policy of Servicify, Lda referred to in this
-          document. Security and Quality of Information <br /><br />It is our
-          goal to guarantee the quality and integrity of the information
-          provided by the users of <a href="http://www.servicify.di.uminho.pt/">http://www.servicify.di.uminho.pt/</a>. In this sense,
-          the necessary measures have been implemented, both technologically and
-          organizationally, in order to keep the information secure, accurate,
-          updated and complete.<br /><br />
-          To ensure maximum security in the areas of <a href="http://www.servicify.di.uminho.pt/">http://www.servicify.di.uminho.pt/</a>
-          where the personal data of users are collected, their transmission is
-          encrypted. Sharing personal information<br /><br />
-          The personal information collected at
-          <a href="http://www.servicify.di.uminho.pt/">http://www.servicify.di.uminho.pt/</a> is used for the purposes indicated
-          in each case.<br /><br /><b>g) Links</b><br />
-          <a href="http://www.servicify.di.uminho.pt/">http://www.servicify.di.uminho.pt/</a> contains links to other websites, and the
-          website is not responsible for the privacy policies or content of such
-          websites.<br /><br /><b>h) Statistical Log</b><br />
-          Files The IP addresses of all connections made to
-          <a href="http://www.servicify.di.uminho.pt/">http://www.servicify.di.uminho.pt/</a> are recorded. This information will be used
-          to perform aggregate statistical analysis and no relationship will be
-          established with the services and interactions with users.<br /><br />
-          The information will be analysed in an aggregated and anonymous way.
-          The data used for this purpose do not contain personal identification
-          data or private information. <br /><br />The analyses carried out from
-          the aggregated statistical information will be carried out in order to
-          interpret the patterns of use of the site and continuously improve
-          service levels and user satisfaction. Aggregated statistical
-          information resulting from the analyses made may be disclosed to third
-          parties or publicly.<br /><br />
-          Should <a href="http://www.servicify.di.uminho.pt/">http://www.servicify.di.uminho.pt/</a> change its privacy practices, these
-          will always be available at this site.<br /><br />
-          For further information, please contact support-pt@Servicify.com.<br /><br />
-          <b>Conditions of Use</b><br /><br />
-          <a href="http://www.servicify.di.uminho.pt/">http://www.servicify.di.uminho.pt/</a> reserves the right to cancel the
-          registration of any user who does not comply with the Terms and
-          Conditions of Use. <br /><br />If you have any questions, complaints
-          or comments regarding our privacy statement or policy, please contact
-          us at support-pt@Servicify.com. <br /><br />
-          <ol>
-            <li>
-              <b> Warranties</b>
+              <b> Guarantees</b>
               <ol>
                 <li>
                   Servicify guarantees the continuous and correct functioning of
@@ -477,6 +562,7 @@
                 </li>
               </ol>
             </li>
+            <br />
             <li>
               <b> Rights and Obligations</b>
               <ol>
@@ -532,6 +618,7 @@
                 </li>
               </ol>
             </li>
+            <br />
             <li>
               <b>Responsibility</b>
               <ol>
@@ -549,6 +636,7 @@
                 </li>
               </ol>
             </li>
+            <br />
             <li>
               <b>Conflicts</b>
               <ol>
@@ -563,6 +651,7 @@
                 </li>
               </ol>
             </li>
+            <br />
             <li>
               <b> Penalties</b>
               <ol>
@@ -594,6 +683,7 @@
                 </li>
               </ol>
             </li>
+            <br />
             <li>
               <b>Payments</b>
               <ol>
@@ -604,6 +694,7 @@
                 </li>
               </ol>
             </li>
+            <br />
             <li>
               <b>Transitional and Final Provisions</b>
               <ol>
