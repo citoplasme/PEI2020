@@ -125,7 +125,7 @@
                 <v-tooltip bottom>
                   <template v-slot:activator="{ on }">
                     <v-btn
-                      v-if="levelU > 0 && client!=item._id"
+                      v-if="levelU > 0 && client != item._id"
                       color="blue darken-1"
                       text
                       type="submit"

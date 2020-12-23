@@ -143,7 +143,7 @@
       <v-tooltip bottom>
         <template v-slot:activator="{ on }">
           <v-btn
-            v-if="id!=client"
+            v-if="id != client"
             color="blue darken-1"
             text
             type="submit"
@@ -276,7 +276,7 @@ export default {
     categories: [],
     specializations: [],
     service: "",
-    client:""
+    client: ""
   }),
   async created() {
     await this.getUser();
