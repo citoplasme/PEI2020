@@ -4,8 +4,6 @@
   <div v-else-if="!calendar_view && ready">
     <br />
     <div align="center">
-      <v-icon color="red">lens</v-icon> Canceled
-      <v-icon color="#cc9900">lens</v-icon> Negotiating
       <v-icon color="#cccc00">lens</v-icon> Waiting Service
       <v-icon color="green">lens</v-icon> Waiting for evaluation
       <v-icon color="blue">lens</v-icon> Finalized
