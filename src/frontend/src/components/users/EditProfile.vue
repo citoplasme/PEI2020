@@ -881,14 +881,13 @@ export default {
           return this.categories.find(obj => obj._id === c);
         });
         // FILTRAR ACTIVES
-        cats = cats.filter(c => c.active == true);
-
+        cats = cats.filter(c => c && c.active == true);
         // Merge
         let specs = this.user.subcategorias.map(sc => {
           return this.specializations.find(obj => obj._id === sc);
         });
         // FILTRAR ACTIVES
-        specs = specs.filter(c => c.active == true);
+        specs = specs.filter(c => c && c.active == true);
 
         this.user.categorias = cats;
         this.user.subcategorias = specs;
