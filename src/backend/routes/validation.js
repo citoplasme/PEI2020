@@ -101,13 +101,14 @@ module.exports.vcServiceStatus = [-2, -1, 0, 1, 2, 3, 4]
 
 /*
 Monitoring actions
-  1 - GET number of services by status
-  2 - GET total of services
+  1 - GET number of services by status globally or by user
+  2 - GET total of services globally or by user
   3 - GET number of clients, service_providers and admins
   4 - GET number of service providers by category
   5 - GET number of service providers by specialization
-*/
-module.exports.monitoringActions = [1, 2, 3, 4, 5]
+  6 - GET number of clients associated to a service provider
+  */
+module.exports.monitoringActions = [1, 2, 3, 4, 5, 6]
 
 //Users
 module.exports.vcUserLevels = [-1, 1, 2, 3, 3.5, 4, 5, 6, 7]

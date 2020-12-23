@@ -478,7 +478,7 @@ export default {
           end: element.date + "T" + newHora + ":00",
           color: color
         };
-        if (x.color == '#cccc00' || x.color == 'green' || x.color == 'blue')
+        if (x.color == "#cccc00" || x.color == "green" || x.color == "blue")
           events.push(x);
       });
 
@@ -587,7 +587,6 @@ export default {
         ? "th"
         : ["th", "st", "nd", "rd", "th", "th", "th", "th", "th", "th"][d % 10];
     }
-    
   }
 };
 </script>

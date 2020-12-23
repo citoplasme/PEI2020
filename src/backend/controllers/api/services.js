@@ -8,12 +8,21 @@ Services.listar = (filtro) => {
     return Service.find(filtro);
 };
 
-Services.total_services = () => {
-    return Service.find().countDocuments()
+Services.total_services = (idUser) => {
+    filtro = (idUser === undefined) ? {} : {$and: [{ $or: [{ client : idUser }, { service_provider : idUser}]}, { status: { $in: [ 2, 3, 4] } }]}
+    return Service.find(filtro).countDocuments()
 }
 
 Services.services_count_by_status = () => {
     return Service.aggregate([{$group: { _id: "$status", numberOfServices: { $sum: 1 }}}])
+}
+
+Services.services_by_status = (idUser) => {
+    return Service.find( { $and: [ { service_provider: idUser }, { status: { $ne: -1 } } ] } )
+}
+
+Services.clients_by_service_provider = (idUser) => {
+    return Service.find({ $and: [ { service_provider: idUser }, { status: { $in: [ 2, 3, 4] } }] }, {_id: 0, client: 1})
 }
 
 Services.listar_from_user = (filtro, user) => {

@@ -69,7 +69,7 @@ export default {
     };
   },
   async mounted() {
-    this.servicesCountByStatus();
+    await this.servicesCountByStatus();
   },
   methods: {
     async servicesCountByStatus() {

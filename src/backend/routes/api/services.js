@@ -69,11 +69,12 @@ router.get('/urgent', Auth.isLoggedInUser, async function (req, res) {
 
 /*
 Monitoring actions
-    1 - GET number of services by status
-    2 - GET total of services
-    3 - GET number of clients, service_providers and admins
-    4 - GET number of service providers by category
-    5 - GET number of service providers by specialization
+  1 - GET number of services by status globally or by user
+  2 - GET total of services globally or by user
+  3 - GET number of clients, service_providers and admins
+  4 - GET number of service providers by category
+  5 - GET number of service providers by specialization
+  6 - GET number of clients associated to a service provider
 */
 
 router.get('/monitoring', Auth.isLoggedInUser, Auth.checkLevel(7),[
@@ -125,6 +126,42 @@ router.get('/monitoring', Auth.isLoggedInUser, Auth.checkLevel(7),[
             .catch(erro => res.status(500).send(`Error while grouping categories by service providers: ${erro}`))
     }
     else res.status(500).send(`Error in query data: action is not valid`)
+})
+
+router.get('/monitoringByUser', Auth.isLoggedInUser, Auth.checkLevel(4),[
+    existe("query", "idUser"),
+    estaEm('query', 'action', monitoringActions)
+], async function (req, res) {
+
+    const errors = validationResult(req)
+    if(!errors.isEmpty()){
+        return res.status(422).jsonp(errors.array())
+    }
+
+    var queryData = url.parse(req.url, true).query;
+
+    if(queryData.idUser == req.user.id){
+        if(queryData.action == 1){
+            Services.services_by_status(req.user.id)
+                .then(dados => res.jsonp(dados))
+                .catch(erro => res.status(500).send(`Error while grouping the services by status of user ${req.user.id}: ${erro}`))
+        }
+        else if(queryData.action == 2){
+            Services.total_services(req.user.id)
+                .then(dados => res.jsonp(dados))
+                .catch(erro => res.status(500).send(`Error while counting the number of services of user ${req.user.id}: ${erro}`))
+        }
+        else if(queryData.action == 6){
+            Services.clients_by_service_provider(req.user.id)
+                .then(dados => {
+                    const nonRep = [... new Set(dados.map(o => o.client))]                
+                    res.jsonp(nonRep.length)
+                })
+                .catch(erro => res.status(500).send(`Error while counting the number of clients of associated to user ${req.user.id}: ${erro}`))
+        }
+        else res.status(500).send(`Error in query data: action or user id is not valid`)
+    }
+    else res.status(500).send(`Error in query data: user id in query must match logged user`)
 })
 
 router.get('/:id/bill', Auth.isLoggedInUser, [

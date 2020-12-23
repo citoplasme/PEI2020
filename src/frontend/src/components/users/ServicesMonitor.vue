@@ -2,7 +2,10 @@
   <v-content>
     <v-row>
       <v-col>
-        <Loading v-if="!ready" :message="'the service\'s management info'" />
+        <Loading
+          v-if="!ready"
+          :message="'the user\'s services management info'"
+        />
         <v-container fluid grid-list-md v-else>
           <v-layout row wrap>
             <v-flex
@@ -60,7 +63,7 @@
             </v-flex>
           </v-layout>
           <v-layout class="" row wrap>
-            <v-flex md6 xs12>
+            <!--<v-flex md6 xs12>
               <v-hover v-slot="{ hover }">
                 <v-card
                   light
@@ -73,6 +76,20 @@
                   </v-container>
                 </v-card>
               </v-hover>
+            </v-flex>-->
+            <v-flex md6 xs12>
+              <v-hover v-slot="{ hover }">
+                <v-card
+                  light
+                  :elevation="hover ? 12 : 2"
+                  :class="{ 'on-hover': hover }"
+                >
+                  <v-container>
+                    <v-card-title>Services per day of week</v-card-title>
+                    <Bar :type="'days_of_week'"></Bar>
+                  </v-container>
+                </v-card>
+              </v-hover>
             </v-flex>
             <v-flex md6 xs12>
               <v-hover v-slot="{ hover }">
@@ -82,13 +99,27 @@
                   :class="{ 'on-hover': hover }"
                 >
                   <v-container>
-                    <v-card-title>Service providers per category</v-card-title>
-                    <BarSp :type="'categories'"></BarSp>
+                    <v-card-title>Services per month</v-card-title>
+                    <Bar :type="'months'"></Bar>
                   </v-container>
                 </v-card>
               </v-hover>
             </v-flex>
             <v-flex md6 xs12>
+              <v-hover v-slot="{ hover }">
+                <v-card
+                  light
+                  :elevation="hover ? 12 : 2"
+                  :class="{ 'on-hover': hover }"
+                >
+                  <v-container>
+                    <v-card-title>Services per year</v-card-title>
+                    <Bar :type="'years'"></Bar>
+                  </v-container>
+                </v-card>
+              </v-hover>
+            </v-flex>
+            <!--<v-flex md6 xs12>
               <v-hover v-slot="{ hover }">
                 <v-card
                   light
@@ -117,38 +148,51 @@
                   </v-container>
                 </v-card>
               </v-hover>
-            </v-flex>
+            </v-flex>-->
           </v-layout>
         </v-container>
       </v-col>
     </v-row>
+    <!--<h1>Olá</h1>-->
   </v-content>
 </template>
 
 <script>
 import Loading from "@/components/generic/Loading";
 import Bar from "./chart/Bar";
-import BarValor from "./chart/BarValor";
-import BarSp from "./chart/BarSp";
+/*import BarValor from "./chart/BarValor";
+import BarSp from "./chart/BarSp";*/
 
 export default {
   data: () => ({
     stats: [],
-    ready: false
+    ready: false,
+    userId: -1
   }),
   components: {
     Loading,
-    Bar,
+    Bar /*,
     BarValor,
-    BarSp
+    BarSp*/
   },
   async mounted() {
     await this.getNumberOfServices();
-    await this.usersCountByLevel();
+    await this.getClientsBySP();
+    //await this.usersCountByLevel();
   },
   methods: {
     async getNumberOfServices() {
-      await this.$request("get", "/services/monitoring?action=2")
+      var res = await this.$request(
+        "get",
+        "/users/" + this.$store.state.token + "/token"
+      );
+
+      this.userId = res.data._id;
+
+      await this.$request(
+        "get",
+        "/services/monitoringByUser?idUser=" + this.userId + "&action=2"
+      )
         .then(res => {
           this.stats.push({
             bgColor: "primary",
@@ -164,34 +208,17 @@ export default {
         })
         .catch(error => alert(error));
     },
-    async usersCountByLevel() {
-      await this.$request("get", "/services/monitoring?action=3")
+    async getClientsBySP() {
+      await this.$request(
+        "get",
+        "/services/monitoringByUser?idUser=" + this.userId + "&action=6"
+      )
         .then(res => {
           this.stats.push({
             bgColor: "primary",
             icon: "person",
             title: "Clients",
-            data: res.data.clients,
-            action: {
-              label: "",
-              link: ""
-            }
-          });
-          this.stats.push({
-            bgColor: "primary",
-            icon: "engineering",
-            title: "Service_providers",
-            data: res.data.service_providers,
-            action: {
-              label: "",
-              link: ""
-            }
-          });
-          this.stats.push({
-            bgColor: "primary",
-            icon: "admin_panel_settings",
-            title: "Admins",
-            data: res.data.admins,
+            data: res.data,
             action: {
               label: "",
               link: ""
@@ -200,9 +227,6 @@ export default {
           this.ready = true;
         })
         .catch(error => alert(error));
-    },
-    go(path) {
-      this.$router.push(path);
     }
   }
 };

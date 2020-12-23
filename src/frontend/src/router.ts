@@ -69,6 +69,12 @@ export default new Router({
       meta: { levels: [1, 2, 3, 3.5, 4, 5, 6, 7] }
     },
     {
+      path: "/users/servicesMonitor",
+      name: "servicesMonitor",
+      component: () => import("./views/users/ServicesMonitor.vue"),
+      meta: { levels: [4] }
+    },
+    {
       path: "/users/:id",
       name: "viewUserById",
       component: () => import("./views/users/ViewProfile.vue"),

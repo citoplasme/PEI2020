@@ -42,8 +42,33 @@ export default {
       }
     }
   },
+  created: async function() {
+    let level = await this.$userLevel(this.$store.state.token);
+
+    if (level == 4) {
+      /*this.operacoes.push(
+      {
+          entidade: "",
+          texto: "Monitor your s",
+          ops: [
+            {
+              label: "View",
+              url: "/search"
+            }
+          ]
+        }
+    )*/
+      this.operacoes
+        .find(s => s.entidade === "Services")
+        .ops.push({
+          label: "Monitor",
+          url: "/users/servicesMonitor"
+        });
+    }
+  },
   data() {
     return {
+      //level: 0,
       panelHeaderColor: "primary",
       operacoes: [
         {
