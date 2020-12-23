@@ -107,8 +107,9 @@ Monitoring actions
   4 - GET number of service providers by category
   5 - GET number of service providers by specialization
   6 - GET number of clients associated to a service provider
+  7 - GET services of a service provider with status 2,3 and 4
   */
-module.exports.monitoringActions = [1, 2, 3, 4, 5, 6]
+module.exports.monitoringActions = [1, 2, 3, 4, 5, 6, 7]
 
 //Users
 module.exports.vcUserLevels = [-1, 1, 2, 3, 3.5, 4, 5, 6, 7]

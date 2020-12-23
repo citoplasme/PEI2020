@@ -6,6 +6,43 @@ export default {
   extends: Bar,
   data() {
     return {
+      status_info: [
+        {
+          value: -2,
+          desc: "Refused",
+          backgroundColor: "#63b179"
+        },
+        {
+          value: -1,
+          desc: "Canceled",
+          backgroundColor: "#aed987"
+        },
+        {
+          value: 0,
+          desc: "Generated",
+          backgroundColor: "#ffff9d"
+        },
+        {
+          value: 1,
+          desc: "Negotiating",
+          backgroundColor: "#fcc267"
+        },
+        {
+          value: 2,
+          desc: "Accepted",
+          backgroundColor: "#ef8250"
+        },
+        {
+          value: 3,
+          desc: "Waiting for evaluation",
+          backgroundColor: "#00b300"
+        },
+        {
+          value: 4,
+          desc: "Finalized",
+          backgroundColor: "#00aba9"
+        }
+      ],
       days_of_week_info: [
         {
           value: 0,
@@ -133,6 +170,7 @@ export default {
     };
   },
   async mounted() {
+    if(this.type)
     this.serviceByStatus();
   },
   methods: {
@@ -180,45 +218,60 @@ export default {
 
       var id = res.data._id;
 
+      let action = this.type == "services_by_status" ? "1" : "7";
+
       await this.$request(
         "get",
-        "/services/monitoringByUser?idUser=" + id + "&action=1"
+        "/services/monitoringByUser?idUser=" + id + "&action=" + action
       )
         .then(result => {
-          let response =
-            this.type == "days_of_week"
-              ? this.days_of_week(result.data)
-              : this.type == "months"
-              ? this.months(result.data)
-              : this.years(result.data);
-          response = _.countBy(response);
+          if(this.type != "services_by_status"){
+            let response = this.type == "days_of_week" ? this.days_of_week(result.data) : this.type == "months" ? this.months(result.data) : this.years(result.data) // : result.data;
+            response = _.countBy(response);
 
-          Object.entries(response).forEach(([key, value]) => {
-            if (this.type == "days_of_week") {
+            Object.entries(response).forEach(([key, value]) => {
+              if (this.type == "days_of_week") {
+                this.info.labels.push(
+                  this.days_of_week_info.find(s => s.value == key).desc
+                );
+                this.info.datasets[0].backgroundColor.push(
+                  this.days_of_week_info.find(s => s.value == key).backgroundColor
+                );
+              } else if (this.type == "months") {
+                this.info.labels.push(
+                  this.months_info.find(s => s.value == key).desc
+                );
+                this.info.datasets[0].backgroundColor.push(
+                  this.months_info.find(s => s.value == key).backgroundColor
+                );
+              } else {
+                this.info.labels.push(key);
+                this.info.datasets[0].backgroundColor.push(
+                  "#" +
+                    Math.random()
+                      .toString(16)
+                      .substr(-6)
+                );
+              }
+              this.info.datasets[0].data.push(value);
+            });
+          }
+          else{
+            var r = Object.assign([], result.data).sort(function(a, b) {
+              return a._id - b._id;
+            });
+  
+            r.forEach(element => {
               this.info.labels.push(
-                this.days_of_week_info.find(s => s.value == key).desc
+                this.status_info.find(s => s.value === element._id).desc
               );
               this.info.datasets[0].backgroundColor.push(
-                this.days_of_week_info.find(s => s.value == key).backgroundColor
+                this.status_info.find(s => s.value === element._id)
+                  .backgroundColor
               );
-            } else if (this.type == "months") {
-              this.info.labels.push(
-                this.months_info.find(s => s.value == key).desc
-              );
-              this.info.datasets[0].backgroundColor.push(
-                this.months_info.find(s => s.value == key).backgroundColor
-              );
-            } else {
-              this.info.labels.push(key);
-              this.info.datasets[0].backgroundColor.push(
-                "#" +
-                  Math.random()
-                    .toString(16)
-                    .substr(-6)
-              );
-            }
-            this.info.datasets[0].data.push(value);
-          });
+              this.info.datasets[0].data.push(element.numberOfServices);
+            });
+          }
 
           this.renderChart(this.info, this.options);
         })

@@ -71,8 +71,22 @@
                   :class="{ 'on-hover': hover }"
                 >
                   <v-container>
+                    <v-card-title>Services per status</v-card-title>
+                    <bar :type="'services_by_status'"></bar>
+                  </v-container>
+                </v-card>
+              </v-hover>
+            </v-flex>
+            <v-flex md6 xs12>
+              <v-hover v-slot="{ hover }">
+                <v-card
+                  light
+                  :elevation="hover ? 12 : 2"
+                  :class="{ 'on-hover': hover }"
+                >
+                  <v-container>
                     <v-card-title>Services per day of week</v-card-title>
-                    <Bar :type="'days_of_week'"></Bar>
+                    <bar :type="'days_of_week'"></bar>
                   </v-container>
                 </v-card>
               </v-hover>
@@ -86,7 +100,7 @@
                 >
                   <v-container>
                     <v-card-title>Services per month</v-card-title>
-                    <Bar :type="'months'"></Bar>
+                    <bar :type="'months'"></bar>
                   </v-container>
                 </v-card>
               </v-hover>
@@ -100,7 +114,7 @@
                 >
                   <v-container>
                     <v-card-title>Services per year</v-card-title>
-                    <Bar :type="'years'"></Bar>
+                    <bar :type="'years'"></bar>
                   </v-container>
                 </v-card>
               </v-hover>

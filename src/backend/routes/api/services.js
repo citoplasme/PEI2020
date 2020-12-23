@@ -75,6 +75,7 @@ Monitoring actions
   4 - GET number of service providers by category
   5 - GET number of service providers by specialization
   6 - GET number of clients associated to a service provider
+  7 - GET services of a service provider with status 2,3 and 4
 */
 
 router.get('/monitoring', Auth.isLoggedInUser, Auth.checkLevel(7),[
@@ -142,9 +143,9 @@ router.get('/monitoringByUser', Auth.isLoggedInUser, Auth.checkLevel(4),[
 
     if(queryData.idUser == req.user.id){
         if(queryData.action == 1){
-            Services.services_by_status(req.user.id)
+            Services.services_count_by_status(req.user.id)
                 .then(dados => res.jsonp(dados))
-                .catch(erro => res.status(500).send(`Error while grouping the services by status of user ${req.user.id}: ${erro}`))
+                .catch(erro => res.status(500).send(`Error while grouping the services of user ${req.user.id} by status: ${erro}`))
         }
         else if(queryData.action == 2){
             Services.total_services(req.user.id)
@@ -158,6 +159,11 @@ router.get('/monitoringByUser', Auth.isLoggedInUser, Auth.checkLevel(4),[
                     res.jsonp(nonRep.length)
                 })
                 .catch(erro => res.status(500).send(`Error while counting the number of clients of associated to user ${req.user.id}: ${erro}`))
+        }
+        else if(queryData.action == 7){
+            Services.services_by_status(req.user.id)
+                .then(dados => res.jsonp(dados))
+                .catch(erro => res.status(500).send(`Error while grouping the services by status of user ${req.user.id}: ${erro}`))
         }
         else res.status(500).send(`Error in query data: action or user id is not valid`)
     }

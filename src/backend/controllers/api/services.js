@@ -13,8 +13,9 @@ Services.total_services = (idUser) => {
     return Service.find(filtro).countDocuments()
 }
 
-Services.services_count_by_status = () => {
-    return Service.aggregate([{$group: { _id: "$status", numberOfServices: { $sum: 1 }}}])
+Services.services_count_by_status = (idUser) => {
+    filtro = (idUser === undefined) ? {} : { $match: { service_provider: idUser } }
+    return Service.aggregate([filtro, {$group: { _id: "$status", numberOfServices: { $sum: 1 }}}])
 }
 
 Services.services_by_status = (idUser) => {
