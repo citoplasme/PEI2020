@@ -25,6 +25,15 @@
                   <b>Last Bid: </b>{{ this.lastBidText }}
                 </div>
               </th>
+              <th>
+                <v-btn
+                  @click="go(idService)"
+                  icon
+                  color="primary"
+                >
+                  <v-icon>search</v-icon>
+                </v-btn>
+              </th>
             </tr>
           </table>
 
@@ -619,6 +628,7 @@
           </div>
         </v-stepper-content>
         <v-stepper-content step="4">
+          
           <div v-if="this.idLoged == this.data.client">
             <h2>Review by the service provider</h2>
             <div>
@@ -975,8 +985,7 @@ export default {
 
       this.empresa_review = Object.assign({}, this.data.review.client);
       this.cliente_review = Object.assign({}, this.data.review.service_provider);
-      console.log(this.cliente_review)
-      console.log(this.empresa_review)
+      
 
       //vai buscar o nome do user e do service provider
       var clientName = await this.$request("get", "/users/" + this.data.client);
@@ -1126,8 +1135,17 @@ export default {
     },
     fecharSnackbar() {
       this.snackbar = false;
+    },
+    go(id) {
+      var url = "/services/" + id;
+      if (url.startsWith("http")) {
+        window.location.href = url;
+      } else {
+        this.$router.push(url);
+      }
     }
   }
+  
 };
 //PUT /v1/services/5fc7d9dd6565e154c43bf91b/bid 500 3.758 ms - 71   erro
 //PUT /v1/services/5fbfe418a873e93baefa1a70/bid                     funciona este
