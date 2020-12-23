@@ -451,10 +451,10 @@
             color="primary"
             class="mr-1"
           >
-            <v-icon medium>attach_money</v-icon>
+            <v-icon medium>more_vert</v-icon>
           </v-btn>
         </template>
-        <span>Negociate</span>
+        <span>Interact</span>
       </v-tooltip>
     </v-col>
     <v-dialog v-model="dialog_service" max-width="500px" persistent>
