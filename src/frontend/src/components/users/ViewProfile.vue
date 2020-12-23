@@ -139,7 +139,7 @@
       </v-list-item>
     </v-list>
     <v-card-actions>
-      <v-spacer/>
+      <v-spacer />
       <v-tooltip bottom>
         <template v-slot:activator="{ on }">
           <v-btn
@@ -226,7 +226,7 @@
           >
         </v-card-actions>
       </v-card>
-    </v-dialog> 
+    </v-dialog>
     <v-snackbar
       v-model="snackbar"
       :color="color"
@@ -235,7 +235,7 @@
     >
       {{ text }}
       <v-btn text @click="fecharSnackbar">Close</v-btn>
-    </v-snackbar>   
+    </v-snackbar>
   </v-card>
 </template>
 
@@ -274,7 +274,7 @@ export default {
     ready: false,
     categories: [],
     specializations: [],
-    service: '',
+    service: ""
   }),
   async created() {
     await this.getUser();
@@ -403,8 +403,6 @@ export default {
         ) {
           data.duration = this.form.duration;
         }
-
-        console.log(data)
 
         try {
           var response = await this.$request("post", "/services/", data).then(

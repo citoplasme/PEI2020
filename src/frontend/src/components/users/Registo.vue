@@ -65,7 +65,7 @@
                 </v-select>
               </v-flex>
               <v-flex>
-                <v-checkbox v-model="checkbox">
+                <v-checkbox v-model="checkbox" :rules="regraToS">
                   <template v-slot:label>
                     <div>
                       I agree with the
@@ -83,10 +83,10 @@
                 </v-checkbox>
               </v-flex>
               <v-flex>
-                <v-checkbox v-model="checkbox2">
+                <v-checkbox v-model="checkbox2" :rules="regraAge">
                   <template v-slot:label>
                     <div>
-                      I am over 13 years old.
+                      I am over 18 years old.
                     </div>
                   </template>
                 </v-checkbox>
@@ -437,6 +437,8 @@ export default {
       ],
       regraPassword: [v => !!v || "Password is required."],
       regraTipo: [v => !!v || "Type is required."],
+      regraToS: [v => !!v || "Acceptance of Terms of Service is required."],
+      regraAge: [v => !!v || "Age confirnation is required."],
       form: {
         name: "",
         email: "",
