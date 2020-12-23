@@ -4,15 +4,13 @@
   <div v-else-if="!calendar_view && ready">
     <br />
     <div align="center">
-      <v-icon color="red">lens</v-icon> Canceled
-      <v-icon color="#cc9900">lens</v-icon> Negotiating
       <v-icon color="#cccc00">lens</v-icon> Waiting Service
       <v-icon color="green">lens</v-icon> Waiting for evaluation
       <v-icon color="blue">lens</v-icon> Finalized
     </div>
     <v-row class="ma-4; text-right">
       <v-col>
-        <v-tooltip>
+        <v-tooltip bottom>
           <template v-slot:activator="{ on }">
             <v-btn v-on="on" icon @click="calendar_view = true">
               <v-icon color="primary">list</v-icon>
@@ -20,7 +18,7 @@
           </template>
           <span>List View</span>
         </v-tooltip>
-        <v-tooltip>
+        <v-tooltip bottom>
           <template v-slot:activator="{ on }">
             <v-btn v-on="on" icon @click="calendar_view = false">
               <v-icon color="primary">calendar_today</v-icon>
@@ -136,7 +134,7 @@
   <div v-else-if="calendar_view && ready">
     <v-row class="ma-4; text-right">
       <v-col>
-        <v-tooltip>
+        <v-tooltip bottom>
           <template v-slot:activator="{ on }">
             <v-btn v-on="on" icon @click="calendar_view = true">
               <v-icon color="primary">list</v-icon>
@@ -144,7 +142,7 @@
           </template>
           <span>List View</span>
         </v-tooltip>
-        <v-tooltip>
+        <v-tooltip bottom>
           <template v-slot:activator="{ on }">
             <v-btn v-on="on" icon @click="calendar_view = false">
               <v-icon color="primary">calendar_today</v-icon>
