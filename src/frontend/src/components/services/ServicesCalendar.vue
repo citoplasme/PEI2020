@@ -1,7 +1,7 @@
 <template>
-  <!--Loading v-if="!ready" :message="'the services'" /-->
+  <Loading v-if="!ready" :message="'the services'" />
   <!--div v-else-if="calendar_view"-->
-  <div v-if="calendar_view">
+  <div v-else-if="!calendar_view && ready">
     <br />
     <div align="center">
       <v-icon color="red">lens</v-icon> Canceled
@@ -14,7 +14,7 @@
       <v-col>
         <v-tooltip>
           <template v-slot:activator="{ on }">
-            <v-btn v-on="on" icon @click="calendar_view = false">
+            <v-btn v-on="on" icon @click="calendar_view = true">
               <v-icon color="primary">list</v-icon>
             </v-btn>
           </template>
@@ -22,7 +22,7 @@
         </v-tooltip>
         <v-tooltip>
           <template v-slot:activator="{ on }">
-            <v-btn v-on="on" icon @click="calendar_view = true">
+            <v-btn v-on="on" icon @click="calendar_view = false">
               <v-icon color="primary">calendar_today</v-icon>
             </v-btn>
           </template>
@@ -133,12 +133,12 @@
       </v-col>
     </v-row>
   </div>
-  <div v-else-if="!calendar_view">
+  <div v-else-if="calendar_view && ready">
     <v-row class="ma-4; text-right">
       <v-col>
         <v-tooltip>
           <template v-slot:activator="{ on }">
-            <v-btn v-on="on" icon @click="calendar_view = false">
+            <v-btn v-on="on" icon @click="calendar_view = true">
               <v-icon color="primary">list</v-icon>
             </v-btn>
           </template>
@@ -146,7 +146,7 @@
         </v-tooltip>
         <v-tooltip>
           <template v-slot:activator="{ on }">
-            <v-btn v-on="on" icon @click="calendar_view = true">
+            <v-btn v-on="on" icon @click="calendar_view = false">
               <v-icon color="primary">calendar_today</v-icon>
             </v-btn>
           </template>
@@ -211,7 +211,7 @@
 import Loading from "@/components/generic/Loading";
 export default {
   components: {
-    //Loading
+    Loading
   },
   data: () => ({
     today: new Date().toISOString().substr(0, 10),
@@ -276,10 +276,15 @@ export default {
       }
     ]
   }),
-  mounted() {
-    this.$refs.calendar.checkChange();
-    this.getEvents();
-    //this.ready = true;
+  //mounted() {
+  //this.$refs.calendar.checkChange();
+  //await this.getEvents();
+  //this.ready = true;
+  //this.$refs.calendar.checkChange();
+  //},
+  created: async function() {
+    await this.getEvents();
+    this.ready = true;
   },
   computed: {
     title() {
