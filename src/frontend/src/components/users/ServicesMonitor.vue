@@ -119,6 +119,7 @@
                 </v-card>
               </v-hover>
             </v-flex>
+
           </v-layout>
         </v-container>
       </v-col>
@@ -129,6 +130,7 @@
 <script>
 import Loading from "@/components/generic/Loading";
 import Bar from "./chart/Bar";
+//import { GChart } from 'vue-google-charts'
 
 export default {
   data: () => ({
@@ -138,7 +140,8 @@ export default {
   }),
   components: {
     Loading,
-    Bar
+    Bar/*,
+    GChart*/
   },
   async mounted() {
     await this.getNumberOfServices();

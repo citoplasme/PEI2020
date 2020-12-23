@@ -14,7 +14,7 @@ Services.total_services = (idUser) => {
 }
 
 Services.services_count_by_status = (idUser) => {
-    filtro = (idUser === undefined) ? {} : { $match: { service_provider: idUser } }
+    filtro = (idUser === undefined) ? { $match: {} } : { $match: { service_provider: idUser } }
     return Service.aggregate([filtro, {$group: { _id: "$status", numberOfServices: { $sum: 1 }}}])
 }
 
