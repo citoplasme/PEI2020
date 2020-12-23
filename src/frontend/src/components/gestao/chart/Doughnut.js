@@ -9,11 +9,11 @@ export default {
           "Technological Administrator",
           "Functional Administrator",
           "Decision maker",
-          "Validator - level 2",
-          "Validator - level 1",
-          "Advanced user",
-          "Basic user - level 2",
-          "Basic user - Level 1",
+          "Premium service provider",
+          "Verified service provider",
+          "Service provider",
+          "Premium user",
+          "Regular user",
           "Deactivated user"
         ],
         datasets: [
