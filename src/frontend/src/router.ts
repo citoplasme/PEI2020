@@ -70,7 +70,7 @@ export default new Router({
     },
     {
       path: "/users/servicesMonitor",
-      name: "servicesMonitor",
+      name: "servicesMonitorUser",
       component: () => import("./views/users/ServicesMonitor.vue"),
       meta: { levels: [4] }
     },
@@ -134,7 +134,7 @@ export default new Router({
     },
     {
       path: "/services/monitor",
-      name: "servicesMonitor",
+      name: "servicesMonitorAdmin",
       component: () => import("./views/services/ServicesMonitor.vue"),
       meta: { levels: [7] }
     },
