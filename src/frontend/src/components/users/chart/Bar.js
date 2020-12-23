@@ -6,43 +6,6 @@ export default {
   extends: Bar,
   data() {
     return {
-      status_info: [
-        {
-          value: -2,
-          desc: "Refused",
-          backgroundColor: "#63b179"
-        },
-        {
-          value: -1,
-          desc: "Canceled",
-          backgroundColor: "#aed987"
-        },
-        {
-          value: 0,
-          desc: "Generated",
-          backgroundColor: "#ffff9d"
-        },
-        {
-          value: 1,
-          desc: "Negotiating",
-          backgroundColor: "#fcc267"
-        },
-        {
-          value: 2,
-          desc: "Accepted",
-          backgroundColor: "#ef8250"
-        },
-        {
-          value: 3,
-          desc: "Waiting for evaluation",
-          backgroundColor: "#00b300"
-        },
-        {
-          value: 4,
-          desc: "Finalized",
-          backgroundColor: "#00aba9"
-        }
-      ],
       days_of_week_info: [
         {
           value: 0,
@@ -84,68 +47,6 @@ export default {
         {
           value: 1,
           desc: "January",
-          backgroundColor: "#00aba9"
-        },
-        {
-          value: 2,
-          desc: "February",
-          backgroundColor: "#00aba9"
-        },
-        {
-          value: 3,
-          desc: "March",
-          backgroundColor: "#00aba9"
-        },
-        {
-          value: 4,
-          desc: "April",
-          backgroundColor: "#00aba9"
-        },
-        {
-          value: 5,
-          desc: "May",
-          backgroundColor: "#00aba9"
-        },
-        {
-          value: 6,
-          desc: "June",
-          backgroundColor: "#00aba9"
-        },
-        {
-          value: 7,
-          desc: "July",
-          backgroundColor: "#00aba9"
-        },
-        {
-          value: 8,
-          desc: "August",
-          backgroundColor: "#00aba9"
-        },
-        {
-          value: 9,
-          desc: "September",
-          backgroundColor: "#00aba9"
-        },
-        {
-          value: 10,
-          desc: "October",
-          backgroundColor: "#00aba9"
-        },
-        {
-          value: 11,
-          desc: "November",
-          backgroundColor: "#00aba9"
-        },
-        {
-          value: 12,
-          desc: "December",
-          backgroundColor: "#00aba9"
-        }
-      ] /*,
-      months_info: [
-        {
-          value: 1,
-          desc: "January",
           backgroundColor: "#63b179"
         },
         {
@@ -179,31 +80,31 @@ export default {
           backgroundColor: "#00aba9"
         },
         {
-            value: 8,
-            desc: "August",
-            backgroundColor: "#00aba9"
-          },
-          {
-            value: 9,
-            desc: "Septmber",
-            backgroundColor: "#00aba9"
-          },
-          {
-            value: 10,
-            desc: "October",
-            backgroundColor: "#00aba9"
-          },
-          {
-            value: 11,
-            desc: "November",
-            backgroundColor: "#00aba9"
-          },
-          {
-            value: 12,
-            desc: "December",
-            backgroundColor: "#00aba9"
-          }
-        ]*/,
+          value: 8,
+          desc: "August",
+          backgroundColor: "#00e6b8"
+        },
+        {
+          value: 9,
+          desc: "September",
+          backgroundColor: "#4d4dff"
+        },
+        {
+          value: 10,
+          desc: "October",
+          backgroundColor: "#006666"
+        },
+        {
+          value: 11,
+          desc: "November",
+          backgroundColor: "#86592d"
+        },
+        {
+          value: 12,
+          desc: "December",
+          backgroundColor: "#cc0000"
+        }
+      ],
       info: {
         labels: [],
         datasets: [

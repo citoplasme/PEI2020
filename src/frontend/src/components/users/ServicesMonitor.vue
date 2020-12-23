@@ -63,20 +63,6 @@
             </v-flex>
           </v-layout>
           <v-layout class="" row wrap>
-            <!--<v-flex md6 xs12>
-              <v-hover v-slot="{ hover }">
-                <v-card
-                  light
-                  :elevation="hover ? 12 : 2"
-                  :class="{ 'on-hover': hover }"
-                >
-                  <v-container>
-                    <v-card-title>Services per status</v-card-title>
-                    <bar></bar>
-                  </v-container>
-                </v-card>
-              </v-hover>
-            </v-flex>-->
             <v-flex md6 xs12>
               <v-hover v-slot="{ hover }">
                 <v-card
@@ -119,49 +105,16 @@
                 </v-card>
               </v-hover>
             </v-flex>
-            <!--<v-flex md6 xs12>
-              <v-hover v-slot="{ hover }">
-                <v-card
-                  light
-                  :elevation="hover ? 12 : 2"
-                  :class="{ 'on-hover': hover }"
-                >
-                  <v-container>
-                    <v-card-title
-                      >Service providers per specialization</v-card-title
-                    >
-                    <BarSp :type="'specializations'"></BarSp>
-                  </v-container>
-                </v-card>
-              </v-hover>
-            </v-flex>
-            <v-flex md6 xs12>
-              <v-hover v-slot="{ hover }">
-                <v-card
-                  light
-                  :elevation="hover ? 12 : 2"
-                  :class="{ 'on-hover': hover }"
-                >
-                  <v-container>
-                    <v-card-title>Services per day of week</v-card-title>
-                    <BarValor></BarValor>
-                  </v-container>
-                </v-card>
-              </v-hover>
-            </v-flex>-->
           </v-layout>
         </v-container>
       </v-col>
     </v-row>
-    <!--<h1>Olá</h1>-->
   </v-content>
 </template>
 
 <script>
 import Loading from "@/components/generic/Loading";
 import Bar from "./chart/Bar";
-/*import BarValor from "./chart/BarValor";
-import BarSp from "./chart/BarSp";*/
 
 export default {
   data: () => ({
@@ -171,14 +124,11 @@ export default {
   }),
   components: {
     Loading,
-    Bar /*,
-    BarValor,
-    BarSp*/
+    Bar
   },
   async mounted() {
     await this.getNumberOfServices();
     await this.getClientsBySP();
-    //await this.usersCountByLevel();
   },
   methods: {
     async getNumberOfServices() {
@@ -204,7 +154,6 @@ export default {
               link: ""
             }
           });
-          //this.ready = true;
         })
         .catch(error => alert(error));
     },

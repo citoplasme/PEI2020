@@ -18,7 +18,7 @@ Services.services_count_by_status = () => {
 }
 
 Services.services_by_status = (idUser) => {
-    return Service.find( { $and: [ { service_provider: idUser }, { status: { $ne: -1 } } ] } )
+    return Service.find( { $and: [ { service_provider: idUser }, { status: { $in: [ 2, 3, 4] } } ] } )
 }
 
 Services.clients_by_service_provider = (idUser) => {
