@@ -992,9 +992,9 @@ export default {
       this.serviceProviderName = serviceProvicerName;
 
       //testar datas
-      this.date_diff = this.date_difference("2020-12-23");
+      //this.date_diff = this.date_difference("2020-12-23");
 
-      //this.date_diff = this.date_difference(res.data.date, res.data.hour);
+      this.date_diff = this.date_difference(res.data.date, res.data.hour);
 
       //Vai ordenar orçamentos por data
       this.data.orcamento.sort((a, b) => (a.datetime < b.datetime ? 1 : -1));
