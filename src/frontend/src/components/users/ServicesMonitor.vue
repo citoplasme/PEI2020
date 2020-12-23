@@ -119,7 +119,6 @@
                 </v-card>
               </v-hover>
             </v-flex>
-
           </v-layout>
         </v-container>
       </v-col>
@@ -140,7 +139,7 @@ export default {
   }),
   components: {
     Loading,
-    Bar/*,
+    Bar /*,
     GChart*/
   },
   async mounted() {

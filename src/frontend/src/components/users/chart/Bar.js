@@ -170,8 +170,7 @@ export default {
     };
   },
   async mounted() {
-    if(this.type)
-    this.serviceByStatus();
+    if (this.type) this.serviceByStatus();
   },
   methods: {
     days_of_week(array) {
@@ -225,8 +224,13 @@ export default {
         "/services/monitoringByUser?idUser=" + id + "&action=" + action
       )
         .then(result => {
-          if(this.type != "services_by_status"){
-            let response = this.type == "days_of_week" ? this.days_of_week(result.data) : this.type == "months" ? this.months(result.data) : this.years(result.data) // : result.data;
+          if (this.type != "services_by_status") {
+            let response =
+              this.type == "days_of_week"
+                ? this.days_of_week(result.data)
+                : this.type == "months"
+                ? this.months(result.data)
+                : this.years(result.data); // : result.data;
             response = _.countBy(response);
 
             Object.entries(response).forEach(([key, value]) => {
@@ -235,7 +239,8 @@ export default {
                   this.days_of_week_info.find(s => s.value == key).desc
                 );
                 this.info.datasets[0].backgroundColor.push(
-                  this.days_of_week_info.find(s => s.value == key).backgroundColor
+                  this.days_of_week_info.find(s => s.value == key)
+                    .backgroundColor
                 );
               } else if (this.type == "months") {
                 this.info.labels.push(
@@ -255,12 +260,11 @@ export default {
               }
               this.info.datasets[0].data.push(value);
             });
-          }
-          else{
+          } else {
             var r = Object.assign([], result.data).sort(function(a, b) {
               return a._id - b._id;
             });
-  
+
             r.forEach(element => {
               this.info.labels.push(
                 this.status_info.find(s => s.value === element._id).desc
