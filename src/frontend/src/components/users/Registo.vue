@@ -116,58 +116,59 @@
       <v-card>
         <v-card-title class="headline">Terms of Service</v-card-title>
         <v-card-text style="text-align: justify; text-justify: inter-word;">
-          Terms of Use Notice: This Agreement on Terms of Use, which includes,
-          in particular, the terms and conditions and privacy policy of this
-          website, constitutes a contract between Servicify and those who enjoy
-          the platform, so it should be read carefully. The use of the services
-          provided by this website implies the acceptance of its Terms of Use,
-          including its privacy policy and therefore, in case of disagreement
-          with some of its provisions, the use of the service is not allowed.
-          The last amendment to these Terms of Use dates from 22.12.2020. Table
-          of Contents: 1. Definitions and General Conditions 2. Privacy Policy
-          3. Guarantees 4. Rights and Obligations 5. Responsibility 6. Conflicts
-          7. Penalties 8. Payments 9. Transitional and Final Provisions 1.
-          Definitions and General Conditions a) Definitions "Servicify" -
-          website of the trademark "Servicify", owned by the company Servicify,
-          Lda. "Final Clients" - those who use Servicify's website to place
-          orders for the provision of certain services by professionals
-          registered for that purpose. "End Customer Information" - any
-          information provided by the End Customer, either during the phase of
-          their registration and registration on the website, or in relation to
-          the description of their requests, the evaluation made by professional
-          service providers or other resulting from the use of the website.
-          "Privacy Policy" - description of the types of information collected
-          from End Users or Customers and the Service Provider and how it is
-          handled. "Request" - description made by the Client of the service he
-          wishes to see provided by a professional registered on the website,
-          through a form for that purpose. "System" - computer equipment,
-          storage and transmission of data, program and computer applications,
-          sequences of commands and automatic processes of analysis and
-          treatment of data that are used by Servicify. "Terms and Conditions" -
-          are the rules that are binding on Servicify, Users, End Customers and
-          Service Providers, contained in this Terms of Use Agreement and the
-          terms of the Privacy Policy. "Professional" - natural or legal
-          persons, service providers, registered in the Servicify website, who
-          intend, by this way, to receive requests from potential End Clients
-          interested in contracting those services. "User" - any natural or
-          legal person who accesses the website until the moment they acquire
-          the status of End Customer or Service Provider. "Website" (of
-          Servicify) - website and its domain, hosting space, page or set of web
-          pages, its contents, graphics of other information contained therein,
-          whose content is managed by Servicify. b) General Conditions 1.1
-          Servicify's website is an online platform where End-Customers request
-          a certain service from Service Providers, who can then enter a biding
-          process with the customer 1.2 Requests submitted by End Clients are
-          disclosed to registered Service Providers whose activity is compatible
-          with them. 1.3 It is up to the End Customer to evaluate the proposals
-          and services presented by the Professionals, and the selection of the
-          Professional is their entire and exclusive responsibility. 1.4
-          Servicify is limited, in its intervention, to collecting the End
-          Clients' requests and the registrations of the Professional service
-          providers, disclosing those to them in order to allow the process of
-          choosing the End Client. 1.5 The End Customer may even choose not to
-          select any of the Professionals who contact them for the presentation
-          of their proposals, recognizing that Servicify is a third party in the
+          <b>Terms of Use Notice</b> This Agreement on Terms of Use, which
+          includes, in particular, the terms and conditions and privacy policy
+          of this website, constitutes a contract between Servicify and those
+          who enjoy the platform, so it should be read carefully. The use of the
+          services provided by this website implies the acceptance of its Terms
+          of Use, including its privacy policy and therefore, in case of
+          disagreement with some of its provisions, the use of the service is
+          not allowed. The last amendment to these Terms of Use dates from
+          22.12.2020. Table of Contents: 1. Definitions and General Conditions
+          2. Privacy Policy 3. Guarantees 4. Rights and Obligations 5.
+          Responsibility 6. Conflicts 7. Penalties 8. Payments 9. Transitional
+          and Final Provisions 1. Definitions and General Conditions a)
+          Definitions "Servicify" - website of the trademark "Servicify", owned
+          by the company Servicify, Lda. "Final Clients" - those who use
+          Servicify's website to place orders for the provision of certain
+          services by professionals registered for that purpose. "End Customer
+          Information" - any information provided by the End Customer, either
+          during the phase of their registration and registration on the
+          website, or in relation to the description of their requests, the
+          evaluation made by professional service providers or other resulting
+          from the use of the website. "Privacy Policy" - description of the
+          types of information collected from End Users or Customers and the
+          Service Provider and how it is handled. "Request" - description made
+          by the Client of the service he wishes to see provided by a
+          professional registered on the website, through a form for that
+          purpose. "System" - computer equipment, storage and transmission of
+          data, program and computer applications, sequences of commands and
+          automatic processes of analysis and treatment of data that are used by
+          Servicify. "Terms and Conditions" - are the rules that are binding on
+          Servicify, Users, End Customers and Service Providers, contained in
+          this Terms of Use Agreement and the terms of the Privacy Policy.
+          "Professional" - natural or legal persons, service providers,
+          registered in the Servicify website, who intend, by this way, to
+          receive requests from potential End Clients interested in contracting
+          those services. "User" - any natural or legal person who accesses the
+          website until the moment they acquire the status of End Customer or
+          Service Provider. "Website" (of Servicify) - website and its domain,
+          hosting space, page or set of web pages, its contents, graphics of
+          other information contained therein, whose content is managed by
+          Servicify. b) General Conditions 1.1 Servicify's website is an online
+          platform where End-Customers request a certain service from Service
+          Providers, who can then enter a biding process with the customer 1.2
+          Requests submitted by End Clients are disclosed to registered Service
+          Providers whose activity is compatible with them. 1.3 It is up to the
+          End Customer to evaluate the proposals and services presented by the
+          Professionals, and the selection of the Professional is their entire
+          and exclusive responsibility. 1.4 Servicify is limited, in its
+          intervention, to collecting the End Clients' requests and the
+          registrations of the Professional service providers, disclosing those
+          to them in order to allow the process of choosing the End Client. 1.5
+          The End Customer may even choose not to select any of the
+          Professionals who contact them for the presentation of their
+          proposals, recognizing that Servicify is a third party in the
           relationship contractually established between End Customer and
           Professional. Therefore, Servicify does not guarantee the performance
           of the Professional or any transaction that may be agreed upon between
