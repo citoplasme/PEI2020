@@ -241,7 +241,7 @@
                   and correct information on the website.
                 </li>
                 <li>
-                  is not responsible for the information referred to in the
+                  Servicify is not responsible for the information referred to in the
                   previous paragraph and the End Customer must, prior to the
                   selection of the Professional, evaluate and prove the
                   truthfulness, accuracy and integrity of the same.
@@ -263,12 +263,12 @@
                 >http://www.servicify.di.uminho.pt/</a
               >, values the privacy of its visitors and in this sense is
               committed to respecting it, ensuring the confidentiality and
-              protection of data recorded by users. <br /><br />This Privacy
+              protection of data recorded by users. <br />This Privacy
               Statement is intended to ensure security and privacy conditions to
               users, being only requested and collected the data necessary to
               provide the service, according to the explicit indications on the
               site. The user has full freedom to access their data, rectify them
-              or delete them.<br /><br />
+              or delete them.<br />
               We assume the following commitments towards the Users:
               <ul>
                 <li>
@@ -312,13 +312,12 @@
                   services provided. <br />The collection of user identification
                   data will be carried out by filling out an online registration
                   form and will occur in accordance with the strictest security
-                  rules.<br /><br />
+                  rules.<br />
                   The user when registering at
                   <a href="http://www.servicify.di.uminho.pt/"
                     >http://www.servicify.di.uminho.pt/</a
                   >
-                  provides personal data, such as name, e-mail address,
-                  telephone number, e-mail, etc., necessary to subscribe to the
+                  provides personal data, such as name, e-mail address, e-mail, etc., necessary to subscribe to the
                   services, the site's newsletters and the newsletters of
                   associated partners.<br />
                   When you interact with our Platform or use our Services, we
@@ -410,8 +409,7 @@
                   <a href="http://www.servicify.di.uminho.pt/"
                     >http://www.servicify.di.uminho.pt/</a
                   >. The subscription request requires the introduction of a
-                  password and an email address, to which a confirmation link is
-                  sent, which will allow validation of the registration made.
+                  password , name and email address.
                   This password guarantees the user exclusive access to the
                   management of the services.<br />The data provided by the
                   users will only be used in the execution of the services
@@ -426,8 +424,7 @@
                   is conditioned by a password, which will be indicated by the
                   user at the time of registration. In case the user forgets his
                   password, he can recover it by indicating the e-mail address
-                  where the account was registered. For security reasons, the
-                  password must have more than 6 characters.
+                  where the account was registered.
                   <br />Recommendation: A good password should include letters,
                   numbers and special characters and should not be a common or
                   easily detectable word. <br />The password is personal and
@@ -494,7 +491,7 @@
                   >
                   change its privacy practices, these will always be available
                   at this site.<br />
-                  For further information, please contact
+                  For further information, please contact:
                   support-pt@Servicify.com.
                 </li>
                 <br />
