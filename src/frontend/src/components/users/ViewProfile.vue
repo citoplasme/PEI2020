@@ -143,6 +143,7 @@
       <v-tooltip bottom>
         <template v-slot:activator="{ on }">
           <v-btn
+            v-if="id!=client"
             color="blue darken-1"
             text
             type="submit"
@@ -274,7 +275,8 @@ export default {
     ready: false,
     categories: [],
     specializations: [],
-    service: ""
+    service: "",
+    client:""
   }),
   async created() {
     await this.getUser();
@@ -286,6 +288,22 @@ export default {
     await this.merge_fileds();
 
     await this.getLocations();
+
+    try {
+      if (
+        this.$store.state.token !== undefined &&
+        this.$store.state.token !== "" &&
+        this.$store.state.token !== null
+      ) {
+        var res = await this.$request(
+          "get",
+          "/users/" + this.$store.state.token + "/token"
+        );
+        this.client = res.data._id;
+      }
+    } catch (e) {
+      return e;
+    }
 
     this.ready = true;
   },
@@ -369,7 +387,7 @@ export default {
       if (this.$refs.formPost.validate()) {
         let data = {
           status: "1",
-          client: this.user._id,
+          client: this.client,
           service_provider: id
         };
 
