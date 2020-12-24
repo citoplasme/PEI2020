@@ -134,7 +134,7 @@ export default {
   data: () => ({
     stats: [],
     ready: false,
-    userId: -1,
+    userId: -1
   }),
   components: {
     Loading,

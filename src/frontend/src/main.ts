@@ -9,8 +9,8 @@ import "bootstrap";
 import request from "./plugins/request";
 import userLevel from "./plugins/userLevel";
 import { VueMaskDirective } from "v-mask";
-import Chartkick from 'vue-chartkick'
-import Chart from 'chart.js'
+import Chartkick from "vue-chartkick";
+import Chart from "chart.js";
 //import BootstrapVue from "bootstrap-vue";
 
 //Vue.use(BootstrapVue);
@@ -20,8 +20,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 Vue.use(request);
 Vue.use(userLevel);
-Vue.use(Chartkick.use(Chart))
-Vue.use(Chartkick)
+Vue.use(Chartkick.use(Chart));
+Vue.use(Chartkick);
 Vue.directive("mask", VueMaskDirective);
 
 Vue.config.productionTip = false;

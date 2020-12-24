@@ -120,8 +120,12 @@
             </v-flex>
           </v-layout>
           <v-hover v-slot="{ hover }">
-            <v-card light :elevation="hover ? 12 : 2" :class="{ 'on-hover': hover }">
-              <v-card-subtitle> Service providers per country</v-card-subtitle>  
+            <v-card
+              light
+              :elevation="hover ? 12 : 2"
+              :class="{ 'on-hover': hover }"
+            >
+              <v-card-subtitle> Service providers per country</v-card-subtitle>
               <v-card-text>
                 <geo-chart :data="countries"></geo-chart>
               </v-card-text>
@@ -144,7 +148,7 @@ export default {
     stats: [],
     ready: false,
     countries: [],
-    countryColors: [],
+    countryColors: []
   }),
   components: {
     Loading,
@@ -156,31 +160,35 @@ export default {
     await this.getNumberOfServices();
     await this.usersCountByLevel();
   },
-  async created(){
-    await this.getInfo()
+  async created() {
+    await this.getInfo();
   },
   methods: {
-    async getInfo(){
-      let countries_info = await this.$request("get", "/countries")
+    async getInfo() {
+      let countries_info = await this.$request("get", "/countries");
 
-      var usersByCountry = {}
-      var country_name = ""
+      var usersByCountry = {};
+      var country_name = "";
 
       await this.$request("get", "/services/monitoring?action=8")
         .then(res => {
-            for(let i=0; i<res.data.length; i++){
-              country_name = countries_info.data.find(
-                  c => c._id === res.data[i].location_info[0].country
-              ).name
+          for (let i = 0; i < res.data.length; i++) {
+            country_name = countries_info.data.find(
+              c => c._id === res.data[i].location_info[0].country
+            ).name;
 
-              if(country_name in usersByCountry) usersByCountry[country_name] += 1
-              else usersByCountry[country_name] = 1
-            }
-            this.countries = Object.keys(usersByCountry).map((key) => [key, usersByCountry[key]]);
-          })
+            if (country_name in usersByCountry)
+              usersByCountry[country_name] += 1;
+            else usersByCountry[country_name] = 1;
+          }
+          this.countries = Object.keys(usersByCountry).map(key => [
+            key,
+            usersByCountry[key]
+          ]);
+        })
         .catch(error => alert(error));
 
-        this.ready = true
+      this.ready = true;
     },
     async getNumberOfServices() {
       await this.$request("get", "/services/monitoring?action=2")
