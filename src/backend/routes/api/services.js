@@ -313,8 +313,12 @@ router.post('/', Auth.isLoggedInUser, Auth.checkLevel([1, 2, 3, 3.5, 4, 5, 6, 7]
         // Request made to a specific client/service provider
         else {
             if(req.user.id === req.body.client || req.user.id === req.body.service_provider){
+                // Trying to create service for himself
+                if(req.body.client == req.body.service_provider){
+                    res.status(500).jsonp("Error creating the service: you cannot create a service for yourself.")
+                }
                 // Verify if both users exist and if service_provider is valid
-                if(req.user.id === req.body.service_provider){
+                else if(req.user.id === req.body.service_provider){
                     // Verify if is a service provider (level)
                     if(req.user.level >= 3){
                         Services.criar(req.body)
