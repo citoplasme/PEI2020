@@ -12,6 +12,7 @@ import { VueMaskDirective } from "v-mask";
 import Chartkick from "vue-chartkick";
 import Chart from "chart.js";
 //import BootstrapVue from "bootstrap-vue";
+//Chartkick.configure({mapsApiKey: "AIzaSyD-9tSrke72PouQMnMX-a7eZSW0jkFMBWY"})
 
 //Vue.use(BootstrapVue);
 

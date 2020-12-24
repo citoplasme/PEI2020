@@ -125,9 +125,13 @@
               :elevation="hover ? 12 : 2"
               :class="{ 'on-hover': hover }"
             >
-              <v-card-subtitle> Service providers per country</v-card-subtitle>
+              <v-card-title>Service providers per country</v-card-title>
               <v-card-text>
-                <geo-chart :data="countries"></geo-chart>
+                <geo-chart
+                  :data="countries"
+                  :colors="colors"
+                  :library="library"
+                ></geo-chart>
               </v-card-text>
             </v-card>
           </v-hover>
@@ -148,7 +152,9 @@ export default {
     stats: [],
     ready: false,
     countries: [],
-    countryColors: []
+    countryColors: [],
+    colors: ["#E3F2FD", "#42A5F5", "#1976D2", "#0D47A1"],
+    library: { backgroundColor: "#FFFFFF" }
   }),
   components: {
     Loading,
