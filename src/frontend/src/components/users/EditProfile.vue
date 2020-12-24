@@ -242,10 +242,10 @@
     <v-dialog v-model="dialog_premium" max-width="800px">
       <v-card>
         <v-card-title class="headline">
-          <span class="headline">Add Premium to your account</span>
+          <span class="headline">Make your account premium</span>
         </v-card-title>
         <v-card-text>
-          Add premium to your account and get account boost
+          Get access to more views and metrics about your account
         </v-card-text>
         <v-row>
           <v-col>
@@ -768,6 +768,8 @@ export default {
           this.color = "success";
           this.snackbar = true;
           this.done = true;
+          this.dialog_premium = false;
+          this.getUser();
         })
         .catch(err => {
           this.text = err.response.data;

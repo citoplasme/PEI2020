@@ -1,0 +1,21 @@
+summary: Returns monitoring data from a certain service provider.
+description: Returns monitoring data from a certain service provider.
+security:
+  - userQuery: []
+  - userAuth: []
+tags:
+  - Services
+parameters:
+  - name: id
+    in: query
+    description: 'User id'
+    schema:
+      type: String
+    required: true
+responses:
+  200:
+    description: Returns monitoring data from the user.
+  422:
+    $ref: '#/components/responses/ValidationParameters'
+  500:
+    description: Error.

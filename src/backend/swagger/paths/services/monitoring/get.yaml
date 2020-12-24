@@ -1,0 +1,14 @@
+summary: Returns monitoring data from all service providers.
+description: Returns monitoring data from all service providers.
+security:
+  - userQuery: []
+  - userAuth: []
+tags:
+  - Services
+responses:
+  200:
+    description: Returns monitoring data from all service providers.
+  422:
+    $ref: '#/components/responses/ValidationParameters'
+  500:
+    description: Error.
