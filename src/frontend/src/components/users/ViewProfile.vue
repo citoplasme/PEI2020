@@ -289,20 +289,16 @@ export default {
 
     await this.getLocations();
 
-    try {
-      if (
-        this.$store.state.token !== undefined &&
-        this.$store.state.token !== "" &&
-        this.$store.state.token !== null
-      ) {
-        var res = await this.$request(
-          "get",
-          "/users/" + this.$store.state.token + "/token"
-        );
-        this.client = res.data._id;
-      }
-    } catch (e) {
-      return e;
+    if (
+      this.$store.state.token !== undefined &&
+      this.$store.state.token !== "" &&
+      this.$store.state.token !== null
+    ) {
+      var res = await this.$request(
+        "get",
+        "/users/" + this.$store.state.token + "/token"
+      );
+      this.client = res.data && res.data._id ? res.data._id : "";
     }
 
     this.ready = true;
@@ -328,6 +324,10 @@ export default {
         let cats = this.user.categorias.map(c => {
           return this.categories.find(obj => obj._id === c);
         });
+
+        // Filter nulls
+        cats = cats.filter(c => !!c);
+
         // FILTRAR ACTIVES
         cats = cats.filter(c => c.active == true);
 
@@ -335,6 +335,10 @@ export default {
         let specs = this.user.subcategorias.map(sc => {
           return this.specializations.find(obj => obj._id === sc);
         });
+
+        // Filter nulls
+        specs = specs.filter(c => !!c);
+
         // FILTRAR ACTIVES
         specs = specs.filter(c => c.active == true);
 
