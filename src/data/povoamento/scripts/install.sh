@@ -8,9 +8,6 @@ mongoimport --db "$DB" --collection categories --file ../final/categories.json -
 # Specializations
 mongoimport --db "$DB" --collection specializations --file ../final/specializations.json --jsonArray --drop
 
-# Specializations
-mongoimport --db "$DB" --collection specializations --file ../final/specializations.json --jsonArray --drop
-
 # Countries
 mongoimport --db "$DB" --collection countries --file ../files/countries.json --jsonArray --drop
 

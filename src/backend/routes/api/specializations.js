@@ -82,7 +82,7 @@ router.post('/', Auth.isLoggedInUser, Auth.checkLevel([3, 3.5, 4, 5, 6, 7]), [
                         }
                         else {
                             // Verify if admin
-                            if(req.user.level >= 6){
+                            if(req.user.level >= 5){
                                 Specializations.criar(req.body)
                                     .then(dados => {
                                         if(dados) res.jsonp("Specialization successfully created.")
@@ -114,7 +114,7 @@ router.post('/', Auth.isLoggedInUser, Auth.checkLevel([3, 3.5, 4, 5, 6, 7]), [
 })
 
 // PUT /specializations/:id 
-router.put('/:id', Auth.isLoggedInUser, Auth.checkLevel([6, 7]), [
+router.put('/:id', Auth.isLoggedInUser, Auth.checkLevel([5, 6, 7]), [
     existe("body", "name"),
     existe("body", "desc").optional(),
     existe("body", "active")
@@ -156,7 +156,7 @@ router.put('/:id', Auth.isLoggedInUser, Auth.checkLevel([6, 7]), [
 })
 
 // DELETE /specializations/:id
-router.delete('/:id', Auth.isLoggedInUser, Auth.checkLevel([6, 7]), [
+router.delete('/:id', Auth.isLoggedInUser, Auth.checkLevel([5, 6, 7]), [
     eMongoId('param', 'id')
 ], function(req, res) {
     const errors = validationResult(req)

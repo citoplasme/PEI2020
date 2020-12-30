@@ -77,7 +77,7 @@ export default {
             {
               label: "View Users",
               url: "/users/listagem",
-              level: [5, 6, 7]
+              level: [6, 7]
             },
             {
               label: "Access Log",

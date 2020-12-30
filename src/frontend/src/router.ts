@@ -54,7 +54,7 @@ export default new Router({
       path: "/users/listagem",
       name: "listagem",
       component: () => import("./views/users/ListagemUsers.vue"),
-      meta: { levels: [5, 6, 7] }
+      meta: { levels: [6, 7] }
     },
     {
       path: "/users/registoAcesso",
