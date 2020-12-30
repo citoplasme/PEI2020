@@ -379,22 +379,22 @@ export default {
     async registCategories() {
       if (this.$refs.formPost.validate()) {
         let data = {
-          name: this.$data.formPost.name
+          name: this.form.name
         };
 
         if (
-          this.$data.formPost.description !== undefined &&
-          this.$data.formPost.description !== "" &&
-          this.$data.formPost.description !== null
+          this.form.description !== undefined &&
+          this.form.description !== "" &&
+          this.form.description !== null
         ) {
-          data.desc = this.$data.formPost.description;
+          data.desc = this.form.description;
         }
 
         //data.active = this.levelU >= this.levelMin ? true : "false";
 
         if (this.levelU >= this.levelMin) {
-          if (this.$data.formPost.active == "Yes") data.active = true;
-          else if (this.$data.formPost.active == "No") data.active = "false";
+          if (this.form.active == "Yes") data.active = true;
+          else if (this.form.active == "No") data.active = "false";
         } else data.active = "false";
 
         try {
