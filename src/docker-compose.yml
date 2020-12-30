@@ -1,0 +1,55 @@
+version: "3.8"
+services:
+    frontend:
+        container_name: frontend_lhs
+        networks:
+            - frontend-network
+        depends_on: 
+            - api
+
+    api:
+        container_name: API_lhs
+        
+        networks:
+            - backend-mongo-network
+            - frontend-network
+        depends_on: 
+            - mongo
+        # HEALTH CHECK FOR API AND MONGO-CLIENT WHO TRIES TO CONNECTO TO MONG
+
+    mongo:
+        image: bitnami/mongodb:latest
+        container_name: MongoDB_lhs
+        expose:
+            - 27017
+        networks:
+            - mongo-admin-network
+            - backend-mongo-network
+        volumes:
+            - ./data/povoamento/:/povoamento
+        # install.sh actually only imports, run.sh is from the original docker image from bitnami
+        command: /bin/bash -c "(sleep 30 && cd /povoamento/scripts && /bin/bash /povoamento/scripts/install.sh) & exec /opt/bitnami/scripts/mongodb/entrypoint.sh /opt/bitnami/scripts/mongodb/run.sh"
+        environment:
+            MONGODB_USERNAME: "ADMIN"
+            MONGODB_PASSWORD: "ADMIN"
+            MONGODB_ROOT_PASSWORD: "ADMIN"
+            MONGODB_DATABASE: "authtemplate"
+            MONGODB_ADVERTISED_HOSTNAME: "mongo"
+    mongo-client:
+        container_name: mongoclient_lhs
+        restart: on-failure
+        image: mongoclient/mongoclient
+        environment:
+            MONGO_URL: "mongodb://root:ADMIN@mongo/admin"
+        depends_on:
+            - mongo
+            - api
+        networks:
+            - mongo-admin-network
+networks: 
+    mongo-admin-network:
+        driver: bridge
+    backend-mongo-network:
+        driver: bridge
+    frontend-network:
+        driver: bridge

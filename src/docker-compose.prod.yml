@@ -1,0 +1,25 @@
+version: "3.8"
+services:
+    frontend:
+        container_name: frontend_lhs_prod
+        build: 
+            context: ./frontend
+            target: prod
+            # needs target to specify to do -> serve
+    api:
+        container_name: API_lhs_prod
+        build:
+            context: ./backend
+            target: prod
+            args:
+                port: ${BACKEND_PORT}
+        environment:
+            NODE_ENV: "prod"
+    mongo:
+        container_name: MongoDB_lhs_prod
+    mongo-client:
+        container_name: mongoclient_lhs_prod
+        expose:
+            - 8081
+        volumes:
+            - /data/db

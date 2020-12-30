@@ -6,9 +6,10 @@ module.exports.host = 'http://'+ip+':'+port
 
 module.exports.swaggerURL = process.env.SWAGGER_URL || this.host //  || 'http://' + ip + ":" + this.port 
 
-module.exports.userDB = process.env.MONGODB ? 'mongodb://' + process.env.MONGODB + '/authtemplate' : 'mongodb://localhost/authtemplate'
+module.exports.userDB = process.env.MONGODB ? 'mongodb://ADMIN:ADMIN@' + process.env.MONGODB + '/authtemplate' : 'mongodb://localhost/authtemplate'
 
 module.exports.interfaceHosts = [
+    "http://frontend:8080",
     "http://localhost:8080",
     // "https://servicify.di.uminho.pt",
 ]
