@@ -178,7 +178,7 @@
         </template>
 
         <template v-slot:item="props">
-          <tr @click="go_single(props.item._id)">
+          <tr>
             <td class="subheading">{{ props.item.client }}</td>
             <td class="subheading">{{ props.item.service_provider }}</td>
             <td class="subheading">
