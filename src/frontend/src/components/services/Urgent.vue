@@ -113,14 +113,14 @@
             </td>
             <td class="subheading">{{ props.item.date }}</td>
             <td class="subheading">{{ props.item.hour }}</td>
-            <td class="subheading" align="center" v-if="levelU >= 3 && levelU <=4 && logged !== props.item.client">
+            <td
+              class="subheading"
+              align="center"
+              v-if="levelU >= 3 && levelU <= 4 && logged !== props.item.client"
+            >
               <v-tooltip bottom>
                 <template v-slot:activator="{ on }">
-                  <v-btn
-                    icon
-                    v-on="on"
-                    @click="accept(props.item)"
-                  >
+                  <v-btn icon v-on="on" @click="accept(props.item)">
                     <v-icon medium color="green">done_outline</v-icon>
                   </v-btn>
                 </template>
@@ -396,8 +396,8 @@ export default {
       this.snackbar = false;
       if (this.done == true) this.getServices();
     },
-    preparaCabecalhos(){
-      if (this.levelU >= 3 && this.levelU <= 4){
+    preparaCabecalhos() {
+      if (this.levelU >= 3 && this.levelU <= 4) {
         this.headers = [
           {
             text: "Client",
@@ -433,9 +433,8 @@ export default {
             text: "Operations",
             value: "ops"
           }
-        ]
-      }
-      else {
+        ];
+      } else {
         this.headers = [
           {
             text: "Client",
@@ -467,7 +466,7 @@ export default {
             value: "hour",
             class: "title"
           }
-        ]
+        ];
       }
     }
   },

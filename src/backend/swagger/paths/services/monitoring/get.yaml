@@ -5,6 +5,12 @@ security:
   - userAuth: []
 tags:
   - Services
+parameters:
+  - name: action
+    in: query
+    description: 'Monitor action'
+    schema:
+      type: String
 responses:
   200:
     description: Returns monitoring data from all service providers.
