@@ -11,7 +11,7 @@
   "dependencies": {
     "@types/node": "^12.7.8",
     "bootstrap": "^4.3.1",
-    "chart.js": "^2.8.0",
+    "chart.js": "^2.9.4",
     "exceljs": "^2.0.1",
     "fs": "0.0.1-security",
     "jquery": "^3.5.1",
@@ -26,6 +26,7 @@
     "v-mask": "^2.0.2",
     "vue": "^2.6.10",
     "vue-chartjs": "^3.4.2",
+    "vue-chartkick": "^0.6.1",
     "vue-class-component": "^6.0.0",
     "vue-notification-bell": "^0.8.14",
     "vue-progressbar": "^0.7.5",

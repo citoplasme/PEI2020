@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info: 
   description: |
-    This is the REST API of the Auth Template project. More information can be found at [https://github.com/citoplasme/AuthTemplate](https://github.com/citoplasme/AuthTemplate).
+    This is the REST API of the Servicify project. More information can be found at [https://github.com/citoplasme/PEI2020](https://github.com/citoplasme/PEI2020).
   
     In order to use this API you will need to use some authentication method: API Key or user Token.
 
@@ -19,22 +19,22 @@ info:
 
     - Level -1 = Anyone (Everyone)  
     - Level 0 = API Keys
-    - Level 1 = Basic user - Level 1
-    - Level 2 = Basic user - Level 2
-    - Level 3 = Advanced user
-    - Level 3.5 = Validator - level 1
-    - Level 4 = Validator - level 2
+    - Level 1 = Regular user
+    - Level 2 = Premium user
+    - Level 3 = Service provider
+    - Level 3.5 = Verified service provider
+    - Level 4 = Premium service provider
     - Level 5 = Decision maker
     - Level 6 = Functional Administrator
     - Level 7 = Technological Administrator
 
     Please note that every user (levels 1 to 7) can access every route accessible by the API Keys (level 0).
 
-    **Last update: 06/10/2020**
+    **Last update: 24/12/2020**
   version: 2.0.0
   title: REST API
   contact:
-    name: Auth Template
+    name: Servicify
     email: a80874@alunos.uminho.pt
 servers:
   - url: "{domain}/{version}"

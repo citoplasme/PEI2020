@@ -119,6 +119,22 @@
               </v-hover>
             </v-flex>
           </v-layout>
+          <v-hover v-slot="{ hover }">
+            <v-card
+              light
+              :elevation="hover ? 12 : 2"
+              :class="{ 'on-hover': hover }"
+            >
+              <v-card-title>Service providers per country</v-card-title>
+              <v-card-text>
+                <geo-chart
+                  :data="countries"
+                  :colors="colors"
+                  :library="library"
+                ></geo-chart>
+              </v-card-text>
+            </v-card>
+          </v-hover>
         </v-container>
       </v-col>
     </v-row>
@@ -134,7 +150,11 @@ import BarSp from "./chart/BarSp";
 export default {
   data: () => ({
     stats: [],
-    ready: false
+    ready: false,
+    countries: [],
+    countryColors: [],
+    colors: ["#E3F2FD", "#42A5F5", "#1976D2", "#0D47A1"],
+    library: { backgroundColor: "#FFFFFF" }
   }),
   components: {
     Loading,
@@ -146,7 +166,36 @@ export default {
     await this.getNumberOfServices();
     await this.usersCountByLevel();
   },
+  async created() {
+    await this.getInfo();
+  },
   methods: {
+    async getInfo() {
+      let countries_info = await this.$request("get", "/countries");
+
+      var usersByCountry = {};
+      var country_name = "";
+
+      await this.$request("get", "/services/monitoring?action=8")
+        .then(res => {
+          for (let i = 0; i < res.data.length; i++) {
+            country_name = countries_info.data.find(
+              c => c._id === res.data[i].location_info[0].country
+            ).name;
+
+            if (country_name in usersByCountry)
+              usersByCountry[country_name] += 1;
+            else usersByCountry[country_name] = 1;
+          }
+          this.countries = Object.keys(usersByCountry).map(key => [
+            key,
+            usersByCountry[key]
+          ]);
+        })
+        .catch(error => alert(error));
+
+      this.ready = true;
+    },
     async getNumberOfServices() {
       await this.$request("get", "/services/monitoring?action=2")
         .then(res => {
@@ -160,7 +209,6 @@ export default {
               link: ""
             }
           });
-          //this.ready = true;
         })
         .catch(error => alert(error));
     },
@@ -197,7 +245,6 @@ export default {
               link: ""
             }
           });
-          this.ready = true;
         })
         .catch(error => alert(error));
     },

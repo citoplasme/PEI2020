@@ -6,12 +6,16 @@ security:
 tags:
   - Services
 parameters:
-  - name: id
+  - name: idUser
     in: query
     description: 'User id'
     schema:
       type: String
-    required: true
+  - name: action
+    in: query
+    description: 'Monitor action'
+    schema:
+      type: String
 responses:
   200:
     description: Returns monitoring data from the user.

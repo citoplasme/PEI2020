@@ -23,6 +23,14 @@ Users.createUser = function (newUser, callback) {
 	});
 }
 
+Users.locationsByUser = () => {
+    return User.find({ locations: { $exists: true, $not: {$size: 0} } }, {_id: 0, locations: 1})
+}
+
+Users.services_per_location = () => {
+    return User.aggregate([{$unwind:"$locations"}, {$project:{idLocation: {$toObjectId: "$locations"},user:{_id:"$_id"}}}, {$group:{_id:"$idLocation",users:{$push:"$user"}}}, { $lookup:  {   from: "locations",  localField: "_id",  foreignField: "_id",  as: "location_info"  }  }])
+}
+
 Users.categories_by_service_provider = () => {
     return User.aggregate([{$unwind: "$categorias"}, {$project:{name: "$categorias", user:{userId: "$_id"}}}, {$group:{_id:"$name", users:{$push:"$user"}}}, {$project: {nUsers: { $size: "$users" }}}])
 }

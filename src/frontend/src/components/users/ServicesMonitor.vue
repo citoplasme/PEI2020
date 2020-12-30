@@ -129,7 +129,6 @@
 <script>
 import Loading from "@/components/generic/Loading";
 import Bar from "./chart/Bar";
-//import { GChart } from 'vue-google-charts'
 
 export default {
   data: () => ({
@@ -139,8 +138,7 @@ export default {
   }),
   components: {
     Loading,
-    Bar /*,
-    GChart*/
+    Bar
   },
   async mounted() {
     await this.getNumberOfServices();

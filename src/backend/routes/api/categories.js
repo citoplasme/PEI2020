@@ -72,7 +72,7 @@ router.post('/', Auth.isLoggedInUser, Auth.checkLevel([3, 3.5, 4, 5, 6, 7]), [
             if(dados && dados.length > 0) res.status(500).jsonp("The category '" + req.body.name + "' is already on the database.")
             else {
                 // Verify if admin
-                if(req.user.level >= 6){                            
+                if(req.user.level >= 5){                            
                     Categories.criar(req.body)
                         .then(dados => {
                             if(dados) res.jsonp("Category successfully added to the database.")
@@ -100,7 +100,7 @@ router.post('/', Auth.isLoggedInUser, Auth.checkLevel([3, 3.5, 4, 5, 6, 7]), [
 })
 
 // PUT /categories/:id 
-router.put('/:id', Auth.isLoggedInUser, Auth.checkLevel([6, 7]), [
+router.put('/:id', Auth.isLoggedInUser, Auth.checkLevel([5, 6, 7]), [
     eMongoId('param', 'id'),
     existe("body", "name"),
     existe("body", "desc").optional(),
@@ -136,7 +136,7 @@ router.put('/:id', Auth.isLoggedInUser, Auth.checkLevel([6, 7]), [
 
 // DELETE /categories/:id
 // Drop specializations
-router.delete('/:id', Auth.isLoggedInUser, Auth.checkLevel([6, 7]), [
+router.delete('/:id', Auth.isLoggedInUser, Auth.checkLevel([5, 6, 7]), [
     eMongoId('param', 'id')
 ], function(req, res) {
     const errors = validationResult(req)

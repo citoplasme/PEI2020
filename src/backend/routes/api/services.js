@@ -3,6 +3,7 @@ var express = require('express');
 var router = express.Router();
 var Services = require('../../controllers/api/services.js');
 var Users = require('../../controllers/api/users.js');
+var Locations = require('../../controllers/api/locations.js');
 var url = require('url')
 var validKeys = ["client", "service_provider", "urgent", "status", "date", "hour", "duration", "desc"];
 const { validationResult, body } = require('express-validator');
@@ -12,7 +13,8 @@ const { existe, eMongoId, dataValida, horaValida, vcServiceStatus, monitoringAct
 var formidable = require("formidable")
 var ncp = require('ncp').ncp;
 ncp.limit = 16;
-var fs = require('fs')
+var fs = require('fs');
+const { use } = require('./users.js');
 
 // VER NIVEIS DE ACESSO -> Verificar que user e um dos intervenientes ou é admin
 
@@ -76,6 +78,7 @@ Monitoring actions
   5 - GET number of service providers by specialization
   6 - GET number of clients associated to a service provider
   7 - GET services of a service provider with status 2,3 and 4
+  8 - GET information for geo chart(locations by user)
 */
 
 router.get('/monitoring', Auth.isLoggedInUser, Auth.checkLevel(7),[
@@ -125,6 +128,13 @@ router.get('/monitoring', Auth.isLoggedInUser, Auth.checkLevel(7),[
                 res.jsonp(dados)
             }})
             .catch(erro => res.status(500).send(`Error while grouping categories by service providers: ${erro}`))
+    }
+    else if(queryData.action == 8){
+            Users.services_per_location()
+            .then(dados => {
+                res.jsonp(dados)
+            })
+            .catch(erro => res.status(500).send(`Error while getting services per location: ${erro}`))
     }
     else res.status(500).send(`Error in query data: action is not valid`)
 })
@@ -303,8 +313,12 @@ router.post('/', Auth.isLoggedInUser, Auth.checkLevel([1, 2, 3, 3.5, 4, 5, 6, 7]
         // Request made to a specific client/service provider
         else {
             if(req.user.id === req.body.client || req.user.id === req.body.service_provider){
+                // Trying to create service for himself
+                if(req.body.client == req.body.service_provider){
+                    res.status(500).jsonp("Error creating the service: you cannot create a service for yourself.")
+                }
                 // Verify if both users exist and if service_provider is valid
-                if(req.user.id === req.body.service_provider){
+                else if(req.user.id === req.body.service_provider){
                     // Verify if is a service provider (level)
                     if(req.user.level >= 3){
                         Services.criar(req.body)
