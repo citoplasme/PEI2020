@@ -9,7 +9,7 @@
     <v-col>
       <PedidoUrgente v-if="level > 0" :level="level" />
       <Pesquisa />
-      <Gestao v-if="level > 4" :level="level" />
+      <Gestao v-if="level > 5" :level="level" />
     </v-col>
   </v-row>
 </template>
