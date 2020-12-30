@@ -883,12 +883,16 @@ export default {
         let cats = this.user.categorias.map(c => {
           return this.categories.find(obj => obj._id === c);
         });
+        // Filter nulls
+        cats = cats.filter(c => !!c);
         // FILTRAR ACTIVES
         cats = cats.filter(c => c && c.active == true);
         // Merge
         let specs = this.user.subcategorias.map(sc => {
           return this.specializations.find(obj => obj._id === sc);
         });
+        // Filter nulls
+        specs = specs.filter(c => !!c);
         // FILTRAR ACTIVES
         specs = specs.filter(c => c && c.active == true);
 
