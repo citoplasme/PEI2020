@@ -113,11 +113,10 @@
             </td>
             <td class="subheading">{{ props.item.date }}</td>
             <td class="subheading">{{ props.item.hour }}</td>
-            <td class="subheading" align="center">
+            <td class="subheading" align="center" v-if="levelU >= 3 && levelU <=4 && logged !== props.item.client">
               <v-tooltip bottom>
                 <template v-slot:activator="{ on }">
                   <v-btn
-                    v-if="levelU >= 3 && logged !== props.item.client"
                     icon
                     v-on="on"
                     @click="accept(props.item)"
@@ -187,42 +186,7 @@ export default {
     levelU: "",
     logged: "",
     search: "",
-    headers: [
-      {
-        text: "Client",
-        sortable: true,
-        value: "client",
-        class: "title"
-      },
-      {
-        text: "Description",
-        sortable: true,
-        value: "desc",
-        class: "title"
-      },
-      {
-        text: "Status",
-        sortable: true,
-        value: "status",
-        class: "title"
-      },
-      {
-        text: "Date",
-        sortable: true,
-        value: "date",
-        class: "title"
-      },
-      {
-        text: "Hour",
-        sortable: true,
-        value: "hour",
-        class: "title"
-      },
-      {
-        text: "Operations",
-        value: "ops"
-      }
-    ],
+    headers: [],
     services: [],
     dialog: false,
     dialog_edit_category: false,
@@ -431,6 +395,80 @@ export default {
     fecharSnackbar() {
       this.snackbar = false;
       if (this.done == true) this.getServices();
+    },
+    preparaCabecalhos(){
+      if (this.levelU >= 3 && this.levelU <= 4){
+        this.headers = [
+          {
+            text: "Client",
+            sortable: true,
+            value: "client",
+            class: "title"
+          },
+          {
+            text: "Description",
+            sortable: true,
+            value: "desc",
+            class: "title"
+          },
+          {
+            text: "Status",
+            sortable: true,
+            value: "status",
+            class: "title"
+          },
+          {
+            text: "Date",
+            sortable: true,
+            value: "date",
+            class: "title"
+          },
+          {
+            text: "Hour",
+            sortable: true,
+            value: "hour",
+            class: "title"
+          },
+          {
+            text: "Operations",
+            value: "ops"
+          }
+        ]
+      }
+      else {
+        this.headers = [
+          {
+            text: "Client",
+            sortable: true,
+            value: "client",
+            class: "title"
+          },
+          {
+            text: "Description",
+            sortable: true,
+            value: "desc",
+            class: "title"
+          },
+          {
+            text: "Status",
+            sortable: true,
+            value: "status",
+            class: "title"
+          },
+          {
+            text: "Date",
+            sortable: true,
+            value: "date",
+            class: "title"
+          },
+          {
+            text: "Hour",
+            sortable: true,
+            value: "hour",
+            class: "title"
+          }
+        ]
+      }
     }
   },
   async created() {
@@ -448,6 +486,7 @@ export default {
         this.levelU = await this.$userLevel(this.$store.state.token);
       }
       this.getServices();
+      this.preparaCabecalhos();
       this.ready = true;
     } catch (e) {
       return e;
