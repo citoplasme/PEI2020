@@ -11,5 +11,6 @@ module.exports.userDB = process.env.MONGODB ? 'mongodb://ADMIN:ADMIN@' + process
 module.exports.interfaceHosts = [
     "http://frontend:8080",
     "http://localhost:8080",
+    "http://localhost:50300"
     // "https://servicify.di.uminho.pt",
 ]

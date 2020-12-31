@@ -1,11 +1,28 @@
 version: "3.8"
 services:
+    proxy:
+        container_name: nginx_proxy
+        image: bitnami/nginx
+        ports:
+            - 50300:6543
+        networks:
+            - nginx-frontend-network
+            - nginx-backend-network
+            - nginx-mongo-client-network
+        depends_on:
+            - frontend
+            - api
+            - mongo
+            - mongo-client
+        volumes:
+            - ./confs/my_server_block.conf:/opt/bitnami/nginx/conf/server_blocks/my_server_block.conf:ro
     frontend:
         container_name: frontend_lhs_prod
         build: 
             context: ./frontend
-            target: prod
-            # needs target to specify to do -> serve
+            target: prod # mudar para prod
+        networks:
+            - nginx-frontend-network
     api:
         container_name: API_lhs_prod
         build:
@@ -15,6 +32,8 @@ services:
                 port: ${BACKEND_PORT}
         environment:
             NODE_ENV: "prod"
+        networks:
+            - nginx-backend-network
     mongo:
         container_name: MongoDB_lhs_prod
     mongo-client:
@@ -23,3 +42,12 @@ services:
             - 8081
         volumes:
             - /data/db
+        networks:
+            - nginx-mongo-client-network
+networks:
+    nginx-frontend-network:
+        driver: bridge
+    nginx-backend-network:
+        driver: bridge
+    nginx-mongo-client-network:
+        driver: bridge
