@@ -20,18 +20,18 @@ router.get("/", Auth.isLoggedInUser, Auth.checkLevel(6), (req, res) => {
   });
 });
 
-router.get("/interfaceToken", [
+router.get("/interfaceToken", /*[
     header('origin', "You cannot request from that domain.")
         .custom(value => interfaceHosts.includes(value))
-], (req, res) => {
-
+],*/ (req, res) => {
+  /*
   console.log(req.headers.origin)
 
   const errors = validationResult(req)
   if(!errors.isEmpty()){
       return res.status(422).jsonp(errors.array())
   }
-  
+  */
   Chaves.listarPorEmail("interface@template.com", function(err, chave) {
     if (err) {
       //res.status(500).send(`Erro: ${err}`);
