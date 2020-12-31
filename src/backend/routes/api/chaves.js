@@ -25,8 +25,8 @@ router.get("/interfaceToken", [
         .custom(value => interfaceHosts.includes(value))
 ], (req, res) => {
 
-  console.log(req.header.origin)
-  
+  console.log(req.headers.origin)
+
   const errors = validationResult(req)
   if(!errors.isEmpty()){
       return res.status(422).jsonp(errors.array())
