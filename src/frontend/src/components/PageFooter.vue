@@ -22,14 +22,14 @@
     <v-spacer></v-spacer>
 
     <v-toolbar-title>
-      <v-btn text depressed href="mailto:a80874@alunos.uminho.pt"
+      <v-btn text depressed color="primary" href="mailto:a80874@alunos.uminho.pt"
         >Contact</v-btn
       >
     </v-toolbar-title>
     <v-spacer></v-spacer>
 
     <v-toolbar-title>
-      <v-btn text depressed href="https://github.com/citoplasme/PEI2020"
+      <v-btn text depressed color="primary" href="https://github.com/citoplasme/PEI2020"
         >Github</v-btn
       >
     </v-toolbar-title>
