@@ -30,6 +30,8 @@ services:
             target: prod
             args:
                 port: ${BACKEND_PORT}
+                ip: ${API_IP}
+                swagger: ${SWAGGER_URL}
         environment:
             NODE_ENV: "prod"
         networks:

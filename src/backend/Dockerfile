@@ -8,7 +8,11 @@ ENV PM2_SECRET_KEY oer0ullnqq60drb
 ENV MONGODB mongo
 
 ARG port=7779
+ARG ip=localhost
+ARG swagger=localhost:7779
+ENV IP ${ip}
 ENV PORT ${port}
+ENV SWAGGER_URL ${swagger}
 
 # DEVELOPMENT
 FROM build as dev
@@ -19,5 +23,5 @@ FROM build AS prod
 COPY package*.json ./
 RUN npm install && npm install pm2 -g && npm update
 COPY . .
-EXPOSE ${port}
+EXPOSE 7779
 CMD [ "pm2-runtime","./bin/www" ]
