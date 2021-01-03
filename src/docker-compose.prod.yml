@@ -1,7 +1,7 @@
 version: "3.3"
 services:
     proxy:
-        container_name: nginx_proxy
+        container_name: nginx_proxy_lhs
         image: bitnami/nginx
         ports:
             - 50300:6543
@@ -13,7 +13,6 @@ services:
             - frontend
             - api
             - mongo
-            - mongo-client
         volumes:
             - ./confs/my_server_block.conf:/opt/bitnami/nginx/conf/server_blocks/my_server_block.conf:ro
     frontend:
@@ -38,14 +37,6 @@ services:
             - nginx-backend-network
     mongo:
         container_name: MongoDB_lhs_prod
-    mongo-client:
-        container_name: mongoclient_lhs_prod
-        expose:
-            - 8081
-        volumes:
-            - /data/db
-        networks:
-            - nginx-mongo-client-network
 networks:
     nginx-frontend-network:
         driver: bridge
