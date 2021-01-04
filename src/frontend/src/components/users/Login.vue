@@ -53,7 +53,7 @@
             :top="true"
           >
             {{ text }}
-            <v-btn text @click="fecharSnackbar">Fechar</v-btn>
+            <v-btn text @click="fecharSnackbar">Close</v-btn>
           </v-snackbar>
         </v-card>
       </v-flex>
