@@ -259,8 +259,8 @@
             <li>
               <b>Privacy Policy</b> <br />The company Servicify, Ltd, the entity
               responsible for the domain
-              <a href="http://www.servicify.di.uminho.pt/"
-                >http://www.servicify.di.uminho.pt/</a
+              <a href="http://servicify.di.uminho.pt/"
+                >http://servicify.di.uminho.pt/</a
               >, values the privacy of its visitors and in this sense is
               committed to respecting it, ensuring the confidentiality and
               protection of data recorded by users. <br />This Privacy Statement
@@ -302,8 +302,8 @@
                 <br />
                 <li>
                   <b>Collection of Personal Data</b> <br />The site
-                  <a href="http://www.servicify.di.uminho.pt/"
-                    >http://www.servicify.di.uminho.pt/</a
+                  <a href="http://servicify.di.uminho.pt/"
+                    >http://servicify.di.uminho.pt/</a
                   >
                   can be viewed without any personal information being required.
                   However, there are areas - such as placing a service request -
@@ -314,8 +314,8 @@
                   form and will occur in accordance with the strictest security
                   rules.<br />
                   The user when registering at
-                  <a href="http://www.servicify.di.uminho.pt/"
-                    >http://www.servicify.di.uminho.pt/</a
+                  <a href="http://servicify.di.uminho.pt/"
+                    >http://servicify.di.uminho.pt/</a
                   >
                   provides personal data, such as name, e-mail address, e-mail,
                   etc., necessary to subscribe to the services, the site's
@@ -369,45 +369,45 @@
                       Google, Facebook
                     </li>
                   </ul>
-                  <a href="http://www.servicify.di.uminho.pt/"
-                    >http://www.servicify.di.uminho.pt/</a
+                  <a href="http://servicify.di.uminho.pt/"
+                    >http://servicify.di.uminho.pt/</a
                   >
                   uses the services of Google Analytics for Display, namely the
                   remarketing function. This consists of displaying ads to users
                   who have already visited
-                  <a href="http://www.servicify.di.uminho.pt/"
-                    >http://www.servicify.di.uminho.pt/</a
+                  <a href="http://servicify.di.uminho.pt/"
+                    >http://servicify.di.uminho.pt/</a
                   ><br />
                   Users can opt out of Google Analytics for Display Advertisers
                   and be exposed to Google Display Network ads when visiting Ads
                   Preferences Manager and Analytics Opt-out Browser Add-on.<br />
-                  <a href="http://www.servicify.di.uminho.pt/"
-                    >http://www.servicify.di.uminho.pt/</a
+                  <a href="http://servicify.di.uminho.pt/"
+                    >http://servicify.di.uminho.pt/</a
                   >
                   uses remarketing to advertise online, which means that users
                   who do not "opt-out" from the Google Display Network using the
                   above methods may be exposed to ads from
-                  <a href="http://www.servicify.di.uminho.pt/"
-                    >http://www.servicify.di.uminho.pt/</a
+                  <a href="http://servicify.di.uminho.pt/"
+                    >http://servicify.di.uminho.pt/</a
                   >
                   on the Google content network. <br />Third parties such as
                   Google may display ads from
-                  <a href="http://www.servicify.di.uminho.pt/"
-                    >http://www.servicify.di.uminho.pt/</a
+                  <a href="http://servicify.di.uminho.pt/"
+                    >http://servicify.di.uminho.pt/</a
                   >
                   on sites within their content network. <br />Third parties,
                   such as Google, may use Cookies (such as Google Analytics and
                   DoubleClick cookies) which serve to optimize ads based on
                   information from past visits of users to
-                  <a href="http://www.servicify.di.uminho.pt/"
-                    >http://www.servicify.di.uminho.pt/</a
+                  <a href="http://servicify.di.uminho.pt/"
+                    >http://servicify.di.uminho.pt/</a
                   >.<br /><br />
                 </li>
                 <li>
                   <b>User Registration</b> <br />The user registration allows
                   access to several services of
-                  <a href="http://www.servicify.di.uminho.pt/"
-                    >http://www.servicify.di.uminho.pt/</a
+                  <a href="http://servicify.di.uminho.pt/"
+                    >http://servicify.di.uminho.pt/</a
                   >. The subscription request requires the introduction of a
                   password , name and email address. This password guarantees
                   the user exclusive access to the management of the
@@ -418,8 +418,8 @@
                   available to other entities or used to send unrelated
                   information. <br />
                   Access to
-                  <a href="http://www.servicify.di.uminho.pt/"
-                    >http://www.servicify.di.uminho.pt/</a
+                  <a href="http://servicify.di.uminho.pt/"
+                    >http://servicify.di.uminho.pt/</a
                   >
                   is conditioned by a password, which will be indicated by the
                   user at the time of registration. In case the user forgets his
@@ -440,28 +440,28 @@
                   Lda referred to in this document. Security and Quality of
                   Information <br />It is our goal to guarantee the quality and
                   integrity of the information provided by the users of
-                  <a href="http://www.servicify.di.uminho.pt/"
-                    >http://www.servicify.di.uminho.pt/</a
+                  <a href="http://servicify.di.uminho.pt/"
+                    >http://servicify.di.uminho.pt/</a
                   >. In this sense, the necessary measures have been
                   implemented, both technologically and organizationally, in
                   order to keep the information secure, accurate, updated and
                   complete.<br />
                   To ensure maximum security in the areas of
-                  <a href="http://www.servicify.di.uminho.pt/"
-                    >http://www.servicify.di.uminho.pt/</a
+                  <a href="http://servicify.di.uminho.pt/"
+                    >http://servicify.di.uminho.pt/</a
                   >
                   where the personal data of users are collected, their
                   transmission is encrypted. Sharing personal information<br />
                   The personal information collected at
-                  <a href="http://www.servicify.di.uminho.pt/"
-                    >http://www.servicify.di.uminho.pt/</a
+                  <a href="http://servicify.di.uminho.pt/"
+                    >http://servicify.di.uminho.pt/</a
                   >
                   is used for the purposes indicated in each case.<br /><br />
                 </li>
                 <li>
                   <b>Links</b><br />
-                  <a href="http://www.servicify.di.uminho.pt/"
-                    >http://www.servicify.di.uminho.pt/</a
+                  <a href="http://servicify.di.uminho.pt/"
+                    >http://servicify.di.uminho.pt/</a
                   >
                   contains links to other websites, and the website is not
                   responsible for the privacy policies or content of such
@@ -470,8 +470,8 @@
                 <li>
                   <b> Statistical Log</b><br />
                   Files The IP addresses of all connections made to
-                  <a href="http://www.servicify.di.uminho.pt/"
-                    >http://www.servicify.di.uminho.pt/</a
+                  <a href="http://servicify.di.uminho.pt/"
+                    >http://servicify.di.uminho.pt/</a
                   >
                   are recorded. This information will be used to perform
                   aggregate statistical analysis and no relationship will be
@@ -486,8 +486,8 @@
                   information resulting from the analyses made may be disclosed
                   to third parties or publicly.<br />
                   Should
-                  <a href="http://www.servicify.di.uminho.pt/"
-                    >http://www.servicify.di.uminho.pt/</a
+                  <a href="http://servicify.di.uminho.pt/"
+                    >http://servicify.di.uminho.pt/</a
                   >
                   change its privacy practices, these will always be available
                   at this site.<br />
@@ -497,8 +497,8 @@
                 <br />
                 <li>
                   <b>Conditions of Use</b><br />
-                  <a href="http://www.servicify.di.uminho.pt/"
-                    >http://www.servicify.di.uminho.pt/</a
+                  <a href="http://servicify.di.uminho.pt/"
+                    >http://servicify.di.uminho.pt/</a
                   >
                   reserves the right to cancel the registration of any user who
                   does not comply with the Terms and Conditions of Use.
