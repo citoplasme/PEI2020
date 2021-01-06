@@ -48,7 +48,7 @@ export default {
               c => c._id === element._id
             );
 
-            if(found_element.name !== undefined){
+            if(found_element !== undefined && found_element.name !== undefined){
               this.info.labels.push(found_element.name);
               this.info.datasets[0].backgroundColor.push(
                 "#" +
