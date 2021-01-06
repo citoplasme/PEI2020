@@ -47,15 +47,17 @@ export default {
             let found_element = collection_info.data.find(
               c => c._id === element._id
             );
-
-            this.info.labels.push(found_element.name);
-            this.info.datasets[0].backgroundColor.push(
-              "#" +
-                Math.random()
-                  .toString(16)
-                  .substr(-6)
-            );
-            this.info.datasets[0].data.push(element.nUsers);
+            
+            if(found_element !== undefined){
+              this.info.labels.push(found_element.name);
+              this.info.datasets[0].backgroundColor.push(
+                "#" +
+                  Math.random()
+                    .toString(16)
+                    .substr(-6)
+              );
+              this.info.datasets[0].data.push(element.nUsers);
+            }
           });
           this.renderChart(this.info, this.options);
         }
