@@ -1,0 +1,33 @@
+version: "3.8"
+services:
+    frontend:
+        container_name: frontend_lhs_dev
+        build: 
+            context: ./frontend
+            target: dev
+            # needs target to specify to do -> serve
+        ports:
+            - 7000:8080
+        volumes:
+            - ./frontend:/usr/src/servicify-frontend
+    api:
+        container_name: API_lhs_dev
+        build:
+            context: ./backend
+            target: dev
+            args:
+                port: ${BACKEND_PORT}
+        volumes:
+            - ./backend:/usr/src/servicify-backend
+        ports: 
+            - 7779:7779
+        environment:
+            NODE_ENV: "dev"
+    mongo:
+        container_name: MongoDB_lhs_dev
+    mongo-client:
+        container_name: mongoclient_lhs_dev
+        ports:
+            - 8081:3000
+        volumes:
+            - ./data/appDB:/data/db

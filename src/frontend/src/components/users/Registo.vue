@@ -4,11 +4,16 @@
       <v-flex xs12 sm8 md4>
         <v-card class="elevation-12">
           <v-toolbar dark color="primary" height="200px">
-            <v-toolbar-title>
-              <v-img contain :src="require('../../assets/logo_full.png')" />
-              <br />
-              Register
-            </v-toolbar-title>
+            <v-container>
+              <v-layout my-2 row class="justify-center">
+                <v-img contain :src="require('../../assets/logo_full.png')" />
+              </v-layout>
+              <v-layout row my-2>
+                <v-toolbar-title>
+                  Register
+                </v-toolbar-title>
+              </v-layout>
+            </v-container>
           </v-toolbar>
           <v-card-text>
             <v-form ref="form" lazy-validation>

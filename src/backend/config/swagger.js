@@ -22,7 +22,7 @@ module.exports.options = {
   explorer: true,
   customSiteTitle: 'REST API',
   swaggerOptions: {
-    url: '/docs.yaml',
+    url: 'docs.yaml',
     defaultModelsExpandDepth: -1, //hide models section
     tagsSorter: 'alpha',
     operationsSorter: (a, b) => {

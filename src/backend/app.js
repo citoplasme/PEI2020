@@ -76,7 +76,8 @@ mongoose.Promise = global.Promise;
 //já pode escutar visto que já está pronto
 function emit(){
     if(!app.emit('ready')){
-        setTimeout(emit(), 1000)
+        setTimeout(emit(), 10000)
+        
     }
 }
 
@@ -91,7 +92,7 @@ mongoose.connect(dataBases.userDB, {
         var Mstate = mongoose.connection.readyState
 
         if(Mstate == 1){
-            mongoose.connection.on('error', console.error.bind(console, 'MongoDB: error in the conection: '));
+            var mong = mongoose.connection.on('error', console.error.bind(console, 'MongoDB: error in the conection: '));
 
             console.log('MongoDB: ready. Status: ' + Mstate)
             
@@ -99,16 +100,18 @@ mongoose.connect(dataBases.userDB, {
             Logs.removeOldLogs()
             //clean old logs periodically
             Logs.removeOldLogsPeriodically()
-
+            console.log('MongoDB: 11ready. Status: ' + Mstate)
             //avisa que o servidor está pronto a receber pedidos
             emit()
+            console.log('MongoDB:2 ready. Status: ' + Mstate)
         }else{
             console.error("MongoDB: unable to access.")
             process.exit(1)
         }
     })
-    .catch(() => {
+    .catch((error) => {
         console.error('MongoDB: unable to access.')
+        console.error(error)
         process.exit(1)
     })
 
