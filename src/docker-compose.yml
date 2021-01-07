@@ -46,6 +46,12 @@ services:
             - api
         networks:
             - mongo-admin-network
+        volumes:
+            - mongo-volume:/bitnami/mongodb
+volumes:
+    mongo-volume:
+        driver: local
+
 networks: 
     mongo-admin-network:
         driver: bridge
