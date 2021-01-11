@@ -12,5 +12,6 @@ module.exports.interfaceHosts = [
     "http://frontend:8080",
     "http://localhost:8080",
     "http://localhost:50300",
-    "http://servicify.di.uminho.pt:50300"
+    "http://servicify.di.uminho.pt:50300",
+    "http://servicify.di.uminho.pt"
 ]
