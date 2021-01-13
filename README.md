@@ -12,3 +12,9 @@ Repositório da UC Projeto em Engenharia Informática
 * A82886 - Paulo Barbosa - PauloAFBarbosa
 * A81139 - Paulo Bento - Paulo-B
 * A82313 - Pedro Gonçalves - JaK0be
+
+### Portfólio
+
+* [https://github.com/citoplasme/PEI2020/blob/main/docs/relatorios/relatotio3_entrega_final.pdf](Relatório)
+* [https://github.com/citoplasme/PEI2020/blob/main/docs/apresentacoes/Final_pitch.pptx](Apresentação final)
+* [http://servicify.di.uminho.pt:50300](Aplicação)
