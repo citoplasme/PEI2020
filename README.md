@@ -15,6 +15,6 @@ Repositório da UC Projeto em Engenharia Informática
 
 ### Portfólio
 
-* [https://github.com/citoplasme/PEI2020/blob/main/docs/relatorios/relatotio3_entrega_final.pdf](Relatório)
-* [https://github.com/citoplasme/PEI2020/blob/main/docs/apresentacoes/Final_pitch.pptx](Apresentação final)
-* [http://servicify.di.uminho.pt:50300](Aplicação)
+* [Relatório](https://github.com/citoplasme/PEI2020/blob/main/docs/relatorios/relatotio3_entrega_final.pdf)
+* [Apresentação final](https://github.com/citoplasme/PEI2020/blob/main/docs/apresentacoes/Final_pitch.pptx)
+* [Aplicação](http://servicify.di.uminho.pt:50300)
