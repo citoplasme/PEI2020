@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<title>Servicify Portfólio</title>
+<title>Servicify: Portfólio</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -15,7 +15,7 @@ body {font-size:16px;}
 
 <!-- Sidebar/menu -->
 <nav class="w3-sidebar w3-blue w3-collapse w3-top w3-large w3-padding" style="z-index:3;width:300px;font-weight:bold;" id="mySidebar"><br>
-  <a href="javascript:void(0)" onclick="w3_close()" class="w3-button w3-hide-large w3-display-topleft" style="width:100%;font-size:22px">Close Menu</a>
+  <a href="javascript:void(0)" onclick="w3_close()" class="w3-button w3-hide-large w3-display-topleft" style="width:100%;font-size:22px">Fechar Menu</a>
   <div class="w3-container">
     <h3 class="w3-padding-64"><b>Servicify</b></h3>
   </div>
@@ -23,9 +23,8 @@ body {font-size:16px;}
     <a href="#" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Home</a> 
     <a href="#resumo" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Resumo</a> 
     <a href="#equipa" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Equipa</a> 
-    <a href="#relatorio" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Relatório</a> 
+    <a href="#conteudo" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Conteúdo</a> 
     <a href="#video" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Vídeo</a> 
-    <a href="#demo" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Aplicação</a> 
   </div>
 </nav>
 
@@ -44,8 +43,32 @@ body {font-size:16px;}
   <!-- Header -->
   <div class="w3-container" style="margin-top:80px" id="showcase">
     <h1 class="w3-jumbo"><b>Servicify</b></h1>
-    <h1 class="w3-xxxlarge w3-text-blue"><b>PEI 2020/21</b></h1>
+    <h1 class="w3-xxxlarge w3-text-blue"><b>PEI - 2020/21</b></h1>
     <hr style="width:50px;border:5px solid #1876d1" class="w3-round">
+  </div>
+
+  <!-- Photo grid (modal) -->
+  <div class="w3-row-padding">
+    <div class="w3-half">
+      <img src="images/1.png" style="width:100%" onclick="onClick(this)" alt="Home Page">
+      <img src="images/2.png" style="width:100%" onclick="onClick(this)" alt="Service Providers">
+      <img src="images/3.png" style="width:100%" onclick="onClick(this)" alt="Service List">
+    </div>
+
+    <div class="w3-half">
+      <img src="images/4.png" style="width:100%" onclick="onClick(this)" alt="Service Calendar">
+      <img src="images/5.png" style="width:100%" onclick="onClick(this)" alt="Service Page">
+      <img src="images/6.png" style="width:100%" onclick="onClick(this)" alt="Evaluation Page">
+    </div>
+  </div>
+
+  <!-- Modal for full size images on click-->
+  <div id="modal01" class="w3-modal w3-black" style="padding-top:0" onclick="this.style.display='none'">
+    <span class="w3-button w3-black w3-xxlarge w3-display-topright">×</span>
+    <div class="w3-modal-content w3-animate-zoom w3-center w3-transparent w3-padding-64">
+      <img id="img01" class="w3-image">
+      <p id="caption"></p>
+    </div>
   </div>
   
   <!-- Services -->
@@ -67,12 +90,11 @@ body {font-size:16px;}
   <div class="w3-container" id="equipa" style="margin-top:75px">
     <h1 class="w3-xxxlarge w3-text-blue"><b>Equipa</b></h1>
     <hr style="width:50px;border:5px solid #1876d1" class="w3-round">
-    <p>The best team in the world.</p>
-    <p>We are lorem ipsum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-    dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor
-    incididunt ut labore et quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+    <p>A melhor equipa no mundo.</p>
+    <p>
+      Uma equipa altamente motivada com vontade de trabalhar e fazer sempre melhor.
     </p>
-    <p><b>Our designers are thoughtfully chosen</b>:</p>
+    <p><b>A equipa</b>:</p>
   </div>
 
   <!-- The Team -->
@@ -83,7 +105,8 @@ body {font-size:16px;}
         <div class="w3-container">
           <h3>João Pimentel</h3>
           <p class="w3-opacity">Full Stack Developer</p>
-          <p>Phasellus eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque elementum.</p>
+          <p class="w3-justify">Sou aluno do Mestrado na Universidade do Minho, sendo que o meu mestrado se divide em duas áreas: Ciência de Dados e Processamento de Linguagens e Conhecimento. 
+            Atualmente, estou a realizar a minha dissertação em Engenharia de Software, especificamente na área de Ciência de Dados, sobre Interpretabilidade de modelos caixa negra.</p>
         </div>
       </div>
     </div>
@@ -93,7 +116,10 @@ body {font-size:16px;}
         <div class="w3-container">
           <h3>Fábio Senra</h3>
           <p class="w3-opacity">Frontend Developer</p>
-          <p>Phasellus eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque elementum.</p>
+          <p class="w3-justify">
+            Nascido na cidade do galo, atualmente, com 22 anos, estudante de mestrado (5º ano) em Engenharia Informática na Universidade do Minho.
+            Entusiasta de Business Intelligence e Data Warehouse, sempre interessado em novos desafios e aprender coisas novas.
+          </p>
         </div>
       </div>
     </div>
@@ -102,8 +128,11 @@ body {font-size:16px;}
         <img src="images/jaime.jpg" alt="Jaime Leite" style="width:100%">
         <div class="w3-container">
           <h3>Jaime Leite</h3>
-          <p class="w3-opacity">Frontend Developer</p>
-          <p>Phasellus eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque elementum.</p>
+          <p class="w3-opacity">Frontend Developer e Testes</p>
+          <p class="w3-justify">
+            Tenho 22 anos e estudo na Universidade do Minho, no curso Mestrado Integrado em Engenharia Informática. 
+            Sou interessado pelas áreas de bases de dados e desenvolvimento web. 
+            Estou a desenvolver a minha dissertação de mestrado no âmbito de mecanismos de raciocínio adaptativo.</p>
         </div>
       </div>
     </div>
@@ -115,7 +144,11 @@ body {font-size:16px;}
         <div class="w3-container">
           <h3>Paulo Barbosa</h3>
           <p class="w3-opacity">Backend Developer</p>
-          <p>Phasellus eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque elementum.</p>
+          <p class="w3-justify">
+            Olá o meu nome é Paulo Barbosa. 
+            Eu sou aluno do Mestrado Integrado em Engenharia Informática, tenho 28 anos e as minha especialidade de mestrado são Ciência de Dados e Gráficos de Computador. Dessas duas especialidades, decidi fazer tese de mestrado sobre Simulação de Fluídos (Gráficos de Computador). 
+            Sou um apaixonado por Html e adoro fazer debug de código.  
+          </p>
         </div>
       </div>
     </div>
@@ -125,7 +158,9 @@ body {font-size:16px;}
         <div class="w3-container">
           <h3>Pedro Gonçalves</h3>
           <p class="w3-opacity">Testes e Documentação</p>
-          <p>Phasellus eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque elementum.</p>
+          <p class="w3-justify">
+            Sou um estudante de 22 anos atualmente a concluir a minha dissertação na Universidade do Minho. 
+            Tenho particular interesse nas áreas de modelação formal de sistemas e análise de vulnerabilidades.</p>
         </div>
       </div>
     </div>
@@ -135,7 +170,9 @@ body {font-size:16px;}
         <div class="w3-container">
           <h3>Nuno Rei</h3>
           <p class="w3-opacity">Backend Developer</p>
-          <p>Phasellus eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque elementum.</p>
+          <p class="w3-justify">
+            Sou estudante de Mestrado na Universidade do Minho, tenho 22 anos, e estou interessado na área de machine learning. 
+            Atualmente estou a realizar a minha dissertação, focada no desenvolvimento de sistemas de recomendação para a gestão dos serviços nutricionais de um hospital.</p>
         </div>
       </div>
     </div>
@@ -147,7 +184,9 @@ body {font-size:16px;}
         <div class="w3-container">
           <h3>Paulo Bento</h3>
           <p class="w3-opacity">Deployment</p>
-          <p>Phasellus eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque elementum.</p>
+          <p class="w3-justify">
+            Eu sô Algarvio, tenho 22 anos. Centrado nas áreas do Deployment/Operações, isto é, Docker, Cloud, Terraform, etc, mas também em áreas como a Criptografia e Redes. 
+            Atualmente, a realizar a minha dissertação tendo esta como objetivo instalar,configurar um cluster Kubernetes e, posteriormente, migrar serviços para o mesmo.</p>
         </div>
       </div>
     </div>
@@ -157,32 +196,37 @@ body {font-size:16px;}
         <div class="w3-container">
           <h3>João Freitas</h3>
           <p class="w3-opacity">Frontend Developer</p>
-          <p>Phasellus eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque elementum.</p>
+          <p class="w3-justify">Sou aluno do Mestrado na Universidade do Minho, da área de redes, atualmente a realizar a minha dissertação em Engenharia de Software tendo esta como objetivo a integração de agentes SNMP em On-Board-Units de sistemas veiculares bem como respetiva aplicação que permita a configuração e gestão desses mesmos.</p>
         </div>
       </div>
     </div>
   </div> 
   
   <!-- Relatório /-->
-  <div class="w3-container" id="relatorio" style="margin-top:75px">
-    <h1 class="w3-xxxlarge w3-text-blue"><b>Relatório</b></h1>
+  <div class="w3-container" id="conteudo" style="margin-top:75px">
+    <h1 class="w3-xxxlarge w3-text-blue"><b>Conteúdo</b></h1>
     <hr style="width:50px;border:5px solid #1876d1" class="w3-round">
-    <a href="https://github.com/citoplasme/PEI2020/blob/main/docs/relatorios/relatotio3_entrega_final.pdf">Relatório</a>
+    <ul>
+      <li>
+        <a href="https://github.com/citoplasme/PEI2020/blob/main/docs/relatorios/relatotio3_entrega_final.pdf">Relatório</a>
+      </li>
+      <li>
+        <a href="http://servicify.di.uminho.pt:50300">Aplicação</a>
+      </li>
+      <li>
+        <a href="https://github.com/citoplasme/PEI2020">Repositório do Projeto</a>
+      </li>
+    </ul>
   </div>
 
   <!-- Video /-->
   <div class="w3-container" id="video" style="margin-top:75px">
     <h1 class="w3-xxxlarge w3-text-blue"><b>Demonstração Vídeo</b></h1>
     <hr style="width:50px;border:5px solid #1876d1" class="w3-round">
-    <iframe width="100%" height="500" src="https://www.youtube.com/watch?v=IeuAR-p5ZDI&feature=youtu.be&ab_channel=anthichriste"></iframe>
+    <!-- <iframe width="100%" height="500" src="https://youtu.be/EwRdKJURDHw"></iframe> -->
+    <iframe width="100%" height="700" src="https://www.youtube.com/embed/IeuAR-p5ZDI" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
   </div>
 
-  <!-- Demo /-->
-  <div class="w3-container" id="demo" style="margin-top:75px">
-    <h1 class="w3-xxxlarge w3-text-blue"><b>Demonstração</b></h1>
-    <hr style="width:50px;border:5px solid #1876d1" class="w3-round">
-    <a href="http://servicify.di.uminho.pt:50300">Aplicação</a>
-  </div>
 <!-- End page content -->
 </div>
 
