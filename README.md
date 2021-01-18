@@ -21,7 +21,7 @@ Desta forma, foi desenvolvido um produto que teve por base as opiniões de poss�
 
 ### Portfólio
 
-* [Site] (https://fabiosenra.github.io/PortfolioDigital-Servicify/)
+* [Site](https://fabiosenra.github.io/PortfolioDigital-Servicify/)
 * [Relatório](https://github.com/citoplasme/PEI2020/blob/main/docs/relatorios/relatotio3_entrega_final.pdf)
 * [Apresentação final](https://github.com/citoplasme/PEI2020/blob/main/docs/apresentacoes/Final_pitch.pptx)
 * [Demonstração vídeo](https://www.youtube.com/watch?v=IeuAR-p5ZDI&feature=youtu.be&ab_channel=anthichriste)
