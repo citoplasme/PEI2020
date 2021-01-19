@@ -26,3 +26,4 @@ Desta forma, foi desenvolvido um produto que teve por base as opiniões de poss�
 * [Apresentação final](https://github.com/citoplasme/PEI2020/blob/main/docs/apresentacoes/Final_pitch.pptx)
 * [Demonstração vídeo](https://www.youtube.com/watch?v=IeuAR-p5ZDI&feature=youtu.be&ab_channel=anthichriste)
 * [Aplicação](http://servicify.di.uminho.pt:50300)
+* [Análise Económico-Financeira](https://github.com/citoplasme/PEI2020/blob/main/docs/financeiro/IPMEI_Análise%20Financeira.xls)
