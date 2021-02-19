@@ -116,9 +116,8 @@
             <td
               class="subheading"
               align="center"
-              v-if="levelU >= 3 && levelU <= 4 && logged !== props.item.client"
             >
-              <v-tooltip bottom>
+              <v-tooltip bottom v-if="levelU >= 3 && levelU <= 4 && logged !== props.item.client._id">
                 <template v-slot:activator="{ on }">
                   <v-btn icon v-on="on" @click="accept(props.item)">
                     <v-icon medium color="green">done_outline</v-icon>
@@ -126,7 +125,7 @@
                 </template>
                 <span>Accept</span>
               </v-tooltip>
-              <v-tooltip bottom v-if="logged === props.item.client">
+              <v-tooltip bottom v-if="logged === props.item.client._id">
                 <template v-slot:activator="{ on }">
                   <v-btn v-on="on" icon @click="eliminarId = props.item._id">
                     <v-icon color="red">delete</v-icon>
